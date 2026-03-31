@@ -1,109 +1,203 @@
 <!-- Activity Card Component Template -->
 <div
-  class="bg-white border border-[#f3f4f6] flex flex-col items-start p-6 rounded-[20px] shadow-sm hover:shadow-md transition-shadow duration-300 w-full h-full">
-
+  class="bg-white border border-[#f3f4f6] flex flex-col items-start p-6 rounded-[20px] shadow-sm hover:shadow-md transition-shadow duration-300 w-full h-full"
+>
   <!-- Icon Container -->
-  <div class="bg-[#e8fff2] flex items-center justify-center rounded-[11px] w-14 h-14 mb-[21px] shrink-0">
+  <div
+    class="bg-[#e8fff2] flex items-center justify-center rounded-[11px] w-14 h-14 mb-[21px] shrink-0"
+  >
     <!-- Replace this SVG with specific icons per card -->
-    <svg class="w-7 h-7 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-      xmlns="http://www.w3.org/2000/svg">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
-        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4">
-      </path>
+    <svg
+      class="w-7 h-7 text-[#2d5a3d]"
+      fill="none"
+      stroke="currentColor"
+      viewBox="0 0 24 24"
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        stroke-width="1.5"
+        d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+      ></path>
     </svg>
   </div>
 
   <!-- Title -->
-  <h3 class="font-['Manrope',sans-serif] font-bold text-[#1b3a28] text-[20px] leading-tight mb-3">
+  <h3
+    class="font-['Manrope',sans-serif] font-bold text-[#1b3a28] text-[20px] leading-tight mb-3"
+  >
     Activity Title Here
   </h3>
 
   <!-- Description -->
-  <p class="font-['Inter',sans-serif] font-normal text-[#464e42] text-[16px] leading-[1.6]">
-    Activity description here explaining what this cluster leverages and how it empowers the community.
+  <p
+    class="font-['Inter',sans-serif] font-normal text-[#464e42] text-[16px] leading-[1.6]"
+  >
+    Activity description here explaining what this cluster leverages and how it
+    empowers the community.
   </p>
 </div>
 
 <!-- Leadership Card Component Template -->
-<div class="relative w-full max-w-[320px] sm:max-w-[400px] aspect-square rounded-[24px] overflow-hidden shrink-0 group cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300">
+<div
+  class="relative w-full max-w-[320px] sm:max-w-[400px] aspect-square rounded-[24px] overflow-hidden shrink-0 group cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300"
+>
   <!-- Image -->
-  <img src="/assets/images/leader-placeholder.png" alt="Leader Portrait" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+  <img
+    src="/assets/images/leader-placeholder.png"
+    alt="Leader Portrait"
+    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+  />
 
   <!-- Overlay Info Card -->
-  <div class="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-white/95 backdrop-blur-sm rounded-[10px] p-3 flex items-center justify-between transition-colors duration-300 group-hover:bg-[#1b3a28]">
+  <div
+    class="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-white/95 backdrop-blur-sm rounded-[10px] p-3 flex items-center justify-between transition-colors duration-300 group-hover:bg-[#1b3a28]"
+  >
     <!-- Text Content -->
     <div class="flex flex-col gap-[2px] w-[80%]">
-      <p class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[16px] sm:text-[20px] transition-colors duration-300 group-hover:text-white truncate">Prof. Name Here</p>
-      <p class="font-['Inter',sans-serif] font-normal text-[#464e42] text-[13px] sm:text-[14px] transition-colors duration-300 group-hover:text-white/80 truncate">Leadership Role Here</p>
+      <p
+        class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[16px] sm:text-[20px] transition-colors duration-300 group-hover:text-white truncate"
+      >
+        Prof. Name Here
+      </p>
+      <p
+        class="font-['Inter',sans-serif] font-normal text-[#464e42] text-[13px] sm:text-[14px] transition-colors duration-300 group-hover:text-white/80 truncate"
+      >
+        Leadership Role Here
+      </p>
     </div>
 
     <!-- Button -->
-    <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-gray-100 transition-colors duration-300 group-hover:bg-[#2d5a3d] shrink-0">
-      <svg class="w-5 h-5 sm:w-6 sm:h-6 text-[#2d5a3d] transition-colors duration-300 group-hover:text-white transform rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+    <div
+      class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-gray-100 transition-colors duration-300 group-hover:bg-[#2d5a3d] shrink-0"
+    >
+      <svg
+        class="w-5 h-5 sm:w-6 sm:h-6 text-[#2d5a3d] transition-colors duration-300 group-hover:text-white transform rotate-45"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        ></path>
       </svg>
     </div>
   </div>
 </div>
 
 <!-- Startup Card Component (Template with pure ID targeting) -->
-<div class="bg-white rounded-[24px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] hover:shadow-md transition-shadow flex flex-col justify-between p-[24px] w-full sm:w-[calc(50%-18px)] lg:w-[calc(33.33%-24px)] max-w-[390px] h-auto sm:h-[395px] shrink-0 border border-[#f3f4f6]">
-  
+<div
+  class="bg-white rounded-[24px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] hover:shadow-md transition-shadow flex flex-col justify-between p-[24px] w-full sm:w-[calc(50%-18px)] lg:w-[calc(33.33%-24px)] max-w-[390px] h-auto sm:h-[405px] shrink-0 border border-[#f3f4f6]"
+>
   <div class="flex flex-col items-center gap-[14px] w-full shrink-0">
-    <h3 id="startup-name" class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[20px] sm:text-[22px] text-center w-full truncate leading-tight"></h3>
-    <span id="startup-category" class="bg-[#f1ffee] text-[#1b3a28] px-[12px] py-[6px] rounded-[23px] text-[16px] font-['Inter',sans-serif] font-medium min-w-[max-content] leading-none"></span>
+    <h3
+      id="startup-name"
+      class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[20px] sm:text-[22px] text-center w-full truncate leading-tight"
+    ></h3>
+    <span
+      id="startup-category"
+      class="bg-[#f1ffee] text-[#1b3a28] px-[12px] py-[6px] rounded-[23px] text-[16px] font-['Inter',sans-serif] font-medium min-w-[max-content] leading-none"
+    ></span>
   </div>
-  
-  <div class="w-full flex-1 flex items-center justify-center min-h-[90px] my-2 overflow-hidden">
+
+  <div
+    class="w-full flex-1 flex items-center justify-center min-h-[90px] my-2 overflow-hidden"
+  >
     <img id="startup-logo" class="max-h-[90px] object-contain" />
   </div>
-  
+
   <div class="hidden"></div>
-  
-  <div class="flex justify-between items-center w-full pt-[8px] pb-[16px] shrink-0">
+
+  <div
+    class="flex justify-between items-center w-full pt-[8px] pb-[16px] shrink-0"
+  >
     <div class="flex flex-col items-center flex-1 gap-[7px]">
-      <span class="text-[#677461] text-[14px] font-['Inter',sans-serif] font-normal leading-none">Established</span>
-      <span id="startup-established" class="text-[#1b3a28] font-medium text-[20px] font-['Inter',sans-serif] leading-none"></span>
+      <span
+        class="text-[#677461] text-[14px] font-['Inter',sans-serif] font-normal leading-none"
+        >Established</span
+      >
+      <span
+        id="startup-established"
+        class="text-[#1b3a28] font-medium text-[20px] font-['Inter',sans-serif] leading-none"
+      ></span>
     </div>
     <div class="w-[2px] h-[37px] bg-[#d9d9d9] rounded-[3px]"></div>
     <div class="flex flex-col items-center flex-1 gap-[7px]">
-      <span class="text-[#677461] text-[14px] font-['Inter',sans-serif] font-normal leading-none">Funding Raised</span>
-      <span id="startup-funding" class="text-[#1b3a28] font-medium text-[20px] font-['Inter',sans-serif] leading-none"></span>
+      <span
+        class="text-[#677461] text-[14px] font-['Inter',sans-serif] font-normal leading-none"
+        >Funding Raised</span
+      >
+      <span
+        id="startup-funding"
+        class="text-[#1b3a28] font-medium text-[20px] font-['Inter',sans-serif] leading-none"
+      ></span>
     </div>
     <div class="w-[2px] h-[37px] bg-[#d9d9d9] rounded-[3px]"></div>
     <div class="flex flex-col items-center flex-1 gap-[7px]">
-      <span class="text-[#677461] text-[14px] font-['Inter',sans-serif] font-normal leading-none">State</span>
-      <span id="startup-state" class="text-[#1b3a28] font-medium text-[20px] font-['Inter',sans-serif] truncate max-w-[90px] leading-none"></span>
+      <span
+        class="text-[#677461] text-[14px] font-['Inter',sans-serif] font-normal leading-none"
+        >State</span
+      >
+      <span
+        id="startup-state"
+        class="text-[#1b3a28] font-medium text-[20px] font-['Inter',sans-serif] truncate max-w-[90px] leading-none"
+      ></span>
     </div>
   </div>
-  
-  <a id="startup-link" class="cursor-pointer w-full flex items-center justify-center px-[26px] py-[14px] bg-[#2d5a3d] border border-[#e5e5e5] hover:bg-[#1b3a28] transition-colors rounded-[9px] text-white text-[18px] font-medium font-['Inter',sans-serif] mt-auto shrink-0">
+
+  <a
+    id="startup-link"
+    class="cursor-pointer w-full flex items-center justify-center px-[26px] py-[14px] mt-[10px] bg-[#2d5a3d] border border-[#e5e5e5] hover:bg-[#1b3a28] transition-colors rounded-[9px] text-white text-[18px] font-medium font-['Inter',sans-serif] shrink-0"
+  >
     Visit Website &rarr;
   </a>
 </div>
 
 <!-- Team Member Card component -->
 <div
-  class="relative w-full max-w-[280px] aspect-square rounded-[16.8px] overflow-hidden shrink-0 group cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300">
-  <img src="https://placehold.co/600x600/f3f4f6/1b3a28?text=Prof+Chaturvedi" alt="Prof Rakhi"
-    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+  class="relative w-full max-w-[280px] aspect-square rounded-[16.8px] overflow-hidden shrink-0 group cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300"
+>
+  <img
+    src="https://placehold.co/600x600/f3f4f6/1b3a28?text=Prof+Chaturvedi"
+    alt="Prof Rakhi"
+    class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+  />
   <div
-    class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-sm rounded-[10px] p-[10px] flex items-center justify-between transition-colors duration-300 group-hover:bg-[#1b3a28]">
+    class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-sm rounded-[10px] p-[10px] flex items-center justify-between transition-colors duration-300 group-hover:bg-[#1b3a28]"
+  >
     <div class="flex flex-col gap-[2px] w-[75%]">
       <p
-        class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[14px] sm:text-[16px] transition-colors duration-300 group-hover:text-white truncate">
+        class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[14px] sm:text-[16px] transition-colors duration-300 group-hover:text-white truncate"
+      >
         Prof. Rakhi Chaturvedi
       </p>
       <p
-        class="font-['Inter',sans-serif] font-normal text-[#464e42] text-[12px] sm:text-[13px] transition-colors duration-300 group-hover:text-white/80 truncate">
+        class="font-['Inter',sans-serif] font-normal text-[#464e42] text-[12px] sm:text-[13px] transition-colors duration-300 group-hover:text-white/80 truncate"
+      >
         Project Director
       </p>
     </div>
     <div
-      class="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#1b3a28] group-hover:bg-[#2d5a3d] transition-colors duration-300 shrink-0">
-      <svg class="w-4 h-4 text-white transform rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24"
-        xmlns="http://www.w3.org/2000/svg">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+      class="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#1b3a28] group-hover:bg-[#2d5a3d] transition-colors duration-300 shrink-0"
+    >
+      <svg
+        class="w-4 h-4 text-white transform rotate-45"
+        fill="none"
+        stroke="currentColor"
+        viewBox="0 0 24 24"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M5 10l7-7m0 0l7 7m-7-7v18"
+        ></path>
       </svg>
     </div>
   </div>
