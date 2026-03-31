@@ -47,11 +47,12 @@ document.addEventListener("DOMContentLoaded", () => {
         
         if (!mainContent) return;
 
-        if (hash === "#clusterformation") {
+        if (hash === "#clusterformation" || hash === "#clusteractivities") {
+            const pageName = hash.substring(1);
             // Show a simple loading state while fetching
             mainContent.innerHTML = '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
             
-            fetch("/pages/About/clusterformation.html")
+            fetch(`/pages/About/${pageName}.html`)
                 .then(res => {
                     if (!res.ok) throw new Error("Failed to load page");
                     return res.text();
