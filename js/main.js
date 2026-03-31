@@ -44,14 +44,14 @@ document.addEventListener("DOMContentLoaded", () => {
     function handleNavigation() {
         const hash = window.location.hash;
         const mainContent = document.getElementById("main-content");
-        
+
         if (!mainContent) return;
 
-        if (hash === "#clusterformation" || hash === "#clusteractivities") {
+        if (hash === "#clusterformation" || hash === "#clusteractivities" || hash === "#leadership" || hash === "#scientificteam" || hash === "#executiveteam") {
             const pageName = hash.substring(1);
             // Show a simple loading state while fetching
             mainContent.innerHTML = '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
-            
+
             fetch(`/pages/About/${pageName}.html`)
                 .then(res => {
                     if (!res.ok) throw new Error("Failed to load page");
@@ -59,10 +59,29 @@ document.addEventListener("DOMContentLoaded", () => {
                 })
                 .then(data => {
                     mainContent.innerHTML = data;
-                    // Scroll to top cleanly
                     window.scrollTo({ top: 0, behavior: 'smooth' });
-                    
-                    // Close mobile menu if it was open
+
+                    const menu = document.getElementById('mobile-menu');
+                    if (menu && !menu.classList.contains('hidden')) {
+                        menu.classList.add('hidden');
+                    }
+                })
+                .catch(err => {
+                    console.error("Routing error:", err);
+                    mainContent.innerHTML = '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+                });
+        } else if (hash === "#startups") {
+            mainContent.innerHTML = '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+            
+            fetch(`/pages/startups.html`)
+                .then(res => {
+                    if (!res.ok) throw new Error("Failed to load page");
+                    return res.text();
+                })
+                .then(data => {
+                    mainContent.innerHTML = data;
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+
                     const menu = document.getElementById('mobile-menu');
                     if (menu && !menu.classList.contains('hidden')) {
                         menu.classList.add('hidden');
@@ -80,7 +99,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Listen for URL changes
     window.addEventListener("hashchange", handleNavigation);
-    
+
     // Check initial hash on page load
     if (window.location.hash) {
         handleNavigation();
