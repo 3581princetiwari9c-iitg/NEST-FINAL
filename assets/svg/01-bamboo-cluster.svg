@@ -1,0 +1,31 @@
+<svg width="420" height="500" viewBox="0 0 420 500" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_37_4082)">
+<path d="M130 0V500" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="10" stroke-linecap="round"/>
+<path d="M170 40V500" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="8" stroke-linecap="round"/>
+<path d="M105 60V500" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="6" stroke-linecap="round"/>
+<path d="M205 80V500" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="5" stroke-linecap="round"/>
+<path d="M240 120V500" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="4" stroke-linecap="round"/>
+<path d="M120 80H140" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="2"/>
+<path d="M120 160H140" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="2"/>
+<path d="M120 240H140" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="2"/>
+<path d="M120 320H140" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="2"/>
+<path d="M120 400H140" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="2"/>
+<path d="M160 120H180" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="1.5"/>
+<path d="M160 200H180" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="1.5"/>
+<path d="M160 300H180" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="1.5"/>
+<path d="M160 400H180" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="1.5"/>
+<path d="M130 80C156.667 60 183.333 43.3333 210 30C190 46.6667 176.667 63.3333 170 80" fill="#2D4A24" fill-opacity="0.05"/>
+<path d="M130 80C103.333 60 80 41.6667 60 25C74.6667 45 84.6667 64 90 82" fill="#2D4A24" fill-opacity="0.05"/>
+<path d="M170 120C196.667 103.333 223.333 90 250 80C228.667 100 215.333 116.667 210 130" fill="#2D4A24" fill-opacity="0.05"/>
+<path d="M170 200C143.333 185.333 120 172 100 160C118.667 176.667 128 191.667 128 205" fill="#2D4A24" fill-opacity="0.05"/>
+<path d="M130 240C160 223.333 186.667 210 210 200C188.667 218.667 175.333 234.667 170 248" fill="#2D4A24" fill-opacity="0.05"/>
+<path d="M130 320C102 305.333 78.6667 292.667 60 282C76 299.333 85.3333 315.333 88 330" fill="#2D4A24" fill-opacity="0.05"/>
+<path d="M105 140C78.3333 123.333 55 109.333 35 98C51.6667 114 60.6667 129.667 62 145" fill="#2D4A24" fill-opacity="0.05"/>
+<path d="M105 220C135 205.333 159.333 193 178 183C158 201 146 216 142 228" fill="#2D4A24" fill-opacity="0.05"/>
+</g>
+<defs>
+<clipPath id="clip0_37_4082">
+<rect width="420" height="500" fill="white"/>
+</clipPath>
+</defs>
+</svg>
