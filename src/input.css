@@ -1,1 +1,91 @@
-@import "tailwindcss";
+@import 'tailwindcss';
+
+.footer-tagline span {
+  display: inline-block;
+  transition: transform 0.4s ease;
+  cursor: default;
+}
+
+.footer-tagline:hover span:nth-child(odd) {
+  transform: translateY(-5px) rotate(-2deg) skewX(-2deg);
+}
+
+.footer-tagline:hover span:nth-child(even) {
+  transform: translateY(5px) rotate(2deg) skewX(2deg);
+}
+
+.footer-tagline .word {
+  display: inline-block;
+  transition: all 0.35s ease;
+  font-weight: 400;
+}
+
+/* Base hover: color change + slight lift */
+.footer-tagline .word:hover {
+  transform: translateY(-4px) scale(1.05);
+  color: #7c3aed;
+}
+
+/* Individual word hover colors */
+.footer-tagline .word-smart:hover {
+  color: #7c3aed; /* purple */
+}
+
+.footer-tagline .word-tech:hover {
+  color: #3b82f6; /* blue */
+}
+
+.footer-tagline .word-for:hover {
+  color: #ec4899; /* pink */
+}
+
+.footer-tagline .word-sustainable:hover {
+  color: #f97316; /* orange */
+}
+
+.footer-tagline .word-northeast:hover {
+  color: #10b981; /* emerald */
+}
+
+/* Smart hover effect */
+.footer-tagline .word-smart:hover ~ .word-tech {
+  transform: translateX(8px) rotate(2deg);
+}
+.footer-tagline .word-smart:hover ~ .word-for {
+  transform: translateY(6px);
+}
+.footer-tagline .word-smart:hover ~ .word-sustainable {
+  transform: translateX(-6px);
+}
+.footer-tagline .word-smart:hover ~ .word-northeast {
+  transform: translateY(-6px) rotate(-2deg);
+}
+
+/* Tech hover effect */
+.footer-tagline .word-tech:hover ~ .word-for {
+  transform: translateX(6px);
+}
+.footer-tagline .word-tech:hover ~ .word-sustainable {
+  transform: translateY(8px);
+}
+.footer-tagline .word-tech:hover ~ .word-northeast {
+  transform: translateX(-8px);
+}
+
+/* For hover effect */
+.footer-tagline .word-for:hover ~ .word-sustainable {
+  transform: translateY(-8px) rotate(2deg);
+}
+.footer-tagline .word-for:hover ~ .word-northeast {
+  transform: translateX(10px);
+}
+
+/* Sustainable hover effect */
+.footer-tagline .word-sustainable:hover ~ .word-northeast {
+  transform: translateY(10px) rotate(-2deg);
+}
+
+/* Subtle reset for smooth feel */
+.footer-tagline .word:not(:hover) {
+  transform: translate(0, 0) rotate(0);
+}

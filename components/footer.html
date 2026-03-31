@@ -1,13 +1,193 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEST Cluster Website</title>
-    <link href="/styles/output.css" rel="stylesheet">
-</head>
-<body>
-    
-    <script src="/js/main.js" defer></script>
-</body>
-</html>
+<!-- Footer Component for inclusion -->
+<footer class="w-full flex flex-col items-center overflow-hidden">
+  <!-- Top Tagline Section -->
+  <div
+    class="w-full bg-[#f2f7f2] flex justify-center items-center py-[60px] md:py-[80px] lg:py-[100px] px-4"
+  >
+    <!-- Using flex and text-center to allow words to flow naturally while keeping the effect on spans -->
+    <h2
+      class="footer-tagline font-['Fraunces',serif] text-[#5c8b6e] text-5xl md:text-7xl xl:text-[96px] text-center font-normal leading-[1.1] max-w-[900px] flex flex-wrap justify-center gap-x-3 md:gap-x-4 lg:gap-x-6"
+    >
+      <span class="word word-smart">Smart</span>
+      <span class="word word-tech">Tech</span>
+      <span class="word word-for">for</span>
+      <br class="hidden lg:block w-full" />
+      <span class="word word-sustainable">Sustainable</span>
+      <span class="word word-northeast">Northeast</span>
+    </h2>
+  </div>
+
+  <!-- Main Footer Content -->
+  <div
+    class="max-w-[1440px] mx-auto w-full px-4 sm:px-6 lg:px-[110px] pt-[60px] md:pt-[101px] pb-[39px] relative bg-white"
+  >
+    <!-- Abstract Blur Gradient Background Filter inside the container -->
+    <div
+      class="absolute w-full h-[437px] left-0 top-[66px] opacity-10 blur-[100px] pointer-events-none"
+      style="
+        background-image: linear-gradient(
+          90deg,
+          rgb(68, 255, 154) 0.54765%,
+          rgb(68, 176, 255) 22.864%,
+          rgb(139, 68, 255) 48.357%,
+          rgb(255, 102, 68) 73.33%,
+          rgb(235, 255, 112) 99.343%
+        );
+      "
+    ></div>
+
+    <div
+      class="relative z-10 flex flex-col lg:flex-row justify-between gap-[50px] lg:gap-[60px] pb-[80px] lg:pb-[100px]"
+    >
+      <!-- Left: Logo & Description -->
+      <div class="flex flex-col gap-[15px] max-w-[306px]">
+        <h3
+          class="font-['Manrope',sans-serif] font-extrabold text-[#1b3a28] text-[32px] tracking-[0.64px] leading-tight m-0"
+        >
+          NEST Cluster
+        </h3>
+        <p
+          class="font-['Epilogue',sans-serif] font-normal text-[#677461] text-[16px] tracking-[0.32px] leading-[22px] m-0"
+        >
+          The purpose of a FAQ is generally to provide information on frequent
+          questions or concerns.
+        </p>
+      </div>
+
+      <!-- Middle: Navigation Links -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3 min-w-[220px]">
+        <div class="flex flex-col gap-3">
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">Home</a>
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">About</a>
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">Verticals</a>
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">Gallery</a>
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">Market</a>
+        </div>
+        <div class="flex flex-col gap-3">
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">Events</a>
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">Startups</a>
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">Incubation</a>
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">Newsletter</a>
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">Contact Us</a>
+          <a href="#" class="font-['Inter',sans-serif] font-semibold text-[#677461] text-[16px] leading-[19px] hover:text-[#1b3a28] transition-colors">Programs</a>
+        </div>
+      </div>
+
+      <!-- Right-Middle: Get in Touch -->
+      <div class="flex flex-col gap-6 lg:gap-[48px] min-w-[222px]">
+        <h4
+          class="font-['Raleway',sans-serif] font-bold text-[#677461] text-[16px] leading-[22px] m-0"
+        >
+          Get in Touch
+        </h4>
+        <div class="flex flex-col gap-6">
+          <div class="flex items-start gap-[16px] h-auto lg:h-[49px]">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#677461"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="shrink-0 mt-0.5"
+            >
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            <p
+              class="font-['Roboto',sans-serif] font-normal text-[#677461] text-[16px] leading-[1.5] m-0 whitespace-nowrap"
+            >
+              8819 Ohio St. South Gate,<br />CA 90280
+            </p>
+          </div>
+          <div class="flex items-center gap-[16px] h-[25px]">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#677461"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="shrink-0"
+            >
+              <path
+                d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"
+              ></path>
+              <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <p
+              class="font-['Roboto',sans-serif] font-normal text-[#677461] text-[16px] leading-[1.5] m-0 whitespace-nowrap"
+            >
+              Ourstudio@hello.com
+            </p>
+          </div>
+          <div class="flex items-center gap-[16px] h-[25px]">
+            <svg
+              width="24"
+              height="24"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="#677461"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="shrink-0"
+            >
+              <path
+                d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"
+              ></path>
+            </svg>
+            <p
+              class="font-['Roboto',sans-serif] font-normal text-[#677461] text-[16px] leading-[1.5] m-0 whitespace-nowrap"
+            >
+              +1 386-688-3295
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: Newsletter -->
+      <div class="flex flex-col gap-[18px] w-full lg:w-[306px] max-w-full">
+        <h4
+          class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[16px] m-0"
+        >
+          Newsletter
+        </h4>
+        <div class="flex flex-col w-full gap-[18px]">
+          <div
+            class="bg-white border-[1.5px] border-[#e5e7ea] rounded-[12px] h-[55px] px-3 flex items-center"
+          >
+            <input
+              type="email"
+              placeholder="E-mail here"
+              class="w-full h-full bg-transparent outline-none font-['Inter',sans-serif] font-normal text-[#677461] text-[16px] placeholder:text-[#677461]"
+            />
+          </div>
+          <button
+            class="bg-[#2d5a3d] hover:bg-[#1b3a28] transition-colors rounded-[9px] h-[55px] flex items-center justify-center font-['Plus_Jakarta_Sans',sans-serif] font-medium text-[16px] leading-[24px] text-white cursor-pointer w-full"
+          >
+            Subscribe Now
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Copyright Line -->
+    <div class="w-full h-[1px] bg-[#e5e7ea] relative hidden lg:block"></div>
+    <!-- The separator line -->
+    <div
+      class="w-full flex justify-center pt-[39px] lg:border-t-0 border-t border-[#e5e7ea]"
+    >
+      <p
+        class="font-['Inter',sans-serif] font-normal text-[#090914] text-[14px] leading-[22px] m-0 text-center"
+      >
+        © Copyright 2025, All Rights Reserved by IITG NEST
+      </p>
+    </div>
+  </div>
+</footer>
+<!-- End Footer Component -->
