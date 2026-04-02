@@ -19,7 +19,7 @@
                 <a href="#"
                     class="text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap">Home</a>
 
-                <!-- Dropdown: About Us (Active State Example) -->
+                <!-- Dropdown: About Us -->
                 <div class="relative group">
                     <button
                         class="flex items-center gap-[5px] text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap focus:outline-none">
@@ -32,45 +32,34 @@
                     </button>
                     <!-- Dropdown Menu -->
                     <div
-                        class="absolute top-[100%] left-0 mt-[10px] w-48 bg-white shadow-[0px_4px_10px_rgba(0,0,0,0.1)] rounded-md border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                        class="absolute top-[100%] left-0 mt-[10px] w-48 bg-white shadow-[0px_4px_10px_rgba(0,0,0,0.1)] rounded-md border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50 py-1">
                         <!-- Invisible hover bridge -->
                         <div class="absolute -top-[10px] left-0 w-full h-[10px]"></div>
-                        <a href="#clusterformation"
-                            class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors rounded-t-md">Cluster
-                            Formation</a>
-                        <a href="#clusteractivities"
-                            class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Cluster
-                            Activities</a>
+                        <a href="#visionmission"
+                            class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Vision mission</a>
+                        <a href="#clusterdevelopment"
+                            class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Cluster Development</a>
                         
+                        <!-- Nested Dropdown: Administrative -->
+                        <div class="relative group/nested">
+                            <a href="javascript:void(0)"
+                                class="flex items-center justify-between px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">
+                                Administrative
+                                <svg class="w-3 h-3 -rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                </svg>
+                            </a>
+                            <!-- Nested Submenu -->
+                            <div class="absolute top-0 left-full ml-1 w-48 bg-white shadow-[0px_4px_10px_rgba(0,0,0,0.1)] rounded-md border border-gray-100 opacity-0 invisible group-hover/nested:opacity-100 group-hover/nested:visible transition-all duration-300 z-50 py-1">
+                                <!-- Invisible hover bridge for submenu -->
+                                <div class="absolute top-0 -left-[10px] w-[13px] h-full"></div>
+                                <a href="#leadership" class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Leadership</a>
+                                <a href="#scientificteam" class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Scientific Team</a>
+                                <a href="#executiveteam" class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Executive Team</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <!-- Dropdown: About Us (Active State Example) -->
-              <div class="relative group">
-                <button
-                  class="flex items-center gap-[5px] text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap focus:outline-none">
-                  Administrative
-                  <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none"
-                       stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
-                    </path>
-                  </svg>
-                </button>
-                <!-- Dropdown Menu -->
-                <div
-                  class="absolute top-[100%] left-0 mt-[10px] w-48 bg-white shadow-[0px_4px_10px_rgba(0,0,0,0.1)] rounded-md border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
-                  <!-- Invisible hover bridge -->
-                  <div class="absolute -top-[10px] left-0 w-full h-[10px]"></div>
-                  <a href="#leadership"
-                     class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Leadership</a>
-                  <a href="#scientificteam"
-                     class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Scientific
-                                                                                                                                           Team</a>
-                  <a href="#executiveteam"
-                     class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors rounded-b-md">Executive
-                                                                                                                                                        Team</a>
-                </div>
-              </div>
               
                 <a href="#"
                     class="text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap">Gallery</a>
@@ -154,38 +143,36 @@
                 <div
                     class="flex items-center justify-between font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors text-base mb-1 cursor-pointer js-accordion-toggle">
                     About Us
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
                     </svg>
                 </div>
                 <div class="pl-4 flex flex-col gap-1 hidden mt-2">
-                    <a href="#clusterformation"
-                        class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Cluster
-                        Formation</a>
-                    <a href="#clusteractivities"
-                        class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Cluster
-                        Activities</a>
+                    <a href="#visionmission"
+                        class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Vision mission</a>
+                    <a href="#clusterdevelopment"
+                        class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Cluster Development</a>
+                    
+                    <!-- Nested Accordion: Administrative -->
+                    <div class="w-full">
+                        <div
+                            class="flex items-center justify-between font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors text-sm py-2 cursor-pointer js-accordion-toggle">
+                            Administrative
+                            <svg class="w-3.5 h-3.5 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                            </svg>
+                        </div>
+                        <div class="pl-4 flex flex-col gap-1 hidden mt-1">
+                            <a href="#leadership"
+                                class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Leadership</a>
+                            <a href="#scientificteam"
+                                class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Scientific Team</a>
+                            <a href="#executiveteam"
+                                class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Executive Team</a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="px-3 py-2">
-            <div
-              class="flex items-center justify-between font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors text-base mb-1 cursor-pointer js-accordion-toggle">
-              Administrative
-              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-              </svg>
-            </div>
-            <div class="pl-4 flex flex-col gap-1 hidden mt-2">
-              <a href="#leadership"
-                 class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Leadership</a>
-              <a href="#scientificteam"
-                 class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Scientific
-                                                                                                                 Team</a>
-              <a href="#executiveteam"
-                 class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Executive
-                                                                                                                 Team</a>
-            </div>
-          </div>
             <a href="#"
                 class="block px-3 py-2 text-base font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] hover:bg-gray-50 rounded-md transition-colors">Gallery</a>
             <a href="#startups"

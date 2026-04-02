@@ -50,11 +50,16 @@ document.addEventListener('DOMContentLoaded', () => {
     if (
       hash === '#clusterformation' ||
       hash === '#clusteractivities' ||
+      hash === '#visionmission' ||
+      hash === '#clusterdevelopment' ||
       hash === '#leadership' ||
       hash === '#scientificteam' ||
       hash === '#executiveteam'
     ) {
-      const pageName = hash.substring(1);
+      let pageName = hash.substring(1);
+
+      // Map new hashes to existing files
+      if (pageName === 'clusterdevelopment') pageName = 'clusteractivities';
 
       // Loader
       mainContent.innerHTML =
@@ -63,14 +68,14 @@ document.addEventListener('DOMContentLoaded', () => {
       let path = '';
 
       // About pages
-      if (hash === '#clusterformation' || hash === '#clusteractivities') {
+      if (pageName === 'visionmission' || pageName === 'clusteractivities') {
         path = `/pages/About/${pageName}.html`;
       }
       // Administrative pages
       else if (
-        hash === '#leadership' ||
-        hash === '#scientificteam' ||
-        hash === '#executiveteam'
+        pageName === 'leadership' ||
+        pageName === 'scientificteam' ||
+        pageName === 'executiveteam'
       ) {
         path = `/pages/administrative/${pageName}.html`;
       }
