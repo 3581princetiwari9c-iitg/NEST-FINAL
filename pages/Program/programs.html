@@ -1,414 +1,775 @@
 <section
-    class="w-full flex flex-col items-center pt-8 sm:pt-10 lg:pt-[36px] pb-12 sm:pb-16 lg:pb-[72px] px-4 sm:px-6 lg:px-[88px] relative z-10 min-h-screen">
-
-    <div class="max-w-[1073px] w-full flex flex-col items-center gap-[40px] sm:gap-[56px]">
-
-        <!-- PAGE HEADER -->
-        <div id="components-page-header-container" class="w-full">
-            <div class="w-full flex flex-col gap-[42px] items-center text-center">
-                <div class="flex flex-col gap-[12px] items-center">
-                    <span class="font-['Inter',sans-serif] font-normal text-[#887103] text-[15px] sm:text-[18px]">
-                        PROGRAM
-                    </span>
-                    <div class="flex flex-col gap-[3px] sm:gap-[7px] items-center">
-                        <h1
-                            class="font-['Cormorant_Garamond',serif] text-[#1b3a28] text-[36px] md:text-[52px] leading-tight">
-                            Program/Course
-                        </h1>
-                        <!-- Bamboo Stick Form -->
-                        <svg xmlns="http://www.w3.org/2000/svg" width="222" height="31" viewBox="0 0 222 31" fill="none"
-                            class="w-[160px] sm:w-[180px] lg:w-[222px] h-auto object-contain mt-1">
-                            <path
-                                d="M114.309 14.8098V23.2947C114.309 23.2947 117.242 22.1091 123.1 22.1091H160.468C166.329 22.1091 169.258 23.2947 169.258 23.2947V14.8098C169.258 14.8098 166.329 15.9953 160.468 15.9953H123.1C117.243 15.9954 114.309 14.8098 114.309 14.8098Z"
-                                fill="#218D00" />
-                            <path
-                                d="M184.633 22.109H222V15.9953H184.633C178.771 15.9953 175.838 14.8098 175.838 14.8098V23.2947C175.838 23.2947 178.771 22.109 184.633 22.109Z"
-                                fill="#218D00" />
-                            <path
-                                d="M37.3671 15.9954H0.000110626V22.1091H37.3671C43.2289 22.1091 46.1616 23.2947 46.1616 23.2947V14.8098C46.1616 14.8098 43.2289 15.9954 37.3671 15.9954Z"
-                                fill="#218D00" />
-                            <path
-                                d="M61.5555 22.1091H98.9187C104.78 22.1091 107.709 23.2947 107.709 23.2947V14.8098C107.709 14.8098 104.78 15.9953 98.9187 15.9953H61.5555C55.6904 15.9953 52.7614 14.8098 52.7614 14.8098V23.2947C52.7614 23.2947 55.69 22.1091 61.5555 22.1091Z"
-                                fill="#218D00" />
-                            <path
-                                d="M156.281 9.16582L162.631 6.8146C166.066 5.54098 171.174 3.42571 168.946 1.13586C158.783 1.78677 152.79 3.78594 149.355 5.05946L143.009 7.41078C139.574 8.68264 134.463 10.7997 136.694 13.0878C146.853 12.4385 152.85 10.4393 156.281 9.16582Z"
-                                fill="#C9A700" />
-                            <path
-                                d="M165.524 9.95625C160.938 10.3929 153.677 11.175 150.509 12.7724C157.923 13.3618 165.483 12.7358 170.069 12.2991L178.538 11.4938C183.127 11.0587 190.385 10.275 193.557 8.67931C186.143 8.08822 178.582 8.71414 173.992 9.15088L165.524 9.95625Z"
-                                fill="#C9A700" />
-                            <path
-                                d="M136.14 6.06893L135.326 4.03659C134.887 2.93567 133.796 1.1656 127.935 0C123.086 1.3749 123.412 3.1598 123.855 4.26237L124.665 6.29316C125.1 7.39407 126.195 9.1657 132.056 10.3314C136.905 8.9565 136.578 7.16985 136.14 6.06893Z"
-                                fill="#C9A700" />
-                            <path
-                                d="M76.0028 27.5093C78.6658 28.1103 83.1771 29.0386 89.1812 29.0983C89.0388 27.7682 84.9434 26.7504 82.2808 26.1477L77.3603 25.0351C74.6977 24.4341 70.1865 23.5059 64.1824 23.4462C64.3247 24.7762 68.4202 25.794 71.0827 26.3968L76.0028 27.5093Z"
-                                fill="#C9A700" />
-                            <path
-                                d="M68.5446 28.5525L67.772 27.4051C67.3519 26.784 66.4594 25.7878 62.9568 25.1718C60.4141 25.9871 60.8791 26.9983 61.2954 27.6193L62.0718 28.765C62.4918 29.3876 63.3843 30.3822 66.887 31C69.4259 30.1831 68.9646 29.1735 68.5446 28.5525Z"
-                                fill="#C9A700" />
-                            <path
-                                d="M82.7847 22.9617C79.9873 22.857 75.4348 22.7342 71.692 23.2788C74.4032 24.0659 78.8845 24.285 81.6787 24.3913L86.8427 24.5856C89.6401 24.6918 94.193 24.8148 97.9321 24.27C95.2204 23.4813 90.7391 23.2639 87.945 23.1576L82.7847 22.9617Z"
-                                fill="#C9A700" />
-                        </svg>
-                    </div>
-                    <p class="hidden"></p>
-                </div>
-            </div>
+  class="w-full flex flex-col items-center pt-8 sm:pt-10 lg:pt-[36px] pb-12 sm:pb-16 lg:pb-[72px] px-4 sm:px-6 lg:px-[88px] relative z-10 min-h-screen"
+>
+  <div
+    class="max-w-[1073px] w-full flex flex-col items-center gap-[40px] sm:gap-[56px]"
+  >
+    <!-- PAGE HEADER -->
+    <div id="components-page-header-container" class="w-full">
+      <div class="w-full flex flex-col gap-[42px] items-center text-center">
+        <div class="flex flex-col gap-[12px] items-center">
+          <span
+            class="font-['Inter',sans-serif] font-normal text-[#887103] text-[15px] sm:text-[18px]"
+          >
+            PROGRAM
+          </span>
+          <div class="flex flex-col gap-[3px] sm:gap-[7px] items-center">
+            <h1
+              class="font-['Cormorant_Garamond',serif] text-[#1b3a28] text-[36px] md:text-[52px] leading-tight"
+            >
+              Program/Course
+            </h1>
+            <!-- Bamboo Stick Form -->
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="222"
+              height="31"
+              viewBox="0 0 222 31"
+              fill="none"
+              class="w-[160px] sm:w-[180px] lg:w-[222px] h-auto object-contain mt-1"
+            >
+              <path
+                d="M114.309 14.8098V23.2947C114.309 23.2947 117.242 22.1091 123.1 22.1091H160.468C166.329 22.1091 169.258 23.2947 169.258 23.2947V14.8098C169.258 14.8098 166.329 15.9953 160.468 15.9953H123.1C117.243 15.9954 114.309 14.8098 114.309 14.8098Z"
+                fill="#218D00"
+              />
+              <path
+                d="M184.633 22.109H222V15.9953H184.633C178.771 15.9953 175.838 14.8098 175.838 14.8098V23.2947C175.838 23.2947 178.771 22.109 184.633 22.109Z"
+                fill="#218D00"
+              />
+              <path
+                d="M37.3671 15.9954H0.000110626V22.1091H37.3671C43.2289 22.1091 46.1616 23.2947 46.1616 23.2947V14.8098C46.1616 14.8098 43.2289 15.9954 37.3671 15.9954Z"
+                fill="#218D00"
+              />
+              <path
+                d="M61.5555 22.1091H98.9187C104.78 22.1091 107.709 23.2947 107.709 23.2947V14.8098C107.709 14.8098 104.78 15.9953 98.9187 15.9953H61.5555C55.6904 15.9953 52.7614 14.8098 52.7614 14.8098V23.2947C52.7614 23.2947 55.69 22.1091 61.5555 22.1091Z"
+                fill="#218D00"
+              />
+              <path
+                d="M156.281 9.16582L162.631 6.8146C166.066 5.54098 171.174 3.42571 168.946 1.13586C158.783 1.78677 152.79 3.78594 149.355 5.05946L143.009 7.41078C139.574 8.68264 134.463 10.7997 136.694 13.0878C146.853 12.4385 152.85 10.4393 156.281 9.16582Z"
+                fill="#C9A700"
+              />
+              <path
+                d="M165.524 9.95625C160.938 10.3929 153.677 11.175 150.509 12.7724C157.923 13.3618 165.483 12.7358 170.069 12.2991L178.538 11.4938C183.127 11.0587 190.385 10.275 193.557 8.67931C186.143 8.08822 178.582 8.71414 173.992 9.15088L165.524 9.95625Z"
+                fill="#C9A700"
+              />
+              <path
+                d="M136.14 6.06893L135.326 4.03659C134.887 2.93567 133.796 1.1656 127.935 0C123.086 1.3749 123.412 3.1598 123.855 4.26237L124.665 6.29316C125.1 7.39407 126.195 9.1657 132.056 10.3314C136.905 8.9565 136.578 7.16985 136.14 6.06893Z"
+                fill="#C9A700"
+              />
+              <path
+                d="M76.0028 27.5093C78.6658 28.1103 83.1771 29.0386 89.1812 29.0983C89.0388 27.7682 84.9434 26.7504 82.2808 26.1477L77.3603 25.0351C74.6977 24.4341 70.1865 23.5059 64.1824 23.4462C64.3247 24.7762 68.4202 25.794 71.0827 26.3968L76.0028 27.5093Z"
+                fill="#C9A700"
+              />
+              <path
+                d="M68.5446 28.5525L67.772 27.4051C67.3519 26.784 66.4594 25.7878 62.9568 25.1718C60.4141 25.9871 60.8791 26.9983 61.2954 27.6193L62.0718 28.765C62.4918 29.3876 63.3843 30.3822 66.887 31C69.4259 30.1831 68.9646 29.1735 68.5446 28.5525Z"
+                fill="#C9A700"
+              />
+              <path
+                d="M82.7847 22.9617C79.9873 22.857 75.4348 22.7342 71.692 23.2788C74.4032 24.0659 78.8845 24.285 81.6787 24.3913L86.8427 24.5856C89.6401 24.6918 94.193 24.8148 97.9321 24.27C95.2204 23.4813 90.7391 23.2639 87.945 23.1576L82.7847 22.9617Z"
+                fill="#C9A700"
+              />
+            </svg>
+          </div>
+          <p class="hidden"></p>
         </div>
-
-        <!-- FILTER / TAB SECTION -->
-        <div class="w-full flex flex-col gap-[16px] items-center relative z-10 w-full max-w-[1073px]">
-            <div class="w-full flex items-center justify-between relative shrink-0">
-                <!-- TABS -->
-                <div class="flex gap-[16px] items-center overflow-x-auto w-full md:w-auto scrollbar-hide">
-                    <button
-                        class="cursor-pointer flex flex-col gap-[14px] items-center justify-center relative shrink-0 w-[198px]">
-                        <div class="flex gap-[14px] items-center justify-center relative shrink-0">
-                            <svg class="w-5 h-5 text-[#677461]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                </path>
-                            </svg>
-                            <div class="flex gap-[22px] items-center justify-center relative shrink-0">
-                                <span class="font-['Manrope'] font-normal text-[#677461] text-[16px]">Upcoming</span>
-                                <span
-                                    class="bg-[#d8d8d8] text-[#677461] font-['Manrope'] font-normal text-[16px] px-[10px] py-[2px] rounded-[50px]">14</span>
-                            </div>
-                        </div>
-                        <div class="w-full h-[2px] bg-transparent"></div>
-                    </button>
-
-                    <button
-                        class="cursor-pointer flex flex-col gap-[14px] items-center justify-center relative shrink-0 w-[198px]">
-                        <div class="flex gap-[14px] items-center justify-center relative shrink-0">
-                            <svg class="w-5 h-5 text-[#677461]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15">
-                                </path>
-                            </svg>
-                            <div class="flex gap-[22px] items-center justify-center relative shrink-0">
-                                <span class="font-['Manrope'] font-normal text-[#677461] text-[16px]">Ongoing</span>
-                                <span
-                                    class="bg-[#d8d8d8] text-[#677461] font-['Manrope'] font-normal text-[16px] px-[10px] py-[2px] rounded-[50px]">14</span>
-                            </div>
-                        </div>
-                        <div class="w-full h-[2px] bg-transparent"></div>
-                    </button>
-
-                    <button
-                        class="cursor-pointer flex flex-col gap-[14px] items-center justify-center relative shrink-0 w-[198px]">
-                        <div class="flex gap-[14px] items-center justify-center relative shrink-0">
-                            <svg class="w-5 h-5 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                            </svg>
-                            <div class="flex gap-[22px] items-center justify-center relative shrink-0">
-                                <span class="font-['Manrope'] font-semibold text-[#2d5a3d] text-[16px]">Completed</span>
-                                <span
-                                    class="bg-[#d8d8d8] text-[#2d5a3d] font-['Manrope'] font-semibold text-[16px] px-[10px] py-[2px] rounded-[50px]">14</span>
-                            </div>
-                        </div>
-                        <div class="w-full h-[2px] bg-[#2d5a3d]"></div>
-                    </button>
-                </div>
-
-                <!-- Filter Action -->
-                <button
-                    class="block cursor-pointer overflow-clip relative shrink-0 w-[48px] h-[48px] rounded-full hover:bg-gray-50 transition-colors"
-                    onclick="document.getElementById('secondary-filters').classList.toggle('hidden')">
-                    <div class="absolute inset-[24.68%_20.94%_24.68%_21.19%] text-[#1b3a28]">
-                        <svg class="block max-w-none w-full h-full" fill="none" stroke="currentColor"
-                            viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4">
-                            </path>
-                        </svg>
-                    </div>
-                </button>
-            </div>
-
-            <!-- Secondary Filters Bar -->
-            <div id="secondary-filters"
-                class="hidden w-full flex flex-wrap gap-[16px] items-center justify-center relative shrink-0 mt-2">
-                <div
-                    class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
-                    <p class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">State: All</p>
-                    <svg class="w-4 h-4 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </div>
-                <div
-                    class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
-                    <p class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">Industry: Any</p>
-                    <svg class="w-4 h-4 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </div>
-                <div
-                    class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
-                    <p class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">Category: All</p>
-                    <svg class="w-4 h-4 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </div>
-                <div
-                    class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
-                    <p class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">Sort: Date</p>
-                    <svg class="w-4 h-4 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-                    </svg>
-                </div>
-            </div>
-        </div>
-
-        <!-- PROGRAM LISTINGS -->
-        <div id="program-list" class="w-full flex flex-col gap-[36px] items-center mt-2">
-
-            <!-- Card 1 (Links to #eventcomplete1) -->
-            <a href="#eventcomplete1"
-                class="flex flex-col md:flex-row h-auto md:h-[342px] w-full max-w-[1073px] mx-auto overflow-hidden relative rounded-[24px] bg-white shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#f3f4f6] transition-all duration-300 hover:shadow-[0px_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer block">
-                <div
-                    class="w-full md:w-[319px] shrink-0 h-[250px] md:h-full relative overflow-hidden bg-gray-100 rounded-t-[24px] md:rounded-tr-none md:rounded-l-[24px]">
-                    <img class="event-image absolute inset-0 w-full h-full object-cover"
-                        src="https://images.unsplash.com/photo-1542898733-128a313dcfcc?w=800&auto=format&fit=crop&q=60"
-                        alt="Program Image" />
-                </div>
-                <div class="flex-1 flex flex-col justify-center p-[20px] md:p-[24px] gap-[16px] md:gap-[20px] bg-white">
-                    <div
-                        class="bg-[#ffdcc5] inline-flex items-center justify-center px-[12px] py-[4px] rounded-[23px] w-max mt-[5px]">
-                        <span class="event-category font-['Inter'] font-medium text-[#653d1e] text-[15px] md:text-[16px]">Hackathons</span>
-                    </div>
-                    <div class="flex flex-col gap-[10px] md:gap-[12px] w-full">
-                        <h3 class="event-title font-['Inter'] font-bold text-[#1b3a28] text-[20px] md:text-[22px] leading-snug">
-                            Bamboo Processing & Treatment Workshop</h3>
-                        <div class="flex flex-wrap gap-x-[16px] md:gap-x-[24px] gap-y-[8px] items-center w-full">
-                            <div class="flex items-center gap-[6px]">
-                                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                    </path>
-                                </svg>
-                                <span class="event-date font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">Nov 10
-                                    - Nov 20, 2025</span>
-                            </div>
-                            <div class="flex items-center gap-[6px]">
-                                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z">
-                                    </path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                <span class="event-location font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">NEST
-                                    Innovation Hub, Block A</span>
-                            </div>
-                            <div class="flex items-center gap-[6px]">
-                                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
-                                <span class="event-instructor font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">Dr.
-                                    Adarsh Gogoi</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="event-description font-['Inter'] font-normal text-[#464e42] text-[15px] md:text-[16px] line-clamp-3 md:line-clamp-none leading-relaxed">
-                        A comprehensive workshop focusing on sustainable bamboo harvesting, preservation techniques, and
-                        advanced structural processing for furniture manufacturing.
-                    </p>
-                    <div class="mt-1">
-                        <div class="event-register bg-[#2d5a3d] hover:bg-[#1f422c] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group">
-                            Register Now
-                            <svg class="w-[18px] h-[18px] transform -rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-[8px] w-full mt-auto pt-[2px] -mt-[5px]">
-                        <div class="flex justify-between items-center w-full">
-                            <span
-                                class="font-['Inter'] font-semibold text-[#464e42] text-[13px] md:text-[14px] uppercase tracking-wide">Registration
-                                Process</span>
-                            <span class="event-slots font-['Inter'] font-medium text-[#677461] text-[13px] md:text-[14px]">5 / 15
-                                spots filled</span>
-                        </div>
-                        <div class="w-full bg-[#dedede] h-[6px] rounded-[13px] overflow-hidden">
-                            <div class="event-progress bg-[#78a877] h-full rounded-full transition-all duration-500 ease-out"
-                                style="width: 33%"></div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 2 (Links to #event-detail) -->
-            <a href="#eventcomplete"
-                class="flex flex-col md:flex-row h-auto md:h-[342px] w-full max-w-[1073px] mx-auto overflow-hidden relative rounded-[24px] bg-white shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#f3f4f6] transition-all duration-300 hover:shadow-[0px_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer block">
-                <div
-                    class="w-full md:w-[319px] shrink-0 h-[250px] md:h-full relative overflow-hidden bg-gray-100 rounded-t-[24px] md:rounded-tr-none md:rounded-l-[24px]">
-                    <img class="absolute inset-0 w-full h-full object-cover"
-                        src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&fit=crop&q=60"
-                        alt="Program Image" />
-                </div>
-                <div class="flex-1 flex flex-col justify-center p-[20px] md:p-[24px] gap-[16px] md:gap-[20px] bg-white">
-                    <div
-                        class="bg-[#ffdcc5] inline-flex items-center justify-center px-[12px] py-[4px] rounded-[23px] w-max mt-[5px]">
-                        <span class="event-category font-['Inter'] font-medium text-[#653d1e] text-[15px] md:text-[16px]">Seminars</span>
-                    </div>
-                    <div class="flex flex-col gap-[10px] md:gap-[12px] w-full">
-                        <h3 class="event-title font-['Inter'] font-bold text-[#1b3a28] text-[20px] md:text-[22px] leading-snug">
-                            Sustainable Eco-Design Practices</h3>
-                        <div class="flex flex-wrap gap-x-[16px] md:gap-x-[24px] gap-y-[8px] items-center w-full">
-                            <div class="flex items-center gap-[6px]">
-                                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                    </path>
-                                </svg>
-                                <span class="event-date font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">Dec
-                                    05 - Dec 07, 2025</span>
-                            </div>
-                            <div class="flex items-center gap-[6px]">
-                                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z">
-                                    </path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                <span class="event-location font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">Main
-                                    Auditorium</span>
-                            </div>
-                            <div class="flex items-center gap-[6px]">
-                                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
-                                <span class="event-instructor font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">Dr.
-                                    Sneha Rao</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="event-description font-['Inter'] font-normal text-[#464e42] text-[15px] md:text-[16px] line-clamp-3 md:line-clamp-none leading-relaxed">
-                        Exploring modern sustainable materials and zero-waste designs to foster green innovation in
-                        consumer products and modern packaging.
-                    </p>
-                    <div class="mt-1">
-                        <div
-                            class="bg-[#2d5a3d] hover:bg-[#1f422c] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group">
-                            Register Now
-                            <svg class="w-[18px] h-[18px] transform -rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-[8px] w-full mt-auto pt-[2px] -mt-[5px]">
-                        <div class="flex justify-between items-center w-full">
-                            <span
-                                class="font-['Inter'] font-semibold text-[#464e42] text-[13px] md:text-[14px] uppercase tracking-wide">Registration
-                                Process</span>
-                            <span class="event-slots font-['Inter'] font-medium text-[#677461] text-[13px] md:text-[14px]">12 / 20
-                                spots filled</span>
-                        </div>
-                        <div class="w-full bg-[#dedede] h-[6px] rounded-[13px] overflow-hidden">
-                            <div class="event-progress bg-[#78a877] h-full rounded-full transition-all duration-500 ease-out"
-                                style="width: 60%"></div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-            <!-- Card 3 (Links to #event-detail) -->
-            <a href="#eventcomplete"
-                class="flex flex-col md:flex-row h-auto md:h-[342px] w-full max-w-[1073px] mx-auto overflow-hidden relative rounded-[24px] bg-white shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#f3f4f6] transition-all duration-300 hover:shadow-[0px_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer block">
-                <div
-                    class="w-full md:w-[319px] shrink-0 h-[250px] md:h-full relative overflow-hidden bg-gray-100 rounded-t-[24px] md:rounded-tr-none md:rounded-l-[24px]">
-                    <img class="absolute inset-0 w-full h-full object-cover"
-                        src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop&q=60"
-                        alt="Program Image" />
-                </div>
-                <div class="flex-1 flex flex-col justify-center p-[20px] md:p-[24px] gap-[16px] md:gap-[20px] bg-white">
-                    <div
-                        class="bg-[#ffdcc5] inline-flex items-center justify-center px-[12px] py-[4px] rounded-[23px] w-max mt-[5px]">
-                        <span class="event-category font-['Inter'] font-medium text-[#653d1e] text-[15px] md:text-[16px]">Mentorship</span>
-                    </div>
-                    <div class="flex flex-col gap-[10px] md:gap-[12px] w-full">
-                        <h3 class="event-title font-['Inter'] font-bold text-[#1b3a28] text-[20px] md:text-[22px] leading-snug">
-                            Scaling Agricultural Tech</h3>
-                        <div class="flex flex-wrap gap-x-[16px] md:gap-x-[24px] gap-y-[8px] items-center w-full">
-                            <div class="flex items-center gap-[6px]">
-                                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
-                                    </path>
-                                </svg>
-                                <span class="event-date font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">Jan
-                                    10 - Feb 28, 2026</span>
-                            </div>
-                            <div class="flex items-center gap-[6px]">
-                                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z">
-                                    </path>
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path>
-                                </svg>
-                                <span class="event-location font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">Virtual
-                                    Mode</span>
-                            </div>
-                            <div class="flex items-center gap-[6px]">
-                                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor"
-                                    viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                        d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
-                                </svg>
-                                <span class="event-instructor font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">Prof.
-                                    Rahul Sharma</span>
-                            </div>
-                        </div>
-                    </div>
-                    <p class="event-description font-['Inter'] font-normal text-[#464e42] text-[15px] md:text-[16px] line-clamp-3 md:line-clamp-none leading-relaxed">
-                        Intensive mentorship program guiding agritech startups to scale their technical capabilities and
-                        navigate seed funding.
-                    </p>
-                    <div class="mt-1">
-                        <div
-                            class="bg-[#2d5a3d] hover:bg-[#1f422c] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group">
-                            Register Now
-                            <svg class="w-[18px] h-[18px] transform -rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
-                                fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                                    d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
-                            </svg>
-                        </div>
-                    </div>
-                    <div class="flex flex-col gap-[8px] w-full mt-auto pt-[2px] -mt-[5px]">
-                        <div class="flex justify-between items-center w-full">
-                            <span
-                                class="font-['Inter'] font-semibold text-[#464e42] text-[13px] md:text-[14px] uppercase tracking-wide">Registration
-                                Process</span>
-                            <span class="event-slots font-['Inter'] font-medium text-[#677461] text-[13px] md:text-[14px]">8 / 10
-                                spots filled</span>
-                        </div>
-                        <div class="w-full bg-[#dedede] h-[6px] rounded-[13px] overflow-hidden">
-                            <div class="event-progress bg-[#78a877] h-full rounded-full transition-all duration-500 ease-out"
-                                style="width: 80%"></div>
-                        </div>
-                    </div>
-                </div>
-            </a>
-
-        </div>
-
+      </div>
     </div>
+
+    <!-- FILTER / TAB SECTION -->
+    <div
+      class="w-full flex flex-col gap-[16px] items-center relative z-10 w-full max-w-[1073px]"
+    >
+      <div class="w-full flex items-center justify-between relative shrink-0">
+        <!-- TABS -->
+        <div
+          class="flex gap-[16px] items-center overflow-x-auto w-full md:w-auto scrollbar-hide"
+        >
+          <button
+            class="cursor-pointer flex flex-col gap-[14px] items-center justify-center relative shrink-0 w-[198px]"
+          >
+            <div
+              class="flex gap-[14px] items-center justify-center relative shrink-0"
+            >
+              <svg
+                class="w-5 h-5 text-[#677461]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                ></path>
+              </svg>
+              <div
+                class="flex gap-[22px] items-center justify-center relative shrink-0"
+              >
+                <span
+                  class="font-['Manrope'] font-normal text-[#677461] text-[16px]"
+                  >Upcoming</span
+                >
+                <span
+                  class="bg-[#d8d8d8] text-[#677461] font-['Manrope'] font-normal text-[16px] px-[10px] py-[2px] rounded-[50px]"
+                  >14</span
+                >
+              </div>
+            </div>
+            <div class="w-full h-[2px] bg-transparent"></div>
+          </button>
+
+          <button
+            class="cursor-pointer flex flex-col gap-[14px] items-center justify-center relative shrink-0 w-[198px]"
+          >
+            <div
+              class="flex gap-[14px] items-center justify-center relative shrink-0"
+            >
+              <svg
+                class="w-5 h-5 text-[#677461]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                ></path>
+              </svg>
+              <div
+                class="flex gap-[22px] items-center justify-center relative shrink-0"
+              >
+                <span
+                  class="font-['Manrope'] font-normal text-[#677461] text-[16px]"
+                  >Ongoing</span
+                >
+                <span
+                  class="bg-[#d8d8d8] text-[#677461] font-['Manrope'] font-normal text-[16px] px-[10px] py-[2px] rounded-[50px]"
+                  >14</span
+                >
+              </div>
+            </div>
+            <div class="w-full h-[2px] bg-transparent"></div>
+          </button>
+
+          <button
+            class="cursor-pointer flex flex-col gap-[14px] items-center justify-center relative shrink-0 w-[198px]"
+          >
+            <div
+              class="flex gap-[14px] items-center justify-center relative shrink-0"
+            >
+              <svg
+                class="w-5 h-5 text-[#2d5a3d]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+              <div
+                class="flex gap-[22px] items-center justify-center relative shrink-0"
+              >
+                <span
+                  class="font-['Manrope'] font-semibold text-[#2d5a3d] text-[16px]"
+                  >Completed</span
+                >
+                <span
+                  class="bg-[#d8d8d8] text-[#2d5a3d] font-['Manrope'] font-semibold text-[16px] px-[10px] py-[2px] rounded-[50px]"
+                  >14</span
+                >
+              </div>
+            </div>
+            <div class="w-full h-[2px] bg-[#2d5a3d]"></div>
+          </button>
+        </div>
+
+        <!-- Filter Action -->
+        <button
+          class="block cursor-pointer overflow-clip relative shrink-0 w-[48px] h-[48px] rounded-full hover:bg-gray-50 transition-colors"
+          onclick="
+            document
+              .getElementById('secondary-filters')
+              .classList.toggle('hidden')
+          "
+        >
+          <div
+            class="absolute inset-[24.68%_20.94%_24.68%_21.19%] text-[#1b3a28]"
+          >
+            <svg
+              class="block max-w-none w-full h-full"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M12 6V4m0 2a2 2 0 100 4m0-4a2 2 0 110 4m-6 8a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4m6 6v10m6-2a2 2 0 100-4m0 4a2 2 0 110-4m0 4v2m0-6V4"
+              ></path>
+            </svg>
+          </div>
+        </button>
+      </div>
+
+      <!-- Secondary Filters Bar -->
+      <div
+        id="secondary-filters"
+        class="hidden w-full flex flex-wrap gap-[16px] items-center justify-center relative shrink-0 mt-2"
+      >
+        <div
+          class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]"
+        >
+          <p
+            class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center"
+          >
+            State: All
+          </p>
+          <svg
+            class="w-4 h-4 text-[#2d5a3d]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+        </div>
+        <div
+          class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]"
+        >
+          <p
+            class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center"
+          >
+            Industry: Any
+          </p>
+          <svg
+            class="w-4 h-4 text-[#2d5a3d]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+        </div>
+        <div
+          class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]"
+        >
+          <p
+            class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center"
+          >
+            Category: All
+          </p>
+          <svg
+            class="w-4 h-4 text-[#2d5a3d]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+        </div>
+        <div
+          class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]"
+        >
+          <p
+            class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center"
+          >
+            Sort: Date
+          </p>
+          <svg
+            class="w-4 h-4 text-[#2d5a3d]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M19 9l-7 7-7-7"
+            ></path>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRAM LISTINGS -->
+    <div
+      id="program-list"
+      class="w-full flex flex-col gap-[36px] items-center mt-2"
+    >
+      <!-- Card 1 (Links to #eventcomplete1) -->
+      <a
+        href="#eventcomplete1"
+        class="flex flex-col md:flex-row h-auto md:h-[342px] w-full max-w-[1073px] mx-auto overflow-hidden relative rounded-[24px] bg-white shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#f3f4f6] transition-all duration-300 hover:shadow-[0px_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer block"
+      >
+        <div
+          class="w-full md:w-[319px] shrink-0 h-[250px] md:h-full relative overflow-hidden bg-gray-100 rounded-t-[24px] md:rounded-tr-none md:rounded-l-[24px]"
+        >
+          <img
+            class="event-image absolute inset-0 w-full h-full object-cover"
+            src="https://images.unsplash.com/photo-1542898733-128a313dcfcc?w=800&auto=format&fit=crop&q=60"
+            alt="Program Image"
+          />
+        </div>
+        <div
+          class="flex-1 flex flex-col justify-center p-[20px] md:p-[24px] gap-[16px] md:gap-[20px] bg-white"
+        >
+          <div
+            class="bg-[#ffdcc5] inline-flex items-center justify-center px-[12px] py-[4px] rounded-[23px] w-max mt-[5px]"
+          >
+            <span
+              class="event-category font-['Inter'] font-medium text-[#653d1e] text-[15px] md:text-[16px]"
+              >Hackathons</span
+            >
+          </div>
+          <div class="flex flex-col gap-[10px] md:gap-[12px] w-full">
+            <h3
+              class="event-title font-['Inter'] font-bold text-[#1b3a28] text-[20px] md:text-[22px] leading-snug"
+            >
+              Bamboo Processing & Treatment Workshop
+            </h3>
+            <div
+              class="flex flex-wrap gap-x-[16px] md:gap-x-[24px] gap-y-[8px] items-center w-full"
+            >
+              <div class="flex items-center gap-[6px]">
+                <svg
+                  class="w-[16px] h-[16px] text-[#677461]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span
+                  class="event-date font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]"
+                  >Nov 10 - Nov 20, 2025</span
+                >
+              </div>
+              <div class="flex items-center gap-[6px]">
+                <svg
+                  class="w-[16px] h-[16px] text-[#677461]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                </svg>
+                <span
+                  class="event-location font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]"
+                  >NEST Innovation Hub, Block A</span
+                >
+              </div>
+              <div class="flex items-center gap-[6px]">
+                <svg
+                  class="w-[16px] h-[16px] text-[#677461]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  ></path>
+                </svg>
+                <span
+                  class="event-instructor font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]"
+                  >Dr. Adarsh Gogoi</span
+                >
+              </div>
+            </div>
+          </div>
+          <p
+            class="event-description font-['Inter'] font-normal text-[#464e42] text-[15px] md:text-[16px] line-clamp-3 md:line-clamp-none leading-relaxed"
+          >
+            A comprehensive workshop focusing on sustainable bamboo harvesting,
+            preservation techniques, and advanced structural processing for
+            furniture manufacturing.
+          </p>
+          <div class="mt-1">
+            <div
+              class="event-register bg-[#2d5a3d] hover:bg-[#1f422c] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group"
+            >
+              Register Now
+              <svg
+                class="w-[18px] h-[18px] transform -rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 10l7-7m0 0l7 7m-7-7v18"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <div
+            class="flex flex-col gap-[8px] w-full mt-auto pt-[2px] -mt-[5px]"
+          >
+            <div class="flex justify-between items-center w-full">
+              <span
+                class="font-['Inter'] font-semibold text-[#464e42] text-[13px] md:text-[14px] uppercase tracking-wide"
+                >Registration Process</span
+              >
+              <span
+                class="event-slots font-['Inter'] font-medium text-[#677461] text-[13px] md:text-[14px]"
+                >5 / 15 spots filled</span
+              >
+            </div>
+            <div
+              class="w-full bg-[#dedede] h-[6px] rounded-[13px] overflow-hidden"
+            >
+              <div
+                class="event-progress bg-[#78a877] h-full rounded-full transition-all duration-500 ease-out"
+                style="width: 33%"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2 (Links to #event-detail) -->
+      <a
+        href="#eventcomplete2"
+        class="flex flex-col md:flex-row h-auto md:h-[342px] w-full max-w-[1073px] mx-auto overflow-hidden relative rounded-[24px] bg-white shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#f3f4f6] transition-all duration-300 hover:shadow-[0px_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer block"
+      >
+        <div
+          class="w-full md:w-[319px] shrink-0 h-[250px] md:h-full relative overflow-hidden bg-gray-100 rounded-t-[24px] md:rounded-tr-none md:rounded-l-[24px]"
+        >
+          <img
+            class="absolute inset-0 w-full h-full object-cover"
+            src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?w=800&auto=format&fit=crop&q=60"
+            alt="Program Image"
+          />
+        </div>
+        <div
+          class="flex-1 flex flex-col justify-center p-[20px] md:p-[24px] gap-[16px] md:gap-[20px] bg-white"
+        >
+          <div
+            class="bg-[#ffdcc5] inline-flex items-center justify-center px-[12px] py-[4px] rounded-[23px] w-max mt-[5px]"
+          >
+            <span
+              class="event-category font-['Inter'] font-medium text-[#653d1e] text-[15px] md:text-[16px]"
+              >Seminars</span
+            >
+          </div>
+          <div class="flex flex-col gap-[10px] md:gap-[12px] w-full">
+            <h3
+              class="event-title font-['Inter'] font-bold text-[#1b3a28] text-[20px] md:text-[22px] leading-snug"
+            >
+              Sustainable Eco-Design Practices
+            </h3>
+            <div
+              class="flex flex-wrap gap-x-[16px] md:gap-x-[24px] gap-y-[8px] items-center w-full"
+            >
+              <div class="flex items-center gap-[6px]">
+                <svg
+                  class="w-[16px] h-[16px] text-[#677461]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span
+                  class="event-date font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]"
+                  >Dec 05 - Dec 07, 2025</span
+                >
+              </div>
+              <div class="flex items-center gap-[6px]">
+                <svg
+                  class="w-[16px] h-[16px] text-[#677461]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                </svg>
+                <span
+                  class="event-location font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]"
+                  >Main Auditorium</span
+                >
+              </div>
+              <div class="flex items-center gap-[6px]">
+                <svg
+                  class="w-[16px] h-[16px] text-[#677461]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  ></path>
+                </svg>
+                <span
+                  class="event-instructor font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]"
+                  >Dr. Sneha Rao</span
+                >
+              </div>
+            </div>
+          </div>
+          <p
+            class="event-description font-['Inter'] font-normal text-[#464e42] text-[15px] md:text-[16px] line-clamp-3 md:line-clamp-none leading-relaxed"
+          >
+            Exploring modern sustainable materials and zero-waste designs to
+            foster green innovation in consumer products and modern packaging.
+          </p>
+          <div class="mt-1">
+            <div
+              class="bg-[#2d5a3d] hover:bg-[#1f422c] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group"
+            >
+              Register Now
+              <svg
+                class="w-[18px] h-[18px] transform -rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 10l7-7m0 0l7 7m-7-7v18"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <div
+            class="flex flex-col gap-[8px] w-full mt-auto pt-[2px] -mt-[5px]"
+          >
+            <div class="flex justify-between items-center w-full">
+              <span
+                class="font-['Inter'] font-semibold text-[#464e42] text-[13px] md:text-[14px] uppercase tracking-wide"
+                >Registration Process</span
+              >
+              <span
+                class="event-slots font-['Inter'] font-medium text-[#677461] text-[13px] md:text-[14px]"
+                >12 / 20 spots filled</span
+              >
+            </div>
+            <div
+              class="w-full bg-[#dedede] h-[6px] rounded-[13px] overflow-hidden"
+            >
+              <div
+                class="event-progress bg-[#78a877] h-full rounded-full transition-all duration-500 ease-out"
+                style="width: 60%"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3 (Links to #event-detail) -->
+      <a
+        href="#eventcomplete3"
+        class="flex flex-col md:flex-row h-auto md:h-[342px] w-full max-w-[1073px] mx-auto overflow-hidden relative rounded-[24px] bg-white shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#f3f4f6] transition-all duration-300 hover:shadow-[0px_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer block"
+      >
+        <div
+          class="w-full md:w-[319px] shrink-0 h-[250px] md:h-full relative overflow-hidden bg-gray-100 rounded-t-[24px] md:rounded-tr-none md:rounded-l-[24px]"
+        >
+          <img
+            class="absolute inset-0 w-full h-full object-cover"
+            src="https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop&q=60"
+            alt="Program Image"
+          />
+        </div>
+        <div
+          class="flex-1 flex flex-col justify-center p-[20px] md:p-[24px] gap-[16px] md:gap-[20px] bg-white"
+        >
+          <div
+            class="bg-[#ffdcc5] inline-flex items-center justify-center px-[12px] py-[4px] rounded-[23px] w-max mt-[5px]"
+          >
+            <span
+              class="event-category font-['Inter'] font-medium text-[#653d1e] text-[15px] md:text-[16px]"
+              >Mentorship</span
+            >
+          </div>
+          <div class="flex flex-col gap-[10px] md:gap-[12px] w-full">
+            <h3
+              class="event-title font-['Inter'] font-bold text-[#1b3a28] text-[20px] md:text-[22px] leading-snug"
+            >
+              Scaling Agricultural Tech
+            </h3>
+            <div
+              class="flex flex-wrap gap-x-[16px] md:gap-x-[24px] gap-y-[8px] items-center w-full"
+            >
+              <div class="flex items-center gap-[6px]">
+                <svg
+                  class="w-[16px] h-[16px] text-[#677461]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                  ></path>
+                </svg>
+                <span
+                  class="event-date font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]"
+                  >Jan 10 - Feb 28, 2026</span
+                >
+              </div>
+              <div class="flex items-center gap-[6px]">
+                <svg
+                  class="w-[16px] h-[16px] text-[#677461]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"
+                  ></path>
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                  ></path>
+                </svg>
+                <span
+                  class="event-location font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]"
+                  >Virtual Mode</span
+                >
+              </div>
+              <div class="flex items-center gap-[6px]">
+                <svg
+                  class="w-[16px] h-[16px] text-[#677461]"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  ></path>
+                </svg>
+                <span
+                  class="event-instructor font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]"
+                  >Prof. Rahul Sharma</span
+                >
+              </div>
+            </div>
+          </div>
+          <p
+            class="event-description font-['Inter'] font-normal text-[#464e42] text-[15px] md:text-[16px] line-clamp-3 md:line-clamp-none leading-relaxed"
+          >
+            Intensive mentorship program guiding agritech startups to scale
+            their technical capabilities and navigate seed funding.
+          </p>
+          <div class="mt-1">
+            <div
+              class="bg-[#2d5a3d] hover:bg-[#1f422c] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group"
+            >
+              Register Now
+              <svg
+                class="w-[18px] h-[18px] transform -rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M5 10l7-7m0 0l7 7m-7-7v18"
+                ></path>
+              </svg>
+            </div>
+          </div>
+          <div
+            class="flex flex-col gap-[8px] w-full mt-auto pt-[2px] -mt-[5px]"
+          >
+            <div class="flex justify-between items-center w-full">
+              <span
+                class="font-['Inter'] font-semibold text-[#464e42] text-[13px] md:text-[14px] uppercase tracking-wide"
+                >Registration Process</span
+              >
+              <span
+                class="event-slots font-['Inter'] font-medium text-[#677461] text-[13px] md:text-[14px]"
+                >8 / 10 spots filled</span
+              >
+            </div>
+            <div
+              class="w-full bg-[#dedede] h-[6px] rounded-[13px] overflow-hidden"
+            >
+              <div
+                class="event-progress bg-[#78a877] h-full rounded-full transition-all duration-500 ease-out"
+                style="width: 80%"
+              ></div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+  </div>
 </section>
