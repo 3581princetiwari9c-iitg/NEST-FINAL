@@ -1116,9 +1116,6 @@
   .gap-30 {
     gap: calc(var(--spacing) * 30);
   }
-  .gap-\[1px\] {
-    gap: 1px;
-  }
   .gap-\[2px\] {
     gap: 2px;
   }
@@ -1208,9 +1205,6 @@
   }
   .gap-\[100px\] {
     gap: 100px;
-  }
-  .gap-\[px\] {
-    gap: px;
   }
   .space-y-4 {
     :where(& > :not(:last-child)) {
@@ -1977,41 +1971,11 @@
   .font-\[\'Fraunces\'\,serif\] {
     font-family: 'Fraunces',serif;
   }
-  .font-\[\'I\'\] {
-    font-family: 'I';
-  }
-  .font-\[\'In\'\] {
-    font-family: 'In';
-  }
-  .font-\[\'Int\'\] {
-    font-family: 'Int';
-  }
-  .font-\[\'Inte\'\] {
-    font-family: 'Inte';
-  }
   .font-\[\'Inter\'\,sans-serif\] {
     font-family: 'Inter',sans-serif;
   }
   .font-\[\'Inter\'\] {
     font-family: 'Inter';
-  }
-  .font-\[\'M\'\] {
-    font-family: 'M';
-  }
-  .font-\[\'Ma\'\] {
-    font-family: 'Ma';
-  }
-  .font-\[\'Man\'\] {
-    font-family: 'Man';
-  }
-  .font-\[\'Manr\'\] {
-    font-family: 'Manr';
-  }
-  .font-\[\'Manro\'\] {
-    font-family: 'Manro';
-  }
-  .font-\[\'Manrop\'\] {
-    font-family: 'Manrop';
   }
   .font-\[\'Manrope\'\,sans-serif\] {
     font-family: 'Manrope',sans-serif;
@@ -3095,21 +3059,6 @@
       gap: calc(var(--spacing) * 14);
     }
   }
-  .sm\:gap-\[2px\] {
-    @media (width >= 40rem) {
-      gap: 2px;
-    }
-  }
-  .sm\:gap-\[3px\] {
-    @media (width >= 40rem) {
-      gap: 3px;
-    }
-  }
-  .sm\:gap-\[5px\] {
-    @media (width >= 40rem) {
-      gap: 5px;
-    }
-  }
   .sm\:gap-\[7px\] {
     @media (width >= 40rem) {
       gap: 7px;
@@ -3148,11 +3097,6 @@
   .sm\:gap-\[56px\] {
     @media (width >= 40rem) {
       gap: 56px;
-    }
-  }
-  .sm\:gap-\[px\] {
-    @media (width >= 40rem) {
-      gap: px;
     }
   }
   .sm\:space-y-5 {
