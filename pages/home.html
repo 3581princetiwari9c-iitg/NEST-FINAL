@@ -1,12 +1,9 @@
-<section
-  class="relative w-full overflow-hidden flex flex-col items-center justify-center"
-  style="
+<section class="relative w-full overflow-hidden flex flex-col items-center justify-center" style="
     height: calc(100vh - 114px - 26px);
     min-height: 500px;
     margin-top: 16px;
     margin-bottom: 10px;
-  "
->
+  ">
   <style>
     /* Hide scrollbar for the track */
     .hero-track-container {
@@ -63,11 +60,9 @@
 
   <!-- The Track -->
   <div class="relative w-full h-full overflow-hidden">
-    <div
-      id="hero-carousel-track"
+    <div id="hero-carousel-track"
       class="w-max absolute left-0 top-0 flex items-center h-full transition-transform duration-700 ease-in-out gap-[32px] sm:gap-[64px]"
-      style="transform: translateX(0px)"
-    >
+      style="transform: translateX(0px)">
       <!-- Slides injected via JS -->
     </div>
   </div>
@@ -95,9 +90,7 @@
   <!--  </div>-->
 </section>
 
-<section
-  class="w-full flex flex-col items-center pt-[60px] sm:pt-[100px] pb-[60px]"
->
+<section class="w-full flex flex-col items-center pt-[60px] sm:pt-[100px] pb-[60px]">
   <style>
     @keyframes marqueeScroll {
       0% {
@@ -119,219 +112,192 @@
     .animate-marquee-scroll:hover {
       animation-play-state: paused;
     }
+
+    /* Subtle hover glow effect */
+    .stat-number:hover {
+      filter: drop-shadow(0 4px 12px rgba(0,0,0,0.15));
+    }
   </style>
 
   <!-- Stats Grid -->
-  <div
-    class="flex flex-wrap justify-between items-center mb-[80px] w-full max-w-[1440px] px-6  text-center sm:text-left gap-10"
-  >
-    <div class="flex flex-col gap-[10px] relative">
-      <p
-        class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0"
-      >
-        100+
-      </p>
-      <p
-        class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0"
-      >
-        Incubated startups
-      </p>
+  <div class="w-full max-w-[1200px] mx-auto mb-[80px] px-6">
+    <div class="relative grid grid-cols-2 sm:grid-cols-4 gap-y-12 sm:gap-y-0 text-center items-center">
+
+      <!-- Stat 1 -->
+      <div class="flex flex-col items-center gap-[6px]">
+        <p class="stat-number font-['Inter'] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#1b3a28] to-[#4ade80] text-[44px] sm:text-[64px] leading-tight transition-all duration-300 hover:scale-110 hover:tracking-wide" data-target="100">
+          100+
+        </p>
+        <p class="font-['Inter'] text-[#6b7566] text-[18px] sm:text-[22px] transition-all duration-300 hover:text-[#1b3a28] tracking-wide">
+          Incubated Startups
+        </p>
+      </div>
+
+      <!-- Divider after first stat -->
+      <div class="hidden sm:block absolute top-1/2 -translate-y-1/2 left-[25%] h-[50px] w-px bg-[#e5e7eb]"></div>
+
+      <!-- Stat 2 -->
+      <div class="flex flex-col items-center gap-[6px]">
+        <p class="stat-number font-['Inter'] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#1b3a28] to-[#4ade80] text-[44px] sm:text-[64px] leading-tight transition-all duration-300 hover:scale-110 hover:tracking-wide" data-target="32">
+          32+
+        </p>
+        <p class="font-['Inter'] text-[#6b7566] text-[18px] sm:text-[22px] transition-all duration-300 hover:text-[#1b3a28] tracking-wide">
+          Institutions
+        </p>
+      </div>
+
+      <!-- Divider after second stat -->
+      <div class="hidden sm:block absolute top-1/2 -translate-y-1/2 left-[50%] h-[50px] w-px bg-[#e5e7eb]"></div>
+
+      <!-- Stat 3 -->
+      <div class="flex flex-col items-center gap-[6px]">
+        <p class="stat-number font-['Inter'] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#1b3a28] to-[#4ade80] text-[44px] sm:text-[64px] leading-tight transition-all duration-300 hover:scale-110 hover:tracking-wide" data-target="43000000">
+          4.3 Cr+
+        </p>
+        <p class="font-['Inter'] text-[#6b7566] text-[18px] sm:text-[22px] transition-all duration-300 hover:text-[#1b3a28] tracking-wide">
+          Investments
+        </p>
+      </div>
+
+      <!-- Divider after third stat -->
+      <div class="hidden sm:block absolute top-1/2 -translate-y-1/2 left-[75%] h-[50px] w-px bg-[#e5e7eb]"></div>
+
+      <!-- Stat 4 -->
+      <div class="flex flex-col items-center gap-[6px]">
+        <p class="stat-number font-['Inter'] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#1b3a28] to-[#4ade80] text-[44px] sm:text-[64px] leading-tight transition-all duration-300 hover:scale-110 hover:tracking-wide" data-target="100">
+          100+
+        </p>
+        <p class="font-['Inter'] text-[#6b7566] text-[18px] sm:text-[22px] transition-all duration-300 hover:text-[#1b3a28] tracking-wide">
+          North-East Beneficiaries
+        </p>
+      </div>
+
     </div>
-    <div class="flex flex-col gap-[10px] relative">
-      <p
-        class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0"
-      >
-        32+
-      </p>
-      <p
-        class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0"
-      >
-        Spoke Institutions
-      </p>
-    </div>
-    <div class="flex flex-col gap-[10px] relative">
-      <p
-        class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0"
-      >
-        4.3 cr+
-      </p>
-      <p
-        class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0"
-      >
-        Investors
-      </p>
-    </div>
-    <div class="flex flex-col gap-[10px] relative">
-      <p
-        class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0"
-      >
-        100+
-      </p>
-      <p
-        class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0"
-      >
-        Northeast Beneficiaries
-      </p>
-    </div>
+    <script>
+      function animateStats() {
+        const counters = document.querySelectorAll('.stat-number');
+        counters.forEach(counter => {
+          const target = +counter.getAttribute('data-target');
+          let count = 0;
+          const speed = target / 80;
+
+          function updateCount() {
+            count += speed;
+            if (count < target) {
+              counter.innerText = Math.floor(count) + (target >= 100 ? '+' : '');
+              requestAnimationFrame(updateCount);
+            } else {
+              if (target === 43000000) {
+                counter.innerText = '4.3 Cr+';
+              } else {
+                counter.innerText = target + '+';
+              }
+            }
+          }
+
+          updateCount();
+        });
+      }
+
+      // Trigger when visible
+      const observer = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            animateStats();
+            observer.disconnect();
+          }
+        });
+      });
+
+      const statsSection = document.querySelector('.stat-number');
+      if (statsSection) observer.observe(statsSection);
+    </script>
   </div>
 
   <!-- Moving Slider Animation Container -->
   <div class="relative w-full h-[300px] sm:h-[400px] overflow-hidden">
     <!-- Slanted SVG Mask Top -->
     <!-- Matches background color to simulate the pinch mask. Points slightly downwards in the middle -->
-    <svg
-      class="absolute top-0 left-0 w-full h-[30px] sm:h-[66px] z-10 pointer-events-none"
-      preserveAspectRatio="none"
-      viewBox="0 0 1440 66"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg class="absolute top-0 left-0 w-full h-[30px] sm:h-[66px] z-10 pointer-events-none" preserveAspectRatio="none"
+      viewBox="0 0 1440 66" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0 0 L1440 0 L1440 30 L720 66 L0 30 Z" fill="#F0F7F0" />
     </svg>
 
     <!-- Slanted SVG Mask Bottom -->
     <!-- Matches background color. Points slightly upwards in the middle -->
-    <svg
-      class="absolute bottom-0 left-0 w-full h-[30px] sm:h-[66px] z-10 pointer-events-none"
-      preserveAspectRatio="none"
-      viewBox="0 0 1440 66"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-    >
+    <svg class="absolute bottom-0 left-0 w-full h-[30px] sm:h-[66px] z-10 pointer-events-none"
+      preserveAspectRatio="none" viewBox="0 0 1440 66" fill="none" xmlns="http://www.w3.org/2000/svg">
       <path d="M0 66 L1440 66 L1440 36 L720 0 L0 36 Z" fill="#F0F7F0" />
     </svg>
 
     <!-- Track -->
-    <div
-      class="animate-marquee-scroll flex items-center h-full gap-[32px] px-[16px]"
-    >
+    <div class="animate-marquee-scroll flex items-center h-full gap-[32px] px-[16px]">
       <!-- Original Set (6 images) -->
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0262.JPG.jpeg"
-          alt="Workshop Image 1"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0262.JPG.jpeg" alt="Workshop Image 1"
+          class="w-full h-full object-cover" />
       </div>
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0263.JPG.jpeg"
-          alt="Workshop Image 2"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0263.JPG.jpeg" alt="Workshop Image 2"
+          class="w-full h-full object-cover" />
       </div>
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0265.JPG.jpeg"
-          alt="Workshop Image 3"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0265.JPG.jpeg" alt="Workshop Image 3"
+          class="w-full h-full object-cover" />
       </div>
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0266.JPG.jpeg"
-          alt="Workshop Image 4"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0266.JPG.jpeg" alt="Workshop Image 4"
+          class="w-full h-full object-cover" />
       </div>
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0267.JPG.jpeg"
-          alt="Workshop Image 5"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0267.JPG.jpeg" alt="Workshop Image 5"
+          class="w-full h-full object-cover" />
       </div>
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0268.JPG.jpeg"
-          alt="Workshop Image 6"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0268.JPG.jpeg" alt="Workshop Image 6"
+          class="w-full h-full object-cover" />
       </div>
 
       <!-- Duplicated Set for Seamless Looping (6 images) -->
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0262.JPG.jpeg"
-          alt="Workshop Image 1"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0262.JPG.jpeg" alt="Workshop Image 1"
+          class="w-full h-full object-cover" />
       </div>
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0263.JPG.jpeg"
-          alt="Workshop Image 2"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0263.JPG.jpeg" alt="Workshop Image 2"
+          class="w-full h-full object-cover" />
       </div>
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0265.JPG.jpeg"
-          alt="Workshop Image 3"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0265.JPG.jpeg" alt="Workshop Image 3"
+          class="w-full h-full object-cover" />
       </div>
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0266.JPG.jpeg"
-          alt="Workshop Image 4"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0266.JPG.jpeg" alt="Workshop Image 4"
+          class="w-full h-full object-cover" />
       </div>
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0267.JPG.jpeg"
-          alt="Workshop Image 5"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0267.JPG.jpeg" alt="Workshop Image 5"
+          class="w-full h-full object-cover" />
       </div>
-      <div
-        class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md"
-      >
-        <img
-          src="assets/programpic/2dayworkshop/MKS_0268.JPG.jpeg"
-          alt="Workshop Image 6"
-          class="w-full h-full object-cover"
-        />
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden shrink-0 relative shadow-md">
+        <img src="assets/programpic/2dayworkshop/MKS_0268.JPG.jpeg" alt="Workshop Image 6"
+          class="w-full h-full object-cover" />
       </div>
     </div>
   </div>
 </section>
 
-
 <!-- Innovation Verticals Section -->
-<section class="w-full flex flex-col items-center py-[56px] px-6 sm:px-[120px] ">
+<section class="w-full flex flex-col items-center py-[56px] px-6 sm:px-[120px]">
   <!-- Header -->
   <div class="flex flex-col items-center max-w-[1020px] text-center gap-4 mb-16">
     <span class="font-['Inter'] font-normal text-[#887103] text-[18px]">ACADEMIC INNOVATION HUB</span>
     <div class="flex flex-col gap-[8px] items-center">
-      <h1 class="font-['Cormorant_Garamond',serif]  text-[#1b3a28] text-[36px] md:text-[52px] leading-tight">
+      <h1 class="font-['Cormorant_Garamond',serif] text-[#1b3a28] text-[36px] md:text-[52px] leading-tight">
         NEST Cluster: Innovation Verticals
       </h1>
       <svg xmlns="http://www.w3.org/2000/svg" width="222" height="31" viewBox="0 0 222 31" fill="none"
-           class="w-[160px] sm:w-[180px] lg:w-[222px] h-auto mt-1">
+        class="w-[160px] sm:w-[180px] lg:w-[222px] h-auto mt-1">
         <path
           d="M114.309 14.8098V23.2947C114.309 23.2947 117.242 22.1091 123.1 22.1091H160.468C166.329 22.1091 169.258 23.2947 169.258 23.2947V14.8098C169.258 14.8098 166.329 15.9953 160.468 15.9953H123.1C117.243 15.9954 114.309 14.8098 114.309 14.8098Z"
           fill="#218D00" />
@@ -365,147 +331,732 @@
       </svg>
     </div>
     <p class="font-['Inter'] text-[#464e42] text-[16px] sm:text-[18px] leading-[1.6] mt-4 w-full max-w-[1017px]">
-      NEST Cluster serves as a collaborative platform to empower youth, support grassroots innovations, and foster entrepreneurship by offering training, research support, and incubation facilities across four verticals of national and regional importance.
+      NEST Cluster serves as a collaborative platform to empower youth, support
+      grassroots innovations, and foster entrepreneurship by offering training,
+      research support, and incubation facilities across four verticals of
+      national and regional importance.
     </p>
   </div>
 
   <!-- Grid of Cards -->
   <div class="grid grid-cols-1 md:grid-cols-2 gap-[42px] w-full max-w-[1185px]">
-
     <!-- Card 1 -->
-    <div class="bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-[#f3f4f6] flex flex-col p-[22px] gap-[20px] transition hover:shadow-md cursor-pointer group">
+    <div
+      class="bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-[#f3f4f6] flex flex-col p-[22px] gap-[20px] transition hover:shadow-md cursor-pointer group">
       <!-- Icon Container -->
       <div class="w-[52px] h-[52px] rounded-[10px] bg-[#e3f3ff] flex items-center justify-center shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
-          <path d="M10.5003 2.59985C11.1919 2.59985 11.8315 2.82345 12.3502 3.20305V7.79985H11.5871C11.4338 7.36616 11.1321 7.00064 10.7353 6.76789C10.3385 6.53514 9.87225 6.45015 9.41888 6.52794C8.96551 6.60572 8.55423 6.84128 8.25774 7.19298C7.96125 7.54467 7.79863 7.98986 7.79863 8.44985C7.79863 8.90985 7.96125 9.35504 8.25774 9.70673C8.55423 10.0584 8.96551 10.294 9.41888 10.3718C9.87225 10.4496 10.3385 10.3646 10.7353 10.1318C11.1321 9.89906 11.4338 9.53354 11.5871 9.09985H12.3502V22.4015C11.6612 23.0216 10.7512 23.3999 9.75021 23.3999C8.8088 23.3993 7.89937 23.0583 7.18974 22.4397C6.48011 21.8211 6.01818 20.9667 5.88921 20.0342C5.16046 19.8695 4.48852 19.5142 3.9421 19.0047C3.39568 18.4951 2.99439 17.8496 2.77926 17.1341C2.56412 16.4186 2.54287 15.6589 2.71766 14.9325C2.89246 14.2061 3.25703 13.5391 3.77411 12.9999H7.15021C7.3226 12.9999 7.48793 13.0683 7.60983 13.1902C7.73173 13.3121 7.80021 13.4775 7.80021 13.6499V14.413C7.36652 14.5663 7.001 14.868 6.76825 15.2648C6.5355 15.6615 6.4505 16.1278 6.52829 16.5812C6.60608 17.0346 6.84163 17.4458 7.19333 17.7423C7.54502 18.0388 7.99021 18.2014 8.45021 18.2014C8.9102 18.2014 9.35539 18.0388 9.70709 17.7423C10.0588 17.4458 10.2943 17.0346 10.3721 16.5812C10.4499 16.1278 10.3649 15.6615 10.1322 15.2648C9.89942 14.868 9.5339 14.5663 9.10021 14.413V13.6499C9.10021 13.1327 8.89476 12.6367 8.52907 12.271C8.16337 11.9053 7.66738 11.6999 7.15021 11.6999H4.55931C4.13244 11.1393 3.90093 10.4544 3.90021 9.74985V9.49245C3.90021 7.82065 5.08061 6.38025 6.71991 6.05265L7.24771 5.94605L7.41021 5.13225C7.55324 4.41805 7.93927 3.77545 8.50264 3.31376C9.06601 2.85207 9.77192 2.59979 10.5003 2.59985ZM15.5001 2.59985C17.0016 2.59985 18.2951 3.66065 18.5902 5.13225L18.7527 5.94605L19.2805 6.05265C20.0755 6.21211 20.7907 6.64187 21.3047 7.26893C21.8188 7.89598 22.0998 8.68165 22.1002 9.49245V9.74985C22.0992 10.1988 22.0053 10.6426 21.8243 11.0534C21.6433 11.4642 21.3791 11.833 21.0485 12.1367C21.8304 12.5225 22.4735 13.1412 22.8894 13.9075C23.3053 14.6739 23.4735 15.5503 23.3709 16.4161C23.2683 17.282 22.8999 18.0948 22.3164 18.7427C21.7329 19.3906 20.9629 19.8418 20.1125 20.0342C19.9835 20.9669 19.5214 21.8215 18.8115 22.4401C18.1016 23.0587 17.1918 23.3996 16.2502 23.3999C15.2492 23.3999 14.3392 23.0216 13.6502 22.4015V16.8999H16.2502C16.7674 16.8999 17.2634 16.6944 17.6291 16.3287C17.9948 15.963 18.2002 15.467 18.2002 14.9499V14.1855C18.6349 14.0334 19.0017 13.7322 19.2354 13.3353C19.4691 12.9385 19.5545 12.4716 19.4766 12.0177C19.3987 11.5638 19.1624 11.1522 18.8097 10.856C18.457 10.5598 18.0108 10.3982 17.5502 10.3999C17.0916 10.4017 16.6484 10.5652 16.2984 10.8615C15.9484 11.1577 15.714 11.5679 15.6364 12.0198C15.5588 12.4718 15.6429 12.9367 15.8741 13.3327C16.1052 13.7288 16.4685 14.0307 16.9002 14.1855V14.9499C16.9002 15.1222 16.8317 15.2876 16.7098 15.4095C16.5879 15.5314 16.4226 15.5999 16.2502 15.5999H13.6502V3.20305C14.1702 2.82345 14.8072 2.59985 15.5001 2.59985ZM8.45021 15.5999C8.6226 15.5999 8.78793 15.6683 8.90983 15.7902C9.03172 15.9121 9.10021 16.0775 9.10021 16.2499C9.10021 16.4222 9.03172 16.5876 8.90983 16.7095C8.78793 16.8314 8.6226 16.8999 8.45021 16.8999C8.27782 16.8999 8.11249 16.8314 7.99059 16.7095C7.86869 16.5876 7.80021 16.4222 7.80021 16.2499C7.80021 16.0775 7.86869 15.9121 7.99059 15.7902C8.11249 15.6683 8.27782 15.5999 8.45021 15.5999ZM17.5502 11.6999C17.7226 11.6999 17.8879 11.7683 18.0098 11.8902C18.1317 12.0121 18.2002 12.1775 18.2002 12.3499C18.2002 12.5222 18.1317 12.6876 18.0098 12.8095C17.8879 12.9314 17.7226 12.9999 17.5502 12.9999C17.3778 12.9999 17.2125 12.9314 17.0906 12.8095C16.9687 12.6876 16.9002 12.5222 16.9002 12.3499C16.9002 12.1775 16.9687 12.0121 17.0906 11.8902C17.2125 11.7683 17.3778 11.6999 17.5502 11.6999ZM9.75021 7.79985C9.9226 7.79985 10.0879 7.86834 10.2098 7.99023C10.3317 8.11213 10.4002 8.27746 10.4002 8.44985C10.4002 8.62224 10.3317 8.78757 10.2098 8.90947C10.0879 9.03137 9.9226 9.09985 9.75021 9.09985C9.57782 9.09985 9.41249 9.03137 9.29059 8.90947C9.16869 8.78757 9.10021 8.62224 9.10021 8.44985C9.10021 8.27746 9.16869 8.11213 9.29059 7.99023C9.41249 7.86834 9.57782 7.79985 9.75021 7.79985Z" fill="#005ED8"/>
+          <path
+            d="M10.5003 2.59985C11.1919 2.59985 11.8315 2.82345 12.3502 3.20305V7.79985H11.5871C11.4338 7.36616 11.1321 7.00064 10.7353 6.76789C10.3385 6.53514 9.87225 6.45015 9.41888 6.52794C8.96551 6.60572 8.55423 6.84128 8.25774 7.19298C7.96125 7.54467 7.79863 7.98986 7.79863 8.44985C7.79863 8.90985 7.96125 9.35504 8.25774 9.70673C8.55423 10.0584 8.96551 10.294 9.41888 10.3718C9.87225 10.4496 10.3385 10.3646 10.7353 10.1318C11.1321 9.89906 11.4338 9.53354 11.5871 9.09985H12.3502V22.4015C11.6612 23.0216 10.7512 23.3999 9.75021 23.3999C8.8088 23.3993 7.89937 23.0583 7.18974 22.4397C6.48011 21.8211 6.01818 20.9667 5.88921 20.0342C5.16046 19.8695 4.48852 19.5142 3.9421 19.0047C3.39568 18.4951 2.99439 17.8496 2.77926 17.1341C2.56412 16.4186 2.54287 15.6589 2.71766 14.9325C2.89246 14.2061 3.25703 13.5391 3.77411 12.9999H7.15021C7.3226 12.9999 7.48793 13.0683 7.60983 13.1902C7.73173 13.3121 7.80021 13.4775 7.80021 13.6499V14.413C7.36652 14.5663 7.001 14.868 6.76825 15.2648C6.5355 15.6615 6.4505 16.1278 6.52829 16.5812C6.60608 17.0346 6.84163 17.4458 7.19333 17.7423C7.54502 18.0388 7.99021 18.2014 8.45021 18.2014C8.9102 18.2014 9.35539 18.0388 9.70709 17.7423C10.0588 17.4458 10.2943 17.0346 10.3721 16.5812C10.4499 16.1278 10.3649 15.6615 10.1322 15.2648C9.89942 14.868 9.5339 14.5663 9.10021 14.413V13.6499C9.10021 13.1327 8.89476 12.6367 8.52907 12.271C8.16337 11.9053 7.66738 11.6999 7.15021 11.6999H4.55931C4.13244 11.1393 3.90093 10.4544 3.90021 9.74985V9.49245C3.90021 7.82065 5.08061 6.38025 6.71991 6.05265L7.24771 5.94605L7.41021 5.13225C7.55324 4.41805 7.93927 3.77545 8.50264 3.31376C9.06601 2.85207 9.77192 2.59979 10.5003 2.59985ZM15.5001 2.59985C17.0016 2.59985 18.2951 3.66065 18.5902 5.13225L18.7527 5.94605L19.2805 6.05265C20.0755 6.21211 20.7907 6.64187 21.3047 7.26893C21.8188 7.89598 22.0998 8.68165 22.1002 9.49245V9.74985C22.0992 10.1988 22.0053 10.6426 21.8243 11.0534C21.6433 11.4642 21.3791 11.833 21.0485 12.1367C21.8304 12.5225 22.4735 13.1412 22.8894 13.9075C23.3053 14.6739 23.4735 15.5503 23.3709 16.4161C23.2683 17.282 22.8999 18.0948 22.3164 18.7427C21.7329 19.3906 20.9629 19.8418 20.1125 20.0342C19.9835 20.9669 19.5214 21.8215 18.8115 22.4401C18.1016 23.0587 17.1918 23.3996 16.2502 23.3999C15.2492 23.3999 14.3392 23.0216 13.6502 22.4015V16.8999H16.2502C16.7674 16.8999 17.2634 16.6944 17.6291 16.3287C17.9948 15.963 18.2002 15.467 18.2002 14.9499V14.1855C18.6349 14.0334 19.0017 13.7322 19.2354 13.3353C19.4691 12.9385 19.5545 12.4716 19.4766 12.0177C19.3987 11.5638 19.1624 11.1522 18.8097 10.856C18.457 10.5598 18.0108 10.3982 17.5502 10.3999C17.0916 10.4017 16.6484 10.5652 16.2984 10.8615C15.9484 11.1577 15.714 11.5679 15.6364 12.0198C15.5588 12.4718 15.6429 12.9367 15.8741 13.3327C16.1052 13.7288 16.4685 14.0307 16.9002 14.1855V14.9499C16.9002 15.1222 16.8317 15.2876 16.7098 15.4095C16.5879 15.5314 16.4226 15.5999 16.2502 15.5999H13.6502V3.20305C14.1702 2.82345 14.8072 2.59985 15.5001 2.59985ZM8.45021 15.5999C8.6226 15.5999 8.78793 15.6683 8.90983 15.7902C9.03172 15.9121 9.10021 16.0775 9.10021 16.2499C9.10021 16.4222 9.03172 16.5876 8.90983 16.7095C8.78793 16.8314 8.6226 16.8999 8.45021 16.8999C8.27782 16.8999 8.11249 16.8314 7.99059 16.7095C7.86869 16.5876 7.80021 16.4222 7.80021 16.2499C7.80021 16.0775 7.86869 15.9121 7.99059 15.7902C8.11249 15.6683 8.27782 15.5999 8.45021 15.5999ZM17.5502 11.6999C17.7226 11.6999 17.8879 11.7683 18.0098 11.8902C18.1317 12.0121 18.2002 12.1775 18.2002 12.3499C18.2002 12.5222 18.1317 12.6876 18.0098 12.8095C17.8879 12.9314 17.7226 12.9999 17.5502 12.9999C17.3778 12.9999 17.2125 12.9314 17.0906 12.8095C16.9687 12.6876 16.9002 12.5222 16.9002 12.3499C16.9002 12.1775 16.9687 12.0121 17.0906 11.8902C17.2125 11.7683 17.3778 11.6999 17.5502 11.6999ZM9.75021 7.79985C9.9226 7.79985 10.0879 7.86834 10.2098 7.99023C10.3317 8.11213 10.4002 8.27746 10.4002 8.44985C10.4002 8.62224 10.3317 8.78757 10.2098 8.90947C10.0879 9.03137 9.9226 9.09985 9.75021 9.09985C9.57782 9.09985 9.41249 9.03137 9.29059 8.90947C9.16869 8.78757 9.10021 8.62224 9.10021 8.44985C9.10021 8.27746 9.16869 8.11213 9.29059 7.99023C9.41249 7.86834 9.57782 7.79985 9.75021 7.79985Z"
+            fill="#005ED8" />
         </svg>
       </div>
-      <h3 class="font-['Inter'] font-semibold text-[24px] text-[#005ed8] leading-snug m-0">Artificial Intelligence &<br/>Semiconductor Technology</h3>
-      <p class="font-['Inter'] text-[#464E42]  text-[16px] leading-[1.6] tracking-[0.3px]  m-0 grow">Driving innovation through AI and semiconductor technologies for next-generation solutions, advancing research and development in digital and hardware systems.</p>
+      <h3 class="font-['Inter'] font-semibold text-[24px] text-[#005ed8] leading-snug m-0">
+        Artificial Intelligence &<br />Semiconductor Technology
+      </h3>
+      <p class="font-['Inter'] text-[#464E42] text-[16px] leading-[1.6] tracking-[0.3px] m-0 grow">
+        Driving innovation through AI and semiconductor technologies for
+        next-generation solutions, advancing research and development in digital
+        and hardware systems.
+      </p>
       <!-- Explore more link -->
       <div class="flex items-center gap-[11px] mt-auto pt-2 text-blue-600 cursor-pointer">
-         <span class="font-['Inter'] text-[16px] group-hover:font-bold transition-all duration-200">Explore More</span>
-         <svg class="w-[18px] h-[18px] transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+        <span class="font-['Inter'] text-[16px] group-hover:font-bold transition-all duration-200">Explore More</span>
+        <svg class="w-[18px] h-[18px] transition-transform duration-200 group-hover:translate-x-1" fill="none"
+          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+        </svg>
       </div>
     </div>
 
     <!-- Card 2 -->
-    <div class="bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-[#f3f4f6] flex flex-col p-[22px] gap-[20px] transition hover:shadow-md cursor-pointer group">
+    <div
+      class="bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-[#f3f4f6] flex flex-col p-[22px] gap-[20px] transition hover:shadow-md cursor-pointer group">
       <!-- Icon Container -->
       <div class="w-[52px] h-[52px] rounded-[10px] bg-[#edffe3] flex items-center justify-center shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
-          <path fill-rule="evenodd" clip-rule="evenodd" d="M14.1457 1.68354C12.7108 3.35241 12.6182 6.06291 13.9003 7.86179V8.48741C13.9003 8.68079 13.8849 8.87172 13.854 9.06022L12.0096 8.50772C12.039 7.83409 11.8429 7.16989 11.4523 6.62025C11.0618 6.07061 10.499 5.66691 9.85324 5.47304L7.00949 4.61991C6.53824 6.22054 7.44012 7.90241 9.04074 8.38991L11.8845 9.24304L11.8861 9.23979L13.6606 9.77197C13.5713 9.99985 13.4583 10.2177 13.3234 10.422C12.8684 11.1045 12.6409 11.9088 12.6409 12.7213V12.9448L10.8104 12.3963C10.8406 11.7238 10.6454 11.0605 10.2558 10.5115C9.86621 9.96245 9.30447 9.55922 8.65968 9.36572L5.81593 8.5126C5.33655 10.1132 6.24655 11.7951 7.83905 12.2826L10.6828 13.1357L10.6844 13.1284L12.6401 13.7142V14.6324C11.0066 14.705 9.43301 15.2688 8.12505 16.25H6.9063C6.6788 16.25 6.50005 16.4288 6.50005 16.6563V19.0938C6.50005 19.3213 6.6788 19.5 6.9063 19.5H7.31905L7.9528 23.3074C8.05843 23.9249 8.58655 24.3718 9.20405 24.3718H16.8009C17.4184 24.3718 17.9547 23.9249 18.0522 23.3074L18.6924 19.5H19.093C19.3205 19.5 19.4992 19.3213 19.4992 19.0938V16.6563C19.4992 16.4288 19.3205 16.25 19.093 16.25H17.8751C16.5704 15.2714 15.0014 14.708 13.3722 14.6332V14.2968L14.6624 13.91L14.6641 13.9149L17.5078 13.0618C19.1003 12.5743 20.0103 10.8924 19.5309 9.29179L16.6872 10.1449C16.0426 10.3396 15.4811 10.7434 15.0916 11.2927C14.702 11.8419 14.5064 12.5052 14.5357 13.178L13.3714 13.5273V12.7205C13.3714 12.038 13.5664 11.3718 13.9401 10.803C14.1889 10.4272 14.3747 10.0134 14.4902 9.57779L15.3279 9.32672L15.3303 9.33241L18.1741 8.47929C19.7666 7.99179 20.6766 6.30991 20.1972 4.70929L17.3534 5.56241C16.7073 5.75461 16.1443 6.15783 15.7542 6.70765C15.3642 7.25746 15.1698 7.92214 15.2019 8.59547L14.6218 8.76854C14.6283 8.67497 14.6315 8.5812 14.6316 8.48741V7.61966C15.7772 5.87441 15.7057 3.33779 14.3878 1.69247C14.3212 1.60391 14.2115 1.6031 14.1457 1.68354ZM8.14293 19.5H17.8686L17.2511 23.1725L17.2494 23.1807C17.2314 23.2867 17.1763 23.3829 17.0941 23.4522C17.0118 23.5215 16.9077 23.5595 16.8001 23.5593H9.20324C9.0945 23.5583 8.98962 23.5189 8.90721 23.4479C8.82481 23.377 8.77021 23.2791 8.75312 23.1717L8.14293 19.5ZM18.6876 18.681V17.0625H7.31255V18.6875H7.31824V18.681H18.6876Z" fill="#0D8700"/>
+          <path fill-rule="evenodd" clip-rule="evenodd"
+            d="M14.1457 1.68354C12.7108 3.35241 12.6182 6.06291 13.9003 7.86179V8.48741C13.9003 8.68079 13.8849 8.87172 13.854 9.06022L12.0096 8.50772C12.039 7.83409 11.8429 7.16989 11.4523 6.62025C11.0618 6.07061 10.499 5.66691 9.85324 5.47304L7.00949 4.61991C6.53824 6.22054 7.44012 7.90241 9.04074 8.38991L11.8845 9.24304L11.8861 9.23979L13.6606 9.77197C13.5713 9.99985 13.4583 10.2177 13.3234 10.422C12.8684 11.1045 12.6409 11.9088 12.6409 12.7213V12.9448L10.8104 12.3963C10.8406 11.7238 10.6454 11.0605 10.2558 10.5115C9.86621 9.96245 9.30447 9.55922 8.65968 9.36572L5.81593 8.5126C5.33655 10.1132 6.24655 11.7951 7.83905 12.2826L10.6828 13.1357L10.6844 13.1284L12.6401 13.7142V14.6324C11.0066 14.705 9.43301 15.2688 8.12505 16.25H6.9063C6.6788 16.25 6.50005 16.4288 6.50005 16.6563V19.0938C6.50005 19.3213 6.6788 19.5 6.9063 19.5H7.31905L7.9528 23.3074C8.05843 23.9249 8.58655 24.3718 9.20405 24.3718H16.8009C17.4184 24.3718 17.9547 23.9249 18.0522 23.3074L18.6924 19.5H19.093C19.3205 19.5 19.4992 19.3213 19.4992 19.0938V16.6563C19.4992 16.4288 19.3205 16.25 19.093 16.25H17.8751C16.5704 15.2714 15.0014 14.708 13.3722 14.6332V14.2968L14.6624 13.91L14.6641 13.9149L17.5078 13.0618C19.1003 12.5743 20.0103 10.8924 19.5309 9.29179L16.6872 10.1449C16.0426 10.3396 15.4811 10.7434 15.0916 11.2927C14.702 11.8419 14.5064 12.5052 14.5357 13.178L13.3714 13.5273V12.7205C13.3714 12.038 13.5664 11.3718 13.9401 10.803C14.1889 10.4272 14.3747 10.0134 14.4902 9.57779L15.3279 9.32672L15.3303 9.33241L18.1741 8.47929C19.7666 7.99179 20.6766 6.30991 20.1972 4.70929L17.3534 5.56241C16.7073 5.75461 16.1443 6.15783 15.7542 6.70765C15.3642 7.25746 15.1698 7.92214 15.2019 8.59547L14.6218 8.76854C14.6283 8.67497 14.6315 8.5812 14.6316 8.48741V7.61966C15.7772 5.87441 15.7057 3.33779 14.3878 1.69247C14.3212 1.60391 14.2115 1.6031 14.1457 1.68354ZM8.14293 19.5H17.8686L17.2511 23.1725L17.2494 23.1807C17.2314 23.2867 17.1763 23.3829 17.0941 23.4522C17.0118 23.5215 16.9077 23.5595 16.8001 23.5593H9.20324C9.0945 23.5583 8.98962 23.5189 8.90721 23.4479C8.82481 23.377 8.77021 23.2791 8.75312 23.1717L8.14293 19.5ZM18.6876 18.681V17.0625H7.31255V18.6875H7.31824V18.681H18.6876Z"
+            fill="#0D8700" />
         </svg>
       </div>
-      <h3 class="font-['Inter'] font-semibold text-[24px] text-[#0d8700] leading-snug m-0">Grassroots Technology<br/>Invention</h3>
-      <p class="font-['Inter'] text-[#464E42] text-[16px] leading-[1.6] tracking-[0.3px] m-0 grow">Driving innovation through AI and semiconductor technologies for next-generation solutions, advancing research and development in digital and hardware systems.</p>
+      <h3 class="font-['Inter'] font-semibold text-[24px] text-[#0d8700] leading-snug m-0">
+        Grassroots Technology<br />Invention
+      </h3>
+      <p class="font-['Inter'] text-[#464E42] text-[16px] leading-[1.6] tracking-[0.3px] m-0 grow">
+        Driving innovation through AI and semiconductor technologies for
+        next-generation solutions, advancing research and development in digital
+        and hardware systems.
+      </p>
       <!-- Explore more link -->
       <div class="flex items-center gap-[11px] mt-auto pt-2 text-blue-600 cursor-pointer">
-         <span class="font-['Inter'] text-[16px] group-hover:font-bold transition-all duration-200">Explore More</span>
-         <svg class="w-[18px] h-[18px] transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+        <span class="font-['Inter'] text-[16px] group-hover:font-bold transition-all duration-200">Explore More</span>
+        <svg class="w-[18px] h-[18px] transition-transform duration-200 group-hover:translate-x-1" fill="none"
+          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+        </svg>
       </div>
     </div>
 
     <!-- Card 3 -->
-    <div class="bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-[#f3f4f6] flex flex-col p-[22px] gap-[20px] transition hover:shadow-md cursor-pointer group">
+    <div
+      class="bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-[#f3f4f6] flex flex-col p-[22px] gap-[20px] transition hover:shadow-md cursor-pointer group">
       <!-- Icon Container -->
       <div class="w-[52px] h-[52px] rounded-[10px] bg-[#deffdf] flex items-center justify-center shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
-          <path d="M2.62658 1.26953C2.81752 3.40234 2.81549 5.53516 2.62658 7.66797H4.87213C4.64057 5.55547 4.68525 3.41859 4.88635 1.26953H2.62658ZM11.8525 1.26953C11.9845 4.0168 12.1318 6.78437 11.8728 9.6332H14.1224C13.8685 6.86562 13.9345 4.07164 14.1377 1.26953H11.8525ZM17.601 1.26953C17.8345 2.86965 17.7838 4.46266 17.5806 6.04297H19.8201C19.6982 4.45199 19.6982 2.86051 19.8201 1.26953H17.601ZM23.517 3.12102C23.517 3.12102 21.4146 3.51762 20.8002 4.33266C20.6377 4.56676 20.5006 4.95828 20.6478 5.20508C20.8053 5.44883 21.1912 5.45898 21.4502 5.37266C22.3795 5.06797 23.517 3.12102 23.517 3.12102ZM8.78533 5.42852C8.78533 5.42852 9.39471 7.59688 10.2123 8.125C10.4459 8.28242 10.8318 8.35859 11.04 8.16055C11.2482 7.9625 11.2127 7.55117 11.1111 7.28711C10.715 6.3375 8.78533 5.42852 8.78533 5.42852ZM22.0595 5.77891C21.826 5.78398 21.6076 5.80937 21.4248 5.87031C21.1049 5.98203 20.7088 6.28164 20.724 6.6168C20.7291 6.95195 21.1404 7.22617 21.4756 7.31758C22.674 7.63242 25.1064 6.47461 25.1064 6.47461C25.1064 6.47461 23.3189 5.76367 22.0595 5.77891ZM17.5806 6.95703C17.8955 9.3793 17.9412 11.7863 17.5908 14.168H19.815C19.6119 11.7609 19.6373 9.35391 19.8252 6.95703H17.5806ZM21.0033 7.9168C20.8916 7.92187 20.7849 7.95742 20.7037 8.03359C20.4955 8.23164 20.531 8.64297 20.6326 8.90703C21.0287 9.85664 22.9584 10.7656 22.9584 10.7656C22.9584 10.7656 22.349 8.59727 21.5314 8.06914C21.3994 7.98281 21.2217 7.9168 21.049 7.9168H21.0033ZM8.05408 8.54141C7.38885 8.55156 6.87596 8.60742 6.87596 8.60742C6.87596 8.60742 8.92244 10.3645 10.1615 10.3746C10.5017 10.3695 10.974 10.2172 11.0654 9.89727C11.172 9.57734 10.8724 9.18125 10.583 8.98828C10.0701 8.64297 9.1408 8.55156 8.34353 8.54141H8.05408ZM2.64131 8.58203C2.86525 10.7199 2.84037 12.8527 2.63115 14.9805H4.88686C4.68881 12.8324 4.63701 10.6945 4.87111 8.58203H2.64131ZM11.8576 10.207C12.0252 12.8527 12.0353 15.5238 11.8576 18.2305H14.1224C13.8685 15.5137 13.9345 12.8477 14.1377 10.207H11.8576ZM7.97791 11.3547C7.97791 11.3547 6.04822 12.2637 5.65213 13.2133C5.55057 13.4773 5.51502 13.8887 5.72322 14.0867C5.93143 14.2848 6.31736 14.2086 6.55096 14.0512C7.36853 13.523 7.97791 11.3547 7.97791 11.3547ZM6.67791 15.016C6.33768 15.0262 5.91619 15.1734 5.81971 15.473C5.71307 15.7879 6.00252 16.1891 6.28182 16.3871C7.29236 17.098 9.97869 16.8645 9.97869 16.8645C9.97869 16.8645 7.98299 15.0566 6.74393 15.016H6.67791ZM17.5553 15.082C17.6974 16.9355 17.7381 18.7992 17.5654 20.668H19.7947C19.5611 18.7383 19.7084 16.8949 19.8252 15.082H17.5553ZM2.621 15.8945C2.82209 18.85 2.75912 21.7953 2.61084 24.7305H4.90666C4.78021 21.8004 4.6751 18.8551 4.89244 15.8945H2.621ZM6.14471 17.1539C5.95174 17.159 5.76385 17.2199 5.66736 17.3723C5.5201 17.616 5.65721 18.0121 5.81971 18.2457C6.43416 19.0582 8.5365 19.4543 8.5365 19.4543C8.5365 19.4543 7.399 17.5094 6.46971 17.2047C6.37322 17.1742 6.25643 17.1539 6.14471 17.1539ZM24.4107 18.1391C24.4107 18.1391 21.7244 18.398 20.8611 19.2816C20.6275 19.5254 20.4092 19.9773 20.5767 20.2668C20.7342 20.5613 21.2267 20.6172 21.567 20.5461C22.7756 20.282 24.4107 18.1391 24.4107 18.1391ZM11.883 19.1445C12.0658 21.0082 11.9033 22.8973 11.8474 24.7305H14.1428C14.0564 22.9125 13.8533 21.0539 14.1021 19.1445H11.883ZM21.1252 21.4297C20.8611 21.4297 20.5615 21.5465 20.4803 21.7801C20.3838 22.0492 20.6021 22.3996 20.8154 22.5926C21.5974 23.2527 23.7303 23.1816 23.7303 23.1816C23.7303 23.1816 22.2017 21.5313 21.2318 21.4348C21.1963 21.4297 21.1607 21.4297 21.1252 21.4297ZM17.5705 21.582C17.6771 22.6129 17.7381 23.6641 17.601 24.7305H19.7744C19.6322 23.659 19.7033 22.6078 19.8099 21.582H17.5705Z" fill="#095900"/>
+          <path
+            d="M2.62658 1.26953C2.81752 3.40234 2.81549 5.53516 2.62658 7.66797H4.87213C4.64057 5.55547 4.68525 3.41859 4.88635 1.26953H2.62658ZM11.8525 1.26953C11.9845 4.0168 12.1318 6.78437 11.8728 9.6332H14.1224C13.8685 6.86562 13.9345 4.07164 14.1377 1.26953H11.8525ZM17.601 1.26953C17.8345 2.86965 17.7838 4.46266 17.5806 6.04297H19.8201C19.6982 4.45199 19.6982 2.86051 19.8201 1.26953H17.601ZM23.517 3.12102C23.517 3.12102 21.4146 3.51762 20.8002 4.33266C20.6377 4.56676 20.5006 4.95828 20.6478 5.20508C20.8053 5.44883 21.1912 5.45898 21.4502 5.37266C22.3795 5.06797 23.517 3.12102 23.517 3.12102ZM8.78533 5.42852C8.78533 5.42852 9.39471 7.59688 10.2123 8.125C10.4459 8.28242 10.8318 8.35859 11.04 8.16055C11.2482 7.9625 11.2127 7.55117 11.1111 7.28711C10.715 6.3375 8.78533 5.42852 8.78533 5.42852ZM22.0595 5.77891C21.826 5.78398 21.6076 5.80937 21.4248 5.87031C21.1049 5.98203 20.7088 6.28164 20.724 6.6168C20.7291 6.95195 21.1404 7.22617 21.4756 7.31758C22.674 7.63242 25.1064 6.47461 25.1064 6.47461C25.1064 6.47461 23.3189 5.76367 22.0595 5.77891ZM17.5806 6.95703C17.8955 9.3793 17.9412 11.7863 17.5908 14.168H19.815C19.6119 11.7609 19.6373 9.35391 19.8252 6.95703H17.5806ZM21.0033 7.9168C20.8916 7.92187 20.7849 7.95742 20.7037 8.03359C20.4955 8.23164 20.531 8.64297 20.6326 8.90703C21.0287 9.85664 22.9584 10.7656 22.9584 10.7656C22.9584 10.7656 22.349 8.59727 21.5314 8.06914C21.3994 7.98281 21.2217 7.9168 21.049 7.9168H21.0033ZM8.05408 8.54141C7.38885 8.55156 6.87596 8.60742 6.87596 8.60742C6.87596 8.60742 8.92244 10.3645 10.1615 10.3746C10.5017 10.3695 10.974 10.2172 11.0654 9.89727C11.172 9.57734 10.8724 9.18125 10.583 8.98828C10.0701 8.64297 9.1408 8.55156 8.34353 8.54141H8.05408ZM2.64131 8.58203C2.86525 10.7199 2.84037 12.8527 2.63115 14.9805H4.88686C4.68881 12.8324 4.63701 10.6945 4.87111 8.58203H2.64131ZM11.8576 10.207C12.0252 12.8527 12.0353 15.5238 11.8576 18.2305H14.1224C13.8685 15.5137 13.9345 12.8477 14.1377 10.207H11.8576ZM7.97791 11.3547C7.97791 11.3547 6.04822 12.2637 5.65213 13.2133C5.55057 13.4773 5.51502 13.8887 5.72322 14.0867C5.93143 14.2848 6.31736 14.2086 6.55096 14.0512C7.36853 13.523 7.97791 11.3547 7.97791 11.3547ZM6.67791 15.016C6.33768 15.0262 5.91619 15.1734 5.81971 15.473C5.71307 15.7879 6.00252 16.1891 6.28182 16.3871C7.29236 17.098 9.97869 16.8645 9.97869 16.8645C9.97869 16.8645 7.98299 15.0566 6.74393 15.016H6.67791ZM17.5553 15.082C17.6974 16.9355 17.7381 18.7992 17.5654 20.668H19.7947C19.5611 18.7383 19.7084 16.8949 19.8252 15.082H17.5553ZM2.621 15.8945C2.82209 18.85 2.75912 21.7953 2.61084 24.7305H4.90666C4.78021 21.8004 4.6751 18.8551 4.89244 15.8945H2.621ZM6.14471 17.1539C5.95174 17.159 5.76385 17.2199 5.66736 17.3723C5.5201 17.616 5.65721 18.0121 5.81971 18.2457C6.43416 19.0582 8.5365 19.4543 8.5365 19.4543C8.5365 19.4543 7.399 17.5094 6.46971 17.2047C6.37322 17.1742 6.25643 17.1539 6.14471 17.1539ZM24.4107 18.1391C24.4107 18.1391 21.7244 18.398 20.8611 19.2816C20.6275 19.5254 20.4092 19.9773 20.5767 20.2668C20.7342 20.5613 21.2267 20.6172 21.567 20.5461C22.7756 20.282 24.4107 18.1391 24.4107 18.1391ZM11.883 19.1445C12.0658 21.0082 11.9033 22.8973 11.8474 24.7305H14.1428C14.0564 22.9125 13.8533 21.0539 14.1021 19.1445H11.883ZM21.1252 21.4297C20.8611 21.4297 20.5615 21.5465 20.4803 21.7801C20.3838 22.0492 20.6021 22.3996 20.8154 22.5926C21.5974 23.2527 23.7303 23.1816 23.7303 23.1816C23.7303 23.1816 22.2017 21.5313 21.2318 21.4348C21.1963 21.4297 21.1607 21.4297 21.1252 21.4297ZM17.5705 21.582C17.6771 22.6129 17.7381 23.6641 17.601 24.7305H19.7744C19.6322 23.659 19.7033 22.6078 19.8099 21.582H17.5705Z"
+            fill="#095900" />
         </svg>
       </div>
-      <h3 class="font-['Inter'] font-semibold text-[24px] text-[#095900] leading-snug m-0">Bamboo Based Product<br/>Development & Building</h3>
-      <p class="font-['Inter'] text-[#464E42] text-[16px] leading-[1.6] tracking-[0.3px] m-0 grow">Driving innovation through AI and semiconductor technologies for next-generation solutions, advancing research and development in digital and hardware systems.</p>
+      <h3 class="font-['Inter'] font-semibold text-[24px] text-[#095900] leading-snug m-0">
+        Bamboo Based Product<br />Development & Building
+      </h3>
+      <p class="font-['Inter'] text-[#464E42] text-[16px] leading-[1.6] tracking-[0.3px] m-0 grow">
+        Driving innovation through AI and semiconductor technologies for
+        next-generation solutions, advancing research and development in digital
+        and hardware systems.
+      </p>
       <!-- Explore more link -->
       <div class="flex items-center gap-[11px] mt-auto pt-2 text-blue-600 cursor-pointer">
-         <span class="font-['Inter'] text-[16px] group-hover:font-bold transition-all duration-200">Explore More</span>
-         <svg class="w-[18px] h-[18px] transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+        <span class="font-['Inter'] text-[16px] group-hover:font-bold transition-all duration-200">Explore More</span>
+        <svg class="w-[18px] h-[18px] transition-transform duration-200 group-hover:translate-x-1" fill="none"
+          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+        </svg>
       </div>
     </div>
 
     <!-- Card 4 -->
-    <div class="bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-[#f3f4f6] flex flex-col p-[22px] gap-[20px] transition hover:shadow-md cursor-pointer group">
+    <div
+      class="bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-[#f3f4f6] flex flex-col p-[22px] gap-[20px] transition hover:shadow-md cursor-pointer group">
       <!-- Icon Container -->
       <div class="w-[52px] h-[52px] rounded-[10px] bg-[#e3f3ff] flex items-center justify-center shrink-0">
         <svg xmlns="http://www.w3.org/2000/svg" width="26" height="26" viewBox="0 0 26 26" fill="none">
-          <path d="M22.0891 15.21L20.1933 16.2608L21.1033 17.8967C21.2008 18.07 21.2441 18.2542 21.2441 18.4492C21.2441 18.6333 21.1899 18.8067 21.0924 18.9692C20.9949 19.1317 20.8649 19.2617 20.7133 19.3592C20.5508 19.4567 20.3666 19.5108 20.1608 19.5108H13.0108V17.3442L8.67744 20.5942L13.0108 23.8442V21.6775H20.1608C20.7458 21.6775 21.3199 21.5258 21.8183 21.2225C22.2841 20.9408 22.6849 20.5508 22.9558 20.0742C23.2374 19.5975 23.3891 19.0667 23.4108 18.5142C23.4324 17.94 23.2808 17.355 22.9991 16.8458L22.0891 15.21ZM5.29744 19.3483C5.14578 19.2617 5.01578 19.1208 4.91828 18.9583C4.81962 18.8028 4.76704 18.6225 4.76661 18.4383C4.76661 18.2433 4.80994 18.0592 4.90744 17.8858L8.53661 11.3533L10.3999 12.4367L9.74994 7.06332L4.76661 9.18665L6.65161 10.27L3.01161 16.835C2.72994 17.355 2.57828 17.9292 2.59994 18.5033C2.62161 19.045 2.77328 19.5867 3.05494 20.0633C3.33661 20.54 3.72661 20.9408 4.19244 21.2117C4.69078 21.5042 5.26494 21.6667 5.84994 21.6667H7.63744V19.5H5.84994C5.64411 19.5 5.45994 19.4458 5.29744 19.3483ZM12.0466 5.01582C12.1441 4.83165 12.2849 4.69082 12.4583 4.59332C12.7833 4.40915 13.2166 4.40915 13.5308 4.59332C13.7041 4.69082 13.8449 4.83165 13.9424 5.01582L17.4849 11.3858L15.5999 12.4692L20.5833 14.5925L21.2333 9.21915L19.3699 10.3025L15.8491 3.96499C15.5566 3.43415 15.1233 3.00082 14.6141 2.70832C13.6391 2.15582 12.3824 2.15582 11.4074 2.70832C10.8874 3.00082 10.4649 3.43415 10.1724 3.96499L9.29494 5.54665L11.1908 6.59749L12.0683 5.01582H12.0466Z" fill="#008577"/>
+          <path
+            d="M22.0891 15.21L20.1933 16.2608L21.1033 17.8967C21.2008 18.07 21.2441 18.2542 21.2441 18.4492C21.2441 18.6333 21.1899 18.8067 21.0924 18.9692C20.9949 19.1317 20.8649 19.2617 20.7133 19.3592C20.5508 19.4567 20.3666 19.5108 20.1608 19.5108H13.0108V17.3442L8.67744 20.5942L13.0108 23.8442V21.6775H20.1608C20.7458 21.6775 21.3199 21.5258 21.8183 21.2225C22.2841 20.9408 22.6849 20.5508 22.9558 20.0742C23.2374 19.5975 23.3891 19.0667 23.4108 18.5142C23.4324 17.94 23.2808 17.355 22.9991 16.8458L22.0891 15.21ZM5.29744 19.3483C5.14578 19.2617 5.01578 19.1208 4.91828 18.9583C4.81962 18.8028 4.76704 18.6225 4.76661 18.4383C4.76661 18.2433 4.80994 18.0592 4.90744 17.8858L8.53661 11.3533L10.3999 12.4367L9.74994 7.06332L4.76661 9.18665L6.65161 10.27L3.01161 16.835C2.72994 17.355 2.57828 17.9292 2.59994 18.5033C2.62161 19.045 2.77328 19.5867 3.05494 20.0633C3.33661 20.54 3.72661 20.9408 4.19244 21.2117C4.69078 21.5042 5.26494 21.6667 5.84994 21.6667H7.63744V19.5H5.84994C5.64411 19.5 5.45994 19.4458 5.29744 19.3483ZM12.0466 5.01582C12.1441 4.83165 12.2849 4.69082 12.4583 4.59332C12.7833 4.40915 13.2166 4.40915 13.5308 4.59332C13.7041 4.69082 13.8449 4.83165 13.9424 5.01582L17.4849 11.3858L15.5999 12.4692L20.5833 14.5925L21.2333 9.21915L19.3699 10.3025L15.8491 3.96499C15.5566 3.43415 15.1233 3.00082 14.6141 2.70832C13.6391 2.15582 12.3824 2.15582 11.4074 2.70832C10.8874 3.00082 10.4649 3.43415 10.1724 3.96499L9.29494 5.54665L11.1908 6.59749L12.0683 5.01582H12.0466Z"
+            fill="#008577" />
         </svg>
       </div>
-      <h3 class="font-['Inter'] font-semibold text-[24px] text-[#008577] leading-snug m-0">Biodegradable Plastics &<br/>Solid Waste Management</h3>
-      <p class="font-['Inter'] text-[#464E42] text-[16px] leading-[1.6] tracking-[0.3px] m-0 grow">Driving innovation through AI and semiconductor technologies for next-generation solutions, advancing research and development in digital and hardware systems.</p>
+      <h3 class="font-['Inter'] font-semibold text-[24px] text-[#008577] leading-snug m-0">
+        Biodegradable Plastics &<br />Solid Waste Management
+      </h3>
+      <p class="font-['Inter'] text-[#464E42] text-[16px] leading-[1.6] tracking-[0.3px] m-0 grow">
+        Driving innovation through AI and semiconductor technologies for
+        next-generation solutions, advancing research and development in digital
+        and hardware systems.
+      </p>
       <!-- Explore more link -->
       <div class="flex items-center gap-[11px] mt-auto pt-2 text-blue-600 cursor-pointer">
-         <span class="font-['Inter'] text-[16px] group-hover:font-bold transition-all duration-200">Explore More</span>
-         <svg class="w-[18px] h-[18px] transition-transform duration-200 group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3"/></svg>
+        <span class="font-['Inter'] text-[16px] group-hover:font-bold transition-all duration-200">Explore More</span>
+        <svg class="w-[18px] h-[18px] transition-transform duration-200 group-hover:translate-x-1" fill="none"
+          viewBox="0 0 24 24" stroke-width="2" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" />
+        </svg>
       </div>
     </div>
-
   </div>
 </section>
 
-<section
-  class="w-full flex flex-col mt-16 gap-8 items-center py-20 bg-[#f9f6ef]/50 px-4 sm:px-10"
->
-
-  <!-- Heading -->
-  <div class="w-full flex flex-col items-center text-center gap-[12px]">
-    <span class="font-['Inter'] font-normal text-[#887103] text-[18px]"
-      >FAQs</span
-    >
-    <div class="flex flex-col gap-[8px] items-center">
-      <h1
-        class="font-['Cormorant_Garamond',serif] text-[#1b3a28] text-[36px] md:text-[52px] leading-tight"
-      >
-        Have Questions? We’ve Got Answers
-      </h1>
-      <svg
-        xmlns="http://www.w3.org/2000/svg"
-        width="222"
-        height="31"
-        viewBox="0 0 222 31"
-        fill="none"
-        class="w-[160px] sm:w-[180px] lg:w-[222px] h-auto mt-1"
-      >
+<!-- Offerings Section -->
+<section class="w-full flex flex-col items-center py-[72px] px-6 sm:px-10 bg-[#F9F6EF]/50 ">
+  <!-- Header -->
+  <div class="flex flex-col items-center max-w-[1020px] text-center gap-4 mb-14">
+    <span class="font-['Inter'] font-normal text-[#887103] text-[16px] uppercase tracking-wide">Offerings</span>
+    <div class="flex flex-col gap-2 items-center">
+      <h2 class="font-['Cormorant_Garamond',serif] text-[#1b3a28] text-[36px] md:text-[52px] leading-tight">
+        What all is offered by NEST?
+      </h2>
+      <svg xmlns="http://www.w3.org/2000/svg" width="222" height="31" viewBox="0 0 222 31" fill="none"
+        class="w-[160px] sm:w-[180px] lg:w-[222px] h-auto mt-1">
         <path
           d="M114.309 14.8098V23.2947C114.309 23.2947 117.242 22.1091 123.1 22.1091H160.468C166.329 22.1091 169.258 23.2947 169.258 23.2947V14.8098C169.258 14.8098 166.329 15.9953 160.468 15.9953H123.1C117.243 15.9954 114.309 14.8098 114.309 14.8098Z"
-          fill="#218D00"
-        />
+          fill="#218D00" />
         <path
           d="M184.633 22.109H222V15.9953H184.633C178.771 15.9953 175.838 14.8098 175.838 14.8098V23.2947C175.838 23.2947 178.771 22.109 184.633 22.109Z"
-          fill="#218D00"
-        />
+          fill="#218D00" />
         <path
           d="M37.3671 15.9954H0.000110626V22.1091H37.3671C43.2289 22.1091 46.1616 23.2947 46.1616 23.2947V14.8098C46.1616 14.8098 43.2289 15.9954 37.3671 15.9954Z"
-          fill="#218D00"
-        />
+          fill="#218D00" />
         <path
           d="M61.5555 22.1091H98.9187C104.78 22.1091 107.709 23.2947 107.709 23.2947V14.8098C107.709 14.8098 104.78 15.9953 98.9187 15.9953H61.5555C55.6904 15.9953 52.7614 14.8098 52.7614 14.8098V23.2947C52.7614 23.2947 55.69 22.1091 61.5555 22.1091Z"
-          fill="#218D00"
-        />
+          fill="#218D00" />
         <path
           d="M156.281 9.16582L162.631 6.8146C166.066 5.54098 171.174 3.42571 168.946 1.13586C158.783 1.78677 152.79 3.78594 149.355 5.05946L143.009 7.41078C139.574 8.68264 134.463 10.7997 136.694 13.0878C146.853 12.4385 152.85 10.4393 156.281 9.16582Z"
-          fill="#C9A700"
-        />
+          fill="#C9A700" />
         <path
           d="M165.524 9.95625C160.938 10.3929 153.677 11.175 150.509 12.7724C157.923 13.3618 165.483 12.7358 170.069 12.2991L178.538 11.4938C183.127 11.0587 190.385 10.275 193.557 8.67931C186.143 8.08822 178.582 8.71414 173.992 9.15088L165.524 9.95625Z"
-          fill="#C9A700"
-        />
+          fill="#C9A700" />
         <path
           d="M136.14 6.06893L135.326 4.03659C134.887 2.93567 133.796 1.1656 127.935 0C123.086 1.3749 123.412 3.1598 123.855 4.26237L124.665 6.29316C125.1 7.39407 126.195 9.1657 132.056 10.3314C136.905 8.9565 136.578 7.16985 136.14 6.06893Z"
-          fill="#C9A700"
-        />
+          fill="#C9A700" />
         <path
           d="M76.0028 27.5093C78.6658 28.1103 83.1771 29.0386 89.1812 29.0983C89.0388 27.7682 84.9434 26.7504 82.2808 26.1477L77.3603 25.0351C74.6977 24.4341 70.1865 23.5059 64.1824 23.4462C64.3247 24.7762 68.4202 25.794 71.0827 26.3968L76.0028 27.5093Z"
-          fill="#C9A700"
-        />
+          fill="#C9A700" />
         <path
           d="M68.5446 28.5525L67.772 27.4051C67.3519 26.784 66.4594 25.7878 62.9568 25.1718C60.4141 25.9871 60.8791 26.9983 61.2954 27.6193L62.0718 28.765C62.4918 29.3876 63.3843 30.3822 66.887 31C69.4259 30.1831 68.9646 29.1735 68.5446 28.5525Z"
-          fill="#C9A700"
-        />
+          fill="#C9A700" />
         <path
           d="M82.7847 22.9617C79.9873 22.857 75.4348 22.7342 71.692 23.2788C74.4032 24.0659 78.8845 24.285 81.6787 24.3913L86.8427 24.5856C89.6401 24.6918 94.193 24.8148 97.9321 24.27C95.2204 23.4813 90.7391 23.2639 87.945 23.1576L82.7847 22.9617Z"
-          fill="#C9A700"
-        />
+          fill="#C9A700" />
+      </svg>
+    </div>
+    <p class="font-['Inter'] text-[#464e42] text-[16px] sm:text-[18px] leading-[1.6] mt-2 w-full max-w-[800px]">
+      A comprehensive ecosystem supporting skill development, innovation,
+      research, and startup growth from idea to impact.
+    </p>
+  </div>
+
+  <!-- Content Container -->
+  <div
+    class="bg-white w-full max-w-[1263px] rounded-[24px] p-8 md:p-[24px] lg:p-[36px] shadow-[0_4px_24px_rgba(0,0,0,0.02)] flex flex-col md:flex-row gap-12 lg:gap-16 justify-center mx-auto">
+    <!-- Left Column -->
+    <div class="flex flex-col gap-[36px] w-[520px] p-[36px] items-start shrink-0">
+      <!-- Title box -->
+      <div class="flex flex-col gap-[8px] w-full">
+        <h3 class="font-['Inter'] font-bold text-[#7d6433] text-[24px] leading-snug m-0">
+          Scaling Talent through Targeted <br />
+          HRD Programs
+        </h3>
+        <p class="font-['Inter'] font-medium text-[#677461] text-[14px]">
+          Strategic focus on Skill development and Entrepreneurship Initiatives
+        </p>
+      </div>
+
+      <!-- List -->
+      <div class="flex flex-col gap-[32px] w-full">
+        <!-- Item 1 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[391px]">
+
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Skill Development Programs
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              Empowering the workforce with industry-relevant technical
+              competencies.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[366px]">
+
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Entrepreneurship Development Programs
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              Cultivating the next generation of business leaders and
+              innovators.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[413px]">
+
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Hackathons
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              Competitive problem-solving challenges for real-world impact.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[388px]">
+
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Symposium
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              Knowledge exchange platforms featuring industry experts.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[350px]">
+
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Short Term Internships
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              Rapid industry exposure for undergraduate students.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 6 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 16h-4v-4h4v4z"
+                fill="currentColor" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[333px]">
+
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Long Term Internships
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              In-depth research and product development roles.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 7 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[393px]">
+
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Certification Programs
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              Formal validation of skills across various technical domains.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column -->
+    <div class="flex flex-col gap-[36px] w-[520px] p-[36px] items-start shrink-0">
+      <!-- Title box -->
+      <div class="flex flex-col gap-[8px] w-full">
+        <h3 class="font-['Inter'] font-bold text-[#7d6433] text-[24px] leading-snug m-0">
+          Accelerating Technology and Product Growth
+        </h3>
+        <p class="font-['Inter'] font-medium text-[#677461] text-[14px]">
+          Startup nurturing and Technical Infrastructure
+        </p>
+      </div>
+
+      <!-- List -->
+      <div class="flex flex-col gap-[32px] w-full">
+        <!-- Item 1 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[390px]">
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Idea to Prototype to Product
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              Full lifecycle support for converting visions into market-ready
+              assets.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 2 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[390px]">
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Research Assistance to Dynamic Youth
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              Mentorship and technical guidance for student-led research.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 3 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9.3 6.3a1 1 0 0 1 0 1.4L7.7 9.3a1 1 0 0 1-1.4 0l-3.77-3.77a6 6 0 0 0 7.94 7.94l6.91 6.91a2.12 2.12 0 0 0 3-3l-6.91-6.91a6 6 0 0 0-7.94-7.94l3.76 3.76z" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[390px]">
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Tinkering Labs
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              State-of-the-art facilities for hardware experimentation and DIY
+              builds.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 4 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[390px]">
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Product Certifications and Standardization
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              Ensuring technical compliance and quality benchmarks for startups.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 5 -->
+        <div class="flex items-start gap-[16px] w-full shrink-0">
+          <div class="w-[52px] h-[52px] rounded-[8.6px] bg-[#f2f5f8] flex items-center justify-center shrink-0">
+            <svg class="w-[24px] h-[24px] text-[#7d6433]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M13.5 10.5L21 3m-6 8a4 4 0 00-4 4v3.5l-3-3-2 3c-1.333-1.333-1.333-2.667 0-4l3-2-3-3h3.5a4 4 0 004-4z" />
+            </svg>
+          </div>
+          <div class="flex flex-col gap-[4px] items-start w-[390px]">
+            <h4 class="font-['Inter'] font-medium text-[#7d6433] text-[18px] m-0 leading-normal">
+              Startup Nurturing Programs
+            </h4>
+            <p class="font-['Inter'] font-normal text-[#677461] text-[14px] m-0 leading-normal">
+              End-to-end incubation, funding access, and market link services.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Logo Explanation Section -->
+<section class="w-full flex flex-col items-center py-[72px] px-6 sm:px-10 gap-16 ">
+  <!-- Header -->
+  <div class="flex flex-col gap-4 items-center text-center max-w-[1020px]">
+    <span class="capitalize font-['INTER'] font-normal text-[#887103] text-[18px]">LOGO EXPLANATION</span>
+    <div class="flex flex-col gap-[8px] items-center text-center">
+      <h2 class="font-['Cormorant_Garamond',serif]  text-[#1b3a28] text-[36px] md:text-[52px] leading-tight">
+        NEST Cluster Logo
+      </h2>
+      <svg xmlns="http://www.w3.org/2000/svg" width="222" height="31" viewBox="0 0 222 31" fill="none"
+        class="w-[160px] sm:w-[180px] lg:w-[222px] h-auto mt-1">
+        <path
+          d="M114.309 14.8098V23.2947C114.309 23.2947 117.242 22.1091 123.1 22.1091H160.468C166.329 22.1091 169.258 23.2947 169.258 23.2947V14.8098C169.258 14.8098 166.329 15.9953 160.468 15.9953H123.1C117.243 15.9954 114.309 14.8098 114.309 14.8098Z"
+          fill="#218D00" />
+        <path
+          d="M184.633 22.109H222V15.9953H184.633C178.771 15.9953 175.838 14.8098 175.838 14.8098V23.2947C175.838 23.2947 178.771 22.109 184.633 22.109Z"
+          fill="#218D00" />
+        <path
+          d="M37.3671 15.9954H0.000110626V22.1091H37.3671C43.2289 22.1091 46.1616 23.2947 46.1616 23.2947V14.8098C46.1616 14.8098 43.2289 15.9954 37.3671 15.9954Z"
+          fill="#218D00" />
+        <path
+          d="M61.5555 22.1091H98.9187C104.78 22.1091 107.709 23.2947 107.709 23.2947V14.8098C107.709 14.8098 104.78 15.9953 98.9187 15.9953H61.5555C55.6904 15.9953 52.7614 14.8098 52.7614 14.8098V23.2947C52.7614 23.2947 55.69 22.1091 61.5555 22.1091Z"
+          fill="#218D00" />
+        <path
+          d="M156.281 9.16582L162.631 6.8146C166.066 5.54098 171.174 3.42571 168.946 1.13586C158.783 1.78677 152.79 3.78594 149.355 5.05946L143.009 7.41078C139.574 8.68264 134.463 10.7997 136.694 13.0878C146.853 12.4385 152.85 10.4393 156.281 9.16582Z"
+          fill="#C9A700" />
+        <path
+          d="M165.524 9.95625C160.938 10.3929 153.677 11.175 150.509 12.7724C157.923 13.3618 165.483 12.7358 170.069 12.2991L178.538 11.4938C183.127 11.0587 190.385 10.275 193.557 8.67931C186.143 8.08822 178.582 8.71414 173.992 9.15088L165.524 9.95625Z"
+          fill="#C9A700" />
+        <path
+          d="M136.14 6.06893L135.326 4.03659C134.887 2.93567 133.796 1.1656 127.935 0C123.086 1.3749 123.412 3.1598 123.855 4.26237L124.665 6.29316C125.1 7.39407 126.195 9.1657 132.056 10.3314C136.905 8.9565 136.578 7.16985 136.14 6.06893Z"
+          fill="#C9A700" />
+        <path
+          d="M76.0028 27.5093C78.6658 28.1103 83.1771 29.0386 89.1812 29.0983C89.0388 27.7682 84.9434 26.7504 82.2808 26.1477L77.3603 25.0351C74.6977 24.4341 70.1865 23.5059 64.1824 23.4462C64.3247 24.7762 68.4202 25.794 71.0827 26.3968L76.0028 27.5093Z"
+          fill="#C9A700" />
+        <path
+          d="M68.5446 28.5525L67.772 27.4051C67.3519 26.784 66.4594 25.7878 62.9568 25.1718C60.4141 25.9871 60.8791 26.9983 61.2954 27.6193L62.0718 28.765C62.4918 29.3876 63.3843 30.3822 66.887 31C69.4259 30.1831 68.9646 29.1735 68.5446 28.5525Z"
+          fill="#C9A700" />
+        <path
+          d="M82.7847 22.9617C79.9873 22.857 75.4348 22.7342 71.692 23.2788C74.4032 24.0659 78.8845 24.285 81.6787 24.3913L86.8427 24.5856C89.6401 24.6918 94.193 24.8148 97.9321 24.27C95.2204 23.4813 90.7391 23.2639 87.945 23.1576L82.7847 22.9617Z"
+          fill="#C9A700" />
+      </svg>
+    </div>
+    <p class="font-['Inter'] mt-4 font-normal text-[#464e42] text-[16px] md:text-[18px] text-center max-w-[1017px]">
+      The logo of the North Eastern Science and Technology (NEST) Cluster
+      reflects innovation, inclusivity, and the technological essence of the
+      North-East region through carefully chosen elements.
+    </p>
+  </div>
+
+  <!-- Structure Grid -->
+  <div class="relative w-full max-w-[1263px] grid grid-cols-1 lg:grid-cols-3 gap-8 items-center justify-items-center">
+    <!-- Left Column (Gears + Mountains) -->
+    <div class="flex flex-col gap-8 w-full max-w-[389px]">
+      <!-- Gears -->
+      <div class="bg-white border border-[#f3f4f6] flex flex-col items-center p-6 rounded-[10px] shadow-sm w-full">
+        <div class="flex items-center justify-center gap-4">
+          <img src="assets/logo/gears.png" alt="Gears" class="w-[56px] h-[56px] object-contain" />
+          <p class="font-['Inter'] font-semibold text-[#455b66] text-[24px]">
+            Gears
+          </p>
+        </div>
+        <div class="font-['Inter'] font-normal text-[#677461] text-[16px] text-center mt-4 w-full leading-relaxed">
+          <p>
+            Represents
+            <span class="font-semibold text-[#455b66]">grassroots technology and engineering innovation.</span>
+          </p>
+          <p>Bridges traditional skills with advanced industry applications.</p>
+        </div>
+      </div>
+
+      <!-- Mountains -->
+      <div class="bg-white border border-[#f3f4f6] flex flex-col items-center p-6 rounded-[10px] shadow-sm w-full">
+        <div class="flex items-center justify-center gap-4">
+          <img src="assets/logo/mountain.png" alt="Mountains" class="w-[56px] h-[56px] object-contain" />
+          <p class="font-['Inter'] font-semibold text-[#196839] text-[24px]">
+            Mountains
+          </p>
+        </div>
+        <div class="font-['Inter'] font-normal text-[#677461] text-[16px] text-center mt-4 w-full leading-relaxed">
+          <p>
+            Depict the
+            <span class="font-semibold text-[#196839]">geographical identity</span>
+            of the North-East region.
+          </p>
+          <p>
+            Signify
+            <span class="font-semibold text-[#196839]">stability, strength, and resilience</span>
+            in science and technology growth.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Column (Sunrise + Logo + Leaf Motif) -->
+    <div class="flex flex-col justify-center items-center gap-8 w-full">
+      <!-- Sunrise -->
+      <div
+        class="bg-white border border-[#f3f4f6] flex flex-col items-center p-6 rounded-[10px] shadow-sm w-full max-w-[389px]">
+        <div class="flex items-center justify-center gap-4">
+          <img src="assets/logo/sun.png" alt="Sunrise" class="w-[56px] h-[56px] object-contain" />
+          <p class="font-['Inter'] font-semibold text-[#C58800] text-[24px]">
+            Sunrise
+          </p>
+        </div>
+        <div class="font-['Inter'] font-normal text-[#677461] text-[16px] text-center mt-4 w-full leading-relaxed">
+          <p>
+            Symbolizes
+            <span class="font-semibold text-[#C58800] ">North-East India</span>,
+            where the sun rises first in India.
+          </p>
+          <p>
+            Represents
+            <span class="font-semibold text-[#C58800] ">new beginnings, hope, and continuous innovation.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Center Logo Image Placeholder -->
+      <div
+        class="w-[200px] h-[200px] lg:w-[260px] lg:h-[260px] rounded-full flex flex-col items-center justify-center shrink-0 overflow-hidden">
+        <img src="assets/logo/nestbig.png" alt="NEST Cluster Logo Art" class="w-full h-full object-contain" />
+      </div>
+
+      <!-- Leaf Motif -->
+      <div
+        class="bg-white border border-[#f3f4f6] flex flex-col items-center p-6 rounded-[10px] shadow-sm w-full max-w-[389px]">
+        <div class="flex items-center justify-center gap-4">
+          <img src="assets/logo/leaf.png" alt="Leaf Motif" class="w-[56px] h-[56px] object-contain" />
+          <p class="font-['Inter'] font-semibold text-[#6ea300] text-[24px]">
+            Leaf Motif
+          </p>
+        </div>
+        <div class="font-['Inter'] font-normal text-[#677461] text-[16px] text-center mt-4 w-full leading-relaxed">
+          <p>
+            Represents
+            <span class="font-semibold text-[#6ea300]">biodegradable plastics and green technologies.</span>
+          </p>
+          <p>
+            Reinforces the
+            <span class="font-semibold text-[#6ea300]">eco-friendly, sustainable focus.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Column (Bamboo + Circuit Lines) -->
+    <div class="flex flex-col gap-8 w-full max-w-[389px]">
+      <!-- Bamboo -->
+      <div class="bg-white border border-[#f3f4f6] flex flex-col items-center p-6 rounded-[10px] shadow-sm w-full">
+        <div class="flex items-center justify-center gap-4">
+          <img src="assets/logo/bamboo.png" alt="Bamboo" class="w-[56px] h-[56px] object-contain" />
+          <p class="font-['Inter'] font-semibold text-[#2b8d1c] text-[24px]">
+            Bamboo
+          </p>
+        </div>
+        <div class="font-['Inter'] font-normal text-[#677461] text-[16px] text-center mt-4 w-full leading-relaxed">
+          <p>
+            Highlights the
+            <span class="font-semibold text-[#2b8d1c]">Centre of Excellence in Bamboo Technology.</span>
+          </p>
+          <p>
+            Symbolizes
+            <span class="font-semibold text-[#2b8d1c]">sustainability, tradition, and eco-friendliness.</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Circuit Lines -->
+      <div class="bg-white border border-[#f3f4f6] flex flex-col items-center p-6 rounded-[10px] shadow-sm w-full">
+        <div class="flex items-center justify-center gap-4">
+          <img src="assets/logo/circuit.png" alt="Circuit Lines" class="w-[56px] h-[56px] object-contain" />
+          <p class="font-['Inter'] font-semibold text-[#0077bc] text-[24px]">
+            Circuit Lines
+          </p>
+        </div>
+        <div class="font-['Inter'] font-normal text-[#677461] text-[16px] text-center mt-4 w-full leading-relaxed">
+          <p>
+            Represent
+            <span class="font-semibold text-[#0077bc]">AI, semiconductor, and advanced technology</span>
+            initiatives.
+          </p>
+          <p>
+            Convey the integration of
+            <span class="font-semibold text-[#0077bc]">nature with modern tech.</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bottom Details (Typography and Tagline) -->
+  <div class="flex flex-col items-center gap-14 max-w-[1199px] w-full pt-8">
+    <!-- Typography -->
+    <div class="flex flex-col gap-6 w-full items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-1 h-9 bg-[#204496] rounded"></div>
+        <h3 class="font-['Manrope'] font-regualr text-[#1b3a28] text-[32px]">
+          Typography
+        </h3>
+      </div>
+      <p class="font-['Manrope'] text-center text-[#464e42] text-[16px] md:text-[20px] max-w-[1100px] leading-relaxed">
+        <span class="font-['Inter'] font-semibold text-[#176637]">“NEST”</span>
+        <span class="font-['Inter'] font-normal">
+          is styled in a bold modern font symbolizing
+        </span>
+        <span class="font-['Inter'] font-semibold">trust, professionalism, and vision</span>
+        <span class="font-['Inter'] font-normal">. The green color embodies
+        </span>
+        <span class="font-['Inter'] font-semibold">growth, nature, and sustainability</span>
+        <span class="font-['Inter'] font-normal">, while the full name below
+        </span>
+        <span class="font-['Inter'] font-semibold">North Eastern Science and Technology Cluster</span>
+        <span class="font-['Inter'] font-normal">
+          maintains a formal, institutional identity.</span>
+      </p>
+    </div>
+
+    <!-- Tagline -->
+    <div class="flex flex-col gap-6 w-full items-center">
+      <div class="flex items-center gap-3">
+        <div class="w-1 h-9 bg-[#204496] rounded"></div>
+        <h3 class="font-['Manrope'] font-regular text-[#1b3a28] text-[32px]">
+          Tagline
+        </h3>
+      </div>
+      <p class="font-['Manrope'] font-semibold text-[20px] text-center">
+        <span class="text-[#166438]">Innovation </span>
+        <span>· </span>
+        <span class="text-[#0016d8]">Sustainability </span>
+        <span>· </span>
+        <span class="text-[#b65200]">Technology</span>
+        <span> · Growth</span>
+      </p>
+      <p class="font-['Inter'] font-normal text-[#464e42] text-[20px] text-center max-w-[753px]">
+        Capturing the mission and vision of the cluster in four key values.
+      </p>
+    </div>
+  </div>
+</section>
+
+<section class="w-full flex flex-col mt-16 gap-8 items-center py-20 bg-[#f9f6ef]/50 px-4 sm:px-10">
+  <!-- Heading -->
+  <div class="w-full flex flex-col items-center text-center gap-[12px]">
+    <span class="font-['Inter'] font-normal text-[#887103] text-[18px]">FAQs</span>
+    <div class="flex flex-col gap-[8px] items-center">
+      <h1 class="font-['Cormorant_Garamond',serif] text-[#1b3a28] text-[36px] md:text-[52px] leading-tight">
+        Have Questions? We’ve Got Answers
+      </h1>
+      <svg xmlns="http://www.w3.org/2000/svg" width="222" height="31" viewBox="0 0 222 31" fill="none"
+        class="w-[160px] sm:w-[180px] lg:w-[222px] h-auto mt-1">
+        <path
+          d="M114.309 14.8098V23.2947C114.309 23.2947 117.242 22.1091 123.1 22.1091H160.468C166.329 22.1091 169.258 23.2947 169.258 23.2947V14.8098C169.258 14.8098 166.329 15.9953 160.468 15.9953H123.1C117.243 15.9954 114.309 14.8098 114.309 14.8098Z"
+          fill="#218D00" />
+        <path
+          d="M184.633 22.109H222V15.9953H184.633C178.771 15.9953 175.838 14.8098 175.838 14.8098V23.2947C175.838 23.2947 178.771 22.109 184.633 22.109Z"
+          fill="#218D00" />
+        <path
+          d="M37.3671 15.9954H0.000110626V22.1091H37.3671C43.2289 22.1091 46.1616 23.2947 46.1616 23.2947V14.8098C46.1616 14.8098 43.2289 15.9954 37.3671 15.9954Z"
+          fill="#218D00" />
+        <path
+          d="M61.5555 22.1091H98.9187C104.78 22.1091 107.709 23.2947 107.709 23.2947V14.8098C107.709 14.8098 104.78 15.9953 98.9187 15.9953H61.5555C55.6904 15.9953 52.7614 14.8098 52.7614 14.8098V23.2947C52.7614 23.2947 55.69 22.1091 61.5555 22.1091Z"
+          fill="#218D00" />
+        <path
+          d="M156.281 9.16582L162.631 6.8146C166.066 5.54098 171.174 3.42571 168.946 1.13586C158.783 1.78677 152.79 3.78594 149.355 5.05946L143.009 7.41078C139.574 8.68264 134.463 10.7997 136.694 13.0878C146.853 12.4385 152.85 10.4393 156.281 9.16582Z"
+          fill="#C9A700" />
+        <path
+          d="M165.524 9.95625C160.938 10.3929 153.677 11.175 150.509 12.7724C157.923 13.3618 165.483 12.7358 170.069 12.2991L178.538 11.4938C183.127 11.0587 190.385 10.275 193.557 8.67931C186.143 8.08822 178.582 8.71414 173.992 9.15088L165.524 9.95625Z"
+          fill="#C9A700" />
+        <path
+          d="M136.14 6.06893L135.326 4.03659C134.887 2.93567 133.796 1.1656 127.935 0C123.086 1.3749 123.412 3.1598 123.855 4.26237L124.665 6.29316C125.1 7.39407 126.195 9.1657 132.056 10.3314C136.905 8.9565 136.578 7.16985 136.14 6.06893Z"
+          fill="#C9A700" />
+        <path
+          d="M76.0028 27.5093C78.6658 28.1103 83.1771 29.0386 89.1812 29.0983C89.0388 27.7682 84.9434 26.7504 82.2808 26.1477L77.3603 25.0351C74.6977 24.4341 70.1865 23.5059 64.1824 23.4462C64.3247 24.7762 68.4202 25.794 71.0827 26.3968L76.0028 27.5093Z"
+          fill="#C9A700" />
+        <path
+          d="M68.5446 28.5525L67.772 27.4051C67.3519 26.784 66.4594 25.7878 62.9568 25.1718C60.4141 25.9871 60.8791 26.9983 61.2954 27.6193L62.0718 28.765C62.4918 29.3876 63.3843 30.3822 66.887 31C69.4259 30.1831 68.9646 29.1735 68.5446 28.5525Z"
+          fill="#C9A700" />
+        <path
+          d="M82.7847 22.9617C79.9873 22.857 75.4348 22.7342 71.692 23.2788C74.4032 24.0659 78.8845 24.285 81.6787 24.3913L86.8427 24.5856C89.6401 24.6918 94.193 24.8148 97.9321 24.27C95.2204 23.4813 90.7391 23.2639 87.945 23.1576L82.7847 22.9617Z"
+          fill="#C9A700" />
       </svg>
     </div>
   </div>
@@ -513,27 +1064,14 @@
   <!-- FAQ Container -->
   <div class="w-full max-w-5xl space-y-5">
     <!-- Item -->
-    <details
-      class="group bg-white rounded-xl px-6 py-5 transition-all duration-200"
-    >
+    <details class="group bg-white rounded-xl px-6 py-5 transition-all duration-200">
       <summary
-        class="flex justify-between items-center cursor-pointer list-none text-[#464E42] text-lg sm:text-xl font-normal"
-      >
+        class="flex justify-between items-center cursor-pointer list-none text-[#464E42] text-lg sm:text-xl font-normal">
         Who is Eligible for the Program ?
 
         <span class="transition-transform duration-300 group-open:rotate-180">
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="#4b5563"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
-            <path
-              d="M6 9l6 6 6-6"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round" />
           </svg>
         </span>
       </summary>
@@ -545,22 +1083,12 @@
     </details>
 
     <!-- Item -->
-    <details
-      class="group bg-white rounded-xl px-6 py-5 transition-all duration-200"
-    >
-      <summary
-        class="flex justify-between items-center cursor-pointer list-none text-[#464E42]  text-lg sm:text-xl"
-      >
+    <details class="group bg-white rounded-xl px-6 py-5 transition-all duration-200">
+      <summary class="flex justify-between items-center cursor-pointer list-none text-[#464E42] text-lg sm:text-xl">
         What Support Does the Cluster Offer?
 
         <span class="transition-transform duration-300 group-open:rotate-180">
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="#4b5563"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">
             <path d="M6 9l6 6 6-6" />
           </svg>
         </span>
@@ -572,22 +1100,12 @@
     </details>
 
     <!-- Item -->
-    <details
-      class="group bg-white rounded-xl px-6 py-5 transition-all duration-200"
-    >
-      <summary
-        class="flex justify-between items-center cursor-pointer list-none text-[#464E42] text-lg sm:text-xl"
-      >
+    <details class="group bg-white rounded-xl px-6 py-5 transition-all duration-200">
+      <summary class="flex justify-between items-center cursor-pointer list-none text-[#464E42] text-lg sm:text-xl">
         How Can Institutions Participate?
 
         <span class="transition-transform duration-300 group-open:rotate-180">
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="#4b5563"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">
             <path d="M6 9l6 6 6-6" />
           </svg>
         </span>
@@ -600,22 +1118,12 @@
     </details>
 
     <!-- Item -->
-    <details
-      class="group bg-white rounded-xl px-6 py-5 transition-all duration-200"
-    >
-      <summary
-        class="flex justify-between items-center cursor-pointer list-none text-[#464E42] text-lg sm:text-xl"
-      >
+    <details class="group bg-white rounded-xl px-6 py-5 transition-all duration-200">
+      <summary class="flex justify-between items-center cursor-pointer list-none text-[#464E42] text-lg sm:text-xl">
         What Are the Main Objectives?
 
         <span class="transition-transform duration-300 group-open:rotate-180">
-          <svg
-            class="w-5 h-5"
-            fill="none"
-            stroke="#4b5563"
-            stroke-width="2"
-            viewBox="0 0 24 24"
-          >
+          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">
             <path d="M6 9l6 6 6-6" />
           </svg>
         </span>
@@ -627,6 +1135,3 @@
     </details>
   </div>
 </section>
-
-
-

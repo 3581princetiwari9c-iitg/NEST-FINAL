@@ -65,7 +65,7 @@ function initHeroCarousel() {
     return `
       <div class="hero-slide relative shrink-0 rounded-[36px] sm:rounded-[40px] overflow-hidden shadow-xl flex items-center" style="width: 1180px; max-width: 80vw; height: 100%; background-color: ${bgCol};" data-index="${index}" data-orig="${slide.origIndex}">
         <!-- Text Content -->
-        <div class="hero-text-content relative z-10 flex flex-col justify-center gap-[16px]  w-full max-w-[1000px] text-white  px-[24px] sm:px-[48px]">
+        <div class="hero-text-content relative z-10 flex flex-col justify-center gap-[16px] w-full max-w-[1000px] text-white px-[24px] sm:px-[48px] pt-[50px]">
           <div class="font-['Inter'] font-semibold leading-[1.1] text-[42px] md:text-[64px] tracking-tight  text-white mb-2">
             <p class="m-0">${slide.title1}</p>
             <p class="m-0 text-[#fad457]">${slide.title2}</p>
