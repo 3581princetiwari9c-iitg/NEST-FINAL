@@ -41,17 +41,37 @@
                         <a href="#clusteractivities"
                             class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Cluster
                             Activities</a>
-                        <a href="#leadership"
-                            class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Leadership</a>
-                        <a href="#scientificteam"
-                            class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Scientific
-                            Team</a>
-                        <a href="#executiveteam"
-                            class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors rounded-b-md">Executive
-                            Team</a>
+                        
                     </div>
                 </div>
 
+                <!-- Dropdown: About Us (Active State Example) -->
+              <div class="relative group">
+                <button
+                  class="flex items-center gap-[5px] text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap focus:outline-none">
+                  Administrative
+                  <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none"
+                       stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                    </path>
+                  </svg>
+                </button>
+                <!-- Dropdown Menu -->
+                <div
+                  class="absolute top-[100%] left-0 mt-[10px] w-48 bg-white shadow-[0px_4px_10px_rgba(0,0,0,0.1)] rounded-md border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                  <!-- Invisible hover bridge -->
+                  <div class="absolute -top-[10px] left-0 w-full h-[10px]"></div>
+                  <a href="#leadership"
+                     class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Leadership</a>
+                  <a href="#scientificteam"
+                     class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors">Scientific
+                                                                                                                                           Team</a>
+                  <a href="#executiveteam"
+                     class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors rounded-b-md">Executive
+                                                                                                                                                        Team</a>
+                </div>
+              </div>
+              
                 <a href="#"
                     class="text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap">Gallery</a>
                 <a href="#startups"
@@ -145,17 +165,27 @@
                     <a href="#clusteractivities"
                         class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Cluster
                         Activities</a>
-                    <a href="#leadership"
-                        class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Leadership</a>
-                    <a href="#scientificteam"
-                        class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Scientific
-                        Team</a>
-                    <a href="#executiveteam"
-                        class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Executive
-                        Team</a>
                 </div>
             </div>
-
+            <div class="px-3 py-2">
+            <div
+              class="flex items-center justify-between font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors text-base mb-1 cursor-pointer js-accordion-toggle">
+              Administrative
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+              </svg>
+            </div>
+            <div class="pl-4 flex flex-col gap-1 hidden mt-2">
+              <a href="#leadership"
+                 class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Leadership</a>
+              <a href="#scientificteam"
+                 class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Scientific
+                                                                                                                 Team</a>
+              <a href="#executiveteam"
+                 class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Executive
+                                                                                                                 Team</a>
+            </div>
+          </div>
             <a href="#"
                 class="block px-3 py-2 text-base font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] hover:bg-gray-50 rounded-md transition-colors">Gallery</a>
             <a href="#startups"
@@ -208,5 +238,10 @@
             </div>
         </div>
     </div>
+  <div
+    class="w-full font-['Inter'] text-[16px] text-white flex justify-center font-semibold py-[9px] bg-gradient-to-r from-[#1B3A28] to-[#4AA06E]"
+  >
+    North Eastern Science & Technology (NEST) Cluster
+  </div>
 </header>
 <!-- End Navbar Component -->
