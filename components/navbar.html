@@ -61,14 +61,33 @@
                     </div>
                 </div>
               
-                <a href="#"
-                    class="text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap">Gallery</a>
+                <!-- Dropdown: Media -->
+                <div class="relative group">
+                    <button
+                        class="flex items-center gap-[5px] text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap focus:outline-none">
+                        Media
+                        <svg class="w-4 h-4 transition-transform group-hover:rotate-180" fill="none"
+                            stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7">
+                            </path>
+                        </svg>
+                    </button>
+                    <!-- Dropdown Menu -->
+                    <div
+                        class="absolute top-[100%] left-0 mt-[10px] w-48 bg-white shadow-[0px_4px_10px_rgba(0,0,0,0.1)] rounded-md border border-gray-100 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 z-50">
+                        <!-- Invisible hover bridge -->
+                        <div class="absolute -top-[10px] left-0 w-full h-[10px]"></div>
+                        <a href="#gallery"
+                            class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors rounded-t-md">Gallery</a>
+                        <a href="#newsletter"
+                            class="block px-4 py-3 text-sm font-['Inter'] text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] transition-colors rounded-b-md">Newsletter</a>
+                    </div>
+                </div>
+
                 <a href="#startups"
                     class="text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap">Startup</a>
                 <a href="#"
                     class="text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap">Event</a>
-                <a href="#"
-                    class="text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap">Newsletter</a>
                 <a href="#"
                     class="text-[#677461] hover:text-[#2d5a3d] transition-colors font-['Inter'] text-[16px] font-normal leading-normal whitespace-nowrap">Verticals</a>
                 <a href="#contact"
@@ -173,14 +192,27 @@
                     </div>
                 </div>
             </div>
-            <a href="#"
-                class="block px-3 py-2 text-base font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] hover:bg-gray-50 rounded-md transition-colors">Gallery</a>
+            <!-- Mobile Dropdown: Media -->
+            <div class="px-3 py-2">
+                <div
+                    class="flex items-center justify-between font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors text-base mb-1 cursor-pointer js-accordion-toggle">
+                    Media
+                    <svg class="w-4 h-4 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                    </svg>
+                </div>
+                <div class="pl-4 flex flex-col gap-1 hidden mt-2">
+                    <a href="#gallery"
+                        class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Gallery</a>
+                    <a href="#newsletter"
+                        class="block py-2 text-sm font-['Inter'] text-[#677461] hover:text-[#2d5a3d] transition-colors">Newsletter</a>
+                </div>
+            </div>
+
             <a href="#startups"
                 class="block px-3 py-2 text-base font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] hover:bg-gray-50 rounded-md transition-colors">Startup</a>
             <a href="#"
                 class="block px-3 py-2 text-base font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] hover:bg-gray-50 rounded-md transition-colors">Event</a>
-            <a href="#"
-                class="block px-3 py-2 text-base font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] hover:bg-gray-50 rounded-md transition-colors">Newsletter</a>
             <a href="#"
                 class="block px-3 py-2 text-base font-medium font-['Inter'] text-[#677461] hover:text-[#2d5a3d] hover:bg-gray-50 rounded-md transition-colors">Verticals</a>
             <a href="#contact"

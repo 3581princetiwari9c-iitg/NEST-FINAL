@@ -168,6 +168,29 @@ document.addEventListener('DOMContentLoaded', () => {
           mainContent.innerHTML =
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
+    } else if (hash === '#eventcomplete') {
+      mainContent.innerHTML =
+        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+
+      fetch(`/pages/Program/eventcompleted/eventcomplete.html`)
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
     } else if (hash === '#event-detail') {
       mainContent.innerHTML =
         '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
@@ -196,6 +219,52 @@ document.addEventListener('DOMContentLoaded', () => {
         '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
 
       fetch(`/pages/market.html`)
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
+    } else if (hash === '#gallery') {
+      mainContent.innerHTML =
+        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+
+      fetch(`/pages/gallery.html`)
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
+    } else if (hash === '#newsletter') {
+      mainContent.innerHTML =
+        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+
+      fetch(`/pages/newsletter.html`)
         .then((res) => {
           if (!res.ok) throw new Error('Failed to load page');
           return res.text();
