@@ -1,260 +1,358 @@
-<!--<section class="relative w-full h-[750px] sm:h-[800px] overflow-hidden flex flex-col items-center justify-center bg-[#f9fafa]">-->
-<!--  -->
-<!--  <style>-->
-<!--    /* Hide scrollbar for the track */-->
-<!--    .hero-track-container {-->
-<!--      scrollbar-width: none;-->
-<!--      -ms-overflow-style: none;-->
-<!--    }-->
-<!--    .hero-track-container::-webkit-scrollbar {-->
-<!--      display: none;-->
-<!--    }-->
+<section class="relative w-full h-[750px] sm:h-[800px] overflow-hidden flex flex-col items-center justify-center bg-[#f9fafa]">
+  
+  <style>
+    /* Hide scrollbar for the track */
+    .hero-track-container {
+      scrollbar-width: none;
+      -ms-overflow-style: none;
+    }
+    .hero-track-container::-webkit-scrollbar {
+      display: none;
+    }
 
-<!--    .hero-slide {-->
-<!--      transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);-->
-<!--      transform: scale(0.92);-->
-<!--      opacity: 0.7;-->
-<!--      filter: grayscale(20%);-->
-<!--    }-->
+    .hero-slide {
+      transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+      transform: scale(0.92);
+      opacity: 0.7;
+      filter: grayscale(20%);
+    }
 
-<!--    .hero-slide.is-active {-->
-<!--      transform: scale(1);-->
-<!--      opacity: 1;-->
-<!--      filter: grayscale(0%);-->
-<!--    }-->
+    .hero-slide.is-active {
+      transform: scale(1);
+      opacity: 1;
+      filter: grayscale(0%);
+    }
 
-<!--    /* Text overlay transitions */-->
-<!--    .hero-slide .hero-text-content {-->
-<!--      opacity: 0;-->
-<!--      transform: translateY(20px);-->
-<!--      transition: all 0.5s ease-out 0.3s;-->
-<!--    }-->
+    /* Text overlay transitions */
+    .hero-slide .hero-text-content {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.5s ease-out 0.3s;
+    }
 
-<!--    .hero-slide.is-active .hero-text-content {-->
-<!--      opacity: 1;-->
-<!--      transform: translateY(0);-->
-<!--    }-->
-<!--    -->
-<!--    /* Progress Bar Animation */-->
-<!--    @keyframes progressFill {-->
-<!--      0% { width: 0%; }-->
-<!--      100% { width: 100%; }-->
-<!--    }-->
-<!--    -->
-<!--    .progress-bar-fill {-->
-<!--      animation: progressFill 3s linear infinite;-->
-<!--    }-->
-<!--    -->
-<!--    .pause-animation {-->
-<!--      animation: none !important;-->
-<!--    }-->
-<!--  </style>-->
+    .hero-slide.is-active .hero-text-content {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Progress Bar Animation */
+    @keyframes progressFill {
+      0% { width: 0%; }
+      100% { width: 100%; }
+    }
+    
+    .progress-bar-fill {
+      animation: progressFill 3s linear infinite;
+    }
+    
+    .pause-animation {
+      animation: none !important;
+    }
+  </style>
 
-<!--  &lt;!&ndash; The Track &ndash;&gt;-->
-<!--  <div class="w-full flex justify-center overflow-hidden px-6">-->
-<!--    <div id="hero-carousel-track" class="flex items-center h-full transition-transform duration-700 ease-in-out gap-[24px] sm:gap-[40px]" style="transform: translateX(0px);">-->
-<!--      &lt;!&ndash; Slides injected via JS &ndash;&gt;-->
-<!--    </div>-->
-<!--  </div>-->
+  <!-- The Track -->
+  <div class="w-full flex justify-center overflow-hidden px-6">
+    <div id="hero-carousel-track" class="flex items-center h-full transition-transform duration-700 ease-in-out gap-[24px] sm:gap-[40px]" style="transform: translateX(0px);">
+      <!-- Slides injected via JS -->
+    </div>
+  </div>
 
-<!--  &lt;!&ndash; Progress Indicators &ndash;&gt;-->
-<!--  <div class="absolute bottom-[16px] left-1/2 -translate-x-1/2 flex gap-3 z-20">-->
-<!--    <div class="h-1.5 w-16 bg-white/30 rounded-full overflow-hidden">-->
-<!--      <div id="hero-progress-1" class="h-full bg-white w-0 duration-300"></div>-->
-<!--    </div>-->
-<!--    <div class="h-1.5 w-16 bg-white/30 rounded-full overflow-hidden">-->
-<!--      <div id="hero-progress-2" class="h-full bg-white w-0 duration-300"></div>-->
-<!--    </div>-->
-<!--    <div class="h-1.5 w-16 bg-white/30 rounded-full overflow-hidden">-->
-<!--      <div id="hero-progress-3" class="h-full bg-white w-0 duration-300"></div>-->
-<!--    </div>-->
-<!--    <div class="h-1.5 w-16 bg-white/30 rounded-full overflow-hidden">-->
-<!--      <div id="hero-progress-4" class="h-full bg-white w-0 duration-300"></div>-->
-<!--    </div>-->
-<!--    <div class="h-1.5 w-16 bg-white/30 rounded-full overflow-hidden">-->
-<!--      <div id="hero-progress-5" class="h-full bg-white w-0 duration-300"></div>-->
-<!--    </div>-->
-<!--  </div>-->
+  <!-- Progress Indicators -->
+  <div class="absolute bottom-[16px] left-1/2 -translate-x-1/2 flex gap-3 z-20">
+    <div class="h-1.5 w-16 bg-white/30 rounded-full overflow-hidden">
+      <div id="hero-progress-1" class="h-full bg-white w-0 duration-300"></div>
+    </div>
+    <div class="h-1.5 w-16 bg-white/30 rounded-full overflow-hidden">
+      <div id="hero-progress-2" class="h-full bg-white w-0 duration-300"></div>
+    </div>
+    <div class="h-1.5 w-16 bg-white/30 rounded-full overflow-hidden">
+      <div id="hero-progress-3" class="h-full bg-white w-0 duration-300"></div>
+    </div>
+    <div class="h-1.5 w-16 bg-white/30 rounded-full overflow-hidden">
+      <div id="hero-progress-4" class="h-full bg-white w-0 duration-300"></div>
+    </div>
+    <div class="h-1.5 w-16 bg-white/30 rounded-full overflow-hidden">
+      <div id="hero-progress-5" class="h-full bg-white w-0 duration-300"></div>
+    </div>
+  </div>
 
-<!--</section>-->
+</section>
 
-<!--<section class="w-full flex flex-col items-center pt-[60px] sm:pt-[100px] bg-[#F0F7F0] pb-[60px]">-->
-<!--  -->
-<!--  <style>-->
-<!--    @keyframes marqueeScroll {-->
-<!--      0% { transform: translateX(0); }-->
-<!--      100% { transform: translateX(calc(-50% - 16px)); } /* Accommodate for half the gap gap-[32px] */-->
-<!--    }-->
-<!--    .animate-marquee-scroll {-->
-<!--      animation: marqueeScroll 25s linear infinite;-->
-<!--      width: max-content;-->
-<!--    }-->
-<!--    .animate-marquee-scroll:hover {-->
-<!--      animation-play-state: paused;-->
-<!--    }-->
-<!--  </style>-->
+<section class="w-full flex flex-col items-center pt-[60px] sm:pt-[100px] bg-[#F0F7F0] pb-[60px]">
+  
+  <style>
+    @keyframes marqueeScroll {
+      0% { transform: translateX(0); }
+      100% { transform: translateX(calc(-50% - 16px)); } /* Accommodate for half the gap gap-[32px] */
+    }
+    .animate-marquee-scroll {
+      animation: marqueeScroll 25s linear infinite;
+      width: max-content;
+    }
+    .animate-marquee-scroll:hover {
+      animation-play-state: paused;
+    }
+  </style>
 
-<!--  &lt;!&ndash; Stats Grid &ndash;&gt;-->
-<!--  <div class="flex flex-wrap justify-between items-center mb-[80px] w-full max-w-[1440px] px-6 sm:px-[120px] text-center sm:text-left gap-10">-->
-<!--    <div class="flex flex-col gap-[10px] relative">-->
-<!--      <p class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0">100+</p>-->
-<!--      <p class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0">Startup</p>-->
-<!--    </div>-->
-<!--    <div class="flex flex-col gap-[10px] relative">-->
-<!--      <p class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0">32+</p>-->
-<!--      <p class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0">Institutions</p>-->
-<!--    </div>-->
-<!--    <div class="flex flex-col gap-[10px] relative">-->
-<!--      <p class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0">43+</p>-->
-<!--      <p class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0">Partners</p>-->
-<!--    </div>-->
-<!--    <div class="flex flex-col gap-[10px] relative">-->
-<!--      <p class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0">1.8 Cr+</p>-->
-<!--      <p class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0">Invested</p>-->
-<!--    </div>-->
-<!--  </div>-->
+  <!-- Stats Grid -->
+  <div class="flex flex-wrap justify-between items-center mb-[80px] w-full max-w-[1440px] px-6 sm:px-[120px] text-center sm:text-left gap-10">
+    <div class="flex flex-col gap-[10px] relative">
+      <p class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0">100+</p>
+      <p class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0">Startup</p>
+    </div>
+    <div class="flex flex-col gap-[10px] relative">
+      <p class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0">32+</p>
+      <p class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0">Institutions</p>
+    </div>
+    <div class="flex flex-col gap-[10px] relative">
+      <p class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0">43+</p>
+      <p class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0">Partners</p>
+    </div>
+    <div class="flex flex-col gap-[10px] relative">
+      <p class="font-['Inter'] font-bold text-[#1b3a28] text-[60px] sm:text-[72px] leading-tight m-0">1.8 Cr+</p>
+      <p class="font-['Inter'] font-normal text-[#677461] text-[24px] sm:text-[32px] leading-tight m-0">Invested</p>
+    </div>
+  </div>
 
-<!--  &lt;!&ndash; Moving Slider Animation Container &ndash;&gt;-->
-<!--  <div class="relative w-full h-[300px] sm:h-[400px] overflow-hidden bg-[#F0F7F0]">-->
-<!--    -->
-<!--    &lt;!&ndash; Slanted SVG Mask Top &ndash;&gt;-->
-<!--    &lt;!&ndash; Matches background color to simulate the pinch mask. Points slightly downwards in the middle &ndash;&gt;-->
-<!--    <svg class="absolute top-0 left-0 w-full h-[30px] sm:h-[66px] z-10 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 1440 66" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-<!--      <path d="M0 0 L1440 0 L1440 30 L720 66 L0 30 Z" fill="#F0F7F0" />-->
-<!--    </svg>-->
+  <!-- Moving Slider Animation Container -->
+  <div class="relative w-full h-[300px] sm:h-[400px] overflow-hidden bg-[#F0F7F0]">
+    
+    <!-- Slanted SVG Mask Top -->
+    <!-- Matches background color to simulate the pinch mask. Points slightly downwards in the middle -->
+    <svg class="absolute top-0 left-0 w-full h-[30px] sm:h-[66px] z-10 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 1440 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 0 L1440 0 L1440 30 L720 66 L0 30 Z" fill="#F0F7F0" />
+    </svg>
 
-<!--    &lt;!&ndash; Slanted SVG Mask Bottom &ndash;&gt;-->
-<!--    &lt;!&ndash; Matches background color. Points slightly upwards in the middle &ndash;&gt;-->
-<!--    <svg class="absolute bottom-0 left-0 w-full h-[30px] sm:h-[66px] z-10 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 1440 66" fill="none" xmlns="http://www.w3.org/2000/svg">-->
-<!--      <path d="M0 66 L1440 66 L1440 36 L720 0 L0 36 Z" fill="#F0F7F0" />-->
-<!--    </svg>-->
+    <!-- Slanted SVG Mask Bottom -->
+    <!-- Matches background color. Points slightly upwards in the middle -->
+    <svg class="absolute bottom-0 left-0 w-full h-[30px] sm:h-[66px] z-10 pointer-events-none" preserveAspectRatio="none" viewBox="0 0 1440 66" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0 66 L1440 66 L1440 36 L720 0 L0 36 Z" fill="#F0F7F0" />
+    </svg>
 
-<!--    &lt;!&ndash; Track &ndash;&gt;-->
-<!--    <div class="animate-marquee-scroll flex items-center h-full gap-[32px] px-[16px]">-->
-<!--      -->
-<!--      &lt;!&ndash; Original Set (5 placeholders) &ndash;&gt;-->
-<!--      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-red-200 shrink-0 relative">-->
-<!--         <img src="" alt="" class="w-full h-full object-cover" />-->
-<!--      </div>-->
-<!--      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-blue-200 shrink-0 relative">-->
-<!--         <img src="" alt="" class="w-full h-full object-cover" />-->
-<!--      </div>-->
-<!--      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-green-200 shrink-0 relative">-->
-<!--         <img src="" alt="" class="w-full h-full object-cover" />-->
-<!--      </div>-->
-<!--      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-yellow-200 shrink-0 relative">-->
-<!--         <img src="" alt="" class="w-full h-full object-cover" />-->
-<!--      </div>-->
-<!--      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-purple-200 shrink-0 relative">-->
-<!--         <img src="" alt="" class="w-full h-full object-cover" />-->
-<!--      </div>-->
+    <!-- Track -->
+    <div class="animate-marquee-scroll flex items-center h-full gap-[32px] px-[16px]">
+      
+      <!-- Original Set (5 placeholders) -->
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-red-200 shrink-0 relative">
+         <img src="" alt="" class="w-full h-full object-cover" />
+      </div>
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-blue-200 shrink-0 relative">
+         <img src="" alt="" class="w-full h-full object-cover" />
+      </div>
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-green-200 shrink-0 relative">
+         <img src="" alt="" class="w-full h-full object-cover" />
+      </div>
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-yellow-200 shrink-0 relative">
+         <img src="" alt="" class="w-full h-full object-cover" />
+      </div>
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-purple-200 shrink-0 relative">
+         <img src="" alt="" class="w-full h-full object-cover" />
+      </div>
 
-<!--      &lt;!&ndash; Duplicated Set for Seamless Looping (5 placeholders) &ndash;&gt;-->
-<!--      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-red-200 shrink-0 relative">-->
-<!--         <img src="" alt="" class="w-full h-full object-cover" />-->
-<!--      </div>-->
-<!--      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-blue-200 shrink-0 relative">-->
-<!--         <img src="" alt="" class="w-full h-full object-cover" />-->
-<!--      </div>-->
-<!--      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-green-200 shrink-0 relative">-->
-<!--         <img src="" alt="" class="w-full h-full object-cover" />-->
-<!--      </div>-->
-<!--      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-yellow-200 shrink-0 relative">-->
-<!--         <img src="" alt="" class="w-full h-full object-cover" />-->
-<!--      </div>-->
-<!--      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-purple-200 shrink-0 relative">-->
-<!--         <img src="" alt="" class="w-full h-full object-cover" />-->
-<!--      </div>-->
+      <!-- Duplicated Set for Seamless Looping (5 placeholders) -->
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-red-200 shrink-0 relative">
+         <img src="" alt="" class="w-full h-full object-cover" />
+      </div>
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-blue-200 shrink-0 relative">
+         <img src="" alt="" class="w-full h-full object-cover" />
+      </div>
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-green-200 shrink-0 relative">
+         <img src="" alt="" class="w-full h-full object-cover" />
+      </div>
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-yellow-200 shrink-0 relative">
+         <img src="" alt="" class="w-full h-full object-cover" />
+      </div>
+      <div class="h-full w-[250px] sm:w-[327px] rounded-[22px] overflow-hidden bg-purple-200 shrink-0 relative">
+         <img src="" alt="" class="w-full h-full object-cover" />
+      </div>
 
-<!--    </div>-->
-<!--  </div>-->
-<!--</section>-->
+    </div>
+  </div>
+</section>
 
-<!--<<section class="w-full flex flex-col items-center py-20 bg-[#dcdcdc] px-4 sm:px-10">-->
+<<section class="w-full flex flex-col items-center py-20 bg-[#dcdcdc] px-4 sm:px-10">
 
-<!--  &lt;!&ndash; Heading &ndash;&gt;-->
-<!--  <div class="text-center mb-14">-->
-<!--    <p class="text-sm text-[#a68b00] mb-2">FAQs</p>-->
+  <!-- Heading -->
+  <div class="text-center mb-14">
+    <p class="text-sm text-[#a68b00] mb-2">FAQs</p>
 
-<!--    <h2 class="text-3xl sm:text-5xl font-serif text-[#1f3d2b] leading-tight">-->
-<!--      Have Questions? We’ve Got Answers-->
-<!--    </h2>-->
+    <h2 class="text-3xl sm:text-5xl font-serif text-[#1f3d2b] leading-tight">
+      Have Questions? We’ve Got Answers
+    </h2>
 
-<!--    &lt;!&ndash; Decorative line &ndash;&gt;-->
-<!--    <div class="w-40 h-[6px] mx-auto mt-4 bg-gradient-to-r from-green-700 via-yellow-400 to-green-700 rounded-full"></div>-->
-<!--  </div>-->
+    <!-- Decorative line -->
+    <div class="w-40 h-[6px] mx-auto mt-4 bg-gradient-to-r from-green-700 via-yellow-400 to-green-700 rounded-full"></div>
+  </div>
 
-<!--  &lt;!&ndash; FAQ Container &ndash;&gt;-->
-<!--  <div class="w-full max-w-5xl space-y-5">-->
+  <!-- FAQ Container -->
+  <div class="w-full max-w-5xl space-y-5">
 
-<!--    &lt;!&ndash; Item &ndash;&gt;-->
-<!--    <details class="group bg-[#eeeeee] rounded-xl px-6 py-5 transition-all duration-200">-->
+    <!-- Item -->
+    <details class="group bg-[#eeeeee] rounded-xl px-6 py-5 transition-all duration-200">
 
-<!--      <summary class="flex justify-between items-center cursor-pointer list-none text-[#4b5563] text-lg sm:text-xl font-normal">-->
-<!--        Who is Eligible for the Program ?-->
+      <summary class="flex justify-between items-center cursor-pointer list-none text-[#4b5563] text-lg sm:text-xl font-normal">
+        Who is Eligible for the Program ?
 
-<!--        <span class="transition-transform duration-300 group-open:rotate-180">-->
-<!--          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">-->
-<!--            <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>-->
-<!--          </svg>-->
-<!--        </span>-->
-<!--      </summary>-->
+        <span class="transition-transform duration-300 group-open:rotate-180">
+          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </summary>
 
-<!--      <div class="mt-4 text-[#6b7280] text-base leading-relaxed">-->
-<!--        Individuals, researchers, startups, and institutions from the North Eastern Region are eligible.-->
-<!--      </div>-->
-<!--    </details>-->
+      <div class="mt-4 text-[#6b7280] text-base leading-relaxed">
+        Individuals, researchers, startups, and institutions from the North Eastern Region are eligible.
+      </div>
+    </details>
 
-<!--    &lt;!&ndash; Item &ndash;&gt;-->
-<!--    <details class="group bg-[#eeeeee] rounded-xl px-6 py-5 transition-all duration-200">-->
-<!--      <summary class="flex justify-between items-center cursor-pointer list-none text-[#4b5563] text-lg sm:text-xl">-->
-<!--        What Support Does the Cluster Offer?-->
+    <!-- Item -->
+    <details class="group bg-[#eeeeee] rounded-xl px-6 py-5 transition-all duration-200">
+      <summary class="flex justify-between items-center cursor-pointer list-none text-[#4b5563] text-lg sm:text-xl">
+        What Support Does the Cluster Offer?
 
-<!--        <span class="transition-transform duration-300 group-open:rotate-180">-->
-<!--          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">-->
-<!--            <path d="M6 9l6 6 6-6"/>-->
-<!--          </svg>-->
-<!--        </span>-->
-<!--      </summary>-->
+        <span class="transition-transform duration-300 group-open:rotate-180">
+          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </span>
+      </summary>
 
-<!--      <div class="mt-4 text-[#6b7280] text-base leading-relaxed">-->
-<!--        Access to labs, funding, mentorship, networking, and training programs.-->
-<!--      </div>-->
-<!--    </details>-->
+      <div class="mt-4 text-[#6b7280] text-base leading-relaxed">
+        Access to labs, funding, mentorship, networking, and training programs.
+      </div>
+    </details>
 
-<!--    &lt;!&ndash; Item &ndash;&gt;-->
-<!--    <details class="group bg-[#eeeeee] rounded-xl px-6 py-5 transition-all duration-200">-->
-<!--      <summary class="flex justify-between items-center cursor-pointer list-none text-[#4b5563] text-lg sm:text-xl">-->
-<!--        How Can Institutions Participate?-->
+    <!-- Item -->
+    <details class="group bg-[#eeeeee] rounded-xl px-6 py-5 transition-all duration-200">
+      <summary class="flex justify-between items-center cursor-pointer list-none text-[#4b5563] text-lg sm:text-xl">
+        How Can Institutions Participate?
 
-<!--        <span class="transition-transform duration-300 group-open:rotate-180">-->
-<!--          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">-->
-<!--            <path d="M6 9l6 6 6-6"/>-->
-<!--          </svg>-->
-<!--        </span>-->
-<!--      </summary>-->
+        <span class="transition-transform duration-300 group-open:rotate-180">
+          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </span>
+      </summary>
 
-<!--      <div class="mt-4 text-[#6b7280] text-base leading-relaxed">-->
-<!--        Institutions can collaborate, join as partners, and participate in programs.-->
-<!--      </div>-->
-<!--    </details>-->
+      <div class="mt-4 text-[#6b7280] text-base leading-relaxed">
+        Institutions can collaborate, join as partners, and participate in programs.
+      </div>
+    </details>
 
-<!--    &lt;!&ndash; Item &ndash;&gt;-->
-<!--    <details class="group bg-[#eeeeee] rounded-xl px-6 py-5 transition-all duration-200">-->
-<!--      <summary class="flex justify-between items-center cursor-pointer list-none text-[#4b5563] text-lg sm:text-xl">-->
-<!--        What Are the Main Objectives?-->
+    <!-- Item -->
+    <details class="group bg-[#eeeeee] rounded-xl px-6 py-5 transition-all duration-200">
+      <summary class="flex justify-between items-center cursor-pointer list-none text-[#4b5563] text-lg sm:text-xl">
+        What Are the Main Objectives?
 
-<!--        <span class="transition-transform duration-300 group-open:rotate-180">-->
-<!--          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">-->
-<!--            <path d="M6 9l6 6 6-6"/>-->
-<!--          </svg>-->
-<!--        </span>-->
-<!--      </summary>-->
+        <span class="transition-transform duration-300 group-open:rotate-180">
+          <svg class="w-5 h-5" fill="none" stroke="#4b5563" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </span>
+      </summary>
 
-<!--      <div class="mt-4 text-[#6b7280] text-base leading-relaxed">-->
-<!--        Promote research, innovation, and entrepreneurship in key sectors.-->
-<!--      </div>-->
-<!--    </details>-->
+      <div class="mt-4 text-[#6b7280] text-base leading-relaxed">
+        Promote research, innovation, and entrepreneurship in key sectors.
+      </div>
+    </details>
 
-<!--  </div>-->
-<!--</section>-->
+  </div>
+</section>
+//home faq
+
+<section class="w-full flex flex-col items-center py-24 bg-gradient-to-b from-[#f8fafc] to-[#eef2f7] px-4 sm:px-10">
+
+  <!-- Heading -->
+  <div class="text-center mb-16 max-w-2xl">
+    <p class="text-sm tracking-widest text-[#c6a94a] uppercase mb-3">FAQs</p>
+    <h2 class="text-3xl sm:text-5xl font-semibold text-[#1f2937] leading-tight">
+      Got Questions? We’ve Got Answers
+    </h2>
+    <div class="w-24 h-1 bg-gradient-to-r from-green-500 via-yellow-400 to-green-500 mx-auto mt-4 rounded-full"></div>
+  </div>
+
+  <!-- FAQ Container -->
+  <div class="w-full max-w-3xl space-y-4">
+
+    <!-- FAQ Item -->
+    <details class="group bg-white/70 backdrop-blur-lg border border-gray-200 rounded-2xl p-5 shadow-md hover:shadow-lg transition duration-300">
+
+      <summary class="flex justify-between items-center cursor-pointer list-none">
+        <span class="text-lg font-medium text-gray-800">
+          Who is Eligible for the Program?
+        </span>
+
+        <span class="transition-transform duration-300 group-open:rotate-180">
+          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </summary>
+
+      <div class="mt-4 text-gray-600 text-sm leading-relaxed">
+        Individuals, researchers, startups, and institutions from the North Eastern Region are eligible to participate in the program.
+      </div>
+    </details>
+
+    <!-- FAQ Item -->
+    <details class="group bg-white/70 backdrop-blur-lg border border-gray-200 rounded-2xl p-5 shadow-md hover:shadow-lg transition duration-300">
+
+      <summary class="flex justify-between items-center cursor-pointer list-none">
+        <span class="text-lg font-medium text-gray-800">
+          What Support Does the Cluster Offer?
+        </span>
+
+        <span class="transition-transform duration-300 group-open:rotate-180">
+          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </span>
+      </summary>
+
+      <div class="mt-4 text-gray-600 text-sm leading-relaxed">
+        Access to labs, funding, mentorship, networking, and training programs to support innovation and entrepreneurship.
+      </div>
+    </details>
+
+    <!-- FAQ Item -->
+    <details class="group bg-white/70 backdrop-blur-lg border border-gray-200 rounded-2xl p-5 shadow-md hover:shadow-lg transition duration-300">
+
+      <summary class="flex justify-between items-center cursor-pointer list-none">
+        <span class="text-lg font-medium text-gray-800">
+          How Can Institutions Participate?
+        </span>
+
+        <span class="transition-transform duration-300 group-open:rotate-180">
+          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </span>
+      </summary>
+
+      <div class="mt-4 text-gray-600 text-sm leading-relaxed">
+        Institutions can join as partners, collaborate on research, and take part in innovation programs.
+      </div>
+    </details>
+
+    <!-- FAQ Item -->
+    <details class="group bg-white/70 backdrop-blur-lg border border-gray-200 rounded-2xl p-5 shadow-md hover:shadow-lg transition duration-300">
+
+      <summary class="flex justify-between items-center cursor-pointer list-none">
+        <span class="text-lg font-medium text-gray-800">
+          What Are the Main Objectives?
+        </span>
+
+        <span class="transition-transform duration-300 group-open:rotate-180">
+          <svg class="w-5 h-5 text-gray-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path d="M6 9l6 6 6-6"/>
+          </svg>
+        </span>
+      </summary>
+
+      <div class="mt-4 text-gray-600 text-sm leading-relaxed">
+        Promote research, entrepreneurship, skill development, and technology transfer in key sectors.
+      </div>
+    </details>
+
+  </div>
+</section>
