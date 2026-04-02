@@ -45,6 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
     const mainContent = document.getElementById('main-content');
 
+    // Always clear the home carousel interval conditionally when navigating to any page to prevent leaks
+    if (window.heroCarouselInterval) {
+        clearInterval(window.heroCarouselInterval);
+        window.heroCarouselInterval = null;
+    }
+
     if (!mainContent) return;
 
     if (
@@ -122,6 +128,29 @@ document.addEventListener('DOMContentLoaded', () => {
           mainContent.innerHTML =
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
+    } else if (hash === '#hubspoke') {
+      mainContent.innerHTML =
+        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+
+      fetch(`/pages/hubSpoke.html`)
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
     } else if (hash === '#programs') {
       mainContent.innerHTML =
         '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
@@ -173,6 +202,29 @@ document.addEventListener('DOMContentLoaded', () => {
         '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
 
       fetch(`/pages/Program/eventcompleted/eventcomplete.html`)
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
+    } else if (hash === '#eventcomplete1') {
+      mainContent.innerHTML =
+        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+
+      fetch(`/pages/Program/eventcompleted/eventcomplete1.html`)
         .then((res) => {
           if (!res.ok) throw new Error('Failed to load page');
           return res.text();
@@ -307,9 +359,34 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
     } else if (hash === '' || hash === '#home') {
-      // For now, if no hash, just restore the placeholder or load a home page in the future
+      if (window.heroCarouselInterval) clearInterval(window.heroCarouselInterval);
       mainContent.innerHTML =
-        '<div class="h-[800px] flex items-center justify-center font-[\'Inter\'] text-[#677461]">Home Page Placeholder (Add home component later)</div>';
+        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+        
+      fetch('/pages/home.html')
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          
+          if (typeof window.initHeroCarousel === 'function') {
+             // Let UI paint first
+             setTimeout(window.initHeroCarousel, 50);
+          }
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
     }
   }
 
@@ -318,6 +395,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Check initial hash on page load
   if (window.location.hash) {
+    handleNavigation();
+  } else {
+    window.location.hash = '#home';
     handleNavigation();
   }
   // ----------------------------
