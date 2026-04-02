@@ -58,16 +58,20 @@ function initHeroCarousel() {
 
   // Render the HTML for each slide
   track.innerHTML = loopedSlides.map((slide, index) => {
+    // Custom vibrant colors for the slides
+    const slideColors = ['#f9433e', '#9bce14', '#00cdfc', '#ffba08', '#ff7b00'];
+    const bgCol = slideColors[slide.origIndex] || '#f9433e';
+
     return `
-      <div class="hero-slide relative shrink-0 rounded-[36px] overflow-hidden shadow-2xl flex items-center" style="width: 1180px; height: 610px; max-width: 90vw; background-color: ${['#ef4444','#22c55e','#3b82f6','#eab308','#f97316'][slide.origIndex]};" data-index="${index}" data-orig="${slide.origIndex}">
+      <div class="hero-slide relative shrink-0 rounded-[36px] sm:rounded-[40px] overflow-hidden shadow-xl flex items-center" style="width: 1180px; max-width: 80vw; height: 100%; background-color: ${bgCol};" data-index="${index}" data-orig="${slide.origIndex}">
         <!-- Text Content -->
-        <div class="hero-text-content relative z-10 flex flex-col gap-[20px] sm:gap-[38px] px-[30px] sm:px-[60px] max-w-[800px] text-white">
-          <div class="font-['Inter'] font-semibold leading-[1.1] text-[40px] sm:text-[65px] text-white">
+        <div class="hero-text-content relative z-10 flex flex-col justify-center gap-[16px]  w-full max-w-[1000px] text-white  px-[24px] sm:px-[48px]">
+          <div class="font-['Inter'] font-semibold leading-[1.1] text-[42px] md:text-[64px] tracking-tight  text-white mb-2">
             <p class="m-0">${slide.title1}</p>
-            <p class="m-0 text-[#ffce65]">${slide.title2}</p>
-            <p class="m-0"><span class="text-[#ffce65]">${slide.title3.split(' ')[0]} </span>${slide.title3.split(' ').slice(1).join(' ')}</p>
+            <p class="m-0 text-[#fad457]">${slide.title2}</p>
+            <p class="m-0"><span class="text-[#fad457]">${slide.title3.split(' ')[0]} </span>${slide.title3.split(' ').slice(1).join(' ')}</p>
           </div>
-          <p class="font-['Inter'] font-normal text-[16px] sm:text-[21.6px] text-white/90 leading-relaxed m-0 pr-4 sm:pr-0">
+          <p class="font-['Inter'] font-normal text-[16px] sm:text-[22px] text-white/95 leading-[1.6] m-0 max-w-[600px]">
             ${slide.desc}
           </p>
         </div>
@@ -78,8 +82,7 @@ function initHeroCarousel() {
   let currentIndex = 2; // Start at index 2 (which is origIndex 0)
   const totalOriginals = 5;
   const slideElements = Array.from(track.children);
-  const gap = window.innerWidth < 640 ? 24 : 40; // Matches tailwind gap
-  
+
   function updateCarousel(instant = false) {
     if (instant) {
       track.style.transition = 'none';
@@ -89,22 +92,21 @@ function initHeroCarousel() {
 
     const container = track.parentElement;
     const centerView = container.offsetWidth / 2;
-    
-    // Wait until elements are rendered to get precise width
-    const slideWidth = slideElements[0].offsetWidth; 
-    const totalSlideWidth = slideWidth + gap;
-    
-    const slideCenter = (currentIndex * totalSlideWidth) + (slideWidth / 2);
-    const sidePeek = slideWidth * 0.01; // amount of side visibility
-    const translateX = centerView - slideCenter + sidePeek;
-    
+
+    // Using exact DOM offset eliminates structural math drift completely!
+    const activeSlide = slideElements[currentIndex];
+    if (!activeSlide) return;
+
+    const slideCenter = activeSlide.offsetLeft + (activeSlide.offsetWidth / 2);
+    const translateX = centerView - slideCenter;
+
     track.style.transform = `translateX(${translateX}px)`;
 
     // Update classes
     slideElements.forEach((el, i) => {
       if (i === currentIndex) {
         el.classList.add('is-active');
-        
+
         // Manage Progress bars
         const orig = parseInt(el.getAttribute('data-orig'));
         for (let j = 1; j <= 5; j++) {
@@ -114,7 +116,7 @@ function initHeroCarousel() {
             bar.style.width = j < (orig + 1) ? '100%' : '0%';
           }
         }
-        
+
         const activeBar = document.getElementById(`hero-progress-${orig + 1}`);
         if (activeBar && !instant) {
           activeBar.style.width = '0%';
@@ -137,14 +139,14 @@ function initHeroCarousel() {
       setTimeout(() => {
         currentIndex = 2;
         updateCarousel(true);
-        
+
         const activeBar = document.getElementById(`hero-progress-1`);
         if (activeBar) {
-           activeBar.style.width = '0%';
-           void activeBar.offsetWidth;
-           activeBar.classList.add('progress-bar-fill');
+          activeBar.style.width = '0%';
+          void activeBar.offsetWidth;
+          activeBar.classList.add('progress-bar-fill');
         }
-      }, 700); 
+      }, 700);
     }
   }
 
@@ -153,15 +155,15 @@ function initHeroCarousel() {
     updateCarousel(true);
     const activeBar = document.getElementById(`hero-progress-1`);
     if (activeBar) {
-        void activeBar.offsetWidth;
-        activeBar.classList.add('progress-bar-fill');
+      void activeBar.offsetWidth;
+      activeBar.classList.add('progress-bar-fill');
     }
   }, 50);
-  
+
   // Handle window resize dynamically to re-center
   // Assign to window object so we can remove it on page navigation to prevent leak
   if (window.heroCarouselResizeHandler) {
-      window.removeEventListener('resize', window.heroCarouselResizeHandler);
+    window.removeEventListener('resize', window.heroCarouselResizeHandler);
   }
   window.heroCarouselResizeHandler = () => updateCarousel(true);
   window.addEventListener('resize', window.heroCarouselResizeHandler);
