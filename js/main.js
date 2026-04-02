@@ -197,6 +197,29 @@ document.addEventListener('DOMContentLoaded', () => {
           mainContent.innerHTML =
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
+    } else if (hash === '#hrd') {
+      mainContent.innerHTML =
+        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+
+      fetch(`/pages/Program/hrd.html`)
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
     } else if (hash === '#incubation') {
       mainContent.innerHTML =
         '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
