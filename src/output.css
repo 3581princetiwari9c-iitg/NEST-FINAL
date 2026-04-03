@@ -395,8 +395,14 @@
   .m-0 {
     margin: calc(var(--spacing) * 0);
   }
+  .mx-2 {
+    margin-inline: calc(var(--spacing) * 2);
+  }
   .mx-auto {
     margin-inline: auto;
+  }
+  .my-1 {
+    margin-block: calc(var(--spacing) * 1);
   }
   .my-2 {
     margin-block: calc(var(--spacing) * 2);
@@ -748,6 +754,9 @@
   }
   .w-4 {
     width: calc(var(--spacing) * 4);
+  }
+  .w-4\/5 {
+    width: calc(4 / 5 * 100%);
   }
   .w-5 {
     width: calc(var(--spacing) * 5);
@@ -2725,6 +2734,9 @@
   .text-\[\#ccf6ff\] {
     color: #ccf6ff;
   }
+  .text-\[\#dc2626\] {
+    color: #dc2626;
+  }
   .text-\[\#e6b800\] {
     color: #e6b800;
   }
@@ -2736,6 +2748,9 @@
   }
   .text-\[\#fad457\] {
     color: #fad457;
+  }
+  .text-\[\#fecaca\] {
+    color: #fecaca;
   }
   .text-\[\#ffffff\] {
     color: #ffffff;
@@ -2778,6 +2793,9 @@
   }
   .not-italic {
     font-style: normal;
+  }
+  .line-through {
+    text-decoration-line: line-through;
   }
   .underline {
     text-decoration-line: underline;
@@ -3371,6 +3389,20 @@
     &:hover {
       @media (hover: hover) {
         color: #2d5a3d;
+      }
+    }
+  }
+  .hover\:text-\[\#b91c1c\] {
+    &:hover {
+      @media (hover: hover) {
+        color: #b91c1c;
+      }
+    }
+  }
+  .hover\:text-\[\#fca5a5\] {
+    &:hover {
+      @media (hover: hover) {
+        color: #fca5a5;
       }
     }
   }
