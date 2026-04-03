@@ -45,6 +45,13 @@ document.addEventListener('DOMContentLoaded', () => {
     const hash = window.location.hash;
     const mainContent = document.getElementById('main-content');
 
+    // Centralized Loader HTML with Japi Icon
+    const LOADER_HTML = `
+      <div class="flex justify-center items-center py-32">
+        <img src="assets/icons/jopi.png" alt="Loading..." class="animate-spin h-16 w-16 object-contain">
+      </div>
+    `;
+
     // Always clear the home carousel interval conditionally when navigating to any page to prevent leaks
     if (window.heroCarouselInterval) {
         clearInterval(window.heroCarouselInterval);
@@ -68,8 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
       if (pageName === 'clusterdevelopment') pageName = 'clusteractivities';
 
       // Loader
-      mainContent.innerHTML =
-        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+      mainContent.innerHTML = LOADER_HTML;
 
       let path = '';
 
@@ -106,8 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
     } else if (hash === '#startups') {
-      mainContent.innerHTML =
-        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+      mainContent.innerHTML = LOADER_HTML;
 
       fetch(`/pages/startups.html`)
         .then((res) => {
@@ -129,8 +134,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
     } else if (hash === '#hubspoke') {
-      mainContent.innerHTML =
-        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+      mainContent.innerHTML = LOADER_HTML;
 
       fetch(`/pages/hubSpoke.html`)
         .then((res) => {
@@ -152,8 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
     } else if (hash === '#programs') {
-      mainContent.innerHTML =
-        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+      mainContent.innerHTML = LOADER_HTML;
 
       fetch(`/pages/Program/programs.html`)
         .then((res) => {
@@ -175,8 +178,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
     } else if (hash === '#stp') {
-      mainContent.innerHTML =
-        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+      mainContent.innerHTML = LOADER_HTML;
 
       fetch(`/pages/Program/stp.html`)
         .then((res) => {
@@ -198,8 +200,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
     } else if (hash === '#hrd') {
-      mainContent.innerHTML =
-        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+      mainContent.innerHTML = LOADER_HTML;
 
       fetch(`/pages/Program/hrd.html`)
         .then((res) => {
@@ -221,8 +222,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
     } else if (hash === '#td') {
-      mainContent.innerHTML =
-        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+      mainContent.innerHTML = LOADER_HTML;
 
       fetch(`/pages/Program/td.html`)
         .then((res) => {
@@ -244,8 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
     } else if (hash === '#incubation') {
-      mainContent.innerHTML =
-        '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
+      mainContent.innerHTML = LOADER_HTML;
 
       fetch(`/pages/Program/incubation.html`)
         .then((res) => {

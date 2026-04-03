@@ -2,11 +2,11 @@ function initHeroCarousel() {
   const track = document.getElementById('hero-carousel-track');
   if (!track) return;
 
-  // Define our 5 slides data based on Figma node 17:4601
+  // Define our 5 slides data with locally hosted images
   const slidesData = [
     {
       id: 1,
-      bgImage: 'https://images.unsplash.com/photo-1541888086-6ea43a139a66?q=80&w=2674&auto=format&fit=crop',
+      bgImage: 'assets/Carousel/img1.png',
       title1: 'North Eastern',
       title2: 'Science & Technology',
       title3: '(NEST) Cluster',
@@ -14,7 +14,7 @@ function initHeroCarousel() {
     },
     {
       id: 2,
-      bgImage: 'https://images.unsplash.com/photo-1517048676732-d65bc937f952?q=80&w=2670&auto=format&fit=crop',
+      bgImage: 'assets/Carousel/img2.png',
       title1: 'Innovation',
       title2: 'Through Collaboration',
       title3: 'Ecosystem',
@@ -22,7 +22,7 @@ function initHeroCarousel() {
     },
     {
       id: 3,
-      bgImage: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=2670&auto=format&fit=crop',
+      bgImage: 'assets/Carousel/img3.png',
       title1: 'Fostering',
       title2: 'Startups & Ventures',
       title3: 'Growth',
@@ -30,7 +30,7 @@ function initHeroCarousel() {
     },
     {
       id: 4,
-      bgImage: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2672&auto=format&fit=crop',
+      bgImage: 'assets/Carousel/img4.png',
       title1: 'Empowering',
       title2: 'Future Leaders',
       title3: 'Network',
@@ -38,7 +38,7 @@ function initHeroCarousel() {
     },
     {
       id: 5,
-      bgImage: 'https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=2670&auto=format&fit=crop',
+      bgImage: 'assets/Carousel/img5.png',
       title1: 'Sustainable',
       title2: 'Technology Solutions',
       title3: 'Impact',
@@ -58,15 +58,22 @@ function initHeroCarousel() {
 
   // Render the HTML for each slide
   track.innerHTML = loopedSlides.map((slide, index) => {
-    // Custom vibrant colors for the slides
-    const slideColors = ['#f9433e', '#9bce14', '#00cdfc', '#ffba08', '#ff7b00'];
-    const bgCol = slideColors[slide.origIndex] || '#f9433e';
-
     return `
-      <div class="hero-slide relative shrink-0 rounded-[36px] sm:rounded-[40px] overflow-hidden shadow-xl flex items-center" style="width: 1180px; max-width: 80vw; height: 100%; background-color: ${bgCol};" data-index="${index}" data-orig="${slide.origIndex}">
+      <div class="hero-slide relative shrink-0 rounded-[36px] sm:rounded-[40px] overflow-hidden shadow-xl flex items-center" 
+           style="width: 1180px; max-width: 80vw; height: 100%;" 
+           data-index="${index}" 
+           data-orig="${slide.origIndex}">
+        
+        <!-- Background Image with Exposure Adjustment -->
+        <div class="absolute inset-0 bg-cover bg-center z-0 transition-all duration-700" 
+             style="background-image: url('${slide.bgImage}'); filter: brightness(0.5) contrast(1.1);"></div>
+        
+        <!-- Subtle Gradient Overlay for added depth and readability -->
+        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-black/30 to-transparent z-0"></div>
+        
         <!-- Text Content -->
         <div class="hero-text-content relative z-10 flex flex-col justify-center gap-[16px] w-full max-w-[1000px] text-white px-[24px] sm:px-[48px] pt-[50px]">
-          <div class="font-['Inter'] font-semibold leading-[1.1] text-[42px] md:text-[64px] tracking-tight  text-white mb-2">
+          <div class="font-['Inter'] font-semibold leading-[1.1] text-[42px] md:text-[64px] tracking-tight text-white mb-2">
             <p class="m-0">${slide.title1}</p>
             <p class="m-0 text-[#fad457]">${slide.title2}</p>
             <p class="m-0"><span class="text-[#fad457]">${slide.title3.split(' ')[0]} </span>${slide.title3.split(' ').slice(1).join(' ')}</p>
