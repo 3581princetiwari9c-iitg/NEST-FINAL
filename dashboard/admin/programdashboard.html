@@ -1,0 +1,428 @@
+<div class="flex flex-col gap-[24px] items-start w-full">
+  <!-- Header -->
+  <div class="flex items-center justify-between w-full">
+    <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+      Manage Program
+    </h1>
+    <a href="#create-program" class="flex items-center gap-2 bg-[#2D5A3D] text-white px-6 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#1b3a28] transition-all">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"></line>
+        <line x1="5" y1="12" x2="19" y2="12"></line>
+      </svg>
+      Create New Program
+    </a>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="w-full bg-[#f3f4f6]/50 p-4 rounded-[12px] flex flex-wrap items-center justify-between gap-4 border border-gray-100">
+    <div class="flex flex-wrap items-center gap-3">
+      <!-- Filters Button -->
+      <button class="flex items-center gap-2 bg-white px-4 py-2 rounded-[8px] border border-gray-200 shadow-sm text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-50 transition-all">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="4" y1="21" x2="4" y2="14"></line>
+          <line x1="4" y1="10" x2="4" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12" y2="3"></line>
+          <line x1="20" y1="21" x2="20" y2="16"></line>
+          <line x1="20" y1="12" x2="20" y2="3"></line>
+          <line x1="1" y1="14" x2="7" y2="14"></line>
+          <line x1="9" y1="8" x2="15" y2="8"></line>
+          <line x1="17" y1="16" x2="23" y2="16"></line>
+        </svg>
+        Filters
+      </button>
+
+      <!-- Categories Dropdown -->
+      <div class="relative group">
+        <button class="flex items-center justify-between gap-4 bg-white px-4 py-2 rounded-[8px] border border-gray-200 shadow-sm text-[#464E42] font-['Inter'] text-[14px] min-w-[140px] hover:bg-gray-50 transition-all">
+          <span>All Categories</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <!-- Dropdown Menu -->
+        <div class="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-gray-100 rounded-[8px] shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 overflow-hidden">
+          <div class="flex flex-col py-1">
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Tech & AI</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Health & Biotech</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Green Energy</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Educational Tech</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Financial Systems</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Agri-Science</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Retail Innovations</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Smart Logistics</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">IoT Ecosystems</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Social Impact</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Verticals Dropdown -->
+      <div class="relative group">
+        <button class="flex items-center justify-between gap-4 bg-white px-4 py-2 rounded-[8px] border border-gray-200 shadow-sm text-[#464E42] font-['Inter'] text-[14px] min-w-[140px] hover:bg-gray-50 transition-all">
+          <span>Verticals</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <!-- Dropdown Menu -->
+        <div class="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-gray-100 rounded-[8px] shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 overflow-hidden">
+          <div class="flex flex-col py-1">
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Skill Development</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Startup Support</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Research Assistance</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Dynamic Youth</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Dropdown -->
+      <div class="relative group">
+        <button class="flex items-center justify-between gap-4 bg-white px-4 py-2 rounded-[8px] border border-gray-200 shadow-sm text-[#464E42] font-['Inter'] text-[14px] min-w-[140px] hover:bg-gray-50 transition-all">
+          <span>All Status</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <!-- Dropdown Menu -->
+        <div class="absolute top-[calc(100%+4px)] left-0 w-full bg-white border border-gray-100 rounded-[8px] shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 overflow-hidden">
+          <div class="flex flex-col py-1">
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Upcoming</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Ongoing</a>
+            <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">Completed</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Counter -->
+    <span class="font-['Inter'] text-[#677461] text-[14px] font-medium whitespace-nowrap">
+      Showing 1-10 of 48 events
+    </span>
+  </div>
+
+  <!-- Events Table -->
+  <div class="w-full bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden mb-[72px]">
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse">
+        <!-- Table Header -->
+        <thead>
+          <tr class="bg-[#f9fafb] border-b border-gray-100">
+            <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap w-[40%]">Program Name</th>
+            <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Category</th>
+            <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Date</th>
+            <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Status</th>
+            <th class="px-[24px] py-[16px] text-right font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Actions</th>
+          </tr>
+        </thead>
+        <!-- Table Body -->
+        <tbody class="divide-y divide-gray-50">
+          <!-- Row 1 -->
+          <tr class="hover:bg-gray-50 transition-all group">
+            <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
+              <div class="flex flex-col gap-1">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">Global Sustainable Innovation Excellence Summit for Future Technological Leaders 2024</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-normal text-[#464E42] text-[15px]">Skill Development Program</span>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464E42] text-[14px]">Oct 24, 2024</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">09:00 AM</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-bold text-[#2563eb] text-[14px] hover:underline cursor-pointer">Upcoming</span>
+            </td>
+            <td class="px-[24px] py-[20px] text-right">
+              <div class="flex items-center justify-end gap-[16px]">
+                <button class="text-[#677461] hover:text-[#1b3a28] transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="text-[#677461] hover:text-blue-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                <button class="text-[#677461] hover:text-red-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 2 -->
+          <tr class="hover:bg-gray-50 transition-all group">
+            <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
+              <div class="flex flex-col gap-1">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">Startup Pitch Day</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-normal text-[#464E42] text-[15px]">Startup Support Ecosystem</span>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464E42] text-[14px]">Oct 15, 2024</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">10:30 AM</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-bold text-[#16a34a] text-[14px] hover:underline cursor-pointer">Ongoing</span>
+            </td>
+            <td class="px-[24px] py-[20px] text-right">
+              <div class="flex items-center justify-end gap-[16px]">
+                <button class="text-[#677461] hover:text-[#1b3a28] transition-all" title="View"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="text-[#677461] hover:text-red-600 transition-all" title="Delete"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 3 -->
+          <tr class="hover:bg-gray-50 transition-all group">
+            <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
+              <div class="flex flex-col gap-1">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">Tech Summit 2023</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-normal text-[#464E42] text-[15px]">IT & Networking Webinar</span>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464E42] text-[14px]">Sep 12, 2023</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">02:00 PM</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-bold text-[#64748b] text-[14px] hover:underline cursor-pointer">Completed</span>
+            </td>
+            <td class="px-[24px] py-[20px] text-right">
+              <div class="flex items-center justify-end gap-[16px]">
+                <button class="text-[#677461] hover:text-[#1b3a28] transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="text-[#1b3a28] hover:text-green-700 transition-all" title="Add Details">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                  </svg>
+                </button>
+
+                <button class="text-[#677461] hover:text-red-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 1 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 4 -->
+          <tr class="hover:bg-gray-50 transition-all group">
+            <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
+              <div class="flex flex-col gap-1">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">AI Excellence Workshop</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-normal text-[#464E42] text-[15px]">Artificial Intelligence</span>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464E42] text-[14px]">Nov 05, 2024</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">11:00 AM</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-bold text-[#2563eb] text-[14px] hover:underline cursor-pointer">Upcoming</span>
+            </td>
+            <td class="px-[24px] py-[20px] text-right">
+              <div class="flex items-center justify-end gap-[16px]">
+                <button class="text-[#677461] hover:text-[#1b3a28] transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="text-[#677461] hover:text-blue-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                <button class="text-[#677461] hover:text-red-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 5 -->
+          <tr class="hover:bg-gray-50 transition-all group">
+            <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
+              <div class="flex flex-col gap-1">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">AgriTech Symposium</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-normal text-[#464E42] text-[15px]">Agriculture Exhibition</span>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464E42] text-[14px]">Oct 30, 2024</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">09:30 AM</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-bold text-[#2563eb] text-[14px] hover:underline cursor-pointer">Upcoming</span>
+            </td>
+            <td class="px-[24px] py-[20px] text-right">
+              <div class="flex items-center justify-end gap-[16px]">
+                <button class="text-[#677461] hover:text-[#1b3a28] transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="text-[#677461] hover:text-blue-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                <button class="text-[#677461] hover:text-red-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 6 -->
+          <tr class="hover:bg-gray-50 transition-all group">
+            <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
+              <div class="flex flex-col gap-1">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">Green Energy Forum</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-normal text-[#464E42] text-[15px]">Renewable Energy Forum</span>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464E42] text-[14px]">Oct 18, 2024</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">02:30 PM</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-bold text-[#16a34a] text-[14px] hover:underline cursor-pointer">Ongoing</span>
+            </td>
+            <td class="px-[24px] py-[20px] text-right">
+              <div class="flex items-center justify-end gap-[16px]">
+                <button class="text-[#677461] hover:text-[#1b3a28] transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="text-[#677461] hover:text-red-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 7 -->
+          <tr class="hover:bg-gray-50 transition-all group">
+            <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
+              <div class="flex flex-col gap-1">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">Biotech Research Night</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-normal text-[#464E42] text-[15px]">Biotechnology Seminar</span>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464E42] text-[14px]">Oct 22, 2024</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">05:00 PM</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-bold text-[#2563eb] text-[14px] hover:underline cursor-pointer">Upcoming</span>
+            </td>
+            <td class="px-[24px] py-[20px] text-right">
+              <div class="flex items-center justify-end gap-[16px]">
+                <button class="text-[#677461] hover:text-[#1b3a28] transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="text-[#677461] hover:text-blue-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                <button class="text-[#677461] hover:text-red-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 8 -->
+          <tr class="hover:bg-gray-50 transition-all group">
+            <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
+              <div class="flex flex-col gap-1">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">FinTech Masterclass</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-normal text-[#464E42] text-[15px]">Finance Workshop</span>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464E42] text-[14px]">Nov 12, 2024</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">10:00 AM</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-bold text-[#2563eb] text-[14px] hover:underline cursor-pointer">Upcoming</span>
+            </td>
+            <td class="px-[24px] py-[20px] text-right">
+              <div class="flex items-center justify-end gap-[16px]">
+                <button class="text-[#677461] hover:text-[#1b3a28] transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="text-[#677461] hover:text-blue-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                <button class="text-[#677461] hover:text-red-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 1 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 9 -->
+          <tr class="hover:bg-gray-50 transition-all group">
+            <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
+              <div class="flex flex-col gap-1">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">EdTech Expo</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-normal text-[#464E42] text-[15px]">Education Exhibition</span>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464E42] text-[14px]">Dec 01, 2024</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">09:00 AM</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-bold text-[#2563eb] text-[14px] hover:underline cursor-pointer">Upcoming</span>
+            </td>
+            <td class="px-[24px] py-[20px] text-right">
+              <div class="flex items-center justify-end gap-[16px]">
+                <button class="text-[#677461] hover:text-[#1b3a28] transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="text-[#677461] hover:text-blue-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                <button class="text-[#677461] hover:text-red-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 1 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 10 -->
+          <tr class="hover:bg-gray-50 transition-all group">
+            <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
+              <div class="flex flex-col gap-1">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">Logistics Tech Meet</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-normal text-[#464E42] text-[15px]">Logistics Networking Meet</span>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464E42] text-[14px]">Nov 20, 2024</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">03:00 PM</span>
+              </div>
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span class="font-['Inter'] font-bold text-[#2563eb] text-[14px] hover:underline cursor-pointer">Upcoming</span>
+            </td>
+            <td class="px-[24px] py-[20px] text-right">
+              <div class="flex items-center justify-end gap-[16px]">
+                <button class="text-[#677461] hover:text-[#1b3a28] transition-all"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></button>
+                <button class="text-[#677461] hover:text-blue-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path></svg></button>
+                <button class="text-[#677461] hover:text-red-600 transition-all"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 1 1 2-2h4a2 2 0 1 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg></button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table Pagination Footer -->
+    <div class="bg-[#f9fafb] border-t border-gray-100 flex items-center justify-between px-[24px] py-[16px]">
+      <div class="flex items-center gap-3">
+        <!-- Visibility control removed as requested -->
+      </div>
+
+      <div class="flex items-center gap-[8px]">
+        <!-- Previous Button -->
+        <button class="w-[32px] h-[32px] flex items-center justify-center text-[#677461] hover:bg-gray-200 rounded-[6px] transition-all">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <!-- Page Numbers -->
+        <button class="w-[32px] h-[32px] flex items-center justify-center bg-[#1b3a28] text-white font-['Inter'] font-bold text-[14px] rounded-[6px] shadow-sm">1</button>
+        <button class="w-[32px] h-[32px] flex items-center justify-center text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-200 rounded-[6px] transition-all">2</button>
+        <button class="w-[32px] h-[32px] flex items-center justify-center text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-200 rounded-[6px] transition-all">3</button>
+        <span class="text-[#677461] font-['Inter'] text-[14px]">...</span>
+        <button class="w-[32px] h-[32px] flex items-center justify-center text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-200 rounded-[6px] transition-all">5</button>
+
+        <!-- Next Button -->
+        <button class="w-[32px] h-[32px] flex items-center justify-center text-[#677461] hover:bg-gray-200 rounded-[6px] transition-all">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

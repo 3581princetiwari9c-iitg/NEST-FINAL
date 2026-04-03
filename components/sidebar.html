@@ -1,0 +1,145 @@
+<!-- Dashboard Sidebar Component -->
+<aside
+    class="w-[250px] h-screen bg-white border-r border-[#e5e7ea] fixed left-0 top-0 pt-[114px] pb-[10px] flex flex-col justify-between z-40">
+    <!-- Navigation Items Section -->
+    <div class="flex-grow flex flex-col gap-1 px-4 overflow-y-auto mt-6">
+        <!-- Dashboard (Active) -->
+        <a href="#dashboard"
+            class="flex items-center gap-3 px-4 py-3 bg-[#f1ffee] text-[#2d5a3d] font-bold rounded-lg transition-all duration-200 group">
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-[#2d5a3d]">
+                    <path
+                        d="M1.5 1.5H7.5V7.5H1.5V1.5ZM10.5 1.5H16.5V7.5H10.5V1.5ZM1.5 10.5H7.5V16.5H1.5V10.5ZM10.5 10.5H16.5V16.5H10.5V10.5Z"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <span class="text-base font-['Inter']">Dashboard</span>
+        </a>
+
+
+        <!-- Programs -->
+        <a href="#programs"
+            class="flex items-center gap-3 px-4 py-3 text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] rounded-lg transition-all duration-200 group">
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-current">
+                    <path d="M9 1L1 5L9 9L17 5L9 1Z" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M1 9L9 13L17 9" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                    <path d="M1 13L9 17L17 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <span class="text-base font-['Inter']">Programs</span>
+        </a>
+
+        <!-- Startups -->
+        <a href="#startups"
+            class="flex items-center gap-3 px-4 py-3 text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] rounded-lg transition-all duration-200 group">
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-current">
+                    <path
+                        d="M9.828 1.5a6 6 0 016.672 6.672l-1.5 4.5a3 3 0 01-3 3h-6a3 3 0 01-3-3l-1.5-4.5A6 6 0 018.172 1.5l1.656 0z"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    <path d="M6 13.5l-2.25 2.25M12 13.5l2.25 2.25" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" />
+                </svg>
+            </div>
+            <span class="text-base font-['Inter']">Startups</span>
+        </a>
+
+        <!-- Requests -->
+        <a href="#requests"
+            class="flex items-center gap-3 px-4 py-3 text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] rounded-lg transition-all duration-200 group">
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-current">
+                    <path d="M11 2.5L15.5 7M6.5 15.5L2 11M3.5 14.5L14.5 3.5" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                    <circle cx="15.5" cy="15.5" r="2" stroke="currentColor" stroke-width="2" />
+                </svg>
+            </div>
+            <span class="text-base font-['Inter']">Requests</span>
+        </a>
+
+        <!-- Newsletter -->
+        <a href="#newsletter"
+            class="flex items-center gap-3 px-4 py-3 text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] rounded-lg transition-all duration-200 group">
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-current">
+                    <rect x="2" y="3" width="14" height="12" rx="2" stroke="currentColor" stroke-width="2" />
+                    <path d="M2 6L9 11L16 6" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <span class="text-base font-['Inter']">Newsletter</span>
+        </a>
+
+        <!-- Home Page -->
+        <a href="/"
+            class="flex items-center gap-3 px-4 py-3 text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] rounded-lg transition-all duration-200 group">
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-current">
+                    <path d="M2 9L9 2L16 9M2 9V16H16V9M2 9H16M6 16V12H12V16" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+            </div>
+            <span class="text-base font-['Inter']">Home Page</span>
+        </a>
+
+        <!-- Management -->
+        <a href="#management"
+            class="flex items-center gap-3 px-4 py-3 text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] rounded-lg transition-all duration-200 group">
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-current">
+                    <circle cx="7" cy="6" r="4" stroke="currentColor" stroke-width="2" />
+                    <path d="M1 17C1 14 4.5 11 7 11M16 11L13 14M13 11L16 14M16 17H13" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" />
+                </svg>
+            </div>
+            <span class="text-base font-['Inter']">Management</span>
+        </a>
+
+        <!-- Gallery -->
+        <a href="#gallery"
+            class="flex items-center gap-3 px-4 py-3 text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] rounded-lg transition-all duration-200 group">
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-current">
+                    <rect x="2" y="2" width="14" height="14" rx="2" stroke="currentColor" stroke-width="2" />
+                    <circle cx="5.5" cy="5.5" r="1.5" fill="currentColor" />
+                    <path d="M2 13L7 8L12 13L13 12L16 15" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                        stroke-linejoin="round" />
+                </svg>
+            </div>
+            <span class="text-base font-['Inter']">Gallery</span>
+        </a>
+
+        <!-- User Profile -->
+        <a href="#profile"
+            class="flex items-center gap-3 px-4 py-3 text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] rounded-lg transition-all duration-200 group">
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg width="18" height="18" viewBox="0 0 18 18" fill="none" class="text-current">
+                    <circle cx="9" cy="6" r="4" stroke="currentColor" stroke-width="2" />
+                    <path d="M2 17C2 14 5.5 11 9 11C12.5 11 16 14 16 17" stroke="currentColor" stroke-width="2"
+                        stroke-linecap="round" />
+                </svg>
+            </div>
+            <span class="text-base font-['Inter']">User Profile</span>
+        </a>
+    </div>
+
+    <!-- Bottom Section: Logout -->
+    <div class="px-4 mt-auto">
+        <a href="#logout"
+            class="flex items-center gap-3 px-4 py-3 text-[#ef4444] hover:bg-red-50 rounded-lg transition-all duration-200 group">
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round" class="text-current">
+                    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                    <polyline points="16 17 21 12 16 7"></polyline>
+                    <line x1="21" y1="12" x2="9" y2="12"></line>
+                </svg>
+            </div>
+            <span class="text-sm font-['Inter'] font-semibold tracking-tight">Logout</span>
+        </a>
+    </div>
+</aside>
