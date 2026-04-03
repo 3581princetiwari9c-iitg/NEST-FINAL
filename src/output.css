@@ -668,6 +668,9 @@
   .h-\[64px\] {
     height: 64px;
   }
+  .h-\[75px\] {
+    height: 75px;
+  }
   .h-\[152px\] {
     height: 152px;
   }
@@ -718,6 +721,9 @@
   }
   .min-h-\[93px\] {
     min-height: 93px;
+  }
+  .min-h-\[400px\] {
+    min-height: 400px;
   }
   .min-h-\[calc\(100vh-100px\)\] {
     min-height: calc(100vh - 100px);
@@ -841,6 +847,9 @@
   }
   .w-\[75\%\] {
     width: 75%;
+  }
+  .w-\[75px\] {
+    width: 75px;
   }
   .w-\[80\%\] {
     width: 80%;
@@ -2143,6 +2152,9 @@
   }
   .py-32 {
     padding-block: calc(var(--spacing) * 32);
+  }
+  .py-40 {
+    padding-block: calc(var(--spacing) * 40);
   }
   .py-\[2px\] {
     padding-block: 2px;

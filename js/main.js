@@ -47,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Centralized Loader HTML with Japi Icon
     const LOADER_HTML = `
-      <div class="flex justify-center items-center py-32">
-        <img src="assets/icons/jopi.png" alt="Loading..." class="animate-spin h-16 w-16 object-contain">
+      <div class="flex justify-center items-center py-40 min-h-[400px]">
+        <img src="assets/icons/jopi.png" alt="Loading..." class="animate-spin h-[75px] w-[75px] object-contain">
       </div>
     `;
 
