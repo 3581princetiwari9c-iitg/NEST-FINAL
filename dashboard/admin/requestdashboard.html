@@ -1,0 +1,1224 @@
+<div class="flex flex-col gap-[24px] items-start w-full">
+  <!-- Header -->
+  <div class="flex items-center justify-between w-full">
+    <h1
+      class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]"
+    >
+      Requests
+    </h1>
+  </div>
+
+  <!-- Summary Stats (Grid) -->
+  <div
+    class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[16px] w-full max-w-[1000px]"
+  >
+    <!-- Pending Approval -->
+    <div
+      class="bg-white p-[18px] rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[16px]"
+    >
+      <div class="flex items-start justify-between w-full">
+        <div
+          class="w-[36px] h-[38px] bg-[#FEF2F2] rounded-[6px] flex items-center justify-center text-[#EF4444]"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10"></circle>
+            <polyline points="12 6 12 12 16 14"></polyline>
+          </svg>
+        </div>
+        <div class="font-['Manrope'] font-bold text-[#b04a4a] text-[12px]">
+          Urgent
+        </div>
+      </div>
+      <div class="flex flex-col">
+        <span
+          class="font-['Inter'] font-semibold text-[#464e42] text-[11px] uppercase tracking-wider"
+          >Pending Approval</span
+        >
+        <span
+          class="font-['Manrope'] font-bold text-[#00346f] text-[24px] leading-[normal]"
+          >48</span
+        >
+      </div>
+    </div>
+
+    <!-- Total Requests -->
+    <div
+      class="bg-white p-[18px] rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[16px]"
+    >
+      <div
+        class="w-[36px] h-[38px] bg-[#ECFEFF] rounded-[6px] flex items-center justify-center text-[#0891B2]"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 20 20"
+          fill="none"
+        >
+          <path
+            d="M2.50001 4.37497C2.50001 4.6212 2.54851 4.86502 2.64273 5.09251C2.73696 5.31999 2.87507 5.52669 3.04918 5.7008C3.22329 5.87491 3.42999 6.01302 3.65748 6.10725C3.88496 6.20148 4.12878 6.24997 4.37501 6.24997C4.62124 6.24997 4.86505 6.20148 5.09254 6.10725C5.32002 6.01302 5.52672 5.87491 5.70083 5.7008C5.87494 5.52669 6.01305 5.31999 6.10728 5.09251C6.20151 4.86502 6.25001 4.6212 6.25001 4.37497C6.25001 3.87769 6.05246 3.40078 5.70083 3.04915C5.3492 2.69752 4.87229 2.49997 4.37501 2.49997C3.87773 2.49997 3.40081 2.69752 3.04918 3.04915C2.69755 3.40078 2.50001 3.87769 2.50001 4.37497ZM7.50001 4.37497C7.50015 5.09538 7.25139 5.79372 6.79582 6.35179C6.34025 6.90986 5.70586 7.29339 5.00001 7.43747V12.5625C5.75878 12.7174 6.43302 13.1485 6.89201 13.7722C7.35099 14.396 7.56202 15.1679 7.48418 15.9384C7.40635 16.7089 7.04519 17.4231 6.47073 17.9424C5.89627 18.4618 5.14943 18.7493 4.37501 18.7493C3.60058 18.7493 2.85375 18.4618 2.27929 17.9424C1.70483 17.4231 1.34367 16.7089 1.26583 15.9384C1.188 15.1679 1.39903 14.396 1.85801 13.7722C2.31699 13.1485 2.99123 12.7174 3.75001 12.5625V7.43747C3.17068 7.31922 2.6368 7.03904 2.21035 6.62947C1.78391 6.21991 1.48241 5.69777 1.34087 5.12369C1.19933 4.54961 1.22355 3.94716 1.41074 3.3863C1.59792 2.82544 1.94038 2.3292 2.39834 1.9552C2.85629 1.5812 3.41096 1.3448 3.9979 1.27345C4.58485 1.2021 5.18 1.29873 5.71422 1.55212C6.24844 1.8055 6.69982 2.20525 7.01592 2.70493C7.33203 3.2046 7.49989 3.78371 7.50001 4.37497ZM2.50001 15.625C2.50001 15.8712 2.54851 16.115 2.64273 16.3425C2.73696 16.57 2.87507 16.7767 3.04918 16.9508C3.22329 17.1249 3.42999 17.263 3.65748 17.3572C3.88496 17.4515 4.12878 17.5 4.37501 17.5C4.62124 17.5 4.86505 17.4515 5.09254 17.3572C5.32002 17.263 5.52672 17.1249 5.70083 16.9508C5.87494 16.7767 6.01305 16.57 6.10728 16.3425C6.20151 16.115 6.25001 15.8712 6.25001 15.625C6.25001 15.1277 6.05246 14.6508 5.70083 14.2991C5.3492 13.9475 4.87229 13.75 4.37501 13.75C3.87773 13.75 3.40081 13.9475 3.04918 14.2991C2.69755 14.6508 2.50001 15.1277 2.50001 15.625ZM16.25 8.12497C16.25 7.95921 16.1842 7.80024 16.0669 7.68303C15.9497 7.56582 15.7908 7.49997 15.625 7.49997C15.4592 7.49997 15.3003 7.56582 15.1831 7.68303C15.0659 7.80024 15 7.95921 15 8.12497V12.5625C14.2412 12.7174 13.567 13.1485 13.108 13.7722C12.649 14.396 12.438 15.1679 12.5158 15.9384C12.5937 16.7089 12.9548 17.4231 13.5293 17.9424C14.1037 18.4618 14.8506 18.7493 15.625 18.7493C16.3994 18.7493 17.1463 18.4618 17.7207 17.9424C18.2952 17.4231 18.6563 16.7089 18.7342 15.9384C18.812 15.1679 18.601 14.396 18.142 13.7722C17.683 13.1485 17.0088 12.7174 16.25 12.5625V8.12497ZM15.625 13.75C15.8712 13.75 16.1151 13.7985 16.3425 13.8927C16.57 13.9869 16.7767 14.125 16.9508 14.2991C17.1249 14.4733 17.2631 14.68 17.3573 14.9074C17.4515 15.1349 17.5 15.3787 17.5 15.625C17.5 15.8712 17.4515 16.115 17.3573 16.3425C17.2631 16.57 17.1249 16.7767 16.9508 16.9508C16.7767 17.1249 16.57 17.263 16.3425 17.3572C16.1151 17.4515 15.8712 17.5 15.625 17.5C15.1277 17.5 14.6508 17.3024 14.2992 16.9508C13.9476 16.5992 13.75 16.1223 13.75 15.625C13.75 15.1277 13.9476 14.6508 14.2992 14.2991C14.6508 13.9475 15.1277 13.75 15.625 13.75ZM13.3075 2.05747C13.3656 1.99927 13.4345 1.95309 13.5105 1.92158C13.5864 1.89008 13.6678 1.87386 13.75 1.87386C13.8322 1.87386 13.9136 1.89008 13.9895 1.92158C14.0655 1.95309 14.1345 1.99927 14.1925 2.05747L15.625 3.49122L17.0575 2.05747C17.1156 1.99936 17.1846 1.95327 17.2605 1.92182C17.3365 1.89037 17.4178 1.87418 17.5 1.87418C17.5822 1.87418 17.6636 1.89037 17.7395 1.92182C17.8154 1.95327 17.8844 1.99936 17.9425 2.05747C18.0006 2.11558 18.0467 2.18457 18.0782 2.2605C18.1096 2.33642 18.1258 2.41779 18.1258 2.49997C18.1258 2.58215 18.1096 2.66353 18.0782 2.73945C18.0467 2.81538 18.0006 2.88436 17.9425 2.94247L16.5088 4.37497L17.9425 5.80747C18.0006 5.86558 18.0467 5.93457 18.0782 6.01049C18.1096 6.08642 18.1258 6.16779 18.1258 6.24997C18.1258 6.33215 18.1096 6.41353 18.0782 6.48945C18.0467 6.56538 18.0006 6.63436 17.9425 6.69247C17.8844 6.75058 17.8154 6.79668 17.7395 6.82813C17.6636 6.85958 17.5822 6.87576 17.5 6.87576C17.4178 6.87576 17.3365 6.85958 17.2605 6.82813C17.1846 6.79668 17.1156 6.75058 17.0575 6.69247L15.625 5.25872L14.1925 6.69247C14.1344 6.75058 14.0654 6.79668 13.9895 6.82813C13.9136 6.85958 13.8322 6.87576 13.75 6.87576C13.6678 6.87576 13.5865 6.85958 13.5105 6.82813C13.4346 6.79668 13.3656 6.75058 13.3075 6.69247C13.2494 6.63436 13.2033 6.56538 13.1719 6.48945C13.1404 6.41353 13.1242 6.33215 13.1242 6.24997C13.1242 6.16779 13.1404 6.08642 13.1719 6.01049C13.2033 5.93457 13.2494 5.86558 13.3075 5.80747L14.7413 4.37497L13.3075 2.94247C13.2493 2.88442 13.2031 2.81545 13.1716 2.73952C13.1401 2.66359 13.1239 2.58218 13.1239 2.49997C13.1239 2.41777 13.1401 2.33636 13.1716 2.26043C13.2031 2.1845 13.2493 2.11553 13.3075 2.05747Z"
+            fill="currentColor"
+          />
+        </svg>
+      </div>
+      <div class="flex flex-col">
+        <span
+          class="font-['Inter'] font-semibold text-[#464e42] text-[11px] uppercase tracking-wider"
+          >Total Requests</span
+        >
+        <span
+          class="font-['Manrope'] font-bold text-[#00346f] text-[24px] leading-[normal]"
+          >124</span
+        >
+      </div>
+    </div>
+
+    <!-- Approval Rate -->
+    <div
+      class="bg-white p-[18px] rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[16px]"
+    >
+      <div
+        class="w-[36px] h-[38px] bg-[#FFF7ED] rounded-[6px] flex items-center justify-center text-[#EA580C]"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+          <polyline points="9 12 11 14 15 10"></polyline>
+        </svg>
+      </div>
+      <div class="flex flex-col">
+        <span
+          class="font-['Inter'] font-semibold text-[#464e42] text-[11px] uppercase tracking-wider"
+          >Approval Rate</span
+        >
+        <span
+          class="font-['Manrope'] font-bold text-[#00346f] text-[24px] leading-[normal]"
+          >76%</span
+        >
+      </div>
+    </div>
+
+    <!-- Northeast Approval -->
+    <div
+      class="bg-white p-[18px] rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[16px]"
+    >
+      <div
+        class="w-[36px] h-[38px] bg-[#eff6ff] rounded-[6px] flex items-center justify-center text-[#2563eb]"
+      >
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+          <path
+            d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"
+          ></path>
+        </svg>
+      </div>
+      <div class="flex flex-col">
+        <span
+          class="font-['Inter'] font-semibold text-[#464e42] text-[11px] uppercase tracking-wider"
+          >Northeast Approval</span
+        >
+        <span
+          class="font-['Manrope'] font-bold text-[#00346f] text-[24px] leading-[normal]"
+          >16</span
+        >
+      </div>
+    </div>
+  </div>
+
+  <!-- Filters Section -->
+  <div
+    class="w-full bg-[#f3f4f6]/50 p-4 rounded-[12px] flex flex-wrap items-center justify-between gap-4 border border-gray-100"
+  >
+    <div class="flex flex-wrap items-center gap-3">
+      <button
+        class="flex items-center gap-2 bg-white px-4 py-2 rounded-[8px] border border-gray-200 shadow-sm text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-50 transition-all"
+      >
+        <svg
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="4" y1="21" x2="4" y2="14"></line>
+          <line x1="4" y1="10" x2="4" y2="3"></line>
+          <line x1="12" y1="21" x2="12" y2="12"></line>
+          <line x1="12" y1="8" x2="12" y2="3"></line>
+          <line x1="20" y1="21" x2="20" y2="16"></line>
+          <line x1="20" y1="12" x2="20" y2="3"></line>
+          <line x1="1" y1="14" x2="7" y2="14"></line>
+          <line x1="9" y1="8" x2="15" y2="8"></line>
+          <line x1="17" y1="16" x2="23" y2="16"></line>
+        </svg>
+        Filters
+      </button>
+
+      <!-- Verticals Dropdown -->
+      <div class="relative group">
+        <button
+          class="flex items-center justify-between gap-4 bg-white px-4 py-2 rounded-[8px] border border-gray-200 shadow-sm text-[#464E42] font-['Inter'] text-[14px] min-w-[160px] hover:bg-gray-50 transition-all"
+        >
+          <span>Verticals</span>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <!-- Dropdown Menu -->
+        <div
+          class="absolute top-[calc(100%+4px)] left-0 w-[280px] bg-white border border-gray-100 rounded-[8px] shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 overflow-hidden"
+        >
+          <div class="flex flex-col py-1">
+            <a
+              href="#"
+              class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all"
+              >Grassroot Technology</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all"
+              >Semiconductor and Artificial Intelligence</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all"
+              >Bamboo Innovation</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all"
+              >Biodegradable Eco-friendly Plastic & Solid Waste Management</a
+            >
+          </div>
+        </div>
+      </div>
+
+      <!-- Status Dropdown -->
+      <div class="relative group">
+        <button
+          class="flex items-center justify-between gap-4 bg-white px-4 py-2 rounded-[8px] border border-gray-200 shadow-sm text-[#464E42] font-['Inter'] text-[14px] min-w-[160px] hover:bg-gray-50 transition-all"
+        >
+          <span>All Status</span>
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="6 9 12 15 18 9"></polyline>
+          </svg>
+        </button>
+        <!-- Dropdown Menu -->
+        <div
+          class="absolute top-[calc(100%+4px)] left-0 w-[160px] bg-white border border-gray-100 rounded-[8px] shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 overflow-hidden"
+        >
+          <div class="flex flex-col py-1">
+            <a
+              href="#"
+              class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all"
+              >All Status</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all"
+              >Pending</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all"
+              >Approved</a
+            >
+            <a
+              href="#"
+              class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all"
+              >Rejected</a
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <span
+      class="font-['Inter'] text-[#677461] text-[14px] font-medium whitespace-nowrap"
+    >
+      Showing 1-10 of 48 events
+    </span>
+  </div>
+
+  <!-- Startup Requests Table -->
+  <div
+    class="w-full bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden mb-[72px]"
+  >
+    <div class="overflow-x-auto">
+      <table class="w-full border-collapse">
+        <thead>
+          <tr class="bg-[#f9fafb] border-b border-gray-100">
+            <th
+              class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap w-[35%]"
+            >
+              Startup Name
+            </th>
+            <th
+              class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap"
+            >
+              Vertical
+            </th>
+            <th
+              class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap"
+            >
+              Established
+            </th>
+            <th
+              class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap"
+            >
+              State
+            </th>
+            <th
+              class="px-[24px] py-[16px] text-right font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap"
+            >
+              Actions
+            </th>
+          </tr>
+        </thead>
+        <tbody class="divide-y divide-gray-50">
+          <!-- Row 1 -->
+          <tr
+            class="hover:bg-gray-50 transition-all cursor-pointer group"
+            onclick="
+              openRequestDetail(
+                'Aether Dynamics',
+                'Dr. Alok Nath',
+                'Semi-conductor & AI',
+                '2023',
+                'Assam'
+              )
+            "
+          >
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight break-words max-w-[240px]"
+                >Aether Dynamics</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[13px] uppercase tracking-tight"
+                >Semiconductor and Artificial Intelligence</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >2023</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >Assam</span
+              >
+            </td>
+            <td
+              class="px-[24px] py-[20px] text-right"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex items-center justify-end gap-[12px]">
+                <button
+                  class="px-[20px] py-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#8e3b3b] shadow-sm transition-all"
+                  onclick="handleReject('Aether Dynamics')"
+                >
+                  Reject
+                </button>
+                <button
+                  class="px-[20px] py-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#142c1e] shadow-sm transition-all"
+                  onclick="handleApprove('Aether Dynamics')"
+                >
+                  Approve
+                </button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 2 -->
+          <tr
+            class="hover:bg-gray-50 transition-all cursor-pointer group"
+            onclick="
+              openRequestDetail(
+                'Bamboo Crafted',
+                'Priya Das',
+                'Bamboo Innovation',
+                '2022',
+                'Meghalaya'
+              )
+            "
+          >
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight break-words max-w-[240px]"
+                >Bamboo Crafted</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[13px] uppercase tracking-tight"
+                >Bamboo Innovation</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >2022</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >Meghalaya</span
+              >
+            </td>
+            <td
+              class="px-[24px] py-[20px] text-right"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex items-center justify-end gap-[12px]">
+                <button
+                  class="px-[20px] py-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#8e3b3b] shadow-sm transition-all"
+                  onclick="handleReject('Bamboo Crafted')"
+                >
+                  Reject
+                </button>
+                <button
+                  class="px-[20px] py-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#142c1e] shadow-sm transition-all"
+                  onclick="handleApprove('Bamboo Crafted')"
+                >
+                  Approve
+                </button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 3 -->
+          <tr
+            class="hover:bg-gray-50 transition-all cursor-pointer group"
+            onclick="
+              openRequestDetail(
+                'Eco Plast',
+                'Rahul Sharma',
+                'Biodegradable Eco-friendly Plastic',
+                '2024',
+                'Manipur'
+              )
+            "
+          >
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight break-words max-w-[240px]"
+                >Eco Plast</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[13px] uppercase tracking-tight"
+                >Biodegradable Eco-friendly Plastic & Solid Waste
+                Management</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >2024</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >Manipur</span
+              >
+            </td>
+            <td
+              class="px-[24px] py-[20px] text-right"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex items-center justify-end gap-[12px]">
+                <button
+                  class="px-[20px] py-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#8e3b3b] shadow-sm transition-all"
+                  onclick="handleReject('Eco Plast')"
+                >
+                  Reject
+                </button>
+                <button
+                  class="px-[20px] py-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#142c1e] shadow-sm transition-all"
+                  onclick="handleApprove('Eco Plast')"
+                >
+                  Approve
+                </button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 4 -->
+          <tr
+            class="hover:bg-gray-50 transition-all cursor-pointer group"
+            onclick="
+              openRequestDetail(
+                'Rural Tech',
+                'Sunita Devi',
+                'Grassroot Technology',
+                '2021',
+                'Tripura'
+              )
+            "
+          >
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight break-words max-w-[240px]"
+                >Rural Tech</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[13px] uppercase tracking-tight"
+                >Grassroot Technology</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >2021</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >Tripura</span
+              >
+            </td>
+            <td
+              class="px-[24px] py-[20px] text-right"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex items-center justify-end gap-[12px]">
+                <button
+                  class="px-[20px] py-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#8e3b3b] shadow-sm transition-all"
+                  onclick="handleReject('Rural Tech')"
+                >
+                  Reject
+                </button>
+                <button
+                  class="px-[20px] py-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#142c1e] shadow-sm transition-all"
+                  onclick="handleApprove('Rural Tech')"
+                >
+                  Approve
+                </button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 5 -->
+          <tr
+            class="hover:bg-gray-50 transition-all cursor-pointer group"
+            onclick="
+              openRequestDetail(
+                'Neuro AI',
+                'Amit Baruah',
+                'Semi-conductor & AI',
+                '2023',
+                'Nagaland'
+              )
+            "
+          >
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight break-words max-w-[240px]"
+                >Neuro AI</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[13px] uppercase tracking-tight"
+                >Semiconductor and Artificial Intelligence</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >2023</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >Nagaland</span
+              >
+            </td>
+            <td
+              class="px-[24px] py-[20px] text-right"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex items-center justify-end gap-[12px]">
+                <button
+                  class="px-[20px] py-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#8e3b3b] shadow-sm transition-all"
+                  onclick="handleReject('Neuro AI')"
+                >
+                  Reject
+                </button>
+                <button
+                  class="px-[20px] py-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#142c1e] shadow-sm transition-all"
+                  onclick="handleApprove('Neuro AI')"
+                >
+                  Approve
+                </button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 6 -->
+          <tr
+            class="hover:bg-gray-50 transition-all cursor-pointer group"
+            onclick="
+              openRequestDetail(
+                'Forest Fiber',
+                'Lalmuanpuii',
+                'Bamboo Innovation',
+                '2024',
+                'Mizoram'
+              )
+            "
+          >
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight break-words max-w-[240px]"
+                >Forest Fiber</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[13px] uppercase tracking-tight"
+                >Bamboo Innovation</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >2024</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >Mizoram</span
+              >
+            </td>
+            <td
+              class="px-[24px] py-[20px] text-right"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex items-center justify-end gap-[12px]">
+                <button
+                  class="px-[20px] py-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#8e3b3b] shadow-sm transition-all"
+                  onclick="handleReject('Forest Fiber')"
+                >
+                  Reject
+                </button>
+                <button
+                  class="px-[20px] py-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#142c1e] shadow-sm transition-all"
+                  onclick="handleApprove('Forest Fiber')"
+                >
+                  Approve
+                </button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 7 -->
+          <tr
+            class="hover:bg-gray-50 transition-all cursor-pointer group"
+            onclick="
+              openRequestDetail(
+                'Green Cycle',
+                'Tashi Namgyal',
+                'Waste Management',
+                '2022',
+                'Sikkim'
+              )
+            "
+          >
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight break-words max-w-[240px]"
+                >Green Cycle</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[13px] uppercase tracking-tight"
+                >Biodegradable Eco-friendly Plastic & Solid Waste
+                Management</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >2022</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >Sikkim</span
+              >
+            </td>
+            <td
+              class="px-[24px] py-[20px] text-right"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex items-center justify-end gap-[12px]">
+                <button
+                  class="px-[20px] py-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#8e3b3b] shadow-sm transition-all"
+                  onclick="handleReject('Green Cycle')"
+                >
+                  Reject
+                </button>
+                <button
+                  class="px-[20px] py-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#142c1e] shadow-sm transition-all"
+                  onclick="handleApprove('Green Cycle')"
+                >
+                  Approve
+                </button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 8 -->
+          <tr
+            class="hover:bg-gray-50 transition-all cursor-pointer group"
+            onclick="
+              openRequestDetail(
+                'Agri Solutions',
+                'Hitesh Phukan',
+                'Grassroot Technology',
+                '2021',
+                'Arunachal Pradesh'
+              )
+            "
+          >
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight break-words max-w-[240px]"
+                >Agri Solutions</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[13px] uppercase tracking-tight"
+                >Grassroot Technology</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >2021</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >Arunachal Pradesh</span
+              >
+            </td>
+            <td
+              class="px-[24px] py-[20px] text-right"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex items-center justify-end gap-[12px]">
+                <button
+                  class="px-[20px] py-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#8e3b3b] shadow-sm transition-all"
+                  onclick="handleReject('Agri Solutions')"
+                >
+                  Reject
+                </button>
+                <button
+                  class="px-[20px] py-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#142c1e] shadow-sm transition-all"
+                  onclick="handleApprove('Agri Solutions')"
+                >
+                  Approve
+                </button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 9 -->
+          <tr
+            class="hover:bg-gray-50 transition-all cursor-pointer group"
+            onclick="
+              openRequestDetail(
+                'Smart Build',
+                'Anju Bora',
+                'Bamboo Innovation',
+                '2023',
+                'Assam'
+              )
+            "
+          >
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight break-words max-w-[240px]"
+                >Smart Build</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[13px] uppercase tracking-tight"
+                >Bamboo Innovation</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >2023</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >Assam</span
+              >
+            </td>
+            <td
+              class="px-[24px] py-[20px] text-right"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex items-center justify-end gap-[12px]">
+                <button
+                  class="px-[20px] py-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#8e3b3b] shadow-sm transition-all"
+                  onclick="handleReject('Smart Build')"
+                >
+                  Reject
+                </button>
+                <button
+                  class="px-[20px] py-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#142c1e] shadow-sm transition-all"
+                  onclick="handleApprove('Smart Build')"
+                >
+                  Approve
+                </button>
+              </div>
+            </td>
+          </tr>
+          <!-- Row 10 -->
+          <tr
+            class="hover:bg-gray-50 transition-all cursor-pointer group"
+            onclick="
+              openRequestDetail(
+                'Waste to Wealth',
+                'Monica Roy',
+                'Waste Management',
+                '2024',
+                'Assam'
+              )
+            "
+          >
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight break-words max-w-[240px]"
+                >Waste to Wealth</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[13px] uppercase tracking-tight"
+                >Biodegradable Eco-friendly Plastic & Solid Waste
+                Management</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >2024</span
+              >
+            </td>
+            <td class="px-[24px] py-[20px]">
+              <span
+                class="font-['Inter'] font-normal text-[#464E42] text-[14px]"
+                >Assam</span
+              >
+            </td>
+            <td
+              class="px-[24px] py-[20px] text-right"
+              onclick="event.stopPropagation()"
+            >
+              <div class="flex items-center justify-end gap-[12px]">
+                <button
+                  class="px-[20px] py-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#8e3b3b] shadow-sm transition-all"
+                  onclick="handleReject('Waste to Wealth')"
+                >
+                  Reject
+                </button>
+                <button
+                  class="px-[20px] py-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold text-[14px] rounded-[10px] hover:bg-[#142c1e] shadow-sm transition-all"
+                  onclick="handleApprove('Waste to Wealth')"
+                >
+                  Approve
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Table Pagination Footer -->
+    <div
+      class="bg-[#f9fafb] border-t border-gray-100 flex items-center justify-between px-[24px] py-[16px]"
+    >
+      <div class="flex items-center gap-3"></div>
+      <div class="flex items-center gap-[8px]">
+        <!-- Previous Button -->
+        <button
+          class="w-[32px] h-[32px] flex items-center justify-center text-[#677461] hover:bg-gray-200 rounded-[6px] transition-all"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="15 18 9 12 15 6"></polyline>
+          </svg>
+        </button>
+
+        <!-- Page Numbers -->
+        <button
+          class="w-[32px] h-[32px] flex items-center justify-center bg-[#1b3a28] text-white font-['Inter'] font-bold text-[14px] rounded-[6px] shadow-sm"
+        >
+          1
+        </button>
+        <button
+          class="w-[32px] h-[32px] flex items-center justify-center text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-200 rounded-[6px] transition-all"
+        >
+          2
+        </button>
+        <button
+          class="w-[32px] h-[32px] flex items-center justify-center text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-200 rounded-[6px] transition-all"
+        >
+          3
+        </button>
+        <span class="text-[#677461] font-['Inter'] text-[14px]">...</span>
+        <button
+          class="w-[32px] h-[32px] flex items-center justify-center text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-200 rounded-[6px] transition-all"
+        >
+          5
+        </button>
+
+        <!-- Next Button -->
+        <button
+          class="w-[32px] h-[32px] flex items-center justify-center text-[#677461] hover:bg-gray-200 rounded-[6px] transition-all"
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <polyline points="9 18 15 12 9 6"></polyline>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Startup Detail Modal Overlay (Adapted with Reject/Approve) -->
+<div
+  id="request-detail-modal"
+  class="fixed inset-0 z-[110] hidden items-start justify-center p-4 overflow-y-auto bg-black/40 backdrop-blur-sm py-[60px]"
+>
+  <div class="fixed inset-0 z-0" onclick="closeRequestDetail()"></div>
+  <div
+    class="relative z-10 bg-white rounded-[32px] shadow-[0px_20px_60px_rgba(0,0,0,0.1)] p-[40px] w-full max-w-[1140px] transform transition-all duration-300 scale-95 opacity-0"
+    id="detail-card"
+  >
+    <!-- Close Button -->
+    <button
+      onclick="closeRequestDetail()"
+      class="absolute top-8 right-8 text-gray-400 hover:text-red-600 transition-all"
+    >
+      <svg
+        width="32"
+        height="32"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.5"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <line x1="18" y1="6" x2="6" y2="18"></line>
+        <line x1="6" y1="6" x2="18" y2="18"></line>
+      </svg>
+    </button>
+
+    <div class="flex flex-col gap-[32px]">
+      <!-- Header -->
+      <div class="flex flex-col gap-[8px]">
+        <h2
+          id="detail-title"
+          class="font-['Manrope'] font-bold text-[#1b3a28] text-[28px] leading-tight max-w-[80%] uppercase tracking-tight"
+        ></h2>
+        <p
+          id="detail-founder"
+          class="font-['Inter'] text-[#677461] text-[16px]"
+        ></p>
+      </div>
+
+      <!-- Content Grid -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-[40px]">
+        <!-- Left Column (Overview & Roots) -->
+        <div class="lg:col-span-2 flex flex-col gap-[32px]">
+          <div class="flex flex-col gap-[16px]">
+            <h4 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+              Overview
+            </h4>
+            <p
+              class="font-['Inter'] text-[#464E42] text-[15px] leading-relaxed"
+            >
+              Founded by a team of atmospheric scientists from IIT Guwahati and
+              data engineers, our venture addresses a critical gap in localized
+              weather forecasting. Current global models lack the granularity
+              required to predict hyper-local flash floods and landslide
+              triggers in the Northeast region. By deploying a proprietary mesh
+              network of low-cost sensors coupled with advanced machine learning
+              models, Aether Dynamics provides actionable insights to
+              agricultural cooperatives and disaster management authorities.
+            </p>
+          </div>
+
+          <!-- Establishment & Roots -->
+          <div
+            class="bg-[#f9f8f4] rounded-[20px] p-[32px] flex flex-col gap-[24px]"
+          >
+            <h4
+              class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em]"
+            >
+              Establishment & Roots
+            </h4>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-[24px]">
+              <div class="flex flex-col gap-[4px]">
+                <span class="font-['Inter'] text-[#677461] text-[12px]"
+                  >Founded Date</span
+                >
+                <span
+                  class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]"
+                  >March 14, 2022</span
+                >
+              </div>
+              <div class="flex flex-col gap-[4px]">
+                <span class="font-['Inter'] text-[#677461] text-[12px]"
+                  >Registration Type</span
+                >
+                <span
+                  class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]"
+                  >Private Limited</span
+                >
+              </div>
+              <div class="flex flex-col gap-[4px]">
+                <span class="font-['Inter'] text-[#677461] text-[12px]"
+                  >Team size</span
+                >
+                <span
+                  class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]"
+                  >8 members</span
+                >
+              </div>
+              <div class="flex flex-col gap-[4px]">
+                <span class="font-['Inter'] text-[#677461] text-[12px]"
+                  >Funding</span
+                >
+                <span
+                  class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]"
+                  >10 lac</span
+                >
+              </div>
+            </div>
+          </div>
+
+          <!-- Action Buttons in Modal -->
+          <div class="flex items-center gap-4 mt-4">
+            <button
+              class="bg-[#b04a4a] text-white px-10 py-4 rounded-[16px] font-['Manrope'] font-bold text-[16px] shadow-lg hover:bg-[#8e3b3b] transform hover:-translate-y-1 transition-all"
+            >
+              Reject Request
+            </button>
+            <button
+              class="bg-[#1b3a28] text-white px-10 py-4 rounded-[16px] font-['Manrope'] font-bold text-[16px] shadow-lg hover:bg-[#142c1e] transform hover:-translate-y-1 transition-all"
+            >
+              Approve Request
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Column (Documents & Contact) -->
+        <div class="flex flex-col gap-[32px]">
+          <!-- Documents & Assets -->
+          <div class="flex flex-col gap-[16px]">
+            <h4
+              class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em]"
+            >
+              Documents & Assets
+            </h4>
+            <div class="flex flex-col gap-3">
+              <div
+                class="flex items-center justify-between p-4 bg-[#f3f4f6]/50 rounded-[12px] hover:bg-gray-100 transition-all cursor-pointer"
+              >
+                <div class="flex items-center gap-3">
+                  <div
+                    class="w-10 h-10 bg-red-50 rounded-[8px] flex items-center justify-center border border-red-100"
+                  >
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="#ef4444"
+                      stroke-width="2"
+                    >
+                      <path
+                        d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
+                      ></path>
+                      <polyline points="14 2 14 8 20 8"></polyline>
+                    </svg>
+                  </div>
+                  <div class="flex flex-col">
+                    <span
+                      class="font-['Manrope'] font-bold text-[#1b3a28] text-[14px]"
+                      >Pitch_Deck_v2.pdf</span
+                    >
+                    <span class="font-['Inter'] text-[#677461] text-[11px]"
+                      >4.2 MB • Updated Oct 10</span
+                    >
+                  </div>
+                </div>
+                <svg
+                  width="20"
+                  height="20"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="#677461"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path>
+                  <polyline points="7 10 12 15 17 10"></polyline>
+                  <line x1="12" y1="15" x2="12" y2="3"></line>
+                </svg>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contact Details -->
+          <div
+            class="bg-[#f2faf5] rounded-[20px] p-[24px] flex flex-col gap-[20px]"
+          >
+            <div class="flex flex-col gap-[4px]">
+              <span class="font-['Inter'] text-[#677461] text-[12px]"
+                >Official Email</span
+              >
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px] whitespace-nowrap"
+                >contact@aetherdynamics.com</span
+              >
+            </div>
+            <div class="flex flex-col gap-[4px]">
+              <span class="font-['Inter'] text-[#677461] text-[12px]"
+                >Phone Number</span
+              >
+              <span
+                class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px]"
+                >+91 0000112233232</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  {
+    const detailModal = document.getElementById('request-detail-modal');
+    const detailCard = document.getElementById('detail-card');
+    const detailTitle = document.getElementById('detail-title');
+    const detailFounder = document.getElementById('detail-founder');
+
+    window.openRequestDetail = function (name, founder, category, year, state) {
+      detailTitle.textContent = name;
+      detailFounder.textContent = founder + ' • ' + category;
+
+      detailModal.classList.remove('hidden');
+      detailModal.classList.add('flex');
+      setTimeout(() => {
+        detailCard.classList.remove('scale-95', 'opacity-0');
+        detailCard.classList.add('scale-100', 'opacity-100');
+      }, 10);
+    };
+
+    window.closeRequestDetail = function () {
+      detailCard.classList.remove('scale-100', 'opacity-100');
+      detailCard.classList.add('scale-95', 'opacity-0');
+      setTimeout(() => {
+        detailModal.classList.add('hidden');
+        detailModal.classList.remove('flex');
+      }, 300);
+    };
+
+    window.handleReject = function (name) {
+      alert('Rejecting request for: ' + name);
+    };
+
+    window.handleApprove = function (name) {
+      alert('Approving request for: ' + name);
+    };
+  }
+</script>

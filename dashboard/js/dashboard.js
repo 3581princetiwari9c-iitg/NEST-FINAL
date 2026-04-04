@@ -59,11 +59,13 @@ document.addEventListener('DOMContentLoaded', () => {
         '#programs': '/dashboard/admin/programdashboard.html',
         '#create-program': '/dashboard/admin/createprogram.html',
         '#startups': '/dashboard/admin/startupdashboard.html',
-        '#requests': '/dashboard/admin/clusterdashboard.html',  // Placeholder
-        '#newsletter': '/dashboard/admin/clusterdashboard.html', // Placeholder
-        '#management': '/dashboard/admin/clusterdashboard.html', // Placeholder
-        '#gallery': '/dashboard/admin/clusterdashboard.html',    // Placeholder
-        '#profile': '/dashboard/admin/clusterdashboard.html',    // Placeholder
+        '#requests': '/dashboard/admin/requestdashboard.html',
+        '#newsletter': '/dashboard/admin/newsletterdashboard.html',
+        '#upload-newsletter': '/dashboard/admin/uploadnewsletter.html',
+        '#stats': '/dashboard/admin/statschange.html',
+        '#management': '/dashboard/admin/management.html',
+        '#gallery': '/dashboard/admin/gallerydashboard.html',
+        '#profile': '/dashboard/admin/profile.html',
         '#logout': '/index.html' // Handle logout
     };
 

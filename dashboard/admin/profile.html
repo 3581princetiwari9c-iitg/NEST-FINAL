@@ -1,0 +1,203 @@
+<div class="flex flex-col gap-[24px] items-start w-full pb-10">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 w-full mb-[8px]">
+        <div class="flex flex-col items-start shrink-0">
+            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+                User Profile
+            </h1>
+        </div>
+        <button onclick="simulateSaveProfile()" id="save-btn" class="flex items-center gap-2 bg-[#2D5A3D] text-white px-8 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#1b3a28] transition-all">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+                <polyline points="17 21 17 13 7 13 7 21"></polyline>
+                <polyline points="7 3 7 8 15 8"></polyline>
+            </svg>
+            Save All Changes
+        </button>
+    </div>
+
+    <!-- Profile Overview Card -->
+    <div class="w-full bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 p-8 flex flex-col md:flex-row items-center gap-8">
+        <div class="relative group">
+            <div class="w-32 h-32 rounded-full border-4 border-gray-50 overflow-hidden shadow-md">
+                <img id="user-avatar" src="https://ui-avatars.com/api/?name=Umar+Firoz&background=2D5A3D&color=fff&size=512" alt="Profile" class="w-full h-full object-cover">
+            </div>
+            <button onclick="simulateAvatarChange()" class="absolute bottom-0 right-0 p-2.5 bg-[#2D5A3D] text-white rounded-full shadow-lg hover:scale-110 transition-all border-2 border-white">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
+            </button>
+        </div>
+        <div class="flex flex-col items-center md:items-start gap-1">
+            <h2 class="font-['Manrope'] font-bold text-[24px] text-[#1b3a28]">Umar Firoz</h2>
+            <span class="px-3 py-1 bg-yellow-50 text-yellow-700 rounded-full text-[12px] font-bold uppercase tracking-wider border border-yellow-100 mb-2">Main Admin</span>
+            <p class="font-['Manrope'] text-[#677461] text-[14px]">Member since January 2024</p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-[24px] w-full mt-4">
+        <!-- Personal Information Section -->
+        <div class="bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+            <div class="px-8 py-5 border-b border-[#f1f2f4] bg-[#fdfdfd]">
+                <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28]">Personal Information</h3>
+            </div>
+            <div class="p-8 space-y-6">
+                <div class="grid grid-cols-1 gap-6">
+                    <div class="space-y-2">
+                        <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Full Name</label>
+                        <input type="text" value="Umar Firoz" class="w-full px-4 py-3 bg-[#fdfdfd] border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all">
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Email Address</label>
+                        <input type="email" value="umar.firoz@nestcluster.net" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] text-gray-500 font-['Manrope']" disabled>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Phone Number</label>
+                            <input type="text" placeholder="+91 98765 43210" class="w-full px-4 py-3 bg-[#fdfdfd] border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Designation</label>
+                            <input type="text" value="Head of Operations" class="w-full px-4 py-3 bg-[#fdfdfd] border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security & Preferences Section -->
+        <div class="flex flex-col gap-[24px]">
+            <!-- Security Section -->
+            <div class="bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+                <div class="px-8 py-5 border-b border-[#f1f2f4] bg-[#fdfdfd]">
+                    <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28]">Security & Login</h3>
+                </div>
+                <div class="p-8 space-y-5">
+                    <div class="space-y-2">
+                        <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Current Password</label>
+                        <input type="password" placeholder="••••••••" class="w-full px-4 py-3 bg-[#fdfdfd] border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">New Password</label>
+                            <input type="password" placeholder="••••••••" class="w-full px-4 py-3 bg-[#fdfdfd] border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all">
+                        </div>
+                        <div class="space-y-2">
+                            <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Confirm New</label>
+                            <input type="password" placeholder="••••••••" class="w-full px-4 py-3 bg-[#fdfdfd] border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all">
+                        </div>
+                    </div>
+                    <button class="w-full py-3 bg-gray-50 text-[#1b3a28] font-['Manrope'] font-bold rounded-[8px] border border-gray-200 hover:bg-gray-100 transition-all text-[14px]">Update Password Only</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- OTP Verification Modal -->
+<div id="otp-modal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm hidden animate-in fade-in duration-200">
+    <div class="bg-white rounded-[16px] shadow-2xl border border-gray-100 max-w-md w-full overflow-hidden animate-in zoom-in-95 duration-200">
+        <div class="p-8">
+            <div class="w-16 h-16 bg-[#f1ffee] text-[#2D5A3D] rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+                </svg>
+            </div>
+            
+            <h3 class="font-['Manrope'] font-bold text-[22px] text-[#1b3a28] text-center mb-2">Verify Identity</h3>
+            <p class="font-['Manrope'] text-[#677461] text-[15px] text-center mb-8 px-4">
+                An OTP has been sent to your email. Please enter the 6-digit code to confirm your changes.
+            </p>
+
+            <!-- OTP Input Grid -->
+            <div class="flex justify-between gap-2 mb-8" id="otp-inputs">
+                <input type="text" maxlength="1" class="w-12 h-14 bg-gray-50 border-2 border-gray-100 rounded-xl text-center font-bold text-xl focus:border-[#2D5A3D] focus:ring-0 outline-none transition-all" />
+                <input type="text" maxlength="1" class="w-12 h-14 bg-gray-50 border-2 border-gray-100 rounded-xl text-center font-bold text-xl focus:border-[#2D5A3D] focus:ring-0 outline-none transition-all" />
+                <input type="text" maxlength="1" class="w-12 h-14 bg-gray-50 border-2 border-gray-100 rounded-xl text-center font-bold text-xl focus:border-[#2D5A3D] focus:ring-0 outline-none transition-all" />
+                <input type="text" maxlength="1" class="w-12 h-14 bg-gray-50 border-2 border-gray-100 rounded-xl text-center font-bold text-xl focus:border-[#2D5A3D] focus:ring-0 outline-none transition-all" />
+                <input type="text" maxlength="1" class="w-12 h-14 bg-gray-50 border-2 border-gray-100 rounded-xl text-center font-bold text-xl focus:border-[#2D5A3D] focus:ring-0 outline-none transition-all" />
+                <input type="text" maxlength="1" class="w-12 h-14 bg-gray-50 border-2 border-gray-100 rounded-xl text-center font-bold text-xl focus:border-[#2D5A3D] focus:ring-0 outline-none transition-all" />
+            </div>
+
+            <div class="flex flex-col gap-3">
+                <button onclick="verifyOTP()" class="w-full py-4 bg-[#2D5A3D] text-white font-['Manrope'] font-bold rounded-xl shadow-lg hover:bg-[#1b3a28] transition-all transform hover:scale-[1.02] active:scale-[0.98]">
+                    Verify & Save Changes
+                </button>
+                <button onclick="closeOTPModal()" class="w-full py-3 text-[#677461] font-['Manrope'] font-bold hover:text-[#1b3a28] transition-all">
+                    Cancel
+                </button>
+            </div>
+            
+            <p class="mt-6 text-center text-sm font-['Manrope'] text-[#677461]">
+                Didn't receive it? <button class="text-[#2D5A3D] font-bold hover:underline">Resend OTP</button>
+            </p>
+        </div>
+    </div>
+</div>
+
+<script>
+    function simulateSaveProfile() {
+        const btn = document.getElementById('save-btn');
+        btn.innerHTML = '<span class="flex items-center gap-2">Sending OTP...</span>';
+        btn.disabled = true;
+
+        setTimeout(() => {
+            document.getElementById('otp-modal').classList.remove('hidden');
+            btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg> Save All Changes';
+            btn.disabled = false;
+            
+            // Focus first input
+            const firstInput = document.querySelector('#otp-inputs input');
+            if (firstInput) firstInput.focus();
+        }, 1000);
+    }
+
+    // OTP Input logic
+    const inputs = document.querySelectorAll('#otp-inputs input');
+    inputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+            if (e.target.value.length > 0 && index < inputs.length - 1) {
+                inputs[index + 1].focus();
+            }
+        });
+
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
+                inputs[index - 1].focus();
+            }
+        });
+    });
+
+    function verifyOTP() {
+        let otp = "";
+        inputs.forEach(input => otp += input.value);
+
+        if (otp.length < 6) {
+            alert('Please enter all 6 digits of the OTP.');
+            return;
+        }
+
+        const verifyBtn = event.currentTarget;
+        const originalText = verifyBtn.innerText;
+        verifyBtn.innerText = 'Verifying...';
+        verifyBtn.disabled = true;
+
+        setTimeout(() => {
+            alert('Profile updated successfully! (Verified via OTP)');
+            closeOTPModal();
+            verifyBtn.innerText = originalText;
+            verifyBtn.disabled = false;
+            
+            // Clear inputs
+            inputs.forEach(input => input.value = "");
+        }, 1200);
+    }
+
+    function closeOTPModal() {
+        document.getElementById('otp-modal').classList.add('hidden');
+    }
+
+    function simulateAvatarChange() {
+        alert('Image upload initiated. (Backend simulation)');
+    }
+</script>

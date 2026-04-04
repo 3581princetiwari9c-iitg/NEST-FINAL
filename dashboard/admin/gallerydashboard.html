@@ -1,0 +1,146 @@
+<div class="flex flex-col gap-[24px] items-start w-full pb-10">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 w-full mb-[8px]">
+        <div class="flex flex-col items-start shrink-0">
+            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+                Gallery Management
+            </h1>
+        </div>
+        <button onclick="toggleUploadModal()" class="flex items-center gap-2 bg-[#2D5A3D] text-white px-6 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#1b3a28] transition-all">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Upload New Image
+        </button>
+    </div>
+
+    <!-- Gallery Grid -->
+    <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 w-full mt-4">
+        <!-- Sample Image Card 1 -->
+        <div class="gallery-card group relative bg-white rounded-[16px] overflow-hidden border border-[#e5e7ea] shadow-sm hover:shadow-md transition-all aspect-[4/3] flex flex-col">
+            <img src="/assets/programpic/2dayworkshop/20260110_042621649_iOS%201.jpg.jpeg" alt="Workshop Image" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                <button onclick="deleteImage(this)" class="p-3 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-lg transform hover:scale-110 transition-all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sample Image Card 2 -->
+        <div class="gallery-card group relative bg-white rounded-[16px] overflow-hidden border border-[#e5e7ea] shadow-sm hover:shadow-md transition-all aspect-[4/3] flex flex-col">
+            <img src="/assets/programpic/2dayworkshop/Volunteers%20Pics/MKS_0320.JPG.jpeg" alt="Volunteer" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                <button onclick="deleteImage(this)" class="p-3 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-lg transform hover:scale-110 transition-all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sample Image Card 3 -->
+        <div class="gallery-card group relative bg-white rounded-[16px] overflow-hidden border border-[#e5e7ea] shadow-sm hover:shadow-md transition-all aspect-[4/3] flex flex-col">
+            <img src="/assets/programpic/event1/WhatsApp%20Image%202025-11-13%20at%205.35.00%20PM.jpeg" alt="Event" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+            <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
+                <button onclick="deleteImage(this)" class="p-3 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-lg transform hover:scale-110 transition-all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="3 6 5 6 21 6"></polyline>
+                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div id="upload-modal" class="hidden fixed inset-0 z-50 flex items-center justify-center">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" onclick="toggleUploadModal()"></div>
+        <div class="relative bg-white rounded-[24px] shadow-2xl w-full max-w-[500px] mx-4 overflow-hidden transform translate-y-[24px] transition-all">
+            <div class="p-8">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="font-['Manrope'] font-bold text-[22px] text-[#1b3a28]">Upload New Images</h3>
+                    <button onclick="toggleUploadModal()" class="text-gray-400 hover:text-red-500 transition-colors">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="18" y1="6" x2="6" y2="18"></line>
+                            <line x1="6" y1="6" x2="18" y2="18"></line>
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="space-y-6">
+                    <!-- Dropzone -->
+                    <div class="relative group border-2 border-dashed border-gray-200 hover:border-[#2D5A3D] rounded-[16px] p-10 flex flex-col items-center justify-center transition-all bg-[#f9fafb]">
+                        <input type="file" id="gallery-file" class="absolute inset-0 opacity-0 cursor-pointer" multiple onchange="previewUpload()">
+                        <div class="w-16 h-16 bg-[#f1f2f4] text-[#2D5A3D] rounded-full flex items-center justify-center mb-4 transition-all group-hover:scale-110">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                        </div>
+                        <p class="font-['Manrope'] font-bold text-[16px] text-gray-700">Drop your images here</p>
+                        <p class="font-['Manrope'] text-[14px] text-gray-400 mt-1">PNG, JPG up to 10MB</p>
+                    </div>
+
+                    <!-- Details -->
+                    <div class="space-y-4">
+                        <div>
+                            <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider mb-2">Caption (Optional)</label>
+                            <input type="text" placeholder="Short description..." class="w-full px-4 py-3 bg-[#fdfdfd] border border-[#e5e7ea] rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all">
+                        </div>
+                    </div>
+
+                    <button onclick="performUpload()" class="w-full bg-[#2D5A3D] text-white py-4 rounded-[12px] font-['Manrope'] font-bold text-[16px] shadow-lg hover:shadow-xl hover:bg-[#1b3a28] transition-all transform active:scale-95 mt-4">
+                        Perform Upload
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function toggleUploadModal() {
+        const modal = document.getElementById('upload-modal');
+        modal.classList.toggle('hidden');
+    }
+
+    function deleteImage(btn) {
+        if (confirm('Are you sure you want to delete this image? This action cannot be undone.')) {
+            const card = btn.closest('.gallery-card');
+            card.style.opacity = '0';
+            card.style.transform = 'scale(0.9)';
+            setTimeout(() => card.remove(), 300);
+        }
+    }
+
+    function performUpload() {
+        const file = document.getElementById('gallery-file').files[0];
+        if (!file) {
+            alert('Please select a file first.');
+            return;
+        }
+
+        // Simulation
+        const btn = event.target;
+        const originalText = btn.innerText;
+        btn.innerText = 'Uploading...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+            alert('Gallery updated successfully! (Simulation)');
+            toggleUploadModal();
+            btn.innerText = originalText;
+            btn.disabled = false;
+        }, 1500);
+    }
+
+    function previewUpload() {
+        // You could add logic here to show selected filenames
+    }
+</script>

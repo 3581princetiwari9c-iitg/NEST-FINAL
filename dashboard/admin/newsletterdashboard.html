@@ -1,0 +1,245 @@
+<div class="flex flex-col gap-[24px] items-start w-full">
+    <!-- Header -->
+    <div class="flex items-center justify-between w-full">
+        <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+            Newsletters Upload
+        </h1>
+        <a href="#upload-newsletter" class="flex items-center gap-2 bg-[#2D5A3D] text-white px-6 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#1b3a28] transition-all">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+            </svg>
+            Upload Newsletter
+        </a>
+    </div>
+
+    <!-- Filters Section -->
+    <div class="w-full bg-[#f3f4f6]/50 p-4 rounded-[12px] flex flex-wrap items-center justify-between gap-4 border border-gray-100">
+        <div class="flex flex-wrap items-center gap-3">
+            <button class="flex items-center gap-2 bg-white px-4 py-2 rounded-[8px] border border-gray-200 shadow-sm text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-50 transition-all">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="4" y1="21" x2="4" y2="14"></line>
+                    <line x1="4" y1="10" x2="4" y2="3"></line>
+                    <line x1="12" y1="21" x2="12" y2="12"></line>
+                    <line x1="12" y1="8" x2="12" y2="3"></line>
+                    <line x1="20" y1="21" x2="20" y2="16"></line>
+                    <line x1="20" y1="12" x2="20" y2="3"></line>
+                    <line x1="1" y1="14" x2="7" y2="14"></line>
+                    <line x1="9" y1="8" x2="15" y2="8"></line>
+                    <line x1="17" y1="16" x2="23" y2="16"></line>
+                </svg>
+                Filters
+            </button>
+
+            <!-- Year Dropdown -->
+            <div class="relative group">
+                <button class="flex items-center justify-between gap-4 bg-white px-4 py-2 rounded-[8px] border border-gray-200 shadow-sm text-[#464E42] font-['Inter'] text-[14px] min-w-[140px] hover:bg-gray-50 transition-all">
+                    <span>All Year</span>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                </button>
+                <!-- Dropdown Menu -->
+                <div class="absolute top-[calc(100%+4px)] left-0 w-[140px] bg-white border border-gray-100 rounded-[8px] shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 overflow-hidden">
+                    <div class="flex flex-col py-1">
+                        <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">All Year</a>
+                        <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">2026</a>
+                        <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">2025</a>
+                        <a href="#" class="px-4 py-2 text-[#464E42] text-[13px] font-['Inter'] hover:bg-[#f1ffee] hover:text-[#2d5a3d] transition-all">2024</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <span class="font-['Inter'] text-[#677461] text-[14px] font-medium whitespace-nowrap">
+            Showing 1-5 of 12 newsletters
+        </span>
+    </div>
+
+    <!-- Newsletter Table -->
+    <div class="w-full bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden mb-[72px]">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-[#f9fafb] border-b border-gray-100">
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap w-[40%]">Edition</th>
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Month</th>
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Year</th>
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Date</th>
+                        <th class="px-[24px] py-[16px] text-right font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                    <!-- Row 1 -->
+                    <tr class="hover:bg-gray-50 transition-all cursor-pointer group">
+                        <td class="px-[24px] py-[20px]">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 bg-[#f1ffee] rounded-[10px] flex items-center justify-center text-[#2d5a3d] border border-[#dcfce7]">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                        <polyline points="10 9 9 9 8 9"></polyline>
+                                    </svg>
+                                </div>
+                                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">March Edition 2026</span>
+                            </div>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-medium text-[#464E42] text-[13px] uppercase">March</span>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-medium text-[#464E42] text-[14px]">2026</span>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-normal text-[#464E42] text-[14px]">23/03/2026</span>
+                        </td>
+                        <td class="px-[24px] py-[20px] text-right">
+                            <div class="flex items-center justify-end gap-[16px]">
+                                <button class="p-2 text-[#677461] hover:text-[#1b3a28] hover:bg-gray-100 rounded-[8px] transition-all" title="View Newsletter">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                                <button class="p-2 text-[#677461] hover:text-red-600 hover:bg-red-50 rounded-[8px] transition-all" title="Delete Newsletter">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Row 2 -->
+                    <tr class="hover:bg-gray-50 transition-all cursor-pointer group">
+                        <td class="px-[24px] py-[20px]">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 bg-[#f1ffee] rounded-[10px] flex items-center justify-center text-[#2d5a3d] border border-[#dcfce7]">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                        <polyline points="10 9 9 9 8 9"></polyline>
+                                    </svg>
+                                </div>
+                                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">February Edition 2026</span>
+                            </div>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-medium text-[#464E42] text-[13px] uppercase">February</span>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-medium text-[#464E42] text-[14px]">2026</span>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-normal text-[#464E42] text-[14px]">10/02/2026</span>
+                        </td>
+                        <td class="px-[24px] py-[20px] text-right">
+                            <div class="flex items-center justify-end gap-[16px]">
+                                <button class="p-2 text-[#677461] hover:text-[#1b3a28] hover:bg-gray-100 rounded-[8px] transition-all" title="View Newsletter">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                                <button class="p-2 text-[#677461] hover:text-red-600 hover:bg-red-50 rounded-[8px] transition-all" title="Delete Newsletter">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Row 3 -->
+                    <tr class="hover:bg-gray-50 transition-all cursor-pointer group">
+                        <td class="px-[24px] py-[20px]">
+                            <div class="flex items-center gap-4">
+                                <div class="w-10 h-10 bg-[#f1ffee] rounded-[10px] flex items-center justify-center text-[#2d5a3d] border border-[#dcfce7]">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                        <polyline points="14 2 14 8 20 8"></polyline>
+                                        <line x1="16" y1="13" x2="8" y2="13"></line>
+                                        <line x1="16" y1="17" x2="8" y2="17"></line>
+                                        <polyline points="10 9 9 9 8 9"></polyline>
+                                    </svg>
+                                </div>
+                                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">January Edition 2026</span>
+                            </div>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-medium text-[#464E42] text-[13px] uppercase">January</span>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-medium text-[#464E42] text-[14px]">2026</span>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-normal text-[#464E42] text-[14px]">15/01/2026</span>
+                        </td>
+                        <td class="px-[24px] py-[20px] text-right">
+                            <div class="flex items-center justify-end gap-[16px]">
+                                <button class="p-2 text-[#677461] hover:text-[#1b3a28] hover:bg-gray-100 rounded-[8px] transition-all" title="View Newsletter">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                </button>
+                                <button class="p-2 text-[#677461] hover:text-red-600 hover:bg-red-50 rounded-[8px] transition-all" title="Delete Newsletter">
+                                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                        <line x1="10" y1="11" x2="10" y2="17"></line>
+                                        <line x1="14" y1="11" x2="14" y2="17"></line>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Table Pagination Footer -->
+        <div class="bg-[#f9fafb] border-t border-gray-100 flex items-center justify-between px-[24px] py-[16px]">
+            <div class="flex items-center gap-3"></div>
+            <div class="flex items-center gap-[8px]">
+                <button class="w-[32px] h-[32px] flex items-center justify-center text-[#677461] hover:bg-gray-200 rounded-[6px] transition-all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="15 18 9 12 15 6"></polyline>
+                    </svg>
+                </button>
+                <button class="w-[32px] h-[32px] flex items-center justify-center bg-[#1b3a28] text-white font-['Inter'] font-bold text-[14px] rounded-[6px] shadow-sm">1</button>
+                <button class="w-[32px] h-[32px] flex items-center justify-center text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-200 rounded-[6px] transition-all">2</button>
+                <button class="w-[32px] h-[32px] flex items-center justify-center text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-200 rounded-[6px] transition-all">3</button>
+                <span class="text-[#677461] font-['Inter'] text-[14px]">...</span>
+                <button class="w-[32px] h-[32px] flex items-center justify-center text-[#464E42] font-['Inter'] font-semibold text-[14px] hover:bg-gray-200 rounded-[6px] transition-all">5</button>
+                <button class="w-[32px] h-[32px] flex items-center justify-center text-[#677461] hover:bg-gray-200 rounded-[6px] transition-all">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                    </svg>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    {
+        window.handleDeleteNewsletter = function(edition) {
+            if (confirm('Are you sure you want to delete the "' + edition + '"?')) {
+                alert('Newsletter deleted successfully!');
+            }
+        };
+
+        window.handleViewNewsletter = function(edition) {
+            alert('Opening preview for: ' + edition);
+        };
+    }
+</script>
