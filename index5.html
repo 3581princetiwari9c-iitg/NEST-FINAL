@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>NEST Cluster - Dashboard</title>
+    <title>NEST Cluster - Entrepreneur Dashboard</title>
     <link href="src/output.css" rel="stylesheet" />
     <link rel="icon" type="image/png" href="assets/logo/logo-1.png" />
     <link
@@ -36,36 +36,17 @@
             <path d="M170 85V505" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="5" stroke-linecap="round" />
             <path d="M205 125V505" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="4" stroke-linecap="round" />
             <path d="M85 85H105" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="2" />
-            <path d="M85 165H105" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="2" />
-            <path d="M85 245H105" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="2" />
-            <path d="M85 325H105" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="2" />
-            <path d="M85 405H105" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="2" />
             <path d="M125 125H145" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="1.5" />
-            <path d="M125 205H145" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="1.5" />
-            <path d="M125 305H145" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="1.5" />
-            <path d="M125 405H145" stroke="#2D4A24" stroke-opacity="0.05" stroke-width="1.5" />
             <path d="M95 85C121.667 65 148.333 48.3333 175 35C155 51.6667 141.667 68.3333 135 85" fill="#2D4A24"
                 fill-opacity="0.05" />
-            <path d="M95 85C68.3333 65 45 46.6667 25 30C39.6667 50 49.6667 69 55 87" fill="#2D4A24"
-                fill-opacity="0.05" />
             <path d="M135 125C161.667 108.333 188.333 95 215 85C193.667 105 180.333 121.667 175 135" fill="#2D4A24"
-                fill-opacity="0.05" />
-            <path d="M135 205C108.333 190.333 85 177 65 165C83.6667 181.667 93 196.667 93 210" fill="#2D4A24"
-                fill-opacity="0.05" />
-            <path d="M95 245C125 228.333 151.667 215 175 205C153.667 223.667 140.333 239.667 135 253" fill="#2D4A24"
-                fill-opacity="0.05" />
-            <path d="M95 325C67 310.333 43.6667 297.667 25 287C41 304.333 50.3333 320.333 53 335" fill="#2D4A24"
-                fill-opacity="0.05" />
-            <path d="M70 145C43.3333 128.333 20 114.333 0 103C16.6667 119 25.6667 134.667 27 150" fill="#2D4A24"
-                fill-opacity="0.05" />
-            <path d="M70 225C100 210.333 124.333 198 143 188C123 206 111 221 107 233" fill="#2D4A24"
                 fill-opacity="0.05" />
         </svg>
     </div>
 
     <!-- 🌐 Content -->
     <div class="relative z-10 flex flex-col min-h-screen">
-        <!-- Navbar placeholder loaded via dynamic script -->
+        <!-- Navbar placeholder -->
         <div id="navbar"></div>
 
         <div class="flex flex-grow">
@@ -74,15 +55,15 @@
 
             <!-- Main Content Area -->
             <main class="flex-grow ml-[250px] min-h-[calc(100vh-114px)]">
-                <div id="main-content" class="p-6">
-                    <!-- Dashboard content will be injected here -->
+                <div id="main-content" class="p-8">
+                    <!-- Dashboard content injected here -->
                 </div>
             </main>
         </div>
     </div>
 
 
-    <script src="dashboard/js/dashboard.js" defer></script>
+    <script src="dashboard/js/entrepreneur-dashboard.js" defer></script>
 </body>
 
 </html>

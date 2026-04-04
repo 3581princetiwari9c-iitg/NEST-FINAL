@@ -584,6 +584,104 @@ document.addEventListener('DOMContentLoaded', () => {
           mainContent.innerHTML =
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
+    } else if (hash === '#tranieeregister') {
+      mainContent.innerHTML = LOADER_HTML;
+      fetch('/pages/loginregister/tranieeregistration.html')
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
+    } else if (hash === '#login') {
+      mainContent.innerHTML = LOADER_HTML;
+      fetch('/pages/loginregister/login.html')
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          
+          // Re-initialize scripts (for OTP auto-tabbing and toggles)
+          const scripts = mainContent.querySelectorAll('script');
+          scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            newScript.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
+    } else if (hash === '#artisanregister') {
+      mainContent.innerHTML = LOADER_HTML;
+      fetch('/pages/loginregister/artisanregistration.html')
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
+    } else if (hash === '#entrepreneurregister') {
+      mainContent.innerHTML = LOADER_HTML;
+      fetch('/pages/loginregister/entrepreneurregistration.html')
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+          
+          // Re-initialize any scripts in the fetched HTML if needed
+          const scripts = mainContent.querySelectorAll('script');
+          scripts.forEach(oldScript => {
+            const newScript = document.createElement('script');
+            newScript.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
     } else if (hash === '' || hash === '#home') {
       if (window.heroCarouselInterval) clearInterval(window.heroCarouselInterval);
       mainContent.innerHTML = LOADER_HTML;

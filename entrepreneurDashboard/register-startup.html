@@ -1,0 +1,261 @@
+<div class="flex flex-col gap-[32px] items-start w-full max-w-[1100px] mx-auto pb-10 min-h-screen">
+    <!-- Top Navigation & Header -->
+    <div class="flex flex-col gap-[12px] w-full">
+        <a href="#mystartup"
+            class="flex items-center gap-2 text-[#677461] hover:text-[#1b3a28] transition-all font-['Inter'] font-semibold text-[14px] group">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to My Startup
+        </a>
+        <div class="flex items-center justify-between w-full">
+            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+                Apply for Incubation
+            </h1>
+            <button id="apply-btn-top" class="bg-[#2D5A3D] text-white px-8 py-3 rounded-[8px] font-['Manrope'] font-bold text-[15px] shadow-sm hover:bg-[#1b3a28] transition-all">
+                Apply for Incubation
+            </button>
+        </div>
+    </div>
+
+    <!-- Section 1: Basic Identity (Ditto Style) -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[8px]">
+        <!-- Left: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Basic Identity
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                The primary identity of your startup. Provide the official name and founder details for our directory.
+            </p>
+        </div>
+
+        <!-- Right: Form Card -->
+        <div class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full space-y-6">
+            <div class="flex flex-col gap-2">
+                <label class="input-label">Startup Name</label>
+                <input type="text" placeholder="e.g. Northeast Innovation Summit 2024" class="form-input-box">
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="input-label">Founder / Owner Name</label>
+                <input type="text" placeholder="Your full name" class="form-input-box">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                <div class="flex flex-col gap-2">
+                    <label class="input-label">Email Address</label>
+                    <input type="email" placeholder="contact@startup.com" class="form-input-box">
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="input-label">Phone Number</label>
+                    <input type="tel" placeholder="+91 00000 00000" class="form-input-box">
+                </div>
+            </div>
+            <div class="flex flex-col gap-2">
+                <label class="input-label">Website Link</label>
+                <div class="flex">
+                    <span class="inline-flex items-center px-4 rounded-l-[8px] border border-gray-200 bg-gray-50 text-gray-400 text-sm">https://</span>
+                    <input type="text" placeholder="www.yourstartup.com" class="form-input-box-right">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 2: Business Logic (Ditto Style) -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[32px] border-t border-gray-100">
+        <!-- Left: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Business Logic
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                Tell us how your business works, your vision, and your current operational scale.
+            </p>
+        </div>
+
+        <!-- Right: Form Card -->
+        <div class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full space-y-6">
+            <div class="flex flex-col gap-2">
+                <label class="input-label">Startup Overview</label>
+                <textarea rows="4" placeholder="Briefly describe your vision, product, and mission..." class="form-input-box resize-none"></textarea>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                <div class="flex flex-col gap-2">
+                    <label class="input-label">Industry / Type</label>
+                    <select class="form-input-box appearance-none cursor-pointer"><option>Select Vertical</option><option>Bamboo Innovation</option></select>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="input-label">State / Region</label>
+                    <select class="form-input-box appearance-none cursor-pointer"><option>Select NE State</option><option>Assam</option></select>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="input-label">Team Size</label>
+                    <input type="text" placeholder="Total employees" class="form-input-box">
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="input-label">Funding Raised (INR)</label>
+                    <input type="text" placeholder="Amount in Lakhs/Cr" class="form-input-box">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3: Legal & Docs (Ditto Style) -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[32px] border-t border-gray-100">
+        <!-- Left: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Legal & Identification
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                Provide your legal credentials and identity documents for verification.
+            </p>
+        </div>
+
+        <!-- Right: Form Card -->
+        <div class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full space-y-6">
+            <div class="flex flex-col gap-2">
+                <label class="input-label">GST Number</label>
+                <input type="text" placeholder="Enter 15-digit GSTIN" class="form-input-box max-w-sm">
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                <div class="flex flex-col gap-2">
+                    <label class="input-label">Identification Draft</label>
+                    <div class="upload-box-small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        <span class="text-[14px] font-semibold">Upload ID (PDF/JPG)</span>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2">
+                    <label class="input-label">Business Purpose Doc</label>
+                    <div class="upload-box-small">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" y1="3" x2="12" y2="15"></line></svg>
+                        <span class="text-[14px] font-semibold">Upload Purpose (PDF)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 4: Final Acceptance -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[32px] border-t border-gray-100">
+        <div class="hidden lg:block"></div>
+        <div class="flex flex-col gap-[24px]">
+            <div class="flex items-start gap-3">
+                <input type="checkbox" class="mt-1 w-4 h-4 rounded border-gray-300 text-[#2D5A3D] focus:ring-[#2D5A3D]">
+                <label class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed">
+                    I confirm that all information provided is accurate and representational of the legal entity of my startup. I understand that any misrepresentation may lead to rejection of incubation services.
+                </label>
+            </div>
+            <button id="apply-btn" class="w-full bg-[#2D5A3D] hover:bg-[#1b3a28] text-white font-['Manrope'] font-bold py-[18px] rounded-[12px] shadow-[0px_8px_24px_rgba(45,90,61,0.15)] transition-all duration-300 transform hover:scale-[1.005] active:scale-[0.995] text-[16px] tracking-wider uppercase">
+                Apply for Incubation
+            </button>
+        </div>
+    </div>
+
+    <!-- Success Modal (Mirror Admin) -->
+    <div id="success-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+        <!-- Backdrop -->
+        <div class="absolute inset-0 bg-black/40 backdrop-blur-sm"></div>
+        <!-- Modal Content -->
+        <div class="relative bg-white rounded-[24px] shadow-[0px_20px_60px_rgba(0,0,0,0.1)] p-[40px] w-full max-w-[440px] flex flex-col items-center text-center gap-[24px]" id="modal-content">
+            <div class="w-[80px] h-[80px] bg-[#E9F3EC] rounded-full flex items-center justify-center">
+                <div class="w-[48px] h-[48px] bg-[#2D5A3D] rounded-full flex items-center justify-center shadow-[0px_4px_12px_rgba(45,90,61,0.2)]">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                </div>
+            </div>
+            <div class="flex flex-col gap-[8px]">
+                <h3 class="font-['Manrope'] font-bold text-[#1b3a28] text-[24px]">Application Sent!</h3>
+                <p class="font-['Inter'] text-[#677461] text-[15px] leading-relaxed">
+                    Your startup registration has been successfully sent for review. You will be notified once the approval process is complete.
+                </p>
+            </div>
+            <button id="close-modal-btn" class="w-full bg-[#2D5A3D] hover:bg-[#1b3a28] text-white font-['Manrope'] font-bold py-[16px] rounded-[12px] transition-all duration-300 shadow-[0px_4px_12px_rgba(45,90,61,0.15)]">
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <!-- Shared Styles -->
+    <style>
+        .input-label {
+            font-family: 'Inter', sans-serif;
+            font-weight: 700;
+            color: #464E42;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .form-input-box {
+            width: 100%;
+            background-color: rgba(243, 244, 246, 0.5);
+            border: 1px solid #f1f2f4;
+            border-radius: 8px;
+            padding: 14px 16px;
+            font-family: 'Inter', sans-serif;
+            color: #1b3a28;
+            transition: all 0.2s;
+            outline: none;
+        }
+        .form-input-box:focus {
+            background-color: white;
+            border-color: #2D5A3D;
+            box-shadow: 0 0 0 4px rgba(45, 90, 61, 0.05);
+        }
+        .form-input-box-right {
+             flex-grow: 1;
+             background-color: rgba(243, 244, 246, 0.5);
+             border: 1px solid #f1f2f4;
+             border-left: 0;
+             border-radius: 0 8px 8px 0;
+             padding: 14px 16px;
+             font-family: 'Inter', sans-serif;
+             color: #1b3a28;
+             outline: none;
+        }
+        .upload-box-small {
+            width: 100%;
+            border: 2px dashed #e5e7eb;
+            border-radius: 12px;
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            color: #677461;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .upload-box-small:hover {
+            border-color: #2D5A3D;
+            background-color: #f1ffee;
+            color: #2D5A3D;
+        }
+    </style>
+
+    <script>
+        (function() {
+            const applyBtn = document.getElementById('apply-btn');
+            const applyBtnTop = document.getElementById('apply-btn-top');
+            const modal = document.getElementById('success-modal');
+            const closeBtn = document.getElementById('close-modal-btn');
+
+            function showModal() {
+                modal.classList.remove('hidden');
+                modal.classList.add('flex');
+            }
+
+            applyBtn.addEventListener('click', showModal);
+            applyBtnTop.addEventListener('click', showModal);
+
+            closeBtn.addEventListener('click', () => {
+                modal.classList.add('hidden');
+                window.location.hash = '#mystartup';
+            });
+        })();
+    </script>
+</div>

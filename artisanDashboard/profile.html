@@ -3,7 +3,7 @@
     <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 w-full mb-[8px]">
         <div class="flex flex-col items-start shrink-0">
             <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
-                User Profile
+                Artisan Profile
             </h1>
         </div>
         <div class="flex gap-3">
@@ -29,15 +29,16 @@
     <div class="w-full bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 p-8 flex flex-col md:flex-row items-center gap-8">
         <div class="relative group">
             <div class="w-32 h-32 rounded-full border-4 border-gray-50 overflow-hidden shadow-md">
-                <img id="user-avatar" src="https://ui-avatars.com/api/?name=Umar+Firoz&background=2D5A3D&color=fff&size=512" alt="Profile" class="w-full h-full object-cover">
+                <img id="user-avatar" src="https://ui-avatars.com/api/?name=Artisan+User&background=2D5A3D&color=fff&size=512" alt="Profile" class="w-full h-full object-cover">
             </div>
             <button onclick="simulateAvatarChange()" class="absolute bottom-0 right-0 p-2.5 bg-[#2D5A3D] text-white rounded-full shadow-lg hover:scale-110 transition-all border-2 border-white">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
             </button>
         </div>
         <div class="flex flex-col items-center md:items-start gap-1">
-            <h2 class="font-['Manrope'] font-bold text-[24px] text-[#1b3a28]">Umar Firoz</h2>
-          <span class="py-2 text-[#464E42] rounded-full text-[12px] font-bold uppercase tracking-wider bordermb-2">Main Admin</span>
+            <h2 class="font-['Manrope'] font-bold text-[24px] text-[#1b3a28]">Artisan Name</h2>
+            <span class="py-2 text-[#464E42] rounded-full text-[12px] font-bold uppercase tracking-wider bordermb-2">Artisan</span>
+           
         </div>
     </div>
 
@@ -51,21 +52,25 @@
                 <div class="grid grid-cols-1 gap-6" id="personal-info-fields">
                     <div class="space-y-2">
                         <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Full Name</label>
-                        <input type="text" value="Umar Firoz" disabled class="profile-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
+                        <input type="text" value="Artisan Name" disabled class="profile-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
                     </div>
                     <div class="space-y-2">
                         <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Email Address</label>
-                        <input type="email" value="umar.firoz@nestcluster.net" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] text-gray-500 font-['Manrope']" disabled>
+                        <input type="email" value="artisan@nestcluster.net" class="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] text-gray-500 font-['Manrope']" disabled>
                     </div>
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                         <div class="space-y-2">
                             <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Phone Number</label>
-                            <input type="text" value="+91 98765 43210" disabled class="profile-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
+                            <input type="text" value="+91 11111 22222" disabled class="profile-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
                         </div>
                         <div class="space-y-2">
-                            <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Designation</label>
-                            <input type="text" value="Head of Operations" disabled class="profile-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
+                            <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Specialization</label>
+                            <input type="text" value="Bamboo Craft" disabled class="profile-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
                         </div>
+                    </div>
+                    <div class="space-y-2">
+                        <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Workshop / Residence Address</label>
+                        <textarea rows="3" disabled class="profile-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed resize-none">123 Artisan Colony, Majuli Island, Assam - 785104</textarea>
                     </div>
                 </div>
             </div>
@@ -184,41 +189,32 @@
         btn.disabled = true;
 
         setTimeout(() => {
-            document.getElementById('otp-modal').classList.remove('hidden');
+            const modal = document.getElementById('otp-modal');
+            if (modal) modal.classList.remove('hidden');
             btn.innerHTML = originalContent;
             btn.disabled = false;
             
-            // Focus first input
-            const firstInput = document.querySelector('#otp-inputs input');
-            if (firstInput) firstInput.focus();
+            // Focus first OTP input
+            const firstOtp = document.querySelector('#otp-inputs input');
+            if (firstOtp) firstOtp.focus();
         }, 1000);
     }
 
-    // OTP Input logic
-    const inputs = document.querySelectorAll('#otp-inputs input');
-    inputs.forEach((input, index) => {
+    const otpInputs = document.querySelectorAll('#otp-inputs input');
+    otpInputs.forEach((input, index) => {
         input.addEventListener('input', (e) => {
-            if (e.target.value.length > 0 && index < inputs.length - 1) {
-                inputs[index + 1].focus();
+            if (e.target.value.length > 0 && index < otpInputs.length - 1) {
+                otpInputs[index + 1].focus();
             }
         });
-
         input.addEventListener('keydown', (e) => {
             if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
-                inputs[index - 1].focus();
+                otpInputs[index - 1].focus();
             }
         });
     });
 
     function verifyOTP() {
-        let otp = "";
-        inputs.forEach(input => otp += input.value);
-
-        if (otp.length < 6) {
-            alert('Please enter all 6 digits of the OTP.');
-            return;
-        }
-
         const verifyBtn = event.currentTarget;
         const originalText = verifyBtn.innerText;
         verifyBtn.innerText = 'Verifying...';
@@ -230,18 +226,15 @@
             toggleEditMode(false); // Return to read-only mode after success
             verifyBtn.innerText = originalText;
             verifyBtn.disabled = false;
-            
-            // Clear inputs
-            inputs.forEach(input => input.value = "");
         }, 1200);
     }
 
     function closeOTPModal() {
-        document.getElementById('otp-modal').classList.add('hidden');
+        const modal = document.getElementById('otp-modal');
+        if (modal) modal.classList.add('hidden');
     }
 
     function simulateAvatarChange() {
-        alert('Image upload initiated. (Backend simulation)');
+        alert('Avatar change initiated (simulation)');
     }
 </script>
-

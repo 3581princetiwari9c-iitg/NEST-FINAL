@@ -55,25 +55,16 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Routing Logic
     // ----------------------------
     const routes = {
-        '#dashboard': '/dashboard/admin/clusterdashboard.html',
-        '#programs': '/dashboard/admin/programdashboard.html',
-        '#create-program': '/dashboard/admin/createprogram.html',
-        '#startups': '/dashboard/admin/startupdashboard.html',
-        '#requests': '/dashboard/admin/requestdashboard.html',
-        '#newsletter': '/dashboard/admin/newsletterdashboard.html',
-        '#upload-newsletter': '/dashboard/admin/uploadnewsletter.html',
-        '#stats': '/dashboard/admin/statschange.html',
-        '#management': '/dashboard/admin/management.html',
-        '#gallery': '/dashboard/admin/gallerydashboard.html',
-        '#hubmou': '/dashboard/admin/hubmou.html',
-        '#add-mou': '/dashboard/admin/addmou.html',
-        '#add-hub': '/dashboard/admin/addhub.html',
-        '#profile': '/dashboard/admin/profile.html',
-        '#logout': '/index.html' // Handle logout
+        '#profile': '/artisanDashboard/profile.html',
+        '#programs': '/artisanDashboard/programs.html',
+        '#marketplace': '/artisanDashboard/marketplace.html',
+        '#add-product': '/artisanDashboard/addproduct.html',
+        '#edit-product': '/artisanDashboard/addproduct.html',
+        '#logout': '/index.html'
     };
 
     function handleNavigation() {
-        const hash = window.location.hash || '#dashboard';
+        const hash = window.location.hash || '#programs'; // Default to programs for artisans
 
         // Handle Logout specially
         if (hash === '#logout') {
@@ -81,7 +72,7 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        const path = routes[hash] || routes['#dashboard'];
+        const path = routes[hash] || routes['#profile'];
 
         fetch(path)
             .then(res => {
@@ -115,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------
     // 3. Load Sidebar
     // ----------------------------
-    fetch('/components/sidebar.html')
+    fetch('/components/artisan-sidebar.html')
         .then((res) => {
             if (!res.ok) throw new Error('Failed to load sidebar');
             return res.text();
@@ -127,12 +118,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Handle active states based on hash
                 const updateActiveSidebar = () => {
-                    const currentHash = window.location.hash || '#dashboard';
+                    const currentHash = window.location.hash || '#programs';
                     const links = sidebarContainer.querySelectorAll('a');
                     links.forEach(link => {
                         const href = link.getAttribute('href');
-                        const isDashboardDefault = (currentHash === '#dashboard' || currentHash === '') && href === '#dashboard';
-                        if (href === currentHash || isDashboardDefault) {
+                        const isProgramsDefault = (currentHash === '#programs' || currentHash === '') && href === '#programs';
+                        
+                        if (href === currentHash || isProgramsDefault) {
                             link.classList.add('bg-[#f1ffee]', 'text-[#2d5a3d]', 'font-bold');
                             link.classList.remove('text-[#677461]', 'hover:bg-gray-50');
                             const svg = link.querySelector('svg');

@@ -1,0 +1,216 @@
+<div class="flex flex-col gap-[32px] items-start w-full max-w-[1100px] mx-auto pb-10">
+    <!-- Top Navigation & Header -->
+    <div class="flex flex-col gap-[12px] w-full">
+        <a href="#marketplace"
+            class="flex items-center gap-2 text-[#677461] hover:text-[#1b3a28] transition-all font-['Inter'] font-semibold text-[14px] group">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Marketplace
+        </a>
+        <div class="flex items-center justify-between w-full">
+            <h1 id="page-title" class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+                Create New Product
+            </h1>
+            <button id="save-product-btn-top"
+                class="bg-[#2D5A3D] text-white px-8 py-3 rounded-[8px] font-['Manrope'] font-bold text-[15px] shadow-sm hover:bg-[#1b3a28] transition-all">
+                Save Product
+            </button>
+        </div>
+    </div>
+
+    <!-- Section 1: Product Identity -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full">
+        <!-- Left: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Product Identity
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                Define your craft's primary identity. Choose a clear, descriptive name and specify the craft category.
+            </p>
+        </div>
+
+        <!-- Right: Form Card -->
+        <div class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full">
+            <form class="flex flex-col gap-[24px]">
+                <div class="flex flex-col gap-2">
+                    <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Product Name</label>
+                    <input type="text" id="prod-name" placeholder="e.g. Traditional Hand-woven Bamboo Vase"
+                        class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Craft Category</label>
+                    <div class="relative group">
+                        <select class="appearance-none w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all cursor-pointer">
+                            <option value="" disabled selected>Select Category</option>
+                            <option value="bamboo">Bamboo & Cane</option>
+                            <option value="textile">Handloom & Textile</option>
+                            <option value="pottery">Pottery & Ceramics</option>
+                            <option value="jewelry">Tribal Jewelry</option>
+                        </select>
+                        <div class="absolute right-[16px] top-1/2 -translate-y-1/2 pointer-events-none text-[#677461]">
+                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <polyline points="6 9 12 15 18 9"></polyline>
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Section 2: Commercials & Story -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[32px] border-t border-gray-100">
+        <!-- Left: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Commercials & Story
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                Set the value of your piece and share the narrative behind its creation.
+            </p>
+        </div>
+
+        <!-- Right: Form Card -->
+        <div class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full">
+            <div class="flex flex-col gap-[24px]">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                    <div class="flex flex-col gap-2">
+                        <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Price (INR)</label>
+                        <div class="relative">
+                            <span class="absolute left-4 top-1/2 -translate-y-1/2 text-[#677461] font-bold">₹</span>
+                            <input type="number" id="prod-price" placeholder="0.00"
+                                class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] pl-8 pr-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                        </div>
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Stock Available</label>
+                        <input type="number" id="prod-stock" placeholder="e.g. 50"
+                            class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                    </div>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Product Narrative</label>
+                    <textarea rows="5" placeholder="Describe the materials, technique, and cultural significance of this piece..."
+                        class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all resize-none"></textarea>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 3: Visual Identity -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[32px] border-t border-gray-100">
+        <!-- Left: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Visual Identity
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                High-quality visual representation is key. Upload professional shots from multiple angles.
+            </p>
+        </div>
+
+        <!-- Right: Form Card -->
+        <div class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full">
+            <div class="flex flex-col gap-2">
+                <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Gallery Shots</label>
+                <div class="w-full border-2 border-dashed border-gray-200 rounded-[12px] p-[40px] flex flex-col items-center justify-center gap-3 hover:border-[#2D5A3D] hover:bg-[#f1ffee]/30 transition-all cursor-pointer group">
+                    <div class="w-[48px] h-[48px] bg-white rounded-full shadow-sm flex items-center justify-center text-[#2D5A3D] group-hover:scale-110 transition-transform">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                            <polyline points="17 8 12 3 7 8"></polyline>
+                            <line x1="12" y1="3" x2="12" y2="15"></line>
+                        </svg>
+                    </div>
+                    <div class="flex flex-col items-center gap-1">
+                        <span class="font-['Inter'] font-semibold text-[#1b3a28] text-[14px]">Add product photography</span>
+                        <span class="font-['Inter'] text-[#677461] text-[12px]">Max 5 images (JPG, PNG)</span>
+                    </div>
+                    <input type="file" class="hidden" multiple>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Final Action Button -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[24px]">
+        <div class="hidden lg:block"></div>
+        <div class="flex justify-start">
+            <button id="save-product-btn-bottom" class="w-full bg-[#2D5A3D] hover:bg-[#1b3a28] text-white font-['Manrope'] font-bold py-[18px] rounded-[12px] shadow-[0px_8px_24px_rgba(45,90,61,0.15)] transition-all duration-300 transform hover:scale-[1.005] active:scale-[0.995] text-[16px] tracking-wider">
+                Create Listing
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Success Popup Modal -->
+<div id="success-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"></div>
+    <div class="relative bg-white rounded-[24px] shadow-[0px_20px_60px_rgba(0,0,0,0.1)] p-[40px] w-full max-w-[440px] flex flex-col items-center text-center gap-[24px] transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+        <div class="w-[80px] h-[80px] bg-[#E9F3EC] rounded-full flex items-center justify-center">
+            <div class="w-[48px] h-[48px] bg-[#2D5A3D] rounded-full flex items-center justify-center shadow-[0px_4px_12px_rgba(45,90,61,0.2)]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+        </div>
+        <div class="flex flex-col gap-[8px]">
+            <h3 id="modal-title" class="font-['Manrope'] font-bold text-[#1b3a28] text-[24px]">Product Listed!</h3>
+            <p id="modal-desc" class="font-['Inter'] text-[#677461] text-[15px] leading-relaxed">
+                Your craft has been successfully updated in the NEST Marketplace.
+            </p>
+        </div>
+        <button id="close-modal-btn" class="w-full bg-[#2D5A3D] hover:bg-[#1b3a28] text-white font-['Manrope'] font-bold py-[16px] rounded-[12px] transition-all duration-300 shadow-[0px_4px_12px_rgba(45,90,61,0.15)]">
+            Back to Marketplace
+        </button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const hash = window.location.hash;
+        const isEdit = hash === '#edit-product';
+        
+        // Update Titles/Labels based on mode
+        const pageTitle = document.getElementById('page-title');
+        const topBtn = document.getElementById('save-product-btn-top');
+        const bottomBtn = document.getElementById('save-product-btn-bottom');
+        const modalTitle = document.getElementById('modal-title');
+        const modalDesc = document.getElementById('modal-desc');
+
+        if (isEdit) {
+            pageTitle.innerText = "Edit Product";
+            topBtn.innerText = "Update Product";
+            bottomBtn.innerText = "Update Listing";
+            modalTitle.innerText = "Product Updated!";
+            modalDesc.innerText = "The changes to your craft have been successfully saved.";
+            
+            // Pre-fill demo data
+            document.getElementById('prod-name').value = "Hand-woven Bamboo Basket";
+            document.getElementById('prod-price').value = "1250";
+            document.getElementById('prod-stock').value = "12";
+        }
+
+        const triggerModal = () => {
+            const modal = document.getElementById('success-modal');
+            const modalContent = document.getElementById('modal-content');
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        };
+
+        [topBtn, bottomBtn].forEach(btn => btn.addEventListener('click', triggerModal));
+
+        document.getElementById('close-modal-btn').addEventListener('click', () => {
+            window.location.hash = '#marketplace';
+        });
+    })();
+</script>

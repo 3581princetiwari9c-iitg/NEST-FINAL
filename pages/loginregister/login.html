@@ -1,0 +1,211 @@
+<!-- Refined Secure Login & Recovery Fragment -->
+<section class="w-full flex items-center justify-center py-12 px-6 sm:px-10 bg-transparent min-h-[calc(100vh-180px)] overscroll-none">
+    <div class="max-w-[450px] w-full bg-white rounded-[24px] shadow-[0px_20px_60px_rgba(0,0,0,0.06)] border border-gray-100 overflow-hidden animate-fadeIn">
+        
+        <div class="p-8 sm:p-10">
+            <!-- Header -->
+            <div class="mb-8 text-center">
+                <h2 id="login-title" class="text-[28px] font-['Manrope'] font-bold text-[#1b3a28] mb-2 tracking-tight">Login</h2>
+                <p id="login-subtitle" class="text-gray-500 text-[15px] font-['Inter']">Please enter your credentials to proceed.</p>
+            </div>
+
+            <form id="auth-form" class="space-y-6">
+                
+                <!-- STATE 1: DIRECT LOGIN (Default) -->
+                <div id="state-login" class="space-y-6">
+                    <div class="space-y-1.5 font-['Inter']">
+                        <label class="block text-sm font-semibold text-[#1b3a28]">Email Address</label>
+                        <input type="email" placeholder="name@company.com" class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all duration-200" required>
+                    </div>
+                    <div class="space-y-1.5 font-['Inter']">
+                        <div class="flex justify-between items-center">
+                            <label class="block text-sm font-semibold text-[#1b3a28]">Password</label>
+                            <button type="button" onclick="startRecovery()" class="text-xs font-bold text-[#b04a4a] hover:underline uppercase tracking-wider">Forgot?</button>
+                        </div>
+                        <input type="password" placeholder="••••••••" class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all duration-200" required>
+                    </div>
+                    
+                    <button type="submit" class="w-full bg-[#1b3a28] hover:bg-[#2d5a3d] text-white font-['Inter'] font-semibold py-4 rounded-xl shadow-[0px_10px_30px_rgba(27,58,40,0.15)] transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99] text-[16px] tracking-wide mt-4">
+                        Login
+                    </button>
+                    
+                    <p class="text-center text-gray-400 text-sm mt-8 font-['Inter']">
+                        Don't have an account? <a href="#register" class="text-[#2d5a3d] font-bold hover:underline">Register</a>
+                    </p>
+                </div>
+
+                <!-- STATE 2: RECOVERY OTP (Hidden) -->
+                <div id="state-recovery-otp" class="hidden space-y-8 animate-fadeInFast">
+                    <!-- Mobile OTP -->
+                    <div class="font-['Inter']">
+                        <label class="block text-sm font-bold text-[#2d5a3d] mb-4 uppercase tracking-widest text-[11px]">Verify Mobile Number</label>
+                        <div class="flex justify-between gap-2" id="recovery-mobile-otp">
+                            <input type="text" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
+                            <input type="text" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
+                            <input type="text" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
+                            <input type="text" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
+                            <input type="text" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
+                            <input type="text" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="showResetStep()" class="w-full bg-[#1b3a28] hover:bg-[#2d5a3d] text-white font-['Inter'] font-semibold py-4 rounded-xl shadow-[0px_10px_30px_rgba(27,58,40,0.15)] transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99] text-[16px] tracking-wide">
+                        Verify OTP
+                    </button>
+                    
+                    <p class="text-center text-sm font-['Inter'] text-[#677461]">
+                        Didn't receive it? <button type="button" id="resend-otp-btn" onclick="resendRecoveryOtp()" class="text-[#2d5a3d] font-bold hover:underline disabled:opacity-50 disabled:cursor-not-allowed">Resend OTP</button>
+                    </p>
+                    
+                    <button type="button" onclick="cancelRecovery()" class="w-full text-center text-gray-400 text-sm font-bold hover:text-[#b04a4a] transition-all">
+                        <i class="fas fa-arrow-left mr-2"></i>Back to Login
+                    </button>
+                </div>
+
+                <!-- STATE 3: RESET PASSWORD (Hidden) -->
+                <div id="state-recovery-reset" class="hidden space-y-6 animate-fadeInFast">
+                    <div class="space-y-1.5 font-['Inter']">
+                        <label class="block text-sm font-semibold text-[#1b3a28]">New Password</label>
+                        <div class="relative">
+                            <input type="password" id="new-password" placeholder="Min. 8 characters" class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all duration-200" required>
+                            <button type="button" onclick="toggleMainToggle('new-password')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#2d5a3d]">
+                                <i class="far fa-eye text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="space-y-1.5 font-['Inter']">
+                        <label class="block text-sm font-semibold text-[#1b3a28]">Confirm New Password</label>
+                        <div class="relative">
+                            <input type="password" id="confirm-password" placeholder="Re-enter password" class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all duration-200" required>
+                            <button type="button" onclick="toggleMainToggle('confirm-password')" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-[#2d5a3d]">
+                                <i class="far fa-eye text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="w-full bg-[#1b3a28] hover:bg-[#2d5a3d] text-white font-['Inter'] font-semibold py-4 rounded-xl shadow-[0px_10px_30px_rgba(27,58,40,0.15)] transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99] text-[16px] tracking-wide mt-4">
+                        Update & Login
+                    </button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+
+    <!-- Script block -->
+    <script>
+        (function() {
+            const stateLogin = document.getElementById('state-login');
+            const stateRecoveryOtp = document.getElementById('state-recovery-otp');
+            const stateRecoveryReset = document.getElementById('state-recovery-reset');
+            const title = document.getElementById('login-title');
+            const subtitle = document.getElementById('login-subtitle');
+
+            window.startRecovery = function() {
+                stateLogin.classList.add('hidden');
+                stateRecoveryOtp.classList.remove('hidden');
+                title.innerText = 'Identity Verification';
+                subtitle.innerText = 'Verify your identity using secure OTP tokens.';
+                startResendTimer();
+            };
+
+            window.showResetStep = function() {
+                stateRecoveryOtp.classList.add('hidden');
+                stateRecoveryReset.classList.remove('hidden');
+                title.innerText = 'Reset Password';
+                subtitle.innerText = 'Create a new secure password for your account.';
+            };
+
+            window.cancelRecovery = function() {
+                stateRecoveryOtp.classList.add('hidden');
+                stateRecoveryReset.classList.add('hidden');
+                stateLogin.classList.remove('hidden');
+                title.innerText = 'Login';
+                subtitle.innerText = 'Please enter your credentials to proceed.';
+            };
+
+            window.toggleMainToggle = function(id) {
+                const input = document.getElementById(id);
+                const icon = input.nextElementSibling.querySelector('i');
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    icon.classList.remove('fa-eye');
+                    icon.classList.add('fa-eye-slash');
+                } else {
+                    input.type = 'password';
+                    icon.classList.remove('fa-eye-slash');
+                    icon.classList.add('fa-eye');
+                }
+            };
+
+            // OTP Grid Auto-tabbing
+            function setupRecoveryOtpAutoTab(containerId) {
+                const container = document.getElementById(containerId);
+                if (!container) return;
+                const inputs = container.querySelectorAll('input');
+
+                inputs.forEach((input, index) => {
+                    input.addEventListener('input', (e) => {
+                        if (e.target.value.length === 1 && index < inputs.length - 1) {
+                            inputs[index + 1].focus();
+                        }
+                    });
+
+                    input.addEventListener('keydown', (e) => {
+                        if (e.key === 'Backspace' && !e.target.value && index > 0) {
+                            inputs[index - 1].focus();
+                        }
+                    });
+                    
+                    input.addEventListener('keypress', (e) => {
+                        if (isNaN(String.fromCharCode(e.which))) e.preventDefault();
+                    });
+                });
+            }
+
+            setupRecoveryOtpAutoTab('recovery-mobile-otp');
+
+            // Timer Logic
+            let resendTimer = 30;
+            let timerInterval;
+
+            window.startResendTimer = function() {
+                const resendBtn = document.getElementById('resend-otp-btn');
+                resendBtn.disabled = true;
+                resendTimer = 30;
+                
+                if (timerInterval) clearInterval(timerInterval);
+                
+                timerInterval = setInterval(() => {
+                    resendTimer--;
+                    resendBtn.innerText = `Resend OTP in ${resendTimer}s`;
+                    
+                    if (resendTimer <= 0) {
+                        clearInterval(timerInterval);
+                        resendBtn.innerText = "Resend OTP";
+                        resendBtn.disabled = false;
+                    }
+                }, 1000);
+            };
+
+            window.resendRecoveryOtp = function() {
+                // Simulate resend
+                console.log("OTP Resent");
+                startResendTimer();
+            };
+        })();
+    </script>
+
+    <style>
+        .animate-fadeInFast {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .otp-box {
+            color: #1b3a28;
+        }
+    </style>
+</section>

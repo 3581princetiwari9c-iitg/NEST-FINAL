@@ -23,29 +23,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         e.stopPropagation();
                         menu.classList.toggle('hidden');
                     });
-
-                    // Mobile Accordions
-                    const accordions = document.querySelectorAll('.js-accordion-toggle');
-                    accordions.forEach((acc) => {
-                        acc.addEventListener('click', (e) => {
-                            e.stopPropagation();
-                            const content = acc.nextElementSibling;
-                            if (content) {
-                                content.classList.toggle('hidden');
-                                const icon = acc.querySelector('svg');
-                                if (icon) {
-                                    icon.classList.toggle('rotate-180');
-                                }
-                            }
-                        });
-                    });
-
-                    // Click outside to close mobile menu
-                    document.addEventListener('click', (e) => {
-                        if (navbarContainer && !navbarContainer.contains(e.target)) {
-                            menu.classList.add('hidden');
-                        }
-                    });
                 }
             }
         })
@@ -55,33 +32,25 @@ document.addEventListener('DOMContentLoaded', () => {
     // 2. Routing Logic
     // ----------------------------
     const routes = {
-        '#dashboard': '/dashboard/admin/clusterdashboard.html',
-        '#programs': '/dashboard/admin/programdashboard.html',
-        '#create-program': '/dashboard/admin/createprogram.html',
-        '#startups': '/dashboard/admin/startupdashboard.html',
-        '#requests': '/dashboard/admin/requestdashboard.html',
-        '#newsletter': '/dashboard/admin/newsletterdashboard.html',
-        '#upload-newsletter': '/dashboard/admin/uploadnewsletter.html',
-        '#stats': '/dashboard/admin/statschange.html',
-        '#management': '/dashboard/admin/management.html',
-        '#gallery': '/dashboard/admin/gallerydashboard.html',
-        '#hubmou': '/dashboard/admin/hubmou.html',
-        '#add-mou': '/dashboard/admin/addmou.html',
-        '#add-hub': '/dashboard/admin/addhub.html',
-        '#profile': '/dashboard/admin/profile.html',
-        '#logout': '/index.html' // Handle logout
+        '#profile': '/entrepreneurDashboard/profile.html',
+        '#programs': '/entrepreneurDashboard/programs.html',
+        '#mystartup': '/entrepreneurDashboard/mystartup.html',
+        '#marketplace': '/entrepreneurDashboard/marketplace.html',
+        '#add-product': '/entrepreneurDashboard/addproduct.html',
+        '#edit-product': '/entrepreneurDashboard/addproduct.html',
+        '#register': '/entrepreneurDashboard/register-startup.html',
+        '#logout': '/index.html'
     };
 
     function handleNavigation() {
-        const hash = window.location.hash || '#dashboard';
+        const hash = window.location.hash || '#programs'; // Default to programs
 
-        // Handle Logout specially
         if (hash === '#logout') {
             window.location.href = '/index.html';
             return;
         }
 
-        const path = routes[hash] || routes['#dashboard'];
+        const path = routes[hash] || routes['#profile'];
 
         fetch(path)
             .then(res => {
@@ -92,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (mainContent) {
                     mainContent.innerHTML = html;
 
-                    // Execute all script tags found in the fetched HTML
+                    // Execute scripts
                     const scripts = mainContent.querySelectorAll('script');
                     scripts.forEach(oldScript => {
                         const newScript = document.createElement('script');
@@ -115,7 +84,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------
     // 3. Load Sidebar
     // ----------------------------
-    fetch('/components/sidebar.html')
+    fetch('/components/entrepreneur-sidebar.html')
         .then((res) => {
             if (!res.ok) throw new Error('Failed to load sidebar');
             return res.text();
@@ -125,14 +94,13 @@ document.addEventListener('DOMContentLoaded', () => {
             if (sidebarContainer) {
                 sidebarContainer.innerHTML = data;
 
-                // Handle active states based on hash
                 const updateActiveSidebar = () => {
-                    const currentHash = window.location.hash || '#dashboard';
+                    const currentHash = window.location.hash || '#programs';
                     const links = sidebarContainer.querySelectorAll('a');
                     links.forEach(link => {
                         const href = link.getAttribute('href');
-                        const isDashboardDefault = (currentHash === '#dashboard' || currentHash === '') && href === '#dashboard';
-                        if (href === currentHash || isDashboardDefault) {
+                        const isDefault = (currentHash === '#programs' || currentHash === '') && href === '#programs';
+                        if (href === currentHash || isDefault) {
                             link.classList.add('bg-[#f1ffee]', 'text-[#2d5a3d]', 'font-bold');
                             link.classList.remove('text-[#677461]', 'hover:bg-gray-50');
                             const svg = link.querySelector('svg');
@@ -147,8 +115,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
 
                 updateActiveSidebar();
-
-                // Initial load of content
                 handleNavigation();
 
                 window.addEventListener('hashchange', () => {

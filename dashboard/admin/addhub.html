@@ -1,0 +1,54 @@
+<div class="flex flex-col gap-[32px] items-start w-full max-w-[1100px] mx-auto pb-10 animate-fadeIn">
+    <!-- Top Navigation & Header -->
+    <div class="flex flex-col gap-[12px] w-full">
+        <a href="#hubmou"
+            class="flex items-center gap-2 text-[#677461] hover:text-[#1b3a28] transition-all font-['Inter'] font-semibold text-[14px] group">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Hub & MOU
+        </a>
+        <div class="flex items-center justify-between w-full">
+            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+                Add New Hub & Spoke Profile
+            </h1>
+            <button class="bg-[#2D5A3D] text-white px-8 py-3 rounded-[8px] font-['Manrope'] font-bold text-[15px] shadow-sm hover:bg-[#1b3a28] transition-all">
+                Create Hub
+            </button>
+        </div>
+    </div>
+
+    <!-- Section 1: Hub Identity -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full">
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Hub Identity
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                Define the central Hub and its associated Spoke network. Specify the primary node and focus area.
+            </p>
+        </div>
+
+        <div class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full text-center py-20">
+            <div class="w-20 h-20 bg-[#f1ffee] rounded-full flex items-center justify-center text-[#2d5a3d] mx-auto mb-6">
+                <i class="fas fa-network-wired text-3xl"></i>
+            </div>
+            <h3 class="font-['Manrope'] font-bold text-[#1b3a28] text-xl mb-2">Hub & Spoke Module (BETA)</h3>
+            <p class="font-['Inter'] text-gray-500 max-w-[400px] mx-auto leading-relaxed">
+                The detailed Hub & Spoke profiling system is currently being optimized. Please check back soon or continue with MOU management.
+            </p>
+        </div>
+    </div>
+</div>
+
+<style>
+    @keyframes fadeIn {
+        from { opacity: 0; transform: translateY(10px); }
+        to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fadeIn {
+        animation: fadeIn 0.4s ease-out forwards;
+    }
+</style>
