@@ -54,8 +54,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Always clear the home carousel interval conditionally when navigating to any page to prevent leaks
     if (window.heroCarouselInterval) {
-        clearInterval(window.heroCarouselInterval);
-        window.heroCarouselInterval = null;
+      clearInterval(window.heroCarouselInterval);
+      window.heroCarouselInterval = null;
     }
 
     if (!mainContent) return;
@@ -181,6 +181,50 @@ document.addEventListener('DOMContentLoaded', () => {
       mainContent.innerHTML = LOADER_HTML;
 
       fetch(`/pages/Program/stp.html`)
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
+    } else if (hash === '#ltp') {
+      mainContent.innerHTML = LOADER_HTML;
+
+      fetch(`/pages/Program/ltp.html`)
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
+    } else if (hash === '#process') {
+      mainContent.innerHTML = LOADER_HTML;
+
+      fetch(`/pages/Program/process.html`)
         .then((res) => {
           if (!res.ok) throw new Error('Failed to load page');
           return res.text();
@@ -614,10 +658,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((data) => {
           mainContent.innerHTML = data;
           window.scrollTo({ top: 0, behavior: 'smooth' });
-          
+
           // Re-initialize scripts (for OTP auto-tabbing and toggles)
           const scripts = mainContent.querySelectorAll('script');
-          scripts.forEach(oldScript => {
+          scripts.forEach((oldScript) => {
             const newScript = document.createElement('script');
             newScript.textContent = oldScript.textContent;
             oldScript.parentNode.replaceChild(newScript, oldScript);
@@ -663,10 +707,10 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((data) => {
           mainContent.innerHTML = data;
           window.scrollTo({ top: 0, behavior: 'smooth' });
-          
+
           // Re-initialize any scripts in the fetched HTML if needed
           const scripts = mainContent.querySelectorAll('script');
-          scripts.forEach(oldScript => {
+          scripts.forEach((oldScript) => {
             const newScript = document.createElement('script');
             newScript.textContent = oldScript.textContent;
             oldScript.parentNode.replaceChild(newScript, oldScript);
@@ -683,7 +727,8 @@ document.addEventListener('DOMContentLoaded', () => {
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
     } else if (hash === '' || hash === '#home') {
-      if (window.heroCarouselInterval) clearInterval(window.heroCarouselInterval);
+      if (window.heroCarouselInterval)
+        clearInterval(window.heroCarouselInterval);
       mainContent.innerHTML = LOADER_HTML;
       fetch('/pages/home.html')
         .then((res) => {

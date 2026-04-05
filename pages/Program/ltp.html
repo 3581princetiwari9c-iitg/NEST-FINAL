@@ -1,0 +1,1269 @@
+<section
+  class="w-full flex flex-col items-center pt-5 sm:pt-8 lg:pt-[16px] pb-12 sm:pb-16 lg:pb-[72px] px-4 sm:px-6 lg:px-[88px] relative z-10 min-h-screen"
+>
+  <style>
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(10px);
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .animate-fade-in {
+      animation: fadeIn 0.4s ease-out forwards;
+    }
+  </style>
+  <div
+    class="max-w-[1440px] w-full flex flex-col items-center gap-[40px] sm:gap-[56px] relative"
+  >
+    <!-- PAGE HEADER -->
+    <div id="components-page-header-container" class="w-full">
+      <div class="w-full flex flex-col gap-[24px] items-center text-center">
+        <div class="flex flex-col gap-[12px] items-center">
+          <span
+            class="font-['Inter'] font-normal text-[#887103] text-[15px] sm:text-[18px]"
+            >LTPs</span
+          >
+          <div class="flex flex-col gap-[8px] items-center">
+            <h1
+              class="font-['Cormorant_Garamond',serif] text-[#1b3a28] text-[36px] md:text-[52px] leading-tight"
+            >
+              Long Term Program
+            </h1>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="222"
+              height="31"
+              viewBox="0 0 222 31"
+              fill="none"
+              class="w-[160px] sm:w-[180px] lg:w-[222px] h-auto mt-1"
+            >
+              <path
+                d="M114.309 14.8098V23.2947C114.309 23.2947 117.242 22.1091 123.1 22.1091H160.468C166.329 22.1091 169.258 23.2947 169.258 23.2947V14.8098C169.258 14.8098 166.329 15.9953 160.468 15.9953H123.1C117.243 15.9954 114.309 14.8098 114.309 14.8098Z"
+                fill="#218D00"
+              />
+              <path
+                d="M184.633 22.109H222V15.9953H184.633C178.771 15.9953 175.838 14.8098 175.838 14.8098V23.2947C175.838 23.2947 178.771 22.109 184.633 22.109Z"
+                fill="#218D00"
+              />
+              <path
+                d="M37.3671 15.9954H0.000110626V22.1091H37.3671C43.2289 22.1091 46.1616 23.2947 46.1616 23.2947V14.8098C46.1616 14.8098 43.2289 15.9954 37.3671 15.9954Z"
+                fill="#218D00"
+              />
+              <path
+                d="M61.5555 22.1091H98.9187C104.78 22.1091 107.709 23.2947 107.709 23.2947V14.8098C107.709 14.8098 104.78 15.9953 98.9187 15.9953H61.5555C55.6904 15.9953 52.7614 14.8098 52.7614 14.8098V23.2947C52.7614 23.2947 55.69 22.1091 61.5555 22.1091Z"
+                fill="#218D00"
+              />
+              <path
+                d="M156.281 9.16582L162.631 6.8146C166.066 5.54098 171.174 3.42571 168.946 1.13586C158.783 1.78677 152.79 3.78594 149.355 5.05946L143.009 7.41078C139.574 8.68264 134.463 10.7997 136.694 13.0878C146.853 12.4385 152.85 10.4393 156.281 9.16582Z"
+                fill="#C9A700"
+              />
+              <path
+                d="M165.524 9.95625C160.938 10.3929 153.677 11.175 150.509 12.7724C157.923 13.3618 165.483 12.7358 170.069 12.2991L178.538 11.4938C183.127 11.0587 190.385 10.275 193.557 8.67931C186.143 8.08822 178.582 8.71414 173.992 9.15088L165.524 9.95625Z"
+                fill="#C9A700"
+              />
+              <path
+                d="M136.14 6.06893L135.326 4.03659C134.887 2.93567 133.796 1.1656 127.935 0C123.086 1.3749 123.412 3.1598 123.855 4.26237L124.665 6.29316C125.1 7.39407 126.195 9.1657 132.056 10.3314C136.905 8.9565 136.578 7.16985 136.14 6.06893Z"
+                fill="#C9A700"
+              />
+              <path
+                d="M76.0028 27.5093C78.6658 28.1103 83.1771 29.0386 89.1812 29.0983C89.0388 27.7682 84.9434 26.7504 82.2808 26.1477L77.3603 25.0351C74.6977 24.4341 70.1865 23.5059 64.1824 23.4462C64.3247 24.7762 68.4202 25.794 71.0827 26.3968L76.0028 27.5093Z"
+                fill="#C9A700"
+              />
+              <path
+                d="M68.5446 28.5525L67.772 27.4051C67.3519 26.784 66.4594 25.7878 62.9568 25.1718C60.4141 25.9871 60.8791 26.9983 61.2954 27.6193L62.0718 28.765C62.4918 29.3876 63.3843 30.3822 66.887 31C69.4259 30.1831 68.9646 29.1735 68.5446 28.5525Z"
+                fill="#C9A700"
+              />
+              <path
+                d="M82.7847 22.9617C79.9873 22.857 75.4348 22.7342 71.692 23.2788C74.4032 24.0659 78.8845 24.285 81.6787 24.3913L86.8427 24.5856C89.6401 24.6918 94.193 24.8148 97.9321 24.27C95.2204 23.4813 90.7391 23.2639 87.945 23.1576L82.7847 22.9617Z"
+                fill="#C9A700"
+              />
+            </svg>
+          </div>
+        </div>
+        <p
+          class="font-['Inter'] font-normal text-[#464e42] text-[16px] sm:text-[18px] text-center w-full max-w-[1134px]"
+        >
+          Elevate your skills and knowledge with our focused long-term programs
+          designed to boost your career in technology, entrepreneurship, and
+          innovation.
+        </p>
+      </div>
+    </div>
+
+    <!-- 5. PROGRAM OVERVIEW SECTION -->
+    <div
+      class="w-full max-w-[1197px] bg-white border border-[rgba(194,198,211,0.15)] rounded-[12px] p-[30px] sm:p-[49px] flex flex-col gap-[24px]"
+    >
+      <h2
+        id="program-overview-title"
+        class="font-['Inter'] font-semibold text-[#1b3a28] text-[28px] sm:text-[36px]"
+      >
+        Program Overview
+      </h2>
+      <p
+        id="program-overview-description"
+        class="font-['Inter'] font-normal text-[#464e42] text-[16px] sm:text-[18px] max-w-[1067px] leading-relaxed"
+      >
+        Long-Term Programs (LTPs) are comprehensive learning experiences curated
+        by IIT Guwahati to bridge the gap between academic theory and industry
+        requirements. Designed for students and working professionals, these
+        programs provide immersive, hands-on learning environments with direct
+        industry exposure to cutting-edge technologies and methodologies.
+      </p>
+    </div>
+
+    <!-- 6. FEATURE CARDS GRID -->
+    <div
+      class="w-full max-w-[1197px] grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] sm:gap-[36px] justify-items-center"
+    >
+      <!-- Card 1 -->
+      <div
+        class="program-feature-card bg-white border border-[rgba(194,198,211,0.15)] flex flex-col gap-[12px] items-start p-[33px] rounded-[12px] w-full max-w-[375px] shadow-sm"
+      >
+        <div
+          class="bg-[#f1ffee] flex items-center justify-center rounded-[8.6px] w-[52px] h-[52px] mb-2 shrink-0"
+        >
+          <svg
+            class="w-6 h-6 text-[#2d5a3d]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+            ></path>
+          </svg>
+        </div>
+        <h3
+          class="program-feature-title font-['Inter'] font-bold text-[#1b3a28] text-[20px]"
+        >
+          Comprehensive Program
+        </h3>
+        <p
+          class="program-feature-desc font-['Inter'] font-normal text-[#464e42] text-[16px] leading-[24px]"
+        >
+          In-depth learning journey focused on core competencies and immersive
+          skill acquisition.
+        </p>
+      </div>
+
+      <!-- Card 2 -->
+      <div
+        class="program-feature-card bg-white border border-[rgba(194,198,211,0.15)] flex flex-col gap-[12px] items-start p-[33px] rounded-[12px] w-full max-w-[375px] shadow-sm"
+      >
+        <div
+          class="bg-[#f1ffee] flex items-center justify-center rounded-[8.6px] w-[52px] h-[52px] mb-2 shrink-0"
+        >
+          <svg
+            class="w-6 h-6 text-[#2d5a3d]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"
+            ></path>
+          </svg>
+        </div>
+        <h3
+          class="program-feature-title font-['Inter'] font-bold text-[#1b3a28] text-[20px]"
+        >
+          Industry Experts
+        </h3>
+        <p
+          class="program-feature-desc font-['Inter'] font-normal text-[#464e42] text-[16px] leading-[24px]"
+        >
+          Learn from seasoned professionals and veteran researchers who bring
+          real-world insights to the classroom.
+        </p>
+      </div>
+
+      <!-- Card 3 -->
+      <div
+        class="program-feature-card bg-white border border-[rgba(194,198,211,0.15)] flex flex-col gap-[12px] items-start p-[33px] rounded-[12px] w-full max-w-[375px] shadow-sm"
+      >
+        <div
+          class="bg-[#f1ffee] flex items-center justify-center rounded-[8.6px] w-[52px] h-[52px] mb-2 shrink-0"
+        >
+          <svg
+            class="w-6 h-6 text-[#2d5a3d]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <circle cx="12" cy="12" r="10" stroke-width="2" />
+            <circle cx="12" cy="12" r="4" fill="currentColor" />
+          </svg>
+        </div>
+        <h3
+          class="program-feature-title font-['Inter'] font-bold text-[#1b3a28] text-[20px]"
+        >
+          Hands-on Learning
+        </h3>
+        <p
+          class="program-feature-desc font-['Inter'] font-normal text-[#464e42] text-[16px] leading-[24px]"
+        >
+          Practical skill building through live projects, case studies, and
+          interactive laboratory sessions.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CATEGORY TABS & PROGRAM SECTION (Full bleed background) -->
+<section
+  class="w-full bg-[#f9f6ef]/50 py-12 sm:py-16 lg:py-[72px] flex justify-center"
+>
+  <div
+    class="w-full max-w-[1440px] px-4 sm:px-6 lg:px-[88px] flex flex-col items-center gap-[36px]"
+  >
+    <!-- 7. CATEGORY TABS -->
+    <div
+      class="bg-white flex flex-wrap lg:flex-nowrap gap-[10px] sm:gap-[20px] lg:gap-[41px] items-center p-[12px] rounded-[22px] shadow-[0px_0px_12px_rgba(0,0,0,0.1)] justify-center w-full max-w-max"
+    >
+      <button
+        class="program-tab program-tab-active bg-[#5c8b6e] text-white flex gap-[14px] items-center justify-center px-[24px] sm:px-[36px] py-[12px] sm:py-[15px] rounded-[14px] transition-none"
+        data-tab="internship"
+      >
+        <svg
+          class="w-5 h-5 sm:w-6 sm:h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"
+          ></path>
+        </svg>
+        <span class="font-['Inter'] font-medium text-[14px] sm:text-[16px]"
+          >Internship Programs</span
+        >
+      </button>
+
+      <button
+        class="program-tab bg-transparent text-[#1b3a28] hover:bg-gray-50 flex gap-[14px] items-center justify-center px-[24px] sm:px-[36px] py-[12px] sm:py-[15px] rounded-[14px] transition-none"
+        data-tab="certificate"
+      >
+        <svg
+          class="w-5 h-5 sm:w-6 sm:h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M13 10V3L4 14h7v7l9-11h-7z"
+          ></path>
+        </svg>
+        <span class="font-['Inter'] font-medium text-[14px] sm:text-[16px]"
+          >Certification Program</span
+        >
+      </button>
+    </div>
+
+    <!-- 8. TAB CONTENT (PROGRAM CARDS) -->
+
+    <div
+      id="tab-content-internship"
+      class="program-tab-content block w-full bg-[#f7f7f7] rounded-[24px] p-[24px] sm:p-[36px] animate-fade-in"
+    >
+      <div class="flex gap-[14px] items-center mb-[24px]">
+        <div
+          class="bg-[#ffedea] flex items-center justify-center rounded-[10.6px] w-[50px] sm:w-[64px] h-[50px] sm:h-[64px] shrink-0"
+        >
+          <svg
+            class="w-6 h-6 sm:w-8 sm:h-8 text-[#9b2c2c]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"
+            ></path>
+          </svg>
+        </div>
+        <div class="flex flex-col gap-[4px] sm:gap-[11px]">
+          <h3
+            class="font-['Inter'] font-bold text-[#1b3a28] text-[20px] sm:text-[22px]"
+          >
+            Internship Programs
+          </h3>
+          <p
+            class="font-['Inter'] font-medium text-[#464e42] text-[14px] sm:text-[16px]"
+          >
+            Gain real-world experience through guided mentorship and hands-on
+            industry exposure.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] justify-items-center"
+      >
+        <!-- Skill Card 1 -->
+        <div
+          class="bg-white flex flex-col justify-between gap-[24px] p-[24px] sm:p-[32px] rounded-[14px] shadow-[0px_0px_10px_rgba(0,0,0,0.1)] w-full max-w-[353px] h-full"
+        >
+          <div class="flex flex-col gap-[24px]">
+            <div
+              class="bg-[#fff3db] flex items-center justify-center rounded-[8.6px] w-[52px] h-[52px] shrink-0"
+            >
+              <svg
+                class="w-6 h-6 text-[#7D6433]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                ></path>
+              </svg>
+            </div>
+            <h4
+              class="font-['Inter'] font-semibold text-[#1b3a28] text-[20px] leading-[28px]"
+            >
+              Academic Mentorship
+            </h4>
+            <ul class="flex flex-col gap-[16px]">
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Curriculum-based guidance</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                >
+                  Research project support</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Skill development workshops</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Career counseling</span
+                >
+              </li>
+            </ul>
+          </div>
+          <button
+            class="bg-[#3d5f4a] hover:bg-[#1b3a28] transition-colors rounded-[8px] py-[12px] px-[24px] w-full text-white font-['Inter'] font-semibold text-[16px] view-programs-btn mt-4"
+            data-category="skill"
+          >
+            View Programs
+          </button>
+        </div>
+
+        <!-- Skill Card 2 -->
+        <div
+          class="bg-white flex flex-col justify-between gap-[24px] p-[24px] sm:p-[32px] rounded-[14px] shadow-[0px_0px_10px_rgba(0,0,0,0.1)] w-full max-w-[353px] h-full"
+        >
+          <div class="flex flex-col gap-[24px]">
+            <div
+              class="bg-[#fff3db] flex items-center justify-center rounded-[8.6px] w-[52px] h-[52px] shrink-0"
+            >
+              <svg
+                class="w-6 h-6 text-[#7D6433]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                ></path>
+              </svg>
+            </div>
+            <h4
+              class="font-['Inter'] font-semibold text-[#1b3a28] text-[20px] leading-[28px]"
+            >
+              Industrial Mentorship
+            </h4>
+            <ul class="flex flex-col gap-[16px]">
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Industry exposure sessions</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Live project experience</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Professional networking</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Practical skill training</span
+                >
+              </li>
+            </ul>
+          </div>
+          <button
+            class="bg-[#3d5f4a] hover:bg-[#1b3a28] transition-colors rounded-[8px] py-[12px] px-[24px] w-full text-white font-['Inter'] font-semibold text-[16px] view-programs-btn mt-4"
+            data-category="skill"
+          >
+            View Programs
+          </button>
+        </div>
+
+        <!-- Skill Card 3 -->
+        <div
+          class="bg-white flex flex-col justify-between gap-[24px] p-[24px] sm:p-[32px] rounded-[14px] shadow-[0px_0px_10px_rgba(0,0,0,0.1)] w-full max-w-[353px] h-full"
+        >
+          <div class="flex flex-col gap-[24px]">
+            <div
+              class="bg-[#fff3db] flex items-center justify-center rounded-[8.6px] w-[52px] h-[52px] shrink-0"
+            >
+              <svg
+                class="w-6 h-6 text-[#7D6433]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                ></path>
+              </svg>
+            </div>
+            <h4
+              class="font-['Inter'] font-semibold text-[#1b3a28] text-[20px] leading-[28px]"
+            >
+              Hybrid Mentorship
+            </h4>
+            <ul class="flex flex-col gap-[16px]">
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Industry learning</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                >
+                  Flexible learning modules</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Case studies</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Performance feedback</span
+                >
+              </li>
+            </ul>
+          </div>
+          <button
+            class="bg-[#3d5f4a] hover:bg-[#1b3a28] transition-colors rounded-[8px] py-[12px] px-[24px] w-full text-white font-['Inter'] font-semibold text-[16px] view-programs-btn mt-4"
+            data-category="skill"
+          >
+            View Programs
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div
+      id="tab-content-certificate"
+      class="program-tab-content hidden w-full bg-[#f7f7f7] rounded-[24px] p-[24px] sm:p-[36px] animate-fade-in"
+    >
+      <div class="flex gap-[14px] items-center mb-[24px]">
+        <div
+          class="bg-[#fff3db] flex items-center justify-center rounded-[10.6px] w-[50px] sm:w-[64px] h-[50px] sm:h-[64px] shrink-0"
+        >
+          <svg
+            class="w-6 h-6 sm:w-8 sm:h-8 text-[#7D6433]"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M13 10V3L4 14h7v7l9-11h-7z"
+            ></path>
+          </svg>
+        </div>
+        <div class="flex flex-col gap-[4px] sm:gap-[11px]">
+          <h3
+            class="font-['Inter'] font-bold text-[#1b3a28] text-[20px] sm:text-[22px]"
+          >
+            Certification Program
+          </h3>
+          <p
+            class="font-['Inter'] font-medium text-[#464e42] text-[14px] sm:text-[16px]"
+          >
+            Build specialized skills with practical training and
+            industry-recognized certifications.
+          </p>
+        </div>
+      </div>
+
+      <div
+        class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-[24px] justify-items-center"
+      >
+        <!-- Card 1: Intellectual Property -->
+        <div
+          class="bg-white flex flex-col justify-between gap-[24px] p-[24px] sm:p-[32px] rounded-[14px] shadow-[0px_0px_10px_rgba(0,0,0,0.1)] w-full max-w-[353px] h-full"
+        >
+          <div class="flex flex-col gap-[24px]">
+            <div
+              class="bg-[#fff3db] flex items-center justify-center rounded-[8.6px] w-[52px] h-[52px] shrink-0"
+            >
+              <svg
+                class="w-6 h-6 text-[#7D6433]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                ></path>
+              </svg>
+            </div>
+            <h4
+              class="font-['Inter'] font-semibold text-[#1b3a28] text-[20px] leading-[28px]"
+            >
+              Computer-Aided Design
+            </h4>
+            <ul class="flex flex-col gap-[16px]">
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >CAD software training</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >2D & 3D modeling</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Simulation techniques</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Design project implementation</span
+                >
+              </li>
+            </ul>
+          </div>
+          <button
+            class="bg-[#3d5f4a] hover:bg-[#1b3a28] transition-colors rounded-[8px] py-[12px] px-[24px] w-full text-white font-['Inter'] font-semibold text-[16px] view-programs-btn mt-4"
+            data-category="entrepreneurship"
+          >
+            View Programs
+          </button>
+        </div>
+
+        <!-- Skill Card 2 -->
+        <div
+          class="bg-white flex flex-col justify-between gap-[24px] p-[24px] sm:p-[32px] rounded-[14px] shadow-[0px_0px_10px_rgba(0,0,0,0.1)] w-full max-w-[353px] h-full"
+        >
+          <div class="flex flex-col gap-[24px]">
+            <div
+              class="bg-[#fff3db] flex items-center justify-center rounded-[8.6px] w-[52px] h-[52px] shrink-0"
+            >
+              <svg
+                class="w-6 h-6 text-[#7D6433]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"
+                ></path>
+              </svg>
+            </div>
+            <h4
+              class="font-['Inter'] font-semibold text-[#1b3a28] text-[20px] leading-[28px]"
+            >
+              Product Design and Innovation
+            </h4>
+            <ul class="flex flex-col gap-[16px]">
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >IDesign thinking approach</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Prototype development</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Innovation strategies</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >User-centered design</span
+                >
+              </li>
+            </ul>
+          </div>
+          <button
+            class="bg-[#3d5f4a] hover:bg-[#1b3a28] transition-colors rounded-[8px] py-[12px] px-[24px] w-full text-white font-['Inter'] font-semibold text-[16px] view-programs-btn mt-4"
+            data-category="skill"
+          >
+            View Programs
+          </button>
+        </div>
+
+        <!-- Skill Card 3 -->
+        <div
+          class="bg-white flex flex-col justify-between gap-[24px] p-[24px] sm:p-[32px] rounded-[14px] shadow-[0px_0px_10px_rgba(0,0,0,0.1)] w-full max-w-[353px] h-full"
+        >
+          <div class="flex flex-col gap-[24px]">
+            <div
+              class="bg-[#fff3db] flex items-center justify-center rounded-[8.6px] w-[52px] h-[52px] shrink-0"
+            >
+              <svg
+                class="w-6 h-6 text-[#7D6433]"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"
+                ></path>
+              </svg>
+            </div>
+            <h4
+              class="font-['Inter'] font-semibold text-[#1b3a28] text-[20px] leading-[28px]"
+            >
+              Business Development
+            </h4>
+            <ul class="flex flex-col gap-[16px]">
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Market analysis</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Business strategy planning</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Financial basics</span
+                >
+              </li>
+              <li class="flex gap-[12px] items-start">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                >
+                  <path
+                    d="M5.01667 8.51667L9.12917 4.40417L8.3125 3.5875L5.01667 6.88333L3.35417 5.22083L2.5375 6.0375L5.01667 8.51667V8.51667M5.83333 11.6667C5.02639 11.6667 4.26806 11.5135 3.55833 11.2073C2.84861 10.901 2.23125 10.4854 1.70625 9.96042C1.18125 9.43542 0.765625 8.81806 0.459375 8.10833C0.153125 7.39861 0 6.64028 0 5.83333C0 5.02639 0.153125 4.26806 0.459375 3.55833C0.765625 2.84861 1.18125 2.23125 1.70625 1.70625C2.23125 1.18125 2.84861 0.765625 3.55833 0.459375C4.26806 0.153125 5.02639 0 5.83333 0C6.64028 0 7.39861 0.153125 8.10833 0.459375C8.81806 0.765625 9.43542 1.18125 9.96042 1.70625C10.4854 2.23125 10.901 2.84861 11.2073 3.55833C11.5135 4.26806 11.6667 5.02639 11.6667 5.83333C11.6667 6.64028 11.5135 7.39861 11.2073 8.10833C10.901 8.81806 10.4854 9.43542 9.96042 9.96042C9.43542 10.4854 8.81806 10.901 8.10833 11.2073C7.39861 11.5135 6.64028 11.6667 5.83333 11.6667V11.6667M5.83333 10.5C7.13611 10.5 8.23958 10.0479 9.14375 9.14375C10.0479 8.23958 10.5 7.13611 10.5 5.83333C10.5 4.53056 10.0479 3.42708 9.14375 2.52292C8.23958 1.61875 7.13611 1.16667 5.83333 1.16667C4.53056 1.16667 3.42708 1.61875 2.52292 2.52292C1.61875 3.42708 1.16667 4.53056 1.16667 5.83333C1.16667 7.13611 1.61875 8.23958 2.52292 9.14375C3.42708 10.0479 4.53056 10.5 5.83333 10.5V10.5M5.83333 5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333V5.83333"
+                    fill="#059669"
+                  />
+                </svg>
+                <span
+                  class="font-['Inter'] font-medium text-[#677461] text-[16px] leading-[1]"
+                  >Startup growth techniques</span
+                >
+              </li>
+            </ul>
+          </div>
+          <button
+            class="bg-[#3d5f4a] hover:bg-[#1b3a28] transition-colors rounded-[8px] py-[12px] px-[24px] w-full text-white font-['Inter'] font-semibold text-[16px] view-programs-btn mt-4"
+            data-category="skill"
+          >
+            View Programs
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8.5 INTERNSHIP PROGRAM OVERVIEW -->
+<section class="w-full py-16 sm:py-24 px-4 sm:px-[88px]">
+  <div class="max-w-[1197px] mx-auto flex flex-col gap-12 sm:gap-16">
+    <div class="flex flex-col gap-6 max-w-[900px]">
+      <h2
+        class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[42px]"
+      >
+        Internship Programs
+      </h2>
+      <p
+        class="font-['Inter'] text-[#464e42] text-[15px] sm:text-[18px] leading-relaxed opacity-90"
+      >
+        Gain real-world experience through guided mentorship and hands-on industry exposure. 
+        Our long-term internships are specifically architected to provide deep engagement with specific technological and research domains, bridging the gap between student aspiration and industry reality.
+      </p>
+    </div>
+
+    <div
+      class="flex flex-col gap-12 sm:gap-16 border-l-2 border-[#5c8b6e]/20 pl-6 sm:pl-10"
+    >
+      <!-- Academic Mentorship -->
+      <div class="flex flex-col gap-4">
+        <h3
+          class="font-['Inter'] font-bold text-[#1b3a28] text-[22px] sm:text-[26px]"
+        >
+          Academic Mentorship
+        </h3>
+        <p
+          class="font-['Inter'] text-[#464e42] text-[16px] sm:text-[18px] leading-relaxed max-w-[850px]"
+        >
+          Engage in high-impact research projects under the guidance of veteran academicians. 
+          Focus on <span class="text-[#1b3a28] font-semibold">Curriculum-based Knowledge</span>, 
+          <span class="text-[#1b3a28] font-semibold">Research Methodologies</span>, 
+          and <span class="text-[#1b3a28] font-semibold">Skill Development</span> to build a solid academic foundation.
+        </p>
+      </div>
+
+      <!-- Industrial Mentorship -->
+      <div class="flex flex-col gap-4">
+        <h3
+          class="font-['Inter'] font-bold text-[#1b3a28] text-[22px] sm:text-[26px]"
+        >
+          Industrial Mentorship
+        </h3>
+        <p
+          class="font-['Inter'] text-[#464e42] text-[16px] sm:text-[18px] leading-relaxed max-w-[850px]"
+        >
+          Experience the professional landscape first-hand. Learn through 
+          <span class="text-[#1b3a28] font-semibold">Live Industrial Projects</span>, 
+          <span class="text-[#1b3a28] font-semibold">Corporate Networking</span>, 
+          and <span class="text-[#1b3a28] font-semibold">Practical Skill Training</span> directly from industry experts.
+        </p>
+      </div>
+
+      <!-- Hybrid Mentorship -->
+      <div class="flex flex-col gap-4">
+        <h3
+          class="font-['Inter'] font-bold text-[#1b3a28] text-[22px] sm:text-[26px]"
+        >
+          Hybrid Mentorship
+        </h3>
+        <p
+          class="font-['Inter'] text-[#464e42] text-[16px] sm:text-[18px] leading-relaxed max-w-[850px]"
+        >
+          A balanced approach combining theory and practice. Benefit from 
+          <span class="text-[#1b3a28] font-semibold">Flexible Learning Modules</span>, 
+          <span class="text-[#1b3a28] font-semibold">Case Study Analysis</span>, 
+          and <span class="text-[#1b3a28] font-semibold">Continuous Feedback</span> for holistic development.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 8.6 CERTIFICATION PROGRAM OVERVIEW -->
+<section class="w-full bg-[#f9f6ef]/30 py-16 sm:py-24 px-4 sm:px-[88px]">
+  <div
+    class="max-w-[1197px] mx-auto flex flex-col gap-12 sm:gap-16 items-end text-right"
+  >
+    <div class="flex flex-col gap-6 max-w-[900px] items-end">
+      <h2
+        class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[42px]"
+      >
+        Certification Programs
+      </h2>
+      <p
+        class="font-['Inter'] text-[#464e42] text-[15px] sm:text-[18px] leading-relaxed opacity-90 max-w-[800px]"
+      >
+        Build specialized skills with practical training and industry-recognized certifications. 
+        Our certification programs focus on high-demand technical and business competencies that define the modern industrial landscape.
+      </p>
+    </div>
+
+    <div
+      class="flex flex-col gap-12 sm:gap-16 border-r-2 border-[#5c8b6e]/20 pr-6 sm:pr-10 items-end"
+    >
+      <!-- Computer-Aided Design -->
+      <div class="flex flex-col gap-4 items-end">
+        <h3
+          class="font-['Inter'] font-bold text-[#1b3a28] text-[22px] sm:text-[26px]"
+        >
+          Computer-Aided Design
+        </h3>
+        <p
+          class="font-['Inter'] text-[#464e42] text-[16px] sm:text-[18px] leading-relaxed max-w-[850px]"
+        >
+          Excel in modern drafting and simulation. Master 
+          <span class="text-[#1b3a28] font-semibold">2D & 3D Modeling</span>, 
+          <span class="text-[#1b3a28] font-semibold">Simulation Analysis</span>, 
+          and <span class="text-[#1b3a28] font-semibold">Digital Product Prototyping</span> using industry-standard CAD tools.
+        </p>
+      </div>
+
+      <!-- Product Design and Innovation -->
+      <div class="flex flex-col gap-4 items-end">
+        <h3
+          class="font-['Inter'] font-bold text-[#1b3a28] text-[22px] sm:text-[26px]"
+        >
+          Product Design and Innovation
+        </h3>
+        <p
+          class="font-['Inter'] text-[#464e42] text-[16px] sm:text-[18px] leading-relaxed max-w-[850px]"
+        >
+          Foster a mindset of creativity and utility. This program covers 
+          <span class="text-[#1b3a28] font-semibold">Design Thinking</span>, 
+          <span class="text-[#1b3a28] font-semibold">User-Centered Innovation</span>, 
+          and <span class="text-[#1b3a28] font-semibold">Prototype Refinement</span>.
+        </p>
+      </div>
+
+      <!-- Business Development -->
+      <div class="flex flex-col gap-4 items-end">
+        <h3
+          class="font-['Inter'] font-bold text-[#1b3a28] text-[22px] sm:text-[26px]"
+        >
+          Business Development
+        </h3>
+        <p
+          class="font-['Inter'] text-[#464e42] text-[16px] sm:text-[18px] leading-relaxed max-w-[850px]"
+        >
+          Drive growth and scalability. Focus on 
+          <span class="text-[#1b3a28] font-semibold">Market Analysis</span>, 
+          <span class="text-[#1b3a28] font-semibold">Financial Planning</span>, 
+          and <span class="text-[#1b3a28] font-semibold">Startup Acceleration Strategies</span> for future leaders.
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 9. ELIGIBILITY SECTION -->
+<section
+  class="w-full flex flex-col items-center pt-12 pb-24 px-4 sm:px-[88px] relative"
+>
+  <div
+    class="max-w-[1197px] w-full bg-white border border-[rgba(194,198,211,0.15)] rounded-[12px] p-[30px] sm:p-[49px] flex flex-col gap-[24px]"
+  >
+    <h2
+      id="program-eligibility-title"
+      class="font-['Inter'] font-semibold text-[#1b3a28] text-[28px] sm:text-[36px]"
+    >
+      Eligibility Criteria
+    </h2>
+    <div
+      id="program-eligibility-list"
+      class="font-['Inter'] font-normal text-[#464e42] text-[16px] sm:text-[18px] max-w-[1067px]"
+    >
+      <ul class="list-disc pl-[27px] flex flex-col gap-[8px]">
+        <li class="leading-relaxed">
+          Applicants must belong to the Northeast region of India
+        </li>
+        <li class="leading-relaxed">
+          Open to students from schools, diploma, and engineering institutions
+        </li>
+        <li class="leading-relaxed">
+          Open to aspiring entrepreneurs and early-stage startups
+        </li>
+        <li class="leading-relaxed">
+          Researchers and innovators with relevant ideas are encouraged to apply
+        </li>
+        <li class="leading-relaxed">
+          MSMEs and industry professionals can participate
+        </li>
+        <li class="leading-relaxed">
+          Commitment to complete the full duration of the long-term program
+        </li>
+      </ul>
+      <p class="mt-8 font-['Inter'] font-semibold text-[#1b3a28]">
+        👉 Note: Eligibility criteria may vary depending on the specific program
+        or course.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script>
+  // Tab Switching Logic
+  document.querySelectorAll('.program-tab').forEach((tab) => {
+    tab.addEventListener('click', (e) => {
+      // Remove active from all
+      document.querySelectorAll('.program-tab').forEach((t) => {
+        t.classList.remove('program-tab-active', 'bg-[#5c8b6e]', 'text-white');
+        t.classList.add('bg-transparent', 'text-[#1b3a28]');
+      });
+
+      // Add active to clicked
+      const current = e.currentTarget;
+      current.classList.add('program-tab-active', 'bg-[#5c8b6e]', 'text-white');
+      current.classList.remove(
+        'bg-transparent',
+        'text-[#1b3a28]',
+        'hover:bg-gray-50'
+      );
+
+      // Switch content (no animation)
+      document.querySelectorAll('.program-tab-content').forEach((c) => {
+        c.classList.add('hidden');
+      });
+
+      const tabId = current.getAttribute('data-tab');
+      const target = document.getElementById('tab-content-' + tabId);
+
+      if (target) {
+        target.classList.remove('hidden');
+        target.classList.add('block');
+      }
+    });
+  });
+
+  // View Programs Button Redirection
+  document.querySelectorAll('.view-programs-btn').forEach((btn) => {
+    btn.addEventListener('click', (e) => {
+      const category = e.currentTarget.getAttribute('data-category');
+      sessionStorage.setItem('selectedProgramCategory', category);
+      window.location.hash = '#programs';
+    });
+  });
+</script>
