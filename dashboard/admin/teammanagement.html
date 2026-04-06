@@ -1,0 +1,331 @@
+<div class="flex flex-col gap-[24px] items-start w-full pb-10">
+  <!-- Header -->
+  <div class="flex flex-col items-start shrink-0">
+    <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+      Team Management
+    </h1>
+
+  </div>
+
+  <!-- Team Tabs -->
+  <div class="flex items-center gap-2 bg-gray-100/50 p-1 rounded-xl w-fit">
+    <button onclick="switchTeam('leadership')" id="tab-leadership" class="px-6 py-2 rounded-lg font-['Inter'] font-semibold text-[14px] transition-all bg-[#2d5a3d] text-white shadow-sm">Leadership</button>
+    <button onclick="switchTeam('scientific')" id="tab-scientific" class="px-6 py-2 rounded-lg font-['Inter'] font-semibold text-[14px] transition-all text-[#677461] hover:bg-white/80">Scientific Team</button>
+    <button onclick="switchTeam('executive')" id="tab-executive" class="px-6 py-2 rounded-lg font-['Inter'] font-semibold text-[14px] transition-all text-[#677461] hover:bg-white/80">Executive Team</button>
+  </div>
+
+  <!-- Scientific Categories (Visible only when Scientific Team is active) -->
+  <div id="scientific-categories" class="hidden flex-wrap items-center gap-2 mt-2">
+    <button onclick="switchCategory('grassroots')" id="cat-grassroots" class="px-4 py-1.5 rounded-full border border-[#2d5a3d] bg-[#2d5a3d] text-white text-[12px] font-bold transition-all">Grassroots Tech</button>
+    <button onclick="switchCategory('semiconductor')" id="cat-semiconductor" class="px-4 py-1.5 rounded-full border border-gray-200 text-[#677461] text-[12px] font-bold hover:border-[#2d5a3d] transition-all">Semiconductor & AI</button>
+    <button onclick="switchCategory('bamboo')" id="cat-bamboo" class="px-4 py-1.5 rounded-full border border-gray-200 text-[#677461] text-[12px] font-bold hover:border-[#2d5a3d] transition-all">Bamboo Innovation</button>
+    <button onclick="switchCategory('waste')" id="cat-waste" class="px-4 py-1.5 rounded-full border border-gray-200 text-[#677461] text-[12px] font-bold hover:border-[#2d5a3d] transition-all">Waste Management</button>
+  </div>
+
+  <!-- Main Content Area -->
+  <div class="w-full bg-white rounded-[16px] border border-gray-100 shadow-[0px_4px_12px_rgba(0,0,0,0.03)] overflow-hidden">
+    <!-- Action Bar -->
+    <div class="px-6 py-4 border-b border-gray-50 flex items-center justify-between bg-gray-50/30">
+      <h3 id="current-view-title" class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">Leadership Members</h3>
+      <button onclick="openAddMemberModal()" class="flex items-center gap-2 bg-[#2d5a3d] text-white px-4 py-2 rounded-lg font-['Inter'] font-bold text-[13px] hover:bg-[#1b3a28] transition-all">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+        Add Member
+      </button>
+    </div>
+
+    <!-- Members List -->
+    <div id="members-list" class="p-6 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+      <!-- Cards will be injected here -->
+    </div>
+    
+    <!-- Empty State -->
+    <div id="empty-state" class="hidden flex-col items-center justify-center p-20 text-center">
+      <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center text-gray-400 mb-4">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/></svg>
+      </div>
+      <h4 class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">No members found</h4>
+      <p class="text-[#677461] text-[13px] mt-1">Start by adding a new team member to this section.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Add/Edit Member Modal -->
+<div id="member-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+  <div class="bg-white rounded-[20px] shadow-2xl w-full max-w-[500px] overflow-hidden transform animate-in zoom-in-95 duration-200">
+    <div class="px-8 py-6 border-b border-gray-100 flex items-center justify-between">
+      <h3 id="modal-title" class="font-['Manrope'] font-bold text-[20px] text-[#1b3a28]">Add Team Member</h3>
+      <button onclick="closeModal()" class="text-gray-400 hover:text-red-500 transition-all">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+      </button>
+    </div>
+    
+    <div class="p-8 space-y-5">
+      <!-- Photo Upload -->
+      <div class="flex flex-col items-center gap-3">
+        <div id="photo-preview-container" class="w-32 h-32 rounded-2xl bg-gray-100 border-2 border-dashed border-gray-200 flex items-center justify-center overflow-hidden relative group">
+          <img id="modal-photo-preview" src="" class="hidden absolute inset-0 w-full h-full object-cover">
+          <svg id="modal-photo-icon" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+          <input type="file" id="member-photo-input" accept="image/*" class="absolute inset-0 opacity-0 cursor-pointer" onchange="previewMemberPhoto(this)">
+        </div>
+        <button onclick="document.getElementById('member-photo-input').click()" class="text-[12px] font-bold text-[#2d5a3d] hover:underline uppercase tracking-wider">Choose Photo</button>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-[11px] font-bold text-[#677461] uppercase tracking-wider mb-2">Full Name</label>
+          <input type="text" id="member-name" placeholder="e.g. Prof. Rakhi Chaturvedi" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-[10px] outline-none focus:border-[#2D5A3D] focus:bg-white transition-all font-['Inter'] text-[14px]">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-[#677461] uppercase tracking-wider mb-2">Profession / Role</label>
+          <input type="text" id="member-role" placeholder="e.g. Project Director" class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-[10px] outline-none focus:border-[#2D5A3D] focus:bg-white transition-all font-['Inter'] text-[14px]">
+        </div>
+        <div>
+          <label class="block text-[11px] font-bold text-[#677461] uppercase tracking-wider mb-2">Profile Link (Optional)</label>
+          <input type="text" id="member-link" placeholder="https://..." class="w-full px-4 py-3 bg-gray-50 border border-gray-100 rounded-[10px] outline-none focus:border-[#2D5A3D] focus:bg-white transition-all font-['Inter'] text-[14px]">
+        </div>
+      </div>
+    </div>
+
+    <div class="px-8 py-6 bg-gray-50 flex items-center justify-end gap-3">
+      <button onclick="closeModal()" class="px-6 py-2.5 font-['Inter'] font-bold text-[14px] text-gray-500 hover:text-gray-700">Cancel</button>
+      <button onclick="saveMember()" class="bg-[#2D5A3D] text-white px-8 py-2.5 rounded-[10px] font-['Inter'] font-bold text-[14px] shadow-lg hover:bg-[#1b3a28] transition-all transform active:scale-95">Save Member</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  (function() {
+    let currentTeam = 'leadership';
+    let currentCategory = 'grassroots';
+    
+    // Initial Seed Data
+    const seedData = {
+      leadership: [
+        { id: 'l1', name: 'Prof. Devendra Jalihal', role: 'Chairman of Nest Cluster', photo: '', link: '' },
+        { id: 'l2', name: 'Prof. Vimal Katiyar', role: 'Project Director, NEST Cluster', photo: '', link: '' }
+      ],
+      scientific: {
+        grassroots: [
+          { id: 's1', name: 'Prof. Rakhi Chaturvedi', role: 'Project Director', photo: '', link: '' },
+          { id: 's2', name: 'Dr. Vivek Padmanabha (PI)', role: 'Principal Investigator', photo: '', link: '' }
+        ],
+        semiconductor: [],
+        bamboo: [],
+        waste: []
+      },
+      executive: [
+        { id: 'e1', name: 'Dr. Sakshi Nangia', role: 'Manager Scientific Communications', photo: '', link: '' },
+        { id: 'e2', name: '(Dr) Abhishek Singh', role: 'Manager Scientific Communications', photo: '', link: '' },
+        { id: 'e3', name: '(Dr) Sweety Kalita', role: 'Manager Scientific Communications', photo: '', link: '' },
+        { id: 'e4', name: 'Mrinal Kumar', role: 'Technical Attendant', photo: '', link: '' },
+        { id: 'e5', name: 'Debeshree Daimary', role: 'Office Attendant', photo: '', link: '' },
+        { id: 'e6', name: 'Rumi Yadav', role: 'Office Attendant', photo: '', link: '' }
+      ]
+    };
+
+    let teamData = JSON.parse(localStorage.getItem('nest_team_data'));
+    
+    if (!teamData) {
+      teamData = seedData;
+      localStorage.setItem('nest_team_data', JSON.stringify(teamData));
+    }
+
+    let editingId = null;
+    let base64Photo = null;
+
+    window.switchTeam = function(team) {
+      currentTeam = team;
+      // Update UI
+      ['leadership', 'scientific', 'executive'].forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        if (t === team) {
+          btn.classList.add('bg-[#2d5a3d]', 'text-white', 'shadow-sm');
+          btn.classList.remove('text-[#677461]', 'hover:bg-white/80');
+        } else {
+          btn.classList.remove('bg-[#2d5a3d]', 'text-white', 'shadow-sm');
+          btn.classList.add('text-[#677461]', 'hover:bg-white/80');
+        }
+      });
+
+      // Show/Hide categories
+      const catContainer = document.getElementById('scientific-categories');
+      if (team === 'scientific') {
+        catContainer.classList.remove('hidden');
+        catContainer.classList.add('flex');
+      } else {
+        catContainer.classList.add('hidden');
+        catContainer.classList.remove('flex');
+      }
+
+      renderCurrentList();
+    };
+
+    window.switchCategory = function(cat) {
+      currentCategory = cat;
+      ['grassroots', 'semiconductor', 'bamboo', 'waste'].forEach(c => {
+        const btn = document.getElementById(`cat-${c}`);
+        if (c === cat) {
+          btn.classList.add('bg-[#2d5a3d]', 'text-white');
+          btn.classList.remove('border-gray-200', 'text-[#677461]');
+        } else {
+          btn.classList.remove('bg-[#2d5a3d]', 'text-white');
+          btn.classList.add('border-gray-200', 'text-[#677461]');
+        }
+      });
+      renderCurrentList();
+    };
+
+    function renderCurrentList() {
+      const container = document.getElementById('members-list');
+      const emptyState = document.getElementById('empty-state');
+      const title = document.getElementById('current-view-title');
+      
+      let list = [];
+      if (currentTeam === 'scientific') {
+        list = teamData.scientific[currentCategory];
+        title.innerText = `Scientific Team: ${document.getElementById(`cat-${currentCategory}`).innerText}`;
+      } else {
+        list = teamData[currentTeam];
+        title.innerText = `${currentTeam.charAt(0).toUpperCase() + currentTeam.slice(1)} Members`;
+      }
+
+      container.innerHTML = '';
+      if (list.length === 0) {
+        emptyState.classList.remove('hidden');
+        emptyState.classList.add('flex');
+        return;
+      }
+
+      emptyState.classList.add('hidden');
+      emptyState.classList.remove('flex');
+
+      list.forEach(member => {
+        const card = document.createElement('div');
+        card.className = "bg-white border border-gray-100 rounded-[14px] p-4 flex items-center gap-4 group hover:shadow-md transition-all";
+        card.innerHTML = `
+          <div class="w-14 h-14 rounded-full overflow-hidden shrink-0 bg-gray-50 border border-gray-200">
+            <img src="${member.photo || '/assets/logo/depositphotos_239470246-stock-illustration-user-sign-icon-person-symbol.jpg'}" class="w-full h-full object-cover">
+          </div>
+          <div class="flex-1 min-w-0">
+            <h4 class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px] truncate">${member.name}</h4>
+            <p class="text-[#677461] text-[12px] truncate">${member.role}</p>
+          </div>
+          <div class="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-all">
+            <button onclick="editMember('${member.id}')" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-all"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg></button>
+            <button onclick="deleteMember('${member.id}')" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><line x1="10" y1="11" x2="10" y2="17"/><line x1="14" y1="11" x2="14" y2="17"/></svg></button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    window.openAddMemberModal = function() {
+      editingId = null;
+      base64Photo = null;
+      document.getElementById('modal-title').innerText = "Add Team Member";
+      document.getElementById('member-name').value = '';
+      document.getElementById('member-role').value = '';
+      document.getElementById('member-link').value = '';
+      document.getElementById('modal-photo-preview').classList.add('hidden');
+      document.getElementById('modal-photo-icon').classList.remove('hidden');
+      document.getElementById('member-modal').classList.remove('hidden');
+    };
+
+    window.closeModal = function() {
+      document.getElementById('member-modal').classList.add('hidden');
+    };
+
+    window.previewMemberPhoto = function(input) {
+      const file = input.files[0];
+      if (file) {
+        if (file.size > 2 * 1024 * 1024) {
+          alert('Image too large! Please use a smaller image (< 2MB).');
+          return;
+        }
+        const reader = new FileReader();
+        reader.onload = (e) => {
+          base64Photo = e.target.result;
+          const img = document.getElementById('modal-photo-preview');
+          img.src = base64Photo;
+          img.classList.remove('hidden');
+          document.getElementById('modal-photo-icon').classList.add('hidden');
+        };
+        reader.readAsDataURL(file);
+      }
+    };
+
+    window.editMember = function(id) {
+      editingId = id;
+      let list = currentTeam === 'scientific' ? teamData.scientific[currentCategory] : teamData[currentTeam];
+      const member = list.find(m => m.id === id);
+      
+      if (member) {
+        document.getElementById('modal-title').innerText = "Edit Team Member";
+        document.getElementById('member-name').value = member.name;
+        document.getElementById('member-role').value = member.role;
+        document.getElementById('member-link').value = member.link || '';
+        base64Photo = member.photo;
+        
+        if (base64Photo) {
+          const img = document.getElementById('modal-photo-preview');
+          img.src = base64Photo;
+          img.classList.remove('hidden');
+          document.getElementById('modal-photo-icon').classList.add('hidden');
+        } else {
+          document.getElementById('modal-photo-preview').classList.add('hidden');
+          document.getElementById('modal-photo-icon').classList.remove('hidden');
+        }
+        
+        document.getElementById('member-modal').classList.remove('hidden');
+      }
+    };
+
+    window.saveMember = function() {
+      const name = document.getElementById('member-name').value.trim();
+      const role = document.getElementById('member-role').value.trim();
+      const link = document.getElementById('member-link').value.trim();
+
+      if (!name || !role) {
+        alert('Please fill in both Name and Role.');
+        return;
+      }
+
+      let list = currentTeam === 'scientific' ? teamData.scientific[currentCategory] : teamData[currentTeam];
+
+      if (editingId) {
+        const index = list.findIndex(m => m.id === editingId);
+        if (index !== -1) {
+          list[index] = { ...list[index], name, role, link, photo: base64Photo };
+        }
+      } else {
+        const newMember = {
+          id: Date.now().toString(),
+          name,
+          role,
+          link,
+          photo: base64Photo
+        };
+        list.push(newMember);
+      }
+
+      localStorage.setItem('nest_team_data', JSON.stringify(teamData));
+      renderCurrentList();
+      closeModal();
+    };
+
+    window.deleteMember = function(id) {
+      if (confirm('Are you sure you want to remove this member?')) {
+        let list = currentTeam === 'scientific' ? teamData.scientific[currentCategory] : teamData[currentTeam];
+        const index = list.findIndex(m => m.id === id);
+        if (index !== -1) {
+          list.splice(index, 1);
+          localStorage.setItem('nest_team_data', JSON.stringify(teamData));
+          renderCurrentList();
+        }
+      }
+    };
+
+    // Initial render
+    renderCurrentList();
+  })();
+</script>

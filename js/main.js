@@ -41,7 +41,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   // --- Simple Routing Logic ---
+  function renderNotificationBar() {
+    const hash = window.location.hash;
+    const notificationBar = document.getElementById('notification-bar');
+    if (!notificationBar) return;
+
+    if (hash === '' || hash === '#home') {
+      const savedData = JSON.parse(localStorage.getItem('nest_notification_config') || 'null');
+      const text = savedData ? savedData.text : "NEST Cluster Progress Report 2025-26 is now live!";
+      const pdfUrl = savedData ? savedData.pdfUrl : "/assets/docs/NEST_Report_2026.pdf";
+
+      notificationBar.innerHTML = `
+        <div class="bg-gradient-to-r from-[#7C1F1F] via-[#A82B2B] to-[#7C1F1F] text-white py-1 px-4 relative overflow-hidden group shadow-md transition-all duration-300">
+          <div class="max-w-[1440px] mx-auto flex items-center justify-center flex-wrap gap-x-6 gap-y-1 text-center">
+            <div class="flex items-center gap-2 whitespace-nowrap">
+              <span class="bg-white text-[#7C1F1F] text-[8px] uppercase font-bold px-1.5 py-0.5 rounded shadow-sm leading-none flex items-center h-[14px]">Update</span>
+              <p class="font-['Inter'] text-[12px] sm:text-[13px] font-medium tracking-wide">
+                 ${text}
+              </p>
+            </div>
+            
+            <a href="${pdfUrl}" target="_blank" class="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/20 py-0.5 px-2.5 rounded transition-all duration-300 backdrop-blur-md group whitespace-nowrap">
+              <span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-tight">PDF</span>
+              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-y-0.5 transition-transform">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+            </a>
+          </div>
+        </div>
+      `;
+      document.body.style.paddingTop = '142px';
+    } else {
+      notificationBar.innerHTML = '';
+      document.body.style.paddingTop = '114px';
+    }
+  }
+
+  // Handle Scroll Behavior for Fixed Header & Notification Bar
+  window.addEventListener('scroll', () => {
+    const notificationBar = document.getElementById('notification-bar');
+    if (notificationBar && notificationBar.children.length > 0) {
+      if (window.scrollY > 20) {
+        notificationBar.style.maxHeight = '0px';
+        notificationBar.style.opacity = '0';
+      } else {
+        notificationBar.style.maxHeight = '100px';
+        notificationBar.style.opacity = '1';
+      }
+    }
+  });
+
   function handleNavigation() {
+    renderNotificationBar();
+
     const hash = window.location.hash;
     const mainContent = document.getElementById('main-content');
 

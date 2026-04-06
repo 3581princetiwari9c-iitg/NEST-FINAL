@@ -68,7 +68,9 @@ document.addEventListener('DOMContentLoaded', () => {
         '#hubmou': '/dashboard/admin/hubmou.html',
         '#add-mou': '/dashboard/admin/addmou.html',
         '#add-hub': '/dashboard/admin/addhub.html',
+        '#notification': '/dashboard/admin/notificationdashboard.html',
         '#profile': '/dashboard/admin/profile.html',
+        '#team': '/dashboard/admin/teammanagement.html',
         '#logout': '/index.html' // Handle logout
     };
 
