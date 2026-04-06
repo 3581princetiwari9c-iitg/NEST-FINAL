@@ -808,3 +808,78 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 });
+
+/**
+ * Universal Tab Switching for Program Categories
+ * Attached to window to be accessible from dynamic HTML fragments
+ */
+window.switchProgramTab = function(tab) {
+  // List containers
+  const upcomingList = document.getElementById('upcoming-list');
+  const ongoingList = document.getElementById('ongoing-list');
+  const completedList = document.getElementById('completed-list');
+  
+  // Tab buttons
+  const tabs = {
+    upcoming: document.getElementById('tab-upcoming'),
+    ongoing: document.getElementById('tab-ongoing'),
+    completed: document.getElementById('tab-completed')
+  };
+
+  // 1. Update List Visibility
+  if (upcomingList) upcomingList.classList.add('hidden');
+  if (ongoingList) ongoingList.classList.add('hidden');
+  if (completedList) completedList.classList.add('hidden');
+
+  if (tab === 'upcoming' && upcomingList) upcomingList.classList.remove('hidden');
+  else if (tab === 'ongoing' && ongoingList) ongoingList.classList.remove('hidden');
+  else if (tab === 'completed' && completedList) completedList.classList.remove('hidden');
+
+  // 2. Update Tab Styling
+  Object.keys(tabs).forEach(key => {
+    const btn = tabs[key];
+    if (!btn) return;
+    const icon = btn.querySelector('.tab-icon');
+    const text = btn.querySelector('.tab-text');
+    const indicator = btn.querySelector('.tab-indicator');
+    const count = btn.querySelector('span:last-child');
+
+    if (key === tab) {
+      // Active Styles
+      if (icon) {
+        icon.classList.remove('text-[#677461]');
+        icon.classList.add('text-[#2d5a3d]');
+      }
+      if (text) {
+        text.classList.add('font-semibold', 'text-[#2d5a3d]');
+        text.classList.remove('font-normal', 'text-[#677461]');
+      }
+      if (indicator) {
+        indicator.classList.remove('bg-transparent');
+        indicator.classList.add('bg-[#2d5a3d]');
+      }
+      if (count) {
+        count.classList.add('font-semibold', 'text-[#2d5a3d]');
+        count.classList.remove('font-normal', 'text-[#677461]');
+      }
+    } else {
+      // Inactive Styles
+      if (icon) {
+        icon.classList.add('text-[#677461]');
+        icon.classList.remove('text-[#2d5a3d]');
+      }
+      if (text) {
+        text.classList.remove('font-semibold', 'text-[#2d5a3d]');
+        text.classList.add('font-normal', 'text-[#677461]');
+      }
+      if (indicator) {
+        indicator.classList.add('bg-transparent');
+        indicator.classList.remove('bg-[#2d5a3d]');
+      }
+      if (count) {
+        count.classList.remove('font-semibold', 'text-[#2d5a3d]');
+        count.classList.add('font-normal', 'text-[#677461]');
+      }
+    }
+  });
+};
