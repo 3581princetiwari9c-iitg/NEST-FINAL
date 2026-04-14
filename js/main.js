@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       }
+      
+      // Initialize notification bar as soon as navbar is ready
+      if (typeof renderNotificationBar === 'function') {
+        renderNotificationBar();
+      }
     });
 
   // --- Simple Routing Logic ---
@@ -47,32 +52,83 @@ document.addEventListener('DOMContentLoaded', () => {
     if (!notificationBar) return;
 
     if (hash === '' || hash === '#home') {
-      const savedData = JSON.parse(localStorage.getItem('nest_notification_config') || 'null');
-      const text = savedData ? savedData.text : "NEST Cluster Progress Report 2025-26 is now live!";
-      const pdfUrl = savedData ? savedData.pdfUrl : "/assets/docs/NEST_Report_2026.pdf";
+      const storedData = localStorage.getItem('nest_notification_config');
+      let notifications = [];
+      
+      try {
+        const parsed = JSON.parse(storedData);
+        if (Array.isArray(parsed)) {
+          notifications = parsed;
+        } else if (parsed && typeof parsed === 'object') {
+          notifications = [parsed];
+        }
+      } catch (e) {
+        console.error('Error parsing notifications:', e);
+      }
+
+      if (notifications.length === 0) {
+        // demo 5 notifications
+        notifications = [
+          { text: "NEST Cluster Progress Report 2025-26 is now live!", pdfUrl: "/assets/docs/NEST_Report_2026.pdf" },
+          { text: "New Incubation Cohort Applications opening soon!", pdfUrl: "#" },
+          { text: "Workshop on Sustainable Bamboo Crafting: May 15th", pdfUrl: "#" },
+          { text: "NEST Hub & MoU signed with top technical institutes", pdfUrl: "/assets/docs/NEST_MOU.pdf" },
+          { text: "NEST Startup Awards 2026: Nominate your startup now!", pdfUrl: "#" }
+        ];
+      }
+
+      // Add marquee animation styles
+      if (!document.getElementById('notif-marquee-styles')) {
+        const style = document.createElement('style');
+        style.id = 'notif-marquee-styles';
+        style.textContent = `
+          @keyframes marqueeNotif {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          .animate-marquee-notif {
+            display: flex;
+            white-space: nowrap;
+            animation: marqueeNotif 20s linear infinite;
+          }
+          .animate-marquee-notif:hover {
+            animation-play-state: paused;
+          }
+        `;
+        document.head.appendChild(style);
+      }
+
+      // Duplicate notifications to create the infinite loop effect
+      const displayNotifications = [...notifications, ...notifications];
+
+      const notifHtml = displayNotifications.map((notif) => `
+        <div class="inline-flex items-center gap-x-8 px-8 py-1.5">
+          <div class="flex items-center gap-2 whitespace-nowrap">
+            <p class="font-['Inter'] text-[13px] font-medium tracking-wide text-white">
+               ${notif.text}
+            </p>
+          </div>
+          ${notif.pdfUrl ? `
+          <a href="${notif.pdfUrl}" target="_blank" class="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/20 py-0.5 px-3 rounded transition-all duration-300 backdrop-blur-md group whitespace-nowrap text-white">
+            <span class="font-['Inter'] text-[11px] font-semibold uppercase tracking-tight">PDF</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-y-0.5 transition-transform">
+              <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+              <polyline points="7 10 12 15 17 10"></polyline>
+              <line x1="12" y1="15" x2="12" y2="3"></line>
+            </svg>
+          </a>` : ''}
+        </div>
+      `).join('');
 
       notificationBar.innerHTML = `
-        <div class="bg-gradient-to-r from-[#7C1F1F] via-[#A82B2B] to-[#7C1F1F] text-white py-1 px-4 relative overflow-hidden group shadow-md transition-all duration-300">
-          <div class="max-w-[1440px] mx-auto flex items-center justify-center flex-wrap gap-x-6 gap-y-1 text-center">
-            <div class="flex items-center gap-2 whitespace-nowrap">
-              <span class="bg-white text-[#7C1F1F] text-[8px] uppercase font-bold px-1.5 py-0.5 rounded shadow-sm leading-none flex items-center h-[14px]">Update</span>
-              <p class="font-['Inter'] text-[12px] sm:text-[13px] font-medium tracking-wide">
-                 ${text}
-              </p>
-            </div>
-            
-            <a href="${pdfUrl}" target="_blank" class="flex items-center gap-1.5 bg-white/10 hover:bg-white/20 border border-white/20 py-0.5 px-2.5 rounded transition-all duration-300 backdrop-blur-md group whitespace-nowrap">
-              <span class="font-['Inter'] text-[10px] font-semibold uppercase tracking-tight">PDF</span>
-              <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="group-hover:translate-y-0.5 transition-transform">
-                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-                <polyline points="7 10 12 15 17 10"></polyline>
-                <line x1="12" y1="15" x2="12" y2="3"></line>
-              </svg>
-            </a>
+        <div class="bg-gradient-to-r from-[#7C1F1F] via-[#A82B2B] to-[#7C1F1F] shadow-md transition-all duration-300 min-h-[38px] flex items-center relative overflow-hidden group border-b border-white/10">
+          <div class="animate-marquee-notif">
+            ${notifHtml}
           </div>
         </div>
       `;
-      document.body.style.paddingTop = '142px';
+      
+      document.body.style.paddingTop = '152px'; 
     } else {
       notificationBar.innerHTML = '';
       document.body.style.paddingTop = '114px';
@@ -82,10 +138,19 @@ document.addEventListener('DOMContentLoaded', () => {
   // Handle Scroll Behavior for Fixed Header & Notification Bar
   window.addEventListener('scroll', () => {
     const notificationBar = document.getElementById('notification-bar');
+    const hash = window.location.hash;
+    const isHome = hash === '' || hash === '#home';
+
     if (notificationBar && notificationBar.children.length > 0) {
       if (window.scrollY > 20) {
-        notificationBar.style.maxHeight = '0px';
-        notificationBar.style.opacity = '0';
+        if (!isHome) {
+          notificationBar.style.maxHeight = '0px';
+          notificationBar.style.opacity = '0';
+        } else {
+          // Keep sticky on home page
+          notificationBar.style.maxHeight = '100px';
+          notificationBar.style.opacity = '1';
+        }
       } else {
         notificationBar.style.maxHeight = '100px';
         notificationBar.style.opacity = '1';
