@@ -264,6 +264,13 @@ document.addEventListener('DOMContentLoaded', () => {
           mainContent.innerHTML = data;
           window.scrollTo({ top: 0, behavior: 'smooth' });
 
+          const scripts = mainContent.querySelectorAll('script');
+          scripts.forEach((oldScript) => {
+            const newScript = document.createElement('script');
+            newScript.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+
           const menu = document.getElementById('mobile-menu');
           if (menu && !menu.classList.contains('hidden')) {
             menu.classList.add('hidden');
@@ -757,6 +764,15 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((data) => {
           mainContent.innerHTML = data;
           window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          // Re-initialize any scripts in the fetched HTML
+          const scripts = mainContent.querySelectorAll('script');
+          scripts.forEach((oldScript) => {
+            const newScript = document.createElement('script');
+            newScript.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+
           const menu = document.getElementById('mobile-menu');
           if (menu && !menu.classList.contains('hidden')) {
             menu.classList.add('hidden');
@@ -806,6 +822,44 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((data) => {
           mainContent.innerHTML = data;
           window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          // Re-initialize any scripts in the fetched HTML
+          const scripts = mainContent.querySelectorAll('script');
+          scripts.forEach((oldScript) => {
+            const newScript = document.createElement('script');
+            newScript.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+
+          const menu = document.getElementById('mobile-menu');
+          if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+          }
+        })
+        .catch((err) => {
+          console.error('Routing error:', err);
+          mainContent.innerHTML =
+            '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
+        });
+    } else if (hash === '#startupregister') {
+      mainContent.innerHTML = LOADER_HTML;
+      fetch('/pages/loginregister/startupregistration.html')
+        .then((res) => {
+          if (!res.ok) throw new Error('Failed to load page');
+          return res.text();
+        })
+        .then((data) => {
+          mainContent.innerHTML = data;
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          // Re-initialize any scripts in the fetched HTML if needed
+          const scripts = mainContent.querySelectorAll('script');
+          scripts.forEach((oldScript) => {
+            const newScript = document.createElement('script');
+            newScript.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
+
           const menu = document.getElementById('mobile-menu');
           if (menu && !menu.classList.contains('hidden')) {
             menu.classList.add('hidden');

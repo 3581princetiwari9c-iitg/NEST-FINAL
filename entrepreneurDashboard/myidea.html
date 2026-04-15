@@ -1,0 +1,91 @@
+<div class="flex flex-col gap-[24px] items-start w-full max-w-[1000px]">
+    <!-- Header -->
+    <div class="flex items-center justify-between w-full">
+        <div class="flex items-center gap-4">
+            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+                My Idea Overview
+            </h1>
+            <span class="bg-[#FFF7ED] text-[#EA580C] px-4 py-1.5 rounded-full font-['Inter'] font-semibold text-[13px] border border-[#EA580C]/20 flex items-center gap-1.5 shadow-sm">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="10"></circle>
+                    <polyline points="12 6 12 12 16 14"></polyline>
+                </svg>
+                Pending Approval
+            </span>
+        </div>
+        <button class="bg-[#2D5A3D] text-white px-6 py-2.5 rounded-[10px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#1b3a28] transition-all flex items-center gap-2">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+            </svg>
+            Edit Idea
+        </button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="w-full bg-white rounded-[16px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 flex flex-col gap-8">
+        
+        <!-- Idea Description -->
+        <div class="flex flex-col gap-4">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[20px] uppercase tracking-tight">Idea Concept</h2>
+            <p class="font-['Inter'] text-[#464E42] text-[15px] leading-relaxed">
+                We are developing an intelligent distribution platform optimized for rural artisans. The platform combines machine learning to predict demand spikes and uses low-cost logistics to ensure supply chain viability in remote regions. The goal is to maximize direct-to-consumer reach for handicraft makers without the overhead of traditional intermediaries.
+            </p>
+        </div>
+
+        <!-- Meta Grid -->
+        <div class="bg-[#f9f8f4] rounded-[16px] p-[24px] border border-gray-100">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                <div class="flex flex-col gap-[4px]">
+                    <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-widest">Proposed Location</span>
+                    <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">Meghalaya</span>
+                </div>
+                <div class="flex flex-col gap-[4px]">
+                    <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-widest">Estimated Budget</span>
+                    <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">₹ 12,00,000</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Documents Section -->
+        <div class="flex flex-col gap-[16px]">
+            <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em]">Attached Documents</h4>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                
+                <!-- PDF 1 -->
+                <div class="flex items-center justify-between p-4 bg-[#f3f4f6]/50 rounded-[12px] border border-gray-100 hover:bg-gray-50 transition-all cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-50 rounded-[8px] flex items-center justify-center border border-red-100">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[14px]">Pitch_Deck.pdf</span>
+                            <span class="font-['Inter'] text-[#677461] text-[11px]">3.4 MB • Document 1</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PDF 2 -->
+                <div class="flex items-center justify-between p-4 bg-[#f3f4f6]/50 rounded-[12px] border border-gray-100 hover:bg-gray-50 transition-all cursor-pointer">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 bg-red-50 rounded-[8px] flex items-center justify-center border border-red-100">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                <polyline points="14 2 14 8 20 8"></polyline>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[14px]">Financial_Projections.pdf</span>
+                            <span class="font-['Inter'] text-[#677461] text-[11px]">1.2 MB • Document 2</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

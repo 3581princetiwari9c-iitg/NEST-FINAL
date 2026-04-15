@@ -62,7 +62,7 @@
                     <p class="font-['Inter'] font-normal text-[#677461] text-[14px]">
                         Broad academic partners facilitating regional outreach and foundational skill development.
                     </p>
-                    <div class="flex flex-wrap gap-[8px] pt-1">
+                    <div class="flex flex-wrap gap-[8px] pt-1" id="hub-list-state-universities">
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Agartala</span>
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Silchar</span>
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Sikkim</span>
@@ -85,7 +85,7 @@
                     <p class="font-['Inter'] font-normal text-[#677461] text-[14px]">
                         Broad academic partners facilitating regional outreach and foundational skill development.
                     </p>
-                    <div class="flex flex-wrap gap-[8px] pt-1">
+                    <div class="flex flex-wrap gap-[8px] pt-1" id="hub-list-nit-network">
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Agartala</span>
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Silchar</span>
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Sikkim</span>
@@ -108,7 +108,7 @@
                     <p class="font-['Inter'] font-normal text-[#677461] text-[14px]">
                         Broad academic partners facilitating regional outreach and foundational skill development.
                     </p>
-                    <div class="flex flex-wrap gap-[8px] pt-1">
+                    <div class="flex flex-wrap gap-[8px] pt-1" id="hub-list-industry-partner">
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Agartala</span>
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Silchar</span>
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Sikkim</span>
@@ -131,7 +131,7 @@
                     <p class="font-['Inter'] font-normal text-[#677461] text-[14px]">
                         Broad academic partners facilitating regional outreach and foundational skill development.
                     </p>
-                    <div class="flex flex-wrap gap-[8px] pt-1">
+                    <div class="flex flex-wrap gap-[8px] pt-1" id="hub-list-government-bodies">
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Agartala</span>
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Silchar</span>
                         <span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">Sikkim</span>
@@ -301,3 +301,77 @@
           </div>
         </div>
 </section>
+
+<script>
+(function() {
+    // Check if initial default data needs to be populated
+    if (!localStorage.getItem('hubsNetwork')) {
+        const defaultData = [
+            
+            // State Universities (Default)
+            {name: "Agartala", category: "State Universities"},
+            {name: "Silchar", category: "State Universities"},
+            {name: "Sikkim", category: "State Universities"},
+            {name: "Arunachal Pradesh", category: "State Universities"},
+            {name: "Meghalaya", category: "State Universities"},
+            {name: "Nagaland", category: "State Universities"},
+            {name: "Manipur", category: "State Universities"},
+            {name: "Mizoram", category: "State Universities"},
+
+            // NIT Network (Default)
+            {name: "Agartala", category: "NIT Network"},
+            {name: "Silchar", category: "NIT Network"},
+            {name: "Sikkim", category: "NIT Network"},
+            {name: "Arunachal Pradesh", category: "NIT Network"},
+            {name: "Meghalaya", category: "NIT Network"},
+            {name: "Nagaland", category: "NIT Network"},
+            {name: "Manipur", category: "NIT Network"},
+            {name: "Mizoram", category: "NIT Network"},
+
+            // Industry Partner (Default)
+            {name: "Agartala", category: "Industry Partner"},
+            {name: "Silchar", category: "Industry Partner"},
+            {name: "Sikkim", category: "Industry Partner"},
+            {name: "Arunachal Pradesh", category: "Industry Partner"},
+            {name: "Meghalaya", category: "Industry Partner"},
+            {name: "Nagaland", category: "Industry Partner"},
+            {name: "Manipur", category: "Industry Partner"},
+            {name: "Mizoram", category: "Industry Partner"},
+
+            // Government Bodies (Default)
+            {name: "Agartala", category: "Government Bodies"},
+            {name: "Silchar", category: "Government Bodies"},
+            {name: "Sikkim", category: "Government Bodies"},
+            {name: "Arunachal Pradesh", category: "Government Bodies"},
+            {name: "Meghalaya", category: "Government Bodies"},
+            {name: "Nagaland", category: "Government Bodies"},
+            {name: "Manipur", category: "Government Bodies"},
+            {name: "Mizoram", category: "Government Bodies"}
+        ];
+        localStorage.setItem('hubsNetwork', JSON.stringify(defaultData));
+    }
+
+    const hubs = JSON.parse(localStorage.getItem('hubsNetwork') || '[]');
+    
+    // Container map
+    const containers = {
+        'State Universities': document.getElementById('hub-list-state-universities'),
+        'NIT Network': document.getElementById('hub-list-nit-network'),
+        'Industry Partner': document.getElementById('hub-list-industry-partner'),
+        'Government Bodies': document.getElementById('hub-list-government-bodies'),
+    };
+
+    // Clear existing static nodes from HTML
+    Object.values(containers).forEach(container => {
+        if (container) container.innerHTML = '';
+    });
+
+    // Populate dynamic nodes
+    hubs.forEach(hub => {
+        const container = containers[hub.category];
+        if (container) {
+            container.innerHTML += `<span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] transition-all break-words max-w-full text-center hover:scale-[1.03]">${hub.name}</span>`;
+        }
+    });
+})();
+</script>

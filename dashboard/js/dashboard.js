@@ -57,7 +57,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const routes = {
         '#dashboard': '/dashboard/admin/clusterdashboard.html',
         '#programs': '/dashboard/admin/programdashboard.html',
+        '#hub': '/dashboard/admin/hubdashboard.html',
+        '#add-hub': '/dashboard/admin/addhub.html',
         '#create-program': '/dashboard/admin/createprogram.html',
+        '#edit-program': '/dashboard/admin/editprogram.html',
         '#startups': '/dashboard/admin/startupdashboard.html',
         '#requests': '/dashboard/admin/requestdashboard.html',
         '#newsletter': '/dashboard/admin/newsletterdashboard.html',

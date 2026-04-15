@@ -1,0 +1,142 @@
+<div class="flex flex-col gap-[24px] items-start w-full pb-10">
+    <!-- Header -->
+    <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 w-full mb-[8px]">
+        <div class="flex flex-col items-start shrink-0">
+            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+                Marketplace Management
+            </h1>
+        </div>
+        <div>
+            <a href="#add-product"
+                class="flex items-center gap-2 bg-[#2D5A3D] text-white px-8 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#1b3a28] transition-all">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="5" x2="12" y2="19"></line>
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                </svg>
+                Add New Product
+            </a>
+        </div>
+    </div>
+
+    <!-- Stats Cards Section -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-[16px] w-full max-w-[800px] mt-2">
+        <!-- Products Listed Card -->
+        <div class="bg-white p-[18px] rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[16px]">
+            <div class="w-[36px] h-[38px] bg-[#f1ffee] rounded-[6px] flex items-center justify-center text-[#2d5a3d]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <path d="M3 6h18"></path>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464e42] text-[11px] uppercase tracking-wider">Products Listed</span>
+                <p class="font-['Manrope'] font-bold text-[#1b3a28] text-[24px] leading-[normal]">12</p>
+            </div>
+        </div>
+
+        <!-- Products Sold Card -->
+        <div class="bg-white p-[18px] rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[16px]">
+            <div class="w-[36px] h-[38px] bg-[#EEF2FF] rounded-[6px] flex items-center justify-center text-[#6366F1]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="8" cy="21" r="1"></circle>
+                    <circle cx="19" cy="21" r="1"></circle>
+                    <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464e42] text-[11px] uppercase tracking-wider">Products Sold</span>
+                <p class="font-['Manrope'] font-bold text-[#1b3a28] text-[24px] leading-[normal]">45</p>
+            </div>
+        </div>
+
+        <!-- Revenue Generated Card -->
+        <div class="bg-white p-[18px] rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[16px]">
+            <div class="w-[36px] h-[38px] bg-[#FFF7ED] rounded-[6px] flex items-center justify-center text-[#EA580C]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="12" y1="1" x2="12" y2="23"></line>
+                    <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+            </div>
+            <div class="flex flex-col">
+                <span class="font-['Inter'] font-semibold text-[#464e42] text-[11px] uppercase tracking-wider">Total Revenue</span>
+                <p class="font-['Manrope'] font-bold text-[#1b3a28] text-[24px] leading-[normal]">₹ 84,250</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product List Table -->
+    <div class="w-full bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden mt-4">
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-[#f9fafb] border-b border-gray-100">
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider">Product Name</th>
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider">Price (INR)</th>
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider">Rating</th>
+                        <th class="px-[24px] py-[16px] text-right font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50">
+                    <!-- Row 1 -->
+                    <tr class="hover:bg-gray-50 transition-all group">
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">Hand-woven Bamboo Basket</span>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-normal text-[#464E42] text-[14px]">₹ 1,250</span>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-bold text-[#16a34a] text-[14px]">4.8</span>
+                        </td>
+                        <td class="px-[24px] py-[20px] text-right">
+                            <div class="flex items-center justify-end gap-[16px]">
+                                <a href="#edit-product" class="text-[#677461] hover:text-[#2d5a3d] transition-all">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </a>
+                                <button class="text-[#677461] hover:text-[#b04a4a] transition-all">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                    <!-- Row 2 -->
+                    <tr class="hover:bg-gray-50 transition-all group">
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">Handmade Silk Scarf</span>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-normal text-[#464E42] text-[14px]">₹ 3,400</span>
+                        </td>
+                        <td class="px-[24px] py-[20px]">
+                            <span class="font-['Inter'] font-bold text-[#16a34a] text-[14px]">4.9</span>
+                        </td>
+                        <td class="px-[24px] py-[20px] text-right">
+                            <div class="flex items-center justify-end gap-[16px]">
+                                <a href="#edit-product" class="text-[#677461] hover:text-[#2d5a3d] transition-all">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                                        <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+                                    </svg>
+                                </a>
+                                <button class="text-[#677461] hover:text-[#b04a4a] transition-all">
+                                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <polyline points="3 6 5 6 21 6"></polyline>
+                                        <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                                    </svg>
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

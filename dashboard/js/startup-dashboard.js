@@ -1,13 +1,23 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mainContent = document.getElementById('main-content');
+
+    // ----------------------------
+    // 1. Load Navbar
+    // ----------------------------
     fetch('/components/navbar.html')
-        .then(res => res.text())
-        .then(data => {
+        .then((res) => {
+            if (!res.ok) throw new Error('Failed to load navbar');
+            return res.text();
+        })
+        .then((data) => {
             const navbarContainer = document.getElementById('navbar');
             if (navbarContainer) {
                 navbarContainer.innerHTML = data;
+
+                // --- Navbar Interactivity ---
                 const btn = document.getElementById('mobile-menu-btn');
                 const menu = document.getElementById('mobile-menu');
+
                 if (btn && menu) {
                     btn.addEventListener('click', (e) => {
                         e.stopPropagation();
@@ -15,28 +25,43 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             }
-        });
+        })
+        .catch((err) => console.error('Navbar error:', err));
 
+    // ----------------------------
+    // 2. Routing Logic
+    // ----------------------------
     const routes = {
-        '#profile': '/entrepreneurDashboard/profile.html',
-        '#programs': '/entrepreneurDashboard/programs.html',
-        '#marketplace': '/entrepreneurDashboard/marketplace.html',
-        '#add-product': '/entrepreneurDashboard/addproduct.html',
-        '#edit-product': '/entrepreneurDashboard/addproduct.html',
-        '#myidea': '/entrepreneurDashboard/myidea.html',
+        '#profile': '/startupDashboard/profile.html',
+        '#programs': '/startupDashboard/programs.html',
+        '#mystartup': '/startupDashboard/mystartup.html',
+        '#marketplace': '/startupDashboard/marketplace.html',
+        '#add-product': '/startupDashboard/addproduct.html',
+        '#edit-product': '/startupDashboard/addproduct.html',
+        '#register': '/startupDashboard/register-startup.html',
         '#logout': '/index.html'
     };
 
     function handleNavigation() {
-        const hash = window.location.hash || '#programs';
-        if (hash === '#logout') { window.location.href = '/index.html'; return; }
+        const hash = window.location.hash || '#programs'; // Default to programs
+
+        if (hash === '#logout') {
+            window.location.href = '/index.html';
+            return;
+        }
+
         const path = routes[hash] || routes['#profile'];
 
         fetch(path)
-            .then(res => { if (!res.ok) throw new Error('Page not found'); return res.text(); })
+            .then(res => {
+                if (!res.ok) throw new Error('Page not found');
+                return res.text();
+            })
             .then(html => {
                 if (mainContent) {
                     mainContent.innerHTML = html;
+
+                    // Execute scripts
                     const scripts = mainContent.querySelectorAll('script');
                     scripts.forEach(oldScript => {
                         const newScript = document.createElement('script');
@@ -44,17 +69,31 @@ document.addEventListener('DOMContentLoaded', () => {
                         newScript.appendChild(document.createTextNode(oldScript.innerHTML));
                         oldScript.parentNode.replaceChild(newScript, oldScript);
                     });
+
                     window.scrollTo(0, 0);
+                }
+            })
+            .catch(err => {
+                console.error('Fetch error:', err);
+                if (mainContent) {
+                    mainContent.innerHTML = '<div class="p-8 text-red-500">Error loading page. Please try again.</div>';
                 }
             });
     }
 
-    fetch('/components/entrepreneur-sidebar.html')
-        .then(res => res.text())
-        .then(data => {
+    // ----------------------------
+    // 3. Load Sidebar
+    // ----------------------------
+    fetch('/components/startup-sidebar.html')
+        .then((res) => {
+            if (!res.ok) throw new Error('Failed to load sidebar');
+            return res.text();
+        })
+        .then((data) => {
             const sidebarContainer = document.getElementById('sidebar');
             if (sidebarContainer) {
                 sidebarContainer.innerHTML = data;
+
                 const updateActiveSidebar = () => {
                     const currentHash = window.location.hash || '#programs';
                     const links = sidebarContainer.querySelectorAll('a');
@@ -74,9 +113,15 @@ document.addEventListener('DOMContentLoaded', () => {
                         }
                     });
                 };
+
                 updateActiveSidebar();
                 handleNavigation();
-                window.addEventListener('hashchange', () => { updateActiveSidebar(); handleNavigation(); });
+
+                window.addEventListener('hashchange', () => {
+                    updateActiveSidebar();
+                    handleNavigation();
+                });
             }
-        });
+        })
+        .catch((err) => console.error('Sidebar error:', err));
 });

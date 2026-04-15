@@ -1,0 +1,487 @@
+<div class="flex flex-col gap-[32px] items-start w-full max-w-[1100px] mx-auto pb-10">
+    <!-- Top Navigation & Header -->
+    <div class="flex flex-col gap-[12px] w-full">
+        <a href="#programs"
+            class="flex items-center gap-2 text-[#677461] hover:text-[#1b3a28] transition-all font-['Inter'] font-semibold text-[14px] group">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round" stroke-linejoin="round" class="group-hover:-translate-x-1 transition-transform">
+                <line x1="19" y1="12" x2="5" y2="12"></line>
+                <polyline points="12 19 5 12 12 5"></polyline>
+            </svg>
+            Back to Programs
+        </a>
+        <div class="flex items-center justify-between w-full">
+            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+                Edit Program
+            </h1>
+            <button
+                class="bg-[#2D5A3D] text-white px-8 py-3 rounded-[8px] font-['Manrope'] font-bold text-[15px] shadow-sm hover:bg-[#1b3a28] transition-all">
+                Save Changes
+            </button>
+        </div>
+    </div>
+
+    <!-- Content Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full">
+        <!-- Left Column: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Program Identity
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                The primary identity of program. Choose a catchy title and a high-resolution banner image.
+            </p>
+        </div>
+
+        <!-- Right Column: Form Card -->
+        <div
+            class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full">
+            <form class="flex flex-col gap-[24px]">
+                <!-- Program Name -->
+                <div class="flex flex-col gap-2">
+                    <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Program
+                        Name</label>
+                    <input type="text" placeholder="e.g. Northeast Innovation Summit 2024"
+                        class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                </div>
+
+                <!-- Tagline -->
+                <div class="flex flex-col gap-2">
+                    <label
+                        class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Tagline</label>
+                    <input type="text" placeholder="Brief one-liner"
+                        class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                </div>
+
+                <!-- Two Column Inputs -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                    <!-- Vertical -->
+                    <div class="flex flex-col gap-2">
+                        <label
+                            class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Vertical</label>
+                        <div class="relative group">
+                            <select
+                                class="appearance-none w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all cursor-pointer">
+                                <option value="" disabled selected>Select Vertical</option>
+                                <option value="semiconductor">Semiconductor & AI</option>
+                                <option value="biotech">Health & Biotech</option>
+                                <option value="green">Green Energy</option>
+                            </select>
+                            <div
+                                class="absolute right-[16px] top-1/2 -translate-y-1/2 pointer-events-none text-[#677461]">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Program Type -->
+                    <div class="flex flex-col gap-2">
+                        <label
+                            class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Program
+                            Type</label>
+                        <div class="relative group">
+                            <select
+                                class="appearance-none w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all cursor-pointer">
+                                <option value="" disabled selected>Select Type</option>
+                                <option value="short">Short Term Program</option>
+                                <option value="long">Long Term Program</option>
+                                <option value="workshop">Workshop</option>
+                            </select>
+                            <div
+                                class="absolute right-[16px] top-1/2 -translate-y-1/2 pointer-events-none text-[#677461]">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <polyline points="6 9 12 15 18 9"></polyline>
+                                </svg>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Banner Image -->
+                <div class="flex flex-col gap-2">
+                    <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Banner
+                        Image</label>
+                    <div
+                        class="w-full border-2 border-dashed border-gray-200 rounded-[12px] p-[40px] flex flex-col items-center justify-center gap-3 hover:border-[#2D5A3D] hover:bg-[#f1ffee]/30 transition-all cursor-pointer group">
+                        <div
+                            class="w-[48px] h-[48px] bg-white rounded-full shadow-sm flex items-center justify-center text-[#2D5A3D] group-hover:scale-110 transition-transform">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <span class="font-['Inter'] font-semibold text-[#1b3a28] text-[14px]">Click to upload or
+                                drag and drop</span>
+                            <span class="font-['Inter'] text-[#677461] text-[12px]">Recommended: 1200×480px (JPG,
+                                PNG)</span>
+                        </div>
+                        <input type="file" class="hidden">
+                    </div>
+                </div>
+
+                <!-- Upload Brochure -->
+                <div class="flex flex-col gap-2">
+                    <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Upload
+                        Brochure</label>
+                    <div
+                        class="w-full border-2 border-dashed border-gray-200 rounded-[12px] p-[40px] flex flex-col items-center justify-center gap-3 hover:border-[#2D5A3D] hover:bg-[#f1ffee]/30 transition-all cursor-pointer group">
+                        <div
+                            class="w-[48px] h-[48px] bg-white rounded-full shadow-sm flex items-center justify-center text-[#2D5A3D] group-hover:scale-110 transition-transform">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                                <polyline points="17 8 12 3 7 8"></polyline>
+                                <line x1="12" y1="3" x2="12" y2="15"></line>
+                            </svg>
+                        </div>
+                        <div class="flex flex-col items-center gap-1">
+                            <span class="font-['Inter'] font-semibold text-[#1b3a28] text-[14px]">Click to upload or
+                                drag and drop</span>
+                            <span class="font-['Inter'] text-[#677461] text-[12px]">Less than 25mb (pdf)</span>
+                        </div>
+                        <input type="file" class="hidden">
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Logistics Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[32px] border-t border-gray-100">
+        <!-- Left Column: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Logistics
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                Where and when the program takes place. Specify deadlines for applicant intake.
+            </p>
+        </div>
+
+        <!-- Right Column: Form Card -->
+        <div
+            class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                <!-- Event Date -->
+                <div class="flex flex-col gap-2">
+                    <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Event
+                        Date</label>
+                    <input type="text" placeholder="mm/dd/yyyy" onfocus="(this.type='date')"
+                        class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                </div>
+
+                <!-- Duration -->
+                <div class="flex flex-col gap-2">
+                    <label
+                        class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Duration</label>
+                    <input type="text" placeholder="e.g. 3 Days"
+                        class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                </div>
+
+                <!-- Location / Venue -->
+                <div class="flex flex-col gap-2">
+                    <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Location
+                        / Venue</label>
+                    <input type="text" placeholder="e.g. Conference Hall A, Research"
+                        class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                </div>
+
+                <!-- Application Deadline -->
+                <div class="flex flex-col gap-2">
+                    <label
+                        class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Application
+                        Deadline</label>
+                    <input type="text" placeholder="mm/dd/yyyy" onfocus="(this.type='date')"
+                        class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Detailed Info Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[32px] border-t border-gray-100">
+        <!-- Left Column: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Detailed Info
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                Describe the depth of the program. Be clear about goals and fees involved.
+            </p>
+        </div>
+
+        <!-- Right Column: Form Card -->
+        <div
+            class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full">
+            <div class="flex flex-col gap-[24px]">
+                <!-- Overview -->
+                <div class="flex flex-col gap-2">
+                    <label
+                        class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Overview</label>
+                    <textarea rows="5" placeholder="Provide a detailed overview of the event..."
+                        class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all resize-none"></textarea>
+                </div>
+
+                <!-- Two Column Inputs -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                    <!-- Participant Count -->
+                    <div class="flex flex-col gap-2">
+                        <label
+                            class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Participant
+                            Count</label>
+                        <input type="text" placeholder="Max"
+                            class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                    </div>
+
+                    <!-- Registration Fee -->
+                    <div class="flex flex-col gap-2">
+                        <label
+                            class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Registration
+                            Fee</label>
+                        <input type="text" placeholder="₹ 0 for Free"
+                            class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div    <!-- Eligibility & Selection Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[32px] border-t border-gray-100">
+        <!-- Left Column: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Eligibility & Selection
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                Who can apply and what will be selection process ? Use concise bullet points for better readability.
+            </p>
+        </div>
+
+        <!-- Right Column: Form Card -->
+        <div class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full">
+            <div class="flex flex-col gap-[32px]">
+
+                <!-- Eligibility Criteria -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Eligibility Criteria</label>
+                        <button class="flex items-center gap-1 text-[#A87133] font-['Inter'] font-bold text-[13px] hover:underline">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Add Criterion
+                        </button>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-3">
+                            <input type="text" value="IIT Guwahati Undergraduate Students" class="flex-grow bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all">
+                            <button class="text-red-400 hover:text-red-600 transition-colors">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <input type="text" placeholder="Add another criterion..." class="flex-grow bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all">
+                            <button class="text-red-400 hover:text-red-600 transition-colors">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Selection Process Header -->
+                <div class="flex flex-col gap-4">
+                    <div class="flex items-center justify-between">
+                        <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Selection Process</label>
+                        <button class="flex items-center gap-1 text-[#A87133] font-['Inter'] font-bold text-[13px] hover:underline">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg>
+                            Add Selection
+                        </button>
+                    </div>
+                    <div class="flex flex-col gap-3">
+                        <div class="flex items-center gap-3">
+                            <input type="text" value="IIT Guwahati Undergraduate Students" class="flex-grow bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all">
+                            <button class="text-red-400 hover:text-red-600 transition-colors">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <input type="text" placeholder="Add another criterion..." class="flex-grow bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all">
+                            <button class="text-red-400 hover:text-red-600 transition-colors">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Program/Event Highlights Section -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[32px] border-t border-gray-100">
+        <!-- Left Column: Info -->
+        <div class="flex flex-col gap-[12px]">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">
+                Program/Event Highlights
+            </h2>
+            <p class="font-['Inter'] text-[#677461] text-[14px] leading-relaxed max-w-[280px]">
+                What they will gain ? From the Program/Event
+            </p>
+        </div>
+
+        <!-- Right Column: Form Card -->
+        <div class="bg-white rounded-[16px] shadow-[0px_8px_24px_rgba(0,0,0,0.04)] border border-gray-100 p-[32px] w-full">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-x-[32px] gap-y-[40px]">
+                
+                <!-- Highlight Block 1 -->
+                <div class="flex flex-col gap-[20px]">
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-between gap-2 overflow-hidden">
+                            <label class="font-['Inter'] font-bold text-[#464E42] text-[11px] uppercase tracking-wider truncate">Heading</label>
+                            <span class="font-['Inter'] font-bold text-[#D14D41] text-[9px] uppercase whitespace-nowrap">Max: 3 Words</span>
+                        </div>
+                        <input type="text" placeholder="Add another criterion..." class="w-full bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all text-[14px]">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-between gap-2 overflow-hidden">
+                            <label class="font-['Inter'] font-bold text-[#464E42] text-[11px] uppercase tracking-wider truncate">Body Text</label>
+                            <span class="font-['Inter'] font-bold text-[#D14D41] text-[9px] uppercase whitespace-nowrap">Max: 10 Words</span>
+                        </div>
+                        <input type="text" placeholder="Add another criterion..." class="w-full bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all text-[14px]">
+                    </div>
+                </div>
+
+                <!-- Highlight Block 2 -->
+                <div class="flex flex-col gap-[20px]">
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-between gap-2 overflow-hidden">
+                            <label class="font-['Inter'] font-bold text-[#464E42] text-[11px] uppercase tracking-wider truncate">Heading</label>
+                            <span class="font-['Inter'] font-bold text-[#D14D41] text-[9px] uppercase whitespace-nowrap">Max: 3 Words</span>
+                        </div>
+                        <input type="text" placeholder="Add another criterion..." class="w-full bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all text-[14px]">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-between gap-2 overflow-hidden">
+                            <label class="font-['Inter'] font-bold text-[#464E42] text-[11px] uppercase tracking-wider truncate">Body Text</label>
+                            <span class="font-['Inter'] font-bold text-[#D14D41] text-[9px] uppercase whitespace-nowrap">Max: 10 Words</span>
+                        </div>
+                        <input type="text" placeholder="Add another criterion..." class="w-full bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all text-[14px]">
+                    </div>
+                </div>
+
+                <!-- Highlight Block 3 -->
+                <div class="flex flex-col gap-[20px]">
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-between gap-2 overflow-hidden">
+                            <label class="font-['Inter'] font-bold text-[#464E42] text-[11px] uppercase tracking-wider truncate">Heading</label>
+                            <span class="font-['Inter'] font-bold text-[#D14D41] text-[9px] uppercase whitespace-nowrap">Max: 3 Words</span>
+                        </div>
+                        <input type="text" placeholder="Add another criterion..." class="w-full bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all text-[14px]">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-between gap-2 overflow-hidden">
+                            <label class="font-['Inter'] font-bold text-[#464E42] text-[11px] uppercase tracking-wider truncate">Body Text</label>
+                            <span class="font-['Inter'] font-bold text-[#D14D41] text-[9px] uppercase whitespace-nowrap">Max: 10 Words</span>
+                        </div>
+                        <input type="text" placeholder="Add another criterion..." class="w-full bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all text-[14px]">
+                    </div>
+                </div>
+
+                <!-- Highlight Block 4 -->
+                <div class="flex flex-col gap-[20px]">
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-between gap-2 overflow-hidden">
+                            <label class="font-['Inter'] font-bold text-[#464E42] text-[11px] uppercase tracking-wider truncate">Heading</label>
+                            <span class="font-['Inter'] font-bold text-[#D14D41] text-[9px] uppercase whitespace-nowrap">Max: 3 Words</span>
+                        </div>
+                        <input type="text" placeholder="Add another criterion..." class="w-full bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all text-[14px]">
+                    </div>
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-between gap-2 overflow-hidden">
+                            <label class="font-['Inter'] font-bold text-[#464E42] text-[11px] uppercase tracking-wider truncate">Body Text</label>
+                            <span class="font-['Inter'] font-bold text-[#D14D41] text-[9px] uppercase whitespace-nowrap">Max: 10 Words</span>
+                        </div>
+                        <input type="text" placeholder="Add another criterion..." class="w-full bg-[#f3f4f6]/50 border border-transparent rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] focus:bg-white focus:border-[#2D5A3D] focus:outline-none transition-all text-[14px]">
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <!-- Final Action Button -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_2fr] gap-[48px] w-full pt-[24px]">
+        <div class="hidden lg:block"></div> <!-- Spacer for left column -->
+        <div class="flex justify-start">
+            <button id="create-program-btn" class="w-full bg-[#2D5A3D] hover:bg-[#1b3a28] text-white font-['Manrope'] font-bold py-[18px] rounded-[12px] shadow-[0px_8px_24px_rgba(45,90,61,0.15)] transition-all duration-300 transform hover:scale-[1.005] active:scale-[0.995] text-[16px] tracking-wider">
+                Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Success Popup Modal -->
+<div id="success-modal" class="fixed inset-0 z-[100] hidden items-center justify-center p-4">
+    <!-- Backdrop -->
+    <div class="absolute inset-0 bg-black/40 backdrop-blur-sm transition-opacity"></div>
+    
+    <!-- Modal Content -->
+    <div class="relative bg-white rounded-[24px] shadow-[0px_20px_60px_rgba(0,0,0,0.1)] p-[40px] w-full max-w-[440px] flex flex-col items-center text-center gap-[24px] transform transition-all duration-300 scale-95 opacity-0" id="modal-content">
+        <!-- Success Icon -->
+        <div class="w-[80px] h-[80px] bg-[#E9F3EC] rounded-full flex items-center justify-center">
+            <div class="w-[48px] h-[48px] bg-[#2D5A3D] rounded-full flex items-center justify-center shadow-[0px_4px_12px_rgba(45,90,61,0.2)]">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                    <polyline points="20 6 9 17 4 12"></polyline>
+                </svg>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-[8px]">
+            <h3 class="font-['Manrope'] font-bold text-[#1b3a28] text-[24px]">Program Updated!</h3>
+            <p class="font-['Inter'] text-[#677461] text-[15px] leading-relaxed">
+                Your program has been successfully sent for approval. You will be notified once it's live.
+            </p>
+        </div>
+
+        <button id="close-modal-btn" class="w-full bg-[#2D5A3D] hover:bg-[#1b3a28] text-white font-['Manrope'] font-bold py-[16px] rounded-[12px] transition-all duration-300 shadow-[0px_4px_12px_rgba(45,90,61,0.15)]">
+            Back to Dashboard
+        </button>
+    </div>
+</div>
+
+<script>
+    (function() {
+        const createBtn = document.getElementById('create-program-btn');
+        const modal = document.getElementById('success-modal');
+        const modalContent = document.getElementById('modal-content');
+        const closeBtn = document.getElementById('close-modal-btn');
+
+        createBtn.addEventListener('click', () => {
+            // Show Modal
+            modal.classList.remove('hidden');
+            modal.classList.add('flex');
+            
+            // Trigger animation
+            setTimeout(() => {
+                modalContent.classList.remove('scale-95', 'opacity-0');
+                modalContent.classList.add('scale-100', 'opacity-100');
+            }, 10);
+        });
+
+        closeBtn.addEventListener('click', () => {
+            // Hide Modal/Navigate
+            modalContent.classList.remove('scale-100', 'opacity-100');
+            modalContent.classList.add('scale-95', 'opacity-0');
+            
+            setTimeout(() => {
+                modal.classList.add('hidden');
+                modal.classList.remove('flex');
+                // Navigate back to programs dashboard
+                window.location.hash = '#programs';
+            }, 300);
+        });
+    })();
+</script>
