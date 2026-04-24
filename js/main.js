@@ -255,7 +255,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (hash === '#hubspoke') {
       mainContent.innerHTML = LOADER_HTML;
 
-      fetch(`/pages/hubSpoke.html`)
+      fetch(`/pages/hubSpoke.html`, { cache: 'no-store' })
         .then((res) => {
           if (!res.ok) throw new Error('Failed to load page');
           return res.text();
@@ -270,6 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
             newScript.textContent = oldScript.textContent;
             oldScript.parentNode.replaceChild(newScript, oldScript);
           });
+          if (window.NESTSupabaseApp) window.NESTSupabaseApp.refresh();
 
           const menu = document.getElementById('mobile-menu');
           if (menu && !menu.classList.contains('hidden')) {
@@ -291,6 +292,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then((data) => {
           mainContent.innerHTML = data;
+          if (window.NESTSupabaseApp) window.NESTSupabaseApp.refresh();
           window.scrollTo({ top: 0, behavior: 'smooth' });
 
           const menu = document.getElementById('mobile-menu');
@@ -630,6 +632,7 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .then((data) => {
           mainContent.innerHTML = data;
+          if (window.NESTSupabaseApp) window.NESTSupabaseApp.refresh();
           window.scrollTo({ top: 0, behavior: 'smooth' });
 
           const menu = document.getElementById('mobile-menu');
@@ -669,13 +672,14 @@ document.addEventListener('DOMContentLoaded', () => {
       mainContent.innerHTML =
         '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
 
-      fetch(`/pages/Media/gallery.html`)
+      fetch(`/pages/Media/gallery.html`, { cache: 'no-store' })
         .then((res) => {
           if (!res.ok) throw new Error('Failed to load page');
           return res.text();
         })
         .then((data) => {
           mainContent.innerHTML = data;
+          if (window.NESTSupabaseApp) window.NESTSupabaseApp.refresh();
           window.scrollTo({ top: 0, behavior: 'smooth' });
 
           const menu = document.getElementById('mobile-menu');

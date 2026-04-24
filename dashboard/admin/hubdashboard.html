@@ -37,6 +37,7 @@
 
 <script>
     (function() {
+        if (window.NESTSupabaseApp) return;
         const renderHubList = () => {
             const tableBody = document.getElementById('hub-nodes-list');
             if (!tableBody) return;

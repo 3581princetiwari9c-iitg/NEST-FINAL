@@ -96,7 +96,8 @@
                 <div class="flex flex-col gap-2">
                     <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">PDF</label>
                     <div
-                        class="w-full border-2 border-dashed border-gray-200 rounded-[12px] p-[60px] flex flex-col items-center justify-center gap-4 hover:border-[#2D5A3D] hover:bg-[#f1ffee]/30 transition-all cursor-pointer group">
+                        id="newsletter-pdf-dropzone"
+                        class="relative w-full border-2 border-dashed border-gray-200 rounded-[12px] p-[60px] flex flex-col items-center justify-center gap-4 hover:border-[#2D5A3D] hover:bg-[#f1ffee]/30 transition-all cursor-pointer group overflow-hidden">
                         <div
                             class="w-[56px] h-[56px] bg-white rounded-full shadow-sm flex items-center justify-center text-[#2D5A3D] group-hover:scale-110 transition-transform">
                             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -106,10 +107,10 @@
                             </svg>
                         </div>
                         <div class="flex flex-col items-center gap-1 text-center">
-                            <span class="font-['Inter'] font-semibold text-[#1b3a28] text-[15px]">Click to upload or drag and drop</span>
-                            <span class="font-['Inter'] text-[#677461] text-[13px]">Less than 25mb</span>
+                            <span id="newsletter-pdf-title" class="font-['Inter'] font-semibold text-[#1b3a28] text-[15px]">Click to upload or drag and drop</span>
+                            <span id="newsletter-pdf-help" class="font-['Inter'] text-[#677461] text-[13px]">PDF only, less than 25mb</span>
                         </div>
-                        <input type="file" class="hidden" accept=".pdf">
+                        <input id="newsletter-pdf-input" type="file" class="absolute inset-0 z-10 h-full w-full opacity-0 cursor-pointer" accept="application/pdf,.pdf" aria-label="Upload newsletter PDF">
                     </div>
                 </div>
             </form>
@@ -152,19 +153,50 @@
 
 <script>
     (function() {
-        const uploadBtn = document.getElementById('upload-newsletter-btn');
+        const dropzone = document.getElementById('newsletter-pdf-dropzone');
+        const fileInput = document.getElementById('newsletter-pdf-input');
+        const fileTitle = document.getElementById('newsletter-pdf-title');
+        const fileHelp = document.getElementById('newsletter-pdf-help');
         const modal = document.getElementById('success-modal');
         const modalContent = document.getElementById('modal-content');
         const closeBtn = document.getElementById('close-modal-btn');
 
-        uploadBtn.addEventListener('click', () => {
-            modal.classList.remove('hidden');
-            modal.classList.add('flex');
-            setTimeout(() => {
-                modalContent.classList.remove('scale-95', 'opacity-0');
-                modalContent.classList.add('scale-100', 'opacity-100');
-            }, 10);
-        });
+        function setSelectedFile(file) {
+            if (!file) return;
+            if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+                alert('Please choose a PDF file.');
+                fileInput.value = '';
+                return;
+            }
+            if (file.size > 25 * 1024 * 1024) {
+                alert('PDF must be less than 25mb.');
+                fileInput.value = '';
+                return;
+            }
+            fileTitle.textContent = file.name;
+            fileHelp.textContent = (file.size / (1024 * 1024)).toFixed(2) + 'mb selected';
+            dropzone.classList.add('border-[#2D5A3D]', 'bg-[#f1ffee]/30');
+        }
+
+        if (dropzone && fileInput) {
+            fileInput.addEventListener('change', () => setSelectedFile(fileInput.files && fileInput.files[0]));
+            dropzone.addEventListener('dragover', (event) => {
+                event.preventDefault();
+                dropzone.classList.add('border-[#2D5A3D]', 'bg-[#f1ffee]/30');
+            });
+            dropzone.addEventListener('dragleave', () => {
+                if (!fileInput.files.length) dropzone.classList.remove('border-[#2D5A3D]', 'bg-[#f1ffee]/30');
+            });
+            dropzone.addEventListener('drop', (event) => {
+                event.preventDefault();
+                const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+                if (!file) return;
+                const files = new DataTransfer();
+                files.items.add(file);
+                fileInput.files = files.files;
+                setSelectedFile(file);
+            });
+        }
 
         closeBtn.addEventListener('click', () => {
             modalContent.classList.remove('scale-100', 'opacity-100');

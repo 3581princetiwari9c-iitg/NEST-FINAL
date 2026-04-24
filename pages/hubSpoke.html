@@ -159,7 +159,7 @@
                 </p>
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[24px] w-full mt-4">
+            <div id="mou-list" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-[24px] w-full mt-4">
                 
                 <!-- Card 1 -->
                 <div class="bg-white flex flex-col gap-[14px] p-[24px] md:p-[32px] rounded-[14px] shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-gray-100 h-[263px] items-start justify-center hover:-translate-y-1 ">
@@ -304,6 +304,7 @@
 
 <script>
 (function() {
+    if (window.NESTSupabaseApp) return;
     // Check if initial default data needs to be populated
     if (!localStorage.getItem('hubsNetwork')) {
         const defaultData = [

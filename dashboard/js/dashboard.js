@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const path = routes[hash] || routes['#dashboard'];
 
-        fetch(path)
+        fetch(path, { cache: 'no-store' })
             .then(res => {
                 if (!res.ok) throw new Error('Page not found');
                 return res.text();

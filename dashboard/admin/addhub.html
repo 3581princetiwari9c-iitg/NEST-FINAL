@@ -51,6 +51,7 @@
 
 <script>
     (function() {
+        if (window.NESTSupabaseApp) return;
         const form = document.getElementById('add-hub-form');
         if (form) {
             form.addEventListener('submit', function(e) {
