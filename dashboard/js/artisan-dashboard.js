@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------
     // 1. Load Navbar
     // ----------------------------
-    fetch('/components/navbar.html')
+    fetch('/components/page-header.html')
         .then((res) => {
             if (!res.ok) throw new Error('Failed to load navbar');
             return res.text();
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '#marketplace': '/artisanDashboard/marketplace.html',
         '#add-product': '/artisanDashboard/addproduct.html',
         '#edit-product': '/artisanDashboard/addproduct.html',
-        '#logout': '/index.html'
+        '#logout': 'index.html'
     };
 
     function handleNavigation() {
@@ -68,7 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Handle Logout specially
         if (hash === '#logout') {
-            window.location.href = '/index.html';
+            if (confirm("Do you want to logout?")) {
+                localStorage.removeItem('nest_current_user');
+                window.location.href = 'index.html';
+            } else {
+                window.history.back();
+            }
             return;
         }
 

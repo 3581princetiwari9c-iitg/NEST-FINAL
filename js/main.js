@@ -67,13 +67,8 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       if (notifications.length === 0) {
-        // demo 5 notifications
         notifications = [
-          { text: "NEST Cluster Progress Report 2025-26 is now live!", pdfUrl: "/assets/docs/NEST_Report_2026.pdf" },
-          { text: "New Incubation Cohort Applications opening soon!", pdfUrl: "#" },
-          { text: "Workshop on Sustainable Bamboo Crafting: May 15th", pdfUrl: "#" },
-          { text: "NEST Hub & MoU signed with top technical institutes", pdfUrl: "/assets/docs/NEST_MOU.pdf" },
-          { text: "NEST Startup Awards 2026: Nominate your startup now!", pdfUrl: "#" }
+          { text: "Notification will appear here", pdfUrl: "" }
         ];
       }
 
@@ -219,6 +214,14 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((data) => {
           mainContent.innerHTML = data;
           window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          // Re-initialize scripts for dynamic team rendering
+          const scripts = mainContent.querySelectorAll('script');
+          scripts.forEach((oldScript) => {
+            const newScript = document.createElement('script');
+            newScript.textContent = oldScript.textContent;
+            oldScript.parentNode.replaceChild(newScript, oldScript);
+          });
 
           const menu = document.getElementById('mobile-menu');
           if (menu && !menu.classList.contains('hidden')) {

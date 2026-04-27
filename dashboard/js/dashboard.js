@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------
     // 1. Load Navbar
     // ----------------------------
-    fetch('/components/navbar.html')
+    fetch('/components/page-header.html')
         .then((res) => {
             if (!res.ok) throw new Error('Failed to load navbar');
             return res.text();
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '#notification': '/dashboard/admin/notificationdashboard.html',
         '#profile': '/dashboard/admin/profile.html',
         '#team': '/dashboard/admin/teammanagement.html',
-        '#logout': '/index.html' // Handle logout
+        '#logout': 'index.html' // Handle logout
     };
 
     function handleNavigation() {
@@ -82,7 +82,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
         // Handle Logout specially
         if (hash === '#logout') {
-            window.location.href = '/index.html';
+            if (confirm("Do you want to logout?")) {
+                localStorage.removeItem('nest_current_user');
+                window.location.href = 'index.html';
+            } else {
+                window.history.back();
+            }
             return;
         }
 

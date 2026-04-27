@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------
     // 1. Load Navbar
     // ----------------------------
-    fetch('/components/navbar.html')
+    fetch('/components/page-header.html')
         .then((res) => {
             if (!res.ok) throw new Error('Failed to load navbar');
             return res.text();
@@ -39,14 +39,19 @@ document.addEventListener('DOMContentLoaded', () => {
         '#add-product': '/startupDashboard/addproduct.html',
         '#edit-product': '/startupDashboard/addproduct.html',
         '#register': '/startupDashboard/register-startup.html',
-        '#logout': '/index.html'
+        '#logout': 'index.html'
     };
 
     function handleNavigation() {
         const hash = window.location.hash || '#programs'; // Default to programs
 
         if (hash === '#logout') {
-            window.location.href = '/index.html';
+            if (confirm("Do you want to logout?")) {
+                localStorage.removeItem('nest_current_user');
+                window.location.href = 'index.html';
+            } else {
+                window.history.back();
+            }
             return;
         }
 

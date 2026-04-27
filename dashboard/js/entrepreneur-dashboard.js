@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const mainContent = document.getElementById('main-content');
-    fetch('/components/navbar.html')
+    fetch('/components/page-header.html')
         .then(res => res.text())
         .then(data => {
             const navbarContainer = document.getElementById('navbar');
@@ -24,12 +24,20 @@ document.addEventListener('DOMContentLoaded', () => {
         '#add-product': '/entrepreneurDashboard/addproduct.html',
         '#edit-product': '/entrepreneurDashboard/addproduct.html',
         '#myidea': '/entrepreneurDashboard/myidea.html',
-        '#logout': '/index.html'
+        '#logout': 'index.html'
     };
 
     function handleNavigation() {
         const hash = window.location.hash || '#programs';
-        if (hash === '#logout') { window.location.href = '/index.html'; return; }
+        if (hash === '#logout') {
+            if (confirm("Do you want to logout?")) {
+                localStorage.removeItem('nest_current_user');
+                window.location.href = 'index.html';
+            } else {
+                window.history.back();
+            }
+            return;
+        }
         const path = routes[hash] || routes['#profile'];
 
         fetch(path)
