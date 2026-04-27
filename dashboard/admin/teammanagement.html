@@ -128,6 +128,15 @@
     if (!teamData) {
       teamData = seedData;
       localStorage.setItem('nest_team_data', JSON.stringify(teamData));
+    } else {
+      // Ensure all arrays exist for older structures
+      if (!teamData.leadership) teamData.leadership = seedData.leadership;
+      if (!teamData.executive) teamData.executive = seedData.executive;
+      if (!teamData.scientific) teamData.scientific = seedData.scientific;
+      if (!teamData.scientific.grassroots) teamData.scientific.grassroots = [];
+      if (!teamData.scientific.semiconductor) teamData.scientific.semiconductor = [];
+      if (!teamData.scientific.bamboo) teamData.scientific.bamboo = [];
+      if (!teamData.scientific.waste) teamData.scientific.waste = [];
     }
 
     let editingId = null;

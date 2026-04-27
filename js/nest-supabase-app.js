@@ -246,9 +246,8 @@
     if (old) old.remove();
     const toast = document.createElement('div');
     toast.id = 'nest-supabase-toast';
-    toast.className = `fixed bottom-6 right-6 z-[9999] max-w-sm rounded-[12px] px-5 py-4 font-['Inter'] text-sm shadow-xl ${
-      type === 'error' ? 'bg-[#b04a4a] text-white' : 'bg-[#1b3a28] text-white'
-    }`;
+    toast.className = `fixed bottom-6 right-6 z-[9999] max-w-sm rounded-[12px] px-5 py-4 font-['Inter'] text-sm shadow-xl ${type === 'error' ? 'bg-[#b04a4a] text-white' : 'bg-[#1b3a28] text-white'
+      }`;
     toast.textContent = message;
     document.body.appendChild(toast);
     setTimeout(() => toast.remove(), 3500);
@@ -464,29 +463,101 @@
 
   function programCard(row) {
     const status = normalizeProgramStatus(row);
-    const action = status === 'upcoming' ? 'Register Now' : status === 'ongoing' ? 'View Details' : 'View Recap';
+
+    let actionHtml = '';
+    let categoryBg = 'bg-[#f1ffee]';
+    let categoryText = 'text-[#1b3a28]';
+    let progressHtml = '';
+
+    if (status === 'upcoming') {
+      categoryBg = 'bg-[#ffdcc5]';
+      categoryText = 'text-[#653d1e]';
+      actionHtml = `
+            <div class="bg-[#2d5a3d] hover:bg-[#1f422c] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group">
+              Register Now
+              <svg class="w-[18px] h-[18px] transform rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+            </div>`;
+      progressHtml = `
+          <div class="flex flex-col gap-[8px] w-full mt-auto pt-[2px] -mt-[5px]">
+            <div class="flex justify-between items-center w-full">
+              <span class="font-['Inter'] font-semibold text-[#464e42] text-[13px] md:text-[14px] uppercase tracking-wide">Registration Process</span>
+              <span class="event-slots font-['Inter'] font-medium text-[#677461] text-[13px] md:text-[14px]">0 / ${html(row.participant_count || '15')} spots filled</span>
+            </div>
+            <div class="w-full bg-[#dedede] h-[6px] rounded-[13px] overflow-hidden">
+              <div class="event-progress bg-[#78a877] h-full rounded-full transition-all duration-500 ease-out" style="width: 10%"></div>
+            </div>
+          </div>`;
+    } else if (status === 'ongoing') {
+      categoryBg = 'bg-[#e0e7ff]';
+      categoryText = 'text-[#3730a3]';
+      actionHtml = `
+            <div class="bg-[#1e4456] hover:bg-[#15313d] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group">
+              View Details
+              <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </div>`;
+      progressHtml = `
+          <div class="flex flex-col gap-[8px] w-full mt-auto pt-[2px] -mt-[5px]">
+            <div class="flex justify-between items-center w-full">
+              <span class="font-['Inter'] font-semibold text-[#464e42] text-[13px] md:text-[14px] uppercase tracking-wide">PROGRAM IN PROGRESS</span>
+              <span class="event-slots font-['Inter'] font-medium text-[#677461] text-[13px] md:text-[14px]">Active Participants</span>
+            </div>
+            <div class="w-full bg-[#dedede] h-[6px] rounded-[13px] overflow-hidden">
+              <div class="event-progress bg-[#3b82f6] h-full rounded-full transition-all duration-500 ease-out" style="width: 80%"></div>
+            </div>
+          </div>`;
+    } else {
+      categoryBg = 'bg-[#f3f4f6]';
+      categoryText = 'text-[#4b5563]';
+      actionHtml = `
+            <div class="flex flex-wrap items-center gap-[12px] w-full md:w-auto">
+              <div class="bg-[#f3f4f6] text-[#4b5563] cursor-default flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group">
+                <svg class="w-5 h-5 text-[#4b5563]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                Completed
+              </div>
+              <div class="bg-[#1e4456] hover:bg-[#15313d] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group">
+                View Details
+                <svg class="w-[18px] h-[18px]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+              </div>
+            </div>`;
+      progressHtml = `
+          <div class="flex flex-col gap-[8px] w-full mt-auto pt-[2px] -mt-[5px]">
+            <div class="flex justify-between items-center w-full">
+              <span class="font-['Inter'] font-semibold text-[#464e42] text-[13px] md:text-[14px] uppercase tracking-wide">PROGRAM COMPLETED</span>
+              <span class="event-slots font-['Inter'] font-medium text-[#677461] text-[13px] md:text-[14px]">Completed</span>
+            </div>
+            <div class="w-full bg-[#dedede] h-[6px] rounded-[13px] overflow-hidden">
+              <div class="event-progress bg-[#22c55e] h-full rounded-full transition-all duration-500 ease-out" style="width: 100%"></div>
+            </div>
+          </div>`;
+    }
+
     return `
       <a href="#event-detail" data-program-id="${html(row.id)}" class="flex flex-col md:flex-row h-auto md:h-[342px] w-full max-w-[1073px] mx-auto overflow-hidden relative rounded-[24px] bg-white shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#f3f4f6] transition-all duration-300 hover:shadow-[0px_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer block">
         <div class="w-full md:w-[319px] shrink-0 h-[250px] md:h-full relative overflow-hidden bg-gray-100 rounded-t-[24px] md:rounded-tr-none md:rounded-l-[24px]">
           <img class="absolute inset-0 w-full h-full object-cover" src="${html(row.image_url || FALLBACK_IMAGE)}" alt="${html(row.title)}">
         </div>
         <div class="flex-1 flex flex-col justify-center p-[20px] md:p-[24px] gap-[16px] md:gap-[20px] bg-white">
-          <div class="bg-[#f1ffee] inline-flex items-center justify-center px-[12px] py-[4px] rounded-[23px] w-max mt-[5px]">
-            <span class="font-['Inter'] font-medium text-[#1b3a28] text-[15px] md:text-[16px]">${html(row.category || 'NEST Program')}</span>
+          <div class="${categoryBg} inline-flex items-center justify-center px-[12px] py-[4px] rounded-[23px] w-max mt-[5px]">
+            <span class="font-['Inter'] font-medium ${categoryText} text-[15px] md:text-[16px]">${html(row.category || 'NEST Program')}</span>
           </div>
           <div class="flex flex-col gap-[10px] md:gap-[12px] w-full">
             <h3 class="font-['Inter'] font-bold text-[#1b3a28] text-[20px] md:text-[22px] leading-snug">${html(row.title)}</h3>
             <div class="flex flex-wrap gap-x-[16px] md:gap-x-[24px] gap-y-[8px] items-center w-full">
-              <span class="font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">${html(formatDateRange(row))}</span>
-              <span class="font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">${html(row.location || 'Venue pending')}</span>
+              <div class="flex items-center gap-[6px]">
+                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <span class="font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">${html(formatDateRange(row))}</span>
+              </div>
+              <div class="flex items-center gap-[6px]">
+                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">${html(row.location || 'Venue pending')}</span>
+              </div>
             </div>
           </div>
-          <p class="font-['Inter'] font-normal text-[#464e42] text-[15px] md:text-[16px] leading-relaxed">${html(row.description || row.tagline || '')}</p>
+          <p class="font-['Inter'] font-normal text-[#464e42] text-[15px] md:text-[16px] leading-relaxed line-clamp-3 md:line-clamp-none">${html(row.description || row.tagline || '')}</p>
           <div class="mt-1">
-            <div class="bg-[#2d5a3d] hover:bg-[#1f422c] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max">
-              ${html(action)}
-            </div>
+            ${actionHtml}
           </div>
+          ${progressHtml}
         </div>
       </a>
     `;
@@ -653,8 +724,8 @@
     if (!tbody) return;
     tbody.innerHTML = programs.length
       ? programs
-          .map(
-            (row) => `
+        .map(
+          (row) => `
         <tr class="hover:bg-gray-50 transition-all group">
           <td class="px-[24px] py-[20px] w-[40%] min-w-[300px]">
             <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] leading-tight whitespace-normal break-words">${html(row.title)}</span>
@@ -670,8 +741,8 @@
             </div>
           </td>
         </tr>`
-          )
-          .join('')
+        )
+        .join('')
       : emptyRow(5, 'No programs found. Create one to show it on the website.');
     const counter = Array.from(root.querySelectorAll('span')).find((el) => text(el).startsWith('Showing'));
     if (counter) counter.textContent = `Showing ${programs.length} programs`;
@@ -1000,8 +1071,8 @@
     if (!tbody) return;
     tbody.innerHTML = startups.length
       ? startups
-          .map(
-            (row) => `
+        .map(
+          (row) => `
         <tr class="hover:bg-gray-50 transition-all group">
           <td class="px-[24px] py-[20px]"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">${html(row.name)}</span></td>
           <td class="px-[24px] py-[20px]"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.category || 'Startup')}</span></td>
@@ -1014,8 +1085,8 @@
             </div>
           </td>
         </tr>`
-          )
-          .join('')
+        )
+        .join('')
       : emptyRow(5, 'No startups are registered yet.');
     setCounterText(root, 'Total Startups', String(startups.length));
     setCounterText(root, 'Northeast Approval', String(startups.filter((s) => s.status === 'approved').length));
@@ -1198,8 +1269,8 @@
     if (!tbody) return;
     tbody.innerHTML = products.length
       ? products
-          .map(
-            (row) => `
+        .map(
+          (row) => `
         <tr class="hover:bg-gray-50 transition-all group">
           <td class="px-[24px] py-[20px]"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">${html(row.title)}</span></td>
           <td class="px-[24px] py-[20px]"><span class="font-['Inter'] text-[#464E42] text-[14px]">${formatMoney(row.price)}</span></td>
@@ -1210,8 +1281,8 @@
             </div>
           </td>
         </tr>`
-          )
-          .join('')
+        )
+        .join('')
       : emptyRow(4, 'No marketplace requests have been submitted yet.');
     setCounterText(root, 'Products Listed', String(products.length));
   }
@@ -1262,8 +1333,8 @@
     if (!tbody) return;
     tbody.innerHTML = requests.length
       ? requests
-          .map((row) => adminRequestRow(row, false))
-          .join('')
+        .map((row) => adminRequestRow(row, false))
+        .join('')
       : emptyRow(5, 'No requests yet.');
     setCounterText(root, 'Pending Approval', String(requests.filter((r) => r.status === 'pending').length));
     setCounterText(root, 'Total Requests', String(requests.length));
@@ -1288,8 +1359,8 @@
     if (!tbody) return;
     tbody.innerHTML = newsletters.length
       ? newsletters
-          .map(
-            (row) => `
+        .map(
+          (row) => `
         <tr class="hover:bg-gray-50 transition-all group">
           <td class="px-[24px] py-[20px]"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">${html(row.title)}</span></td>
           <td class="px-[24px] py-[20px]"><span class="font-['Inter'] text-[#464E42] text-[13px] uppercase">${html(row.month || '')}</span></td>
@@ -1302,8 +1373,8 @@
             </div>
           </td>
         </tr>`
-          )
-          .join('')
+        )
+        .join('')
       : emptyRow(5, 'No newsletters have been uploaded yet.');
     const counter = Array.from(root.querySelectorAll('span')).find((el) => text(el).startsWith('Showing'));
     if (counter) counter.textContent = `Showing ${newsletters.length} newsletters`;
@@ -1341,17 +1412,42 @@
     if (!container) return;
     container.innerHTML = newsletters.length
       ? newsletters
-          .map(
-            (row) => `
-        <a href="${html(row.pdf_url || '#')}" target="_blank" class="bg-white rounded-[20px] border border-gray-100 shadow-sm p-6 w-full max-w-[360px] hover:shadow-md transition-all">
-          <div class="text-[#887103] font-['Inter'] text-sm uppercase tracking-wide">${html(row.month || '')} ${html(row.year || '')}</div>
-          <h3 class="font-['Manrope'] font-bold text-[#1b3a28] text-[22px] mt-2">${html(row.title)}</h3>
-          <p class="font-['Inter'] text-[#677461] text-sm mt-3">${html(row.excerpt || 'Read the latest NEST Cluster update.')}</p>
-          <div class="text-[#2d5a3d] font-bold mt-5">Preview Newsletter</div>
+        .map(
+          (row) => `
+        <a href="${html(row.pdf_url || '#')}" target="_blank" class="bg-white flex flex-col items-start justify-between rounded-[20px] shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-gray-100 hover:border-[#d2dfce] hover:shadow-lg transition-all w-full min-h-[190px] shrink-0 group p-[24px]">
+          <!-- Header and Content -->
+          <div class="flex flex-col gap-[16px] items-start w-full">
+            <div class="flex items-center justify-between w-full">
+              <div class="bg-[#f1ffee] text-[#2d5a3d] font-['Inter'] font-bold text-[10px] px-[10px] py-[4px] rounded-full uppercase tracking-wider">
+                ${html(row.month || '')} ${html(row.year || '')}
+              </div>
+              <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center text-[#677461] group-hover:bg-[#e2f5df] group-hover:text-[#2d5a3d] transition-colors">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                </svg>
+              </div>
+            </div>
+            
+            <div class="flex flex-col gap-[6px] items-start w-full">
+              <p class="font-['Inter'] font-semibold text-[#a87f2a] text-[11px] uppercase tracking-wider">
+                Published: ${html(formatDate(row.published_on))}
+              </p>
+              <h3 class="font-['Inter'] font-bold leading-snug text-[#1b3a28] text-[18px] m-0 group-hover:text-[#2d5a3d] transition-colors line-clamp-3">
+                ${html(row.title)}
+              </h3>
+            </div>
+          </div>
+          <!-- Footer -->
+          <div class="flex items-center gap-[6px] mt-[24px] pt-[16px] w-full border-t border-gray-100 group-hover:border-[#d2dfce] transition-colors">
+            <span class="font-['Inter'] font-semibold text-[#2d5a3d] text-[13px]">Read Newsletter</span>
+            <svg class="w-3.5 h-3.5 text-[#2d5a3d] transform group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"></path>
+            </svg>
+          </div>
         </a>`
-          )
-          .join('')
-      : `<div class="w-full text-center py-16 text-[#677461] font-['Inter']">No newsletters have been published yet.</div>`;
+        )
+        .join('')
+      : `<div class="w-full text-center py-16 text-[#677461] font-['Inter']"> No newsletters have been published yet.</div> `;
   }
 
   async function initStats(root) {
@@ -1394,21 +1490,20 @@
     if (!grid) return;
     grid.innerHTML = items.length
       ? items
-          .map(
-            (item) => `
+        .map(
+          (item) => `
         <div class="gallery-card group relative bg-white rounded-[16px] overflow-hidden border border-[#e5e7ea] shadow-sm hover:shadow-md transition-all aspect-[4/3] flex flex-col">
-          <img src="${html(item.image_url)}" alt="${html(item.title || item.caption || 'Gallery image')}" class="w-full h-full object-cover">
+        <img src="${html(item.image_url)}" alt="${html(item.title || item.caption || 'Gallery image')}" class="w-full h-full object-cover">
           <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3">
-            ${
-              item.is_default_gallery
-                ? `<span class="px-4 py-2 bg-white text-[#1b3a28] rounded-full shadow-lg font-['Manrope'] font-bold text-[12px] uppercase tracking-wide">Website image</span>`
-                : `<button data-action="delete-gallery" data-id="${item.id}" class="p-3 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-lg transform hover:scale-110 transition-all">Delete</button>`
+            ${item.is_default_gallery
+              ? `<span class="px-4 py-2 bg-white text-[#1b3a28] rounded-full shadow-lg font-['Manrope'] font-bold text-[12px] uppercase tracking-wide">Website image</span>`
+              : `<button data-action="delete-gallery" data-id="${item.id}" class="p-3 bg-red-500 text-white rounded-full hover:bg-red-600 shadow-lg transform hover:scale-110 transition-all">Delete</button>`
             }
           </div>
         </div>`
-          )
-          .join('')
-      : `<div class="col-span-full text-center py-16 text-[#677461] font-['Inter']">No gallery images uploaded yet.</div>`;
+        )
+        .join('')
+      : `<div class="col-span-full text-center py-16 text-[#677461] font-['Inter']"> No gallery images uploaded yet.</div> `;
 
     window.toggleUploadModal = function () {
       const modal = document.getElementById('upload-modal');
@@ -1443,17 +1538,17 @@
     if (!grid) return;
     grid.innerHTML = items.length
       ? items
-          .map(
-            (item) => `
+        .map(
+          (item) => `
         <div class="w-full sm:w-[380px] shrink-0 overflow-hidden rounded-[20px] bg-white border border-gray-100 shadow-sm">
-          <div class="aspect-[4/3] bg-gray-100">
-            <img loading="lazy" src="${html(item.image_url)}" alt="${html(item.caption || item.title || 'NEST gallery')}" class="w-full h-full object-cover">
-          </div>
-          ${item.caption ? `<p class="p-4 text-[#677461] font-['Inter']">${html(item.caption)}</p>` : ''}
-        </div>`
-          )
-          .join('')
-      : `<div class="col-span-full text-center py-16 text-[#677461] font-['Inter']">No gallery images yet.</div>`;
+        <div class="aspect-[4/3] bg-gray-100">
+          <img loading="lazy" src="${html(item.image_url)}" alt="${html(item.caption || item.title || 'NEST gallery')}" class="w-full h-full object-cover">
+        </div>
+          ${ item.caption ? `<p class="p-4 text-[#677461] font-['Inter']">${html(item.caption)}</p>` : '' }
+        </div> `
+        )
+        .join('')
+      : `<div class="col-span-full text-center py-16 text-[#677461] font-['Inter']"> No gallery images yet.</div> `;
   }
 
   async function renderAdminHubs(root) {
@@ -1462,15 +1557,15 @@
     if (!tbody) return;
     tbody.innerHTML = hubs.length
       ? hubs
-          .map(
-            (hub) => `
+        .map(
+          (hub) => `
         <tr class="hover:bg-gray-50 transition-all group">
           <td class="px-[24px] py-[20px]"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">${html(hub.name)}</span></td>
           <td class="px-[24px] py-[20px]"><span class="bg-[#f1ffee] text-[#2D5A3D] px-[12px] py-[4px] rounded-[12px] inline-block font-['Inter'] font-semibold text-[11px]">${html(hub.category)}</span></td>
           <td class="px-[24px] py-[20px] text-right"><button data-action="delete-hub" data-id="${hub.id}" class="text-gray-400 hover:text-red-600 transition-all p-2 rounded-lg hover:bg-red-50">Delete</button></td>
-        </tr>`
-          )
-          .join('')
+        </tr > `
+        )
+        .join('')
       : emptyRow(3, 'No hub nodes found.');
   }
 
@@ -1502,7 +1597,7 @@
       container.innerHTML = list
         .map(
           (hub) =>
-            `<span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]">${html(hub.name)}</span>`
+            `<span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"> ${ html(hub.name)}</span> `
         )
         .join('');
     });
@@ -1524,7 +1619,7 @@
       grid.innerHTML = mous
         .map(
           (mou) => `
-        <a href="${html(mou.document_url || '#')}" target="_blank" class="bg-white flex flex-col gap-[14px] p-[24px] md:p-[32px] rounded-[14px] shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-gray-100 min-h-[263px] items-start justify-center hover:-translate-y-1 transition-all">
+    <a href = "${html(mou.document_url || '#')}" target = "_blank" class="bg-white flex flex-col gap-[14px] p-[24px] md:p-[32px] rounded-[14px] shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-gray-100 min-h-[263px] items-start justify-center hover:-translate-y-1 transition-all">
           <h3 class="font-['Inter'] font-semibold text-black text-[20px] leading-tight">${html(mou.partner_name)}</h3>
           <div class="bg-[#2d5a3d] px-[16px] py-[6px] rounded-[50px] shadow-sm">
             <span class="font-['Inter'] font-medium text-white text-[12px] uppercase tracking-wider">${html(mou.association_type || 'MOU')}</span>
@@ -1535,7 +1630,7 @@
           </div>
         </a>`
         )
-        .join('') || `<div class="col-span-full text-center py-16 text-[#677461] font-['Inter']">No MOU associations have been added yet.</div>`;
+        .join('') || `<div class="col-span-full text-center py-16 text-[#677461] font-['Inter']"> No MOU associations have been added yet.</div>`;
     }
   }
 
@@ -1545,15 +1640,15 @@
     if (!tbody) return;
     tbody.innerHTML = mous.length
       ? mous
-          .map(
-            (mou) => `
-        <tr class="hover:bg-gray-50 transition-all group">
+        .map(
+          (mou) => `
+    <tr class="hover:bg-gray-50 transition-all group">
           <td class="px-[24px] py-[20px]"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">${html(mou.partner_name)}</span></td>
           <td class="px-[24px] py-[20px]"><span class="font-['Inter'] text-[#464E42] text-[13px] font-medium uppercase">${html(mou.association_type || '')}</span></td>
           <td class="px-[24px] py-[20px] text-right"><button data-action="delete-mou" data-id="${mou.id}" class="text-gray-400 hover:text-red-600 transition-all p-2 rounded-lg hover:bg-red-50">Delete</button></td>
-        </tr>`
-          )
-          .join('')
+        </tr > `
+        )
+        .join('')
       : emptyRow(3, 'No MOU associations found.');
   }
 
@@ -1600,7 +1695,7 @@
     container.innerHTML = list
       .map(
         (member) => `
-      <div class="bg-white border border-gray-100 rounded-[14px] p-4 flex items-center gap-4 group hover:shadow-md transition-all">
+    <div class="bg-white border border-gray-100 rounded-[14px] p-4 flex items-center gap-4 group hover:shadow-md transition-all">
         <div class="w-14 h-14 rounded-full overflow-hidden shrink-0 bg-gray-50 border border-gray-200">
           <img src="${html(member.image_url || FALLBACK_AVATAR)}" class="w-full h-full object-cover" alt="${html(member.full_name)}">
         </div>
@@ -1612,7 +1707,7 @@
           <button data-action="edit-team-member" data-id="${member.id}" class="p-2 text-blue-500 hover:bg-blue-50 rounded-lg transition-all">Edit</button>
           <button data-action="delete-team-member" data-id="${member.id}" class="p-2 text-red-500 hover:bg-red-50 rounded-lg transition-all">Delete</button>
         </div>
-      </div>`
+      </div> `
       )
       .join('');
     if (empty) {
@@ -1629,11 +1724,22 @@
       btn.classList.toggle('bg-[#2d5a3d]', team === teamState.team);
       btn.classList.toggle('text-white', team === teamState.team);
       btn.classList.toggle('shadow-sm', team === teamState.team);
+      btn.classList.toggle('text-[#677461]', team !== teamState.team);
     });
     const cats = document.getElementById('scientific-categories');
     if (cats) {
       cats.classList.toggle('hidden', teamState.team !== 'scientific');
       cats.classList.toggle('flex', teamState.team === 'scientific');
+      ['grassroots', 'semiconductor', 'bamboo', 'waste'].forEach((cat) => {
+        const catBtn = document.getElementById(`cat-${cat}`);
+        if (!catBtn) return;
+        const isActive = cat === teamState.category;
+        catBtn.classList.toggle('border-[#2d5a3d]', isActive);
+        catBtn.classList.toggle('bg-[#2d5a3d]', isActive);
+        catBtn.classList.toggle('text-white', isActive);
+        catBtn.classList.toggle('border-gray-200', !isActive);
+        catBtn.classList.toggle('text-[#677461]', !isActive);
+      });
     }
   }
 
@@ -1710,7 +1816,7 @@
     const team = await rows('team_members', (q) => q.eq('team_type', teamType).eq('is_visible', true).order('sort_order').order('created_at'));
     if (teamType === 'leadership') {
       const container = root.querySelector('#leadership-container');
-      if (container) container.innerHTML = team.map(publicTeamCard).join('');
+      if (container) container.innerHTML = team.map(publicLeaderCard).join('');
       return;
     }
     if (teamType === 'executive') {
@@ -1726,14 +1832,42 @@
     });
   }
 
-  function publicTeamCard(member) {
+  function publicLeaderCard(member) {
+    const profileUrl = member.profile_url || 'javascript:void(0)';
+    const target = member.profile_url ? 'target="_blank" rel="noopener noreferrer"' : '';
     return `
-      <div class="bg-white rounded-[16px] border border-gray-100 shadow-sm p-5 text-center">
-        <img src="${html(member.image_url || FALLBACK_AVATAR)}" alt="${html(member.full_name)}" class="w-28 h-28 object-cover rounded-full mx-auto">
-        <h3 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px] mt-4">${html(member.full_name)}</h3>
-        <p class="font-['Inter'] text-[#677461] text-sm mt-1">${html(member.role_title)}</p>
+    <a href="${html(profileUrl)}" ${target} class="relative w-full max-w-[320px] sm:max-w-[400px] aspect-square rounded-[24px] overflow-hidden shrink-0 group cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300 block mx-auto">
+      <img src="${html(member.image_url || FALLBACK_AVATAR)}" alt="${html(member.full_name)}" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-4 bg-white/95 backdrop-blur-sm rounded-[10px] p-3 flex items-center justify-between transition-colors duration-300 group-hover:bg-[#1b3a28]">
+        <div class="flex flex-col gap-[2px] w-[80%] text-left">
+          <p class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[16px] sm:text-[20px] transition-colors duration-300 group-hover:text-white truncate">${html(member.full_name)}</p>
+          <p class="font-['Inter',sans-serif] font-normal text-[#464e42] text-[13px] sm:text-[14px] transition-colors duration-300 group-hover:text-white/80 truncate">${html(member.role_title)}</p>
+        </div>
+        <div class="w-10 h-10 sm:w-12 sm:h-12 flex items-center justify-center rounded-full bg-[#1b3a28] group-hover:bg-[#2d5a3d] transition-colors duration-300 shrink-0">
+          <svg class="w-5 h-5 sm:w-6 sm:h-6 text-white transform rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+        </div>
       </div>
-    `;
+    </a>
+  `;
+  }
+
+  function publicTeamCard(member) {
+    const profileUrl = member.profile_url || 'javascript:void(0)';
+    const target = member.profile_url ? 'target="_blank" rel="noopener noreferrer"' : '';
+    return `
+    <a href="${html(profileUrl)}" ${target} class="relative w-full max-w-[280px] aspect-square rounded-[16.8px] overflow-hidden shrink-0 group cursor-pointer shadow-sm hover:shadow-lg transition-shadow duration-300 block mx-auto">
+      <img src="${html(member.image_url || FALLBACK_AVATAR)}" alt="${html(member.full_name)}" class="absolute inset-0 w-full h-full object-cover" />
+      <div class="absolute bottom-3 left-3 right-3 bg-white/95 backdrop-blur-sm rounded-[10px] p-[10px] flex items-center justify-between transition-colors duration-300 group-hover:bg-[#1b3a28]">
+        <div class="flex flex-col gap-[2px] w-[75%] text-left">
+          <p class="font-['Inter',sans-serif] font-semibold text-[#1b3a28] text-[14px] sm:text-[16px] transition-colors duration-300 group-hover:text-white truncate">${html(member.full_name)}</p>
+          <p class="font-['Inter',sans-serif] font-normal text-[#464e42] text-[12px] sm:text-[13px] transition-colors duration-300 group-hover:text-white/80 truncate">${html(member.role_title)}</p>
+        </div>
+        <div class="w-[32px] h-[32px] flex items-center justify-center rounded-full bg-[#1b3a28] group-hover:bg-[#2d5a3d] transition-colors duration-300 shrink-0">
+          <svg class="w-4 h-4 text-white transform rotate-45" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+        </div>
+      </div>
+    </a>
+  `;
   }
 
   async function submitRegistration(form) {
@@ -1764,303 +1898,360 @@
       const startupName =
         fields.startup_name ||
         fields.organization ||
-        (fields.brief_idea_description ? `${currentUser.name}'s Startup Idea` : '') ||
-        `${currentUser.name}'s Startup`;
-      const startup = await insertRow('startups', {
-        name: startupName,
-        founder_name: fields.founder_owner_name || fields.full_name || currentUser.name,
-        email: fields.email_address || '',
-        phone: fields.phone_number || '',
-        website_url: fields.website_link ? `https://${fields.website_link.replace(/^https?:\/\//i, '')}` : '',
-        category: fields.industry_type || fields.vertical || (role === 'entrepreneur' ? 'Entrepreneur Idea' : 'Startup'),
-        state: fields.state_region || fields.location || '',
-        team_size: fields.team_size || '',
-        funding_raised: fields.funding_raised_inr || fields.budget || '',
-        overview: fields.startup_overview || fields.brief_idea_description || '',
-        status: 'pending',
-        metadata: {
-          ...fields,
-          submitted_as: role,
-          profile_id: profile.id
-        }
-      });
-      const request = await insertRow('requests', {
-        request_type: 'startup_registration',
-        title: startup.name,
-        requester_name: profile.full_name,
-        requester_email: profile.email,
-        requester_role: role,
-        related_table: 'startups',
-        related_id: startup.id,
-        payload: {
-          ...fields,
-          profile_id: profile.id,
-          startup_id: startup.id
-        }
-      });
-      writeStore('nest_startup_application', {
-        role,
-        email: profile.email,
-        profileId: profile.id,
-        startupId: startup.id,
-        requestId: request.id
-      });
-      showToast('Startup application sent to admin. Status is pending.');
-      setTimeout(() => {
-        window.location.href = role === 'entrepreneur' ? 'entrepreneur.html#myidea' : 'startup.html#mystartup';
-      }, 900);
-      return;
+        (fields.brief_idea_description ? `${ currentUser.name } 's Startup Idea` : '') ||
+    `${currentUser.name}'s Startup`;
+  const startup = await insertRow('startups', {
+    name: startupName,
+    founder_name: fields.founder_owner_name || fields.full_name || currentUser.name,
+    email: fields.email_address || '',
+    phone: fields.phone_number || '',
+    website_url: fields.website_link ? `https://${fields.website_link.replace(/^https?:\/\//i, '')}` : '',
+    category: fields.industry_type || fields.vertical || (role === 'entrepreneur' ? 'Entrepreneur Idea' : 'Startup'),
+    state: fields.state_region || fields.location || '',
+    team_size: fields.team_size || '',
+    funding_raised: fields.funding_raised_inr || fields.budget || '',
+    overview: fields.startup_overview || fields.brief_idea_description || '',
+    status: 'pending',
+    metadata: {
+      ...fields,
+      submitted_as: role,
+      profile_id: profile.id
     }
+  });
+  const request = await insertRow('requests', {
+    request_type: 'startup_registration',
+    title: startup.name,
+    requester_name: profile.full_name,
+    requester_email: profile.email,
+    requester_role: role,
+    related_table: 'startups',
+    related_id: startup.id,
+    payload: {
+      ...fields,
+      profile_id: profile.id,
+      startup_id: startup.id
+    }
+  });
+  writeStore('nest_startup_application', {
+    role,
+    email: profile.email,
+    profileId: profile.id,
+    startupId: startup.id,
+    requestId: request.id
+  });
+  showToast('Startup application sent to admin. Status is pending.');
+  setTimeout(() => {
+    window.location.href = role === 'entrepreneur' ? 'entrepreneur.html#myidea' : 'startup.html#mystartup';
+  }, 900);
+  return;
+}
 
     await insertRow('requests', {
-      request_type: 'user_registration',
-      title: `${titleCase(role)} registration`,
-      requester_name: profile.full_name,
-      requester_email: profile.email,
-      requester_role: role,
-      related_table: 'profiles',
-      related_id: profile.id,
-      payload: fields
-    });
-    showToast('Registration saved and sent to admin for approval.');
-    window.location.hash = '#login';
+  request_type: 'user_registration',
+  title: `${titleCase(role)} registration`,
+  requester_name: profile.full_name,
+  requester_email: profile.email,
+  requester_role: role,
+  related_table: 'profiles',
+  related_id: profile.id,
+  payload: fields
+});
+showToast('Registration saved and sent to admin for approval.');
+window.location.hash = '#login';
   }
 
-  async function refreshNotifications() {
-    if (!supabase()) return;
-    const notifications = await rows('notifications', (q) => q.eq('is_active', true).order('sort_order'));
-    localStorage.setItem(
-      'nest_notification_config',
-      JSON.stringify(notifications.map((item) => ({ text: item.text, pdfUrl: item.pdf_url })))
-    );
-    const bar = document.getElementById('notification-bar');
-    if (bar && (window.location.hash === '' || window.location.hash === '#home')) {
-      window.dispatchEvent(new Event('hashchange'));
-    }
+async function refreshNotifications() {
+  if (!supabase()) return;
+  const notifications = await rows('notifications', (q) => q.eq('is_active', true).order('sort_order'));
+  localStorage.setItem(
+    'nest_notification_config',
+    JSON.stringify(notifications.map((item) => ({ text: item.text, pdfUrl: item.pdf_url })))
+  );
+  const bar = document.getElementById('notification-bar');
+  if (bar && (window.location.hash === '' || window.location.hash === '#home')) {
+    window.dispatchEvent(new Event('hashchange'));
   }
+}
 
-  async function initLoadedContent(root, force) {
-    if (!root || !supabase()) return;
-    const key = detectPage(root);
-    if (!key) return;
-    if (!force && currentPageKey === key && root.dataset.nestSupabasePage === key) return;
-    currentPageKey = key;
-    root.dataset.nestSupabasePage = key;
-    try {
-      if (key === 'admin-dashboard') await renderAdminDashboard(root);
-      if (key === 'program-form') await initProgramForm(root);
-      if (key === 'admin-programs') await renderAdminPrograms(root);
-      if (key === 'public-programs') await renderPublicPrograms(root);
-      if (key === 'public-program-detail') await renderPublicProgramDetail(root);
-      if (key === 'admin-startups') await renderAdminStartups(root);
-      if (key === 'public-startups') await renderPublicStartups(root);
-      if (key === 'public-market') await renderPublicMarket(root);
-      if (key === 'dashboard-marketplace') await renderDashboardMarketplace(root);
-      if (key === 'dashboard-startup-status') await renderDashboardStartupStatus(root);
-      if (key === 'dashboard-profile-status') await renderDashboardProfileStatus(root);
-      if (key === 'admin-requests') await renderAdminRequests(root);
-      if (key === 'admin-newsletters') await renderAdminNewsletters(root);
-      if (key === 'public-newsletters') await renderPublicNewsletters(root);
-      if (key === 'admin-stats') await initStats(root);
-      if (key === 'home') await renderHomeStats(root);
-      if (key === 'admin-gallery') await renderAdminGallery(root);
-      if (key === 'public-gallery') await renderPublicGallery(root);
-      if (key === 'admin-hubs') await renderAdminHubs(root);
-      if (key === 'public-hubs') await renderPublicHubs(root);
-      if (key === 'admin-mous') await renderAdminMous(root);
-      if (key === 'admin-team') await renderAdminTeam(root);
-      if (key === 'public-team-leadership') await renderPublicTeam(root, 'leadership');
-      if (key === 'public-team-scientific') await renderPublicTeam(root, 'scientific');
-      if (key === 'public-team-executive') await renderPublicTeam(root, 'executive');
-      if (key === 'dashboard-programs') await renderDashboardPrograms(root);
-    } catch (error) {
-      console.error('Supabase render error:', error);
-      showToast(error.message || 'Supabase operation failed.', 'error');
-    }
+async function initLoadedContent(root, force) {
+  if (!root || !supabase()) return;
+  const key = detectPage(root);
+  if (!key) return;
+  if (!force && currentPageKey === key && root.dataset.nestSupabasePage === key) return;
+  currentPageKey = key;
+  root.dataset.nestSupabasePage = key;
+  try {
+    if (key === 'admin-dashboard') await renderAdminDashboard(root);
+    if (key === 'program-form') await initProgramForm(root);
+    if (key === 'admin-programs') await renderAdminPrograms(root);
+    if (key === 'public-programs') await renderPublicPrograms(root);
+    if (key === 'public-program-detail') await renderPublicProgramDetail(root);
+    if (key === 'admin-startups') await renderAdminStartups(root);
+    if (key === 'public-startups') await renderPublicStartups(root);
+    if (key === 'public-market') await renderPublicMarket(root);
+    if (key === 'dashboard-marketplace') await renderDashboardMarketplace(root);
+    if (key === 'dashboard-startup-status') await renderDashboardStartupStatus(root);
+    if (key === 'dashboard-profile-status') await renderDashboardProfileStatus(root);
+    if (key === 'admin-requests') await renderAdminRequests(root);
+    if (key === 'admin-newsletters') await renderAdminNewsletters(root);
+    if (key === 'public-newsletters') await renderPublicNewsletters(root);
+    if (key === 'admin-stats') await initStats(root);
+    if (key === 'home') await renderHomeStats(root);
+    if (key === 'admin-gallery') await renderAdminGallery(root);
+    if (key === 'public-gallery') await renderPublicGallery(root);
+    if (key === 'admin-hubs') await renderAdminHubs(root);
+    if (key === 'public-hubs') await renderPublicHubs(root);
+    if (key === 'admin-mous') await renderAdminMous(root);
+    if (key === 'admin-team') await renderAdminTeam(root);
+    if (key === 'public-team-leadership') await renderPublicTeam(root, 'leadership');
+    if (key === 'public-team-scientific') await renderPublicTeam(root, 'scientific');
+    if (key === 'public-team-executive') await renderPublicTeam(root, 'executive');
+    if (key === 'dashboard-programs') await renderDashboardPrograms(root);
+  } catch (error) {
+    console.error('Supabase render error:', error);
+    showToast(error.message || 'Supabase operation failed.', 'error');
   }
+}
 
-  function scheduleInit(force) {
-    clearTimeout(initTimer);
-    initTimer = setTimeout(() => initLoadedContent(mainRoot(), force), 10);
+function scheduleInit(force) {
+  clearTimeout(initTimer);
+  initTimer = setTimeout(() => initLoadedContent(mainRoot(), force), 10);
+}
+
+async function handleAction(action, id) {
+  if (action === 'edit-program') {
+    sessionStorage.setItem('nest_edit_program_id', id);
+    window.location.hash = '#edit-program';
+    return;
   }
-
-  async function handleAction(action, id) {
-    if (action === 'edit-program') {
-      sessionStorage.setItem('nest_edit_program_id', id);
-      window.location.hash = '#edit-program';
-      return;
-    }
-    if (action === 'view-program') {
-      window.location.href = 'index.html#programs';
-      return;
-    }
-    if (action === 'delete-program') {
-      await deleteRow('programs', id);
-      markContentUpdated('programs');
-    }
-    if (action === 'delete-startup') await deleteRow('startups', id);
-    if (action === 'delete-product') await deleteRow('marketplace_products', id);
-    if (action === 'approve-request') return decideRequest(id, 'approved');
-    if (action === 'reject-request') return decideRequest(id, 'rejected');
-    if (action === 'view-newsletter') {
-      const newsletter = await single('newsletters', id);
-      if (newsletter.pdf_url) window.open(newsletter.pdf_url, '_blank');
-      else showToast('No PDF has been uploaded for this newsletter.', 'error');
-      return;
-    }
-    if (action === 'delete-newsletter') await deleteRow('newsletters', id);
-    if (action === 'delete-gallery') {
-      await deleteRow('gallery_items', id);
-      markContentUpdated('gallery_items');
-    }
-    if (action === 'delete-hub') {
-      await deleteRow('hubs', id);
-      markContentUpdated('hubs');
-    }
-    if (action === 'delete-mou') {
-      await deleteRow('mous', id);
-      markContentUpdated('mous');
-    }
-    if (action === 'edit-team-member') return editTeamMember(id);
-    if (action === 'delete-team-member') await deleteRow('team_members', id);
-    showToast('Updated successfully.');
-    scheduleInit(true);
+  if (action === 'view-program') {
+    window.location.href = 'index.html#programs';
+    return;
   }
+  if (action === 'delete-program') {
+    await deleteRow('programs', id);
+    markContentUpdated('programs');
+  }
+  if (action === 'delete-startup') await deleteRow('startups', id);
+  if (action === 'delete-product') await deleteRow('marketplace_products', id);
+  if (action === 'approve-request') return decideRequest(id, 'approved');
+  if (action === 'reject-request') return decideRequest(id, 'rejected');
+  if (action === 'view-newsletter') {
+    const newsletter = await single('newsletters', id);
+    if (newsletter.pdf_url) window.open(newsletter.pdf_url, '_blank');
+    else showToast('No PDF has been uploaded for this newsletter.', 'error');
+    return;
+  }
+  if (action === 'delete-newsletter') await deleteRow('newsletters', id);
+  if (action === 'delete-gallery') {
+    await deleteRow('gallery_items', id);
+    markContentUpdated('gallery_items');
+  }
+  if (action === 'delete-hub') {
+    await deleteRow('hubs', id);
+    markContentUpdated('hubs');
+  }
+  if (action === 'delete-mou') {
+    await deleteRow('mous', id);
+    markContentUpdated('mous');
+  }
+  if (action === 'edit-team-member') return editTeamMember(id);
+  if (action === 'delete-team-member') await deleteRow('team_members', id);
+  showToast('Updated successfully.');
+  scheduleInit(true);
+}
 
-  function clickHandler(event) {
-    const root = mainRoot();
-    const key = root && root.dataset.nestSupabasePage;
-    const actionButton = event.target.closest('[data-action]');
-    if (actionButton) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      handleAction(actionButton.dataset.action, actionButton.dataset.id).catch((error) => {
-        console.error(error);
-        showToast(error.message || 'Action failed.', 'error');
-      });
-      return;
-    }
-    const programLink = event.target.closest('[data-program-id]');
-    if (programLink && programLink.dataset.programId) {
-      sessionStorage.setItem('nest_selected_program_id', programLink.dataset.programId);
-    }
-    const button = event.target.closest('button');
-    if (!button || !key) return;
-    const label = lower(text(button));
-    if (key === 'login' && label === 'login') {
-      const form = root.querySelector('#auth-form');
-      if (!form) return;
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      demoLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
-      return;
-    }
-    const intercept =
-      (key === 'program-form' && (button.id === 'create-program-btn' || label === 'create program' || label === 'save changes')) ||
-      (key === 'newsletter-form' && (button.id === 'upload-newsletter-btn' || label === 'upload')) ||
-      (key === 'startup-application' && (button.id === 'apply-btn' || button.id === 'apply-btn-top')) ||
-      (key === 'product-form' && (button.id === 'save-product-btn-top' || button.id === 'save-product-btn-bottom')) ||
-      ((key === 'hub-form' || root.querySelector('#add-hub-form')) && (button.type === 'submit' || label.includes('add node'))) ||
-      ((key === 'mou-form' || root.querySelector('#add-mou-form')) && (button.type === 'submit' || button.id === 'submit-mou-btn' || label.includes('submit mou') || label.includes('upload')));
-    if (!intercept) return;
+function clickHandler(event) {
+  const root = mainRoot();
+  const key = root && root.dataset.nestSupabasePage;
+  const actionButton = event.target.closest('[data-action]');
+  if (actionButton) {
     event.preventDefault();
     event.stopImmediatePropagation();
-    const map = {
-      'program-form': () => saveProgram(root),
-      'newsletter-form': () => saveNewsletter(root),
-      'startup-application': () => submitStartupApplication(root),
-      'product-form': () => submitProduct(root),
-      'hub-form': () => saveHub(root),
-      'mou-form': () => saveMou(root)
-    };
-    const handlerKey = key === 'hub-form' || root.querySelector('#add-hub-form') ? 'hub-form' : key;
-    const finalHandlerKey = handlerKey === 'mou-form' || root.querySelector('#add-mou-form') ? 'mou-form' : handlerKey;
-    map[finalHandlerKey]().catch((error) => {
+    handleAction(actionButton.dataset.action, actionButton.dataset.id).catch((error) => {
       console.error(error);
-      showToast(error.message || 'Save failed.', 'error');
+      showToast(error.message || 'Action failed.', 'error');
     });
+    return;
   }
-
-  function submitHandler(event) {
-    const form = event.target;
-    const root = mainRoot();
-    const key = root && root.dataset.nestSupabasePage;
-    if (form.id === 'auth-form') {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      demoLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
-      return;
-    }
-    if (form.id === 'add-hub-form') {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      saveHub(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
-      return;
-    }
-    if (form.matches('#artisan-form, #traniee-form, #entrepreneur-form')) {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      submitRegistration(form).catch((error) => showToast(error.message || 'Registration failed.', 'error'));
-      return;
-    }
-    if (form.id === 'add-mou-form') {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      saveMou(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
-      return;
-    }
-    if (key === 'mou-form') {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      saveMou(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
-    }
+  const programLink = event.target.closest('[data-program-id]');
+  if (programLink && programLink.dataset.programId) {
+    sessionStorage.setItem('nest_selected_program_id', programLink.dataset.programId);
   }
-
-  function startRealtime() {
-    if (realtimeStarted || !supabase()) return;
-    realtimeStarted = true;
-    const channel = supabase().channel('nest-public-realtime');
-    REALTIME_TABLES.forEach((table) => {
-      channel.on('postgres_changes', { event: '*', schema: 'public', table }, () => {
-        if (table === 'notifications') refreshNotifications().catch(console.error);
-        scheduleInit(true);
-      });
-    });
-    channel.subscribe((status) => {
-      if (status === 'CHANNEL_ERROR') console.warn('Supabase realtime channel could not connect.');
-    });
+  const button = event.target.closest('button');
+  if (!button || !key) return;
+  const label = lower(text(button));
+  if (key === 'login' && label === 'login') {
+    const form = root.querySelector('#auth-form');
+    if (!form) return;
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    demoLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
+    return;
   }
-
-  function init() {
-    if (!supabase()) {
-      console.warn('NEST Supabase client not available. Did you load @supabase/supabase-js first?');
-      return;
-    }
-    document.addEventListener('click', clickHandler, true);
-    document.addEventListener('submit', submitHandler, true);
-    window.addEventListener('storage', (event) => {
-      if (event.key === 'nest_content_updated_at') scheduleInit(true);
-    });
-    window.addEventListener('focus', () => scheduleInit(false));
-    const root = mainRoot();
-    if (root) {
-      const observer = new MutationObserver(() => scheduleInit(true));
-      observer.observe(root, { childList: true });
-      scheduleInit(true);
-    }
-    refreshNotifications().catch(console.error);
-    startRealtime();
-  }
-
-  window.NESTSupabaseApp = {
-    refresh: () => scheduleInit(true),
-    approveRequest: (id) => decideRequest(id, 'approved'),
-    rejectRequest: (id) => decideRequest(id, 'rejected')
+  const intercept =
+    (key === 'program-form' && (button.id === 'create-program-btn' || label === 'create program' || label === 'save changes')) ||
+    (key === 'newsletter-form' && (button.id === 'upload-newsletter-btn' || label === 'upload')) ||
+    (key === 'startup-application' && (button.id === 'apply-btn' || button.id === 'apply-btn-top')) ||
+    (key === 'product-form' && (button.id === 'save-product-btn-top' || button.id === 'save-product-btn-bottom')) ||
+    ((key === 'hub-form' || root.querySelector('#add-hub-form')) && (button.type === 'submit' || label.includes('add node'))) ||
+    ((key === 'mou-form' || root.querySelector('#add-mou-form')) && (button.type === 'submit' || button.id === 'submit-mou-btn' || label.includes('submit mou') || label.includes('upload')));
+  if (!intercept) return;
+  event.preventDefault();
+  event.stopImmediatePropagation();
+  const map = {
+    'program-form': () => saveProgram(root),
+    'newsletter-form': () => saveNewsletter(root),
+    'startup-application': () => submitStartupApplication(root),
+    'product-form': () => submitProduct(root),
+    'hub-form': () => saveHub(root),
+    'mou-form': () => saveMou(root)
   };
+  const handlerKey = key === 'hub-form' || root.querySelector('#add-hub-form') ? 'hub-form' : key;
+  const finalHandlerKey = handlerKey === 'mou-form' || root.querySelector('#add-mou-form') ? 'mou-form' : handlerKey;
+  map[finalHandlerKey]().catch((error) => {
+    console.error(error);
+    showToast(error.message || 'Save failed.', 'error');
+  });
+}
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', init);
-  } else {
-    init();
+function submitHandler(event) {
+  const form = event.target;
+  const root = mainRoot();
+  const key = root && root.dataset.nestSupabasePage;
+  if (form.id === 'auth-form') {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    demoLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
+    return;
   }
-})();
+  if (form.id === 'add-hub-form') {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    saveHub(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
+    return;
+  }
+  if (form.matches('#artisan-form, #traniee-form, #entrepreneur-form')) {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    submitRegistration(form).catch((error) => showToast(error.message || 'Registration failed.', 'error'));
+    return;
+  }
+  if (form.id === 'add-mou-form') {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    saveMou(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
+    return;
+  }
+  if (key === 'mou-form') {
+    event.preventDefault();
+    event.stopImmediatePropagation();
+    saveMou(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
+  }
+}
+
+function startRealtime() {
+  if (realtimeStarted || !supabase()) return;
+  realtimeStarted = true;
+  const channel = supabase().channel('nest-public-realtime');
+  REALTIME_TABLES.forEach((table) => {
+    channel.on('postgres_changes', { event: '*', schema: 'public', table }, () => {
+      if (table === 'notifications') refreshNotifications().catch(console.error);
+      scheduleInit(true);
+    });
+  });
+  channel.subscribe((status) => {
+    if (status === 'CHANNEL_ERROR') console.warn('Supabase realtime channel could not connect.');
+  });
+}
+
+function getDashboardUrl(role) {
+  if (role === 'admin') return 'admin.html#dashboard';
+  if (role === 'entrepreneur') return 'entrepreneur.html#myidea';
+  if (role === 'artisan') return 'artisan.html#marketplace';
+  if (role === 'startup') return 'startup.html#mystartup';
+  if (role === 'trainee') return 'trainee.html#programs';
+  return 'index.html';
+}
+
+function updateNavbarAuthState() {
+  const currentUser = readStore('nest_current_user', null);
+  if (!currentUser) return;
+
+  // Desktop Actions
+  const desktopActions = document.querySelector('#navbar .hidden.lg\\:flex.items-center.gap-\\[8px\\]');
+  if (desktopActions && desktopActions.querySelector('a[href*="login"]')) {
+    const dashboardUrl = getDashboardUrl(currentUser.role);
+    const name = html(currentUser.name);
+    const email = html(currentUser.email || '');
+    const initial = name ? name.charAt(0).toUpperCase() : 'U';
+
+    desktopActions.innerHTML = `
+        <a href="${dashboardUrl}" style="background-color: #f8f9fa; border: 1px solid #e5e7eb;" class="flex items-center gap-[10px] px-[10px] py-[6px] rounded-full hover:shadow-md transition-all duration-200">
+          <div style="background-color: #e2e8f0; color: #1e293b;" class="w-[38px] h-[38px] rounded-full flex items-center justify-center font-['Inter'] font-bold text-[16px] shrink-0">
+            ${initial}
+          </div>
+          <span class="font-['Inter'] font-semibold text-[#111827] text-[15px] pr-[4px] whitespace-nowrap">${name}</span>
+        </a>
+      `;
+  }
+
+  // Mobile Actions
+  const mobileActions = document.querySelector('#navbar .mt-4.pt-4.border-t.border-gray-100.flex.flex-col.gap-3');
+  if (mobileActions && mobileActions.querySelector('a[href*="login"]')) {
+    const dashboardUrl = getDashboardUrl(currentUser.role);
+    const name = html(currentUser.name);
+    const email = html(currentUser.email || '');
+    const initial = name ? name.charAt(0).toUpperCase() : 'U';
+
+    mobileActions.innerHTML = `
+        <a href="${dashboardUrl}" style="background-color: #f8f9fa; border: 1px solid #e5e7eb;" class="flex items-center gap-[12px] px-[10px] py-[10px] rounded-[16px] hover:shadow-md transition-all">
+          <div style="background-color: #e2e8f0; color: #1e293b;" class="w-[40px] h-[40px] rounded-full flex items-center justify-center font-['Inter'] font-bold text-[16px] shrink-0">
+            ${initial}
+          </div>
+          <span class="font-['Inter'] font-semibold text-[#111827] text-[15px] flex-1">${name}</span>
+        </a>
+      `;
+  }
+}
+
+function init() {
+  if (!supabase()) {
+    console.warn('NEST Supabase client not available. Did you load @supabase/supabase-js first?');
+    return;
+  }
+  document.addEventListener('click', clickHandler, true);
+  document.addEventListener('submit', submitHandler, true);
+  window.addEventListener('storage', (event) => {
+    if (event.key === 'nest_content_updated_at') scheduleInit(true);
+    if (event.key === 'nest_current_user') updateNavbarAuthState();
+  });
+  window.addEventListener('focus', () => scheduleInit(false));
+
+  // Observe body for navbar injections
+  const bodyObserver = new MutationObserver(() => updateNavbarAuthState());
+  bodyObserver.observe(document.body, { childList: true, subtree: true });
+  updateNavbarAuthState();
+
+  const root = mainRoot();
+  if (root) {
+    const observer = new MutationObserver(() => scheduleInit(true));
+    observer.observe(root, { childList: true });
+    scheduleInit(true);
+  }
+  refreshNotifications().catch(console.error);
+  startRealtime();
+}
+
+window.NESTSupabaseApp = {
+  refresh: () => scheduleInit(true),
+  approveRequest: (id) => decideRequest(id, 'approved'),
+  rejectRequest: (id) => decideRequest(id, 'rejected')
+};
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
+}) ();
