@@ -461,7 +461,7 @@
     return 'text-[#64748b]';
   }
 
-  function programCard(row) {
+  function programCard(row, isDashboard = false) {
     const status = normalizeProgramStatus(row);
 
     let actionHtml = '';
@@ -472,11 +472,19 @@
     if (status === 'upcoming') {
       categoryBg = 'bg-[#ffdcc5]';
       categoryText = 'text-[#653d1e]';
-      actionHtml = `
+      if (isDashboard) {
+        actionHtml = `
+            <button disabled class="bg-gray-400 cursor-not-allowed transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+              Registered
+            </button>`;
+      } else {
+        actionHtml = `
             <div class="bg-[#2d5a3d] hover:bg-[#1f422c] transition-colors flex items-center justify-center gap-[10px] h-[43px] px-[22px] py-[12px] rounded-[38px] text-white font-['Inter'] font-semibold text-[15px] md:text-[16px] w-full md:w-max group">
               Register Now
               <svg class="w-[18px] h-[18px] transform rotate-45 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
             </div>`;
+      }
       progressHtml = `
           <div class="flex flex-col gap-[8px] w-full mt-auto pt-[2px] -mt-[5px]">
             <div class="flex justify-between items-center w-full">
@@ -532,7 +540,7 @@
     }
 
     return `
-      <a href="#event-detail" data-program-id="${html(row.id)}" class="flex flex-col md:flex-row h-auto md:h-[342px] w-full max-w-[1073px] mx-auto overflow-hidden relative rounded-[24px] bg-white shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#f3f4f6] transition-all duration-300 hover:shadow-[0px_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer block">
+      <a href="#event-detail" data-program-id="${html(row.id)}" class="program-card ${status} flex flex-col md:flex-row h-auto md:h-[342px] w-full max-w-[1073px] mx-auto overflow-hidden relative rounded-[24px] bg-white shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#f3f4f6] transition-all duration-300 hover:shadow-[0px_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer block">
         <div class="w-full md:w-[319px] shrink-0 h-[250px] md:h-full relative overflow-hidden bg-gray-100 rounded-t-[24px] md:rounded-tr-none md:rounded-l-[24px]">
           <img class="absolute inset-0 w-full h-full object-cover" src="${html(row.image_url || FALLBACK_IMAGE)}" alt="${html(row.title)}">
         </div>
@@ -966,19 +974,11 @@
       ...row,
       status: normalizeProgramStatus(row)
     }));
-    container.innerHTML = programs
-      .map(
-        (row) => `
-      <div class="program-card ${html(row.status)} bg-white border border-gray-100 rounded-[16px] p-5 shadow-sm">
-        <div class="flex items-center justify-between gap-4">
-          <h3 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">${html(row.title)}</h3>
-          <span class="${statusColor(row.status)} capitalize font-bold text-sm">${html(row.status)}</span>
-        </div>
-        <p class="text-[#677461] mt-2">${html(row.description || row.tagline || '')}</p>
-        <div class="mt-4 text-sm text-[#464E42]">${html(formatDateRange(row))} | ${html(row.location || 'Venue pending')}</div>
-      </div>`
-      )
-      .join('');
+    if (programs.length === 0) {
+      container.innerHTML = '<div class="text-center p-8 text-gray-500">No programs available.</div>';
+      return;
+    }
+    container.innerHTML = programs.map(row => programCard(row, true)).join('');
   }
 
   async function getStoredStartup() {
@@ -1544,7 +1544,7 @@
         <div class="aspect-[4/3] bg-gray-100">
           <img loading="lazy" src="${html(item.image_url)}" alt="${html(item.caption || item.title || 'NEST gallery')}" class="w-full h-full object-cover">
         </div>
-          ${ item.caption ? `<p class="p-4 text-[#677461] font-['Inter']">${html(item.caption)}</p>` : '' }
+          ${item.caption ? `<p class="p-4 text-[#677461] font-['Inter']">${html(item.caption)}</p>` : ''}
         </div> `
         )
         .join('')
@@ -1597,7 +1597,7 @@
       container.innerHTML = list
         .map(
           (hub) =>
-            `<span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"> ${ html(hub.name)}</span> `
+            `<span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"> ${html(hub.name)}</span> `
         )
         .join('');
     });
@@ -1898,295 +1898,295 @@
       const startupName =
         fields.startup_name ||
         fields.organization ||
-        (fields.brief_idea_description ? `${ currentUser.name } 's Startup Idea` : '') ||
-    `${currentUser.name}'s Startup`;
-  const startup = await insertRow('startups', {
-    name: startupName,
-    founder_name: fields.founder_owner_name || fields.full_name || currentUser.name,
-    email: fields.email_address || '',
-    phone: fields.phone_number || '',
-    website_url: fields.website_link ? `https://${fields.website_link.replace(/^https?:\/\//i, '')}` : '',
-    category: fields.industry_type || fields.vertical || (role === 'entrepreneur' ? 'Entrepreneur Idea' : 'Startup'),
-    state: fields.state_region || fields.location || '',
-    team_size: fields.team_size || '',
-    funding_raised: fields.funding_raised_inr || fields.budget || '',
-    overview: fields.startup_overview || fields.brief_idea_description || '',
-    status: 'pending',
-    metadata: {
-      ...fields,
-      submitted_as: role,
-      profile_id: profile.id
+        (fields.brief_idea_description ? `${currentUser.name} 's Startup Idea` : '') ||
+        `${currentUser.name}'s Startup`;
+      const startup = await insertRow('startups', {
+        name: startupName,
+        founder_name: fields.founder_owner_name || fields.full_name || currentUser.name,
+        email: fields.email_address || '',
+        phone: fields.phone_number || '',
+        website_url: fields.website_link ? `https://${fields.website_link.replace(/^https?:\/\//i, '')}` : '',
+        category: fields.industry_type || fields.vertical || (role === 'entrepreneur' ? 'Entrepreneur Idea' : 'Startup'),
+        state: fields.state_region || fields.location || '',
+        team_size: fields.team_size || '',
+        funding_raised: fields.funding_raised_inr || fields.budget || '',
+        overview: fields.startup_overview || fields.brief_idea_description || '',
+        status: 'pending',
+        metadata: {
+          ...fields,
+          submitted_as: role,
+          profile_id: profile.id
+        }
+      });
+      const request = await insertRow('requests', {
+        request_type: 'startup_registration',
+        title: startup.name,
+        requester_name: profile.full_name,
+        requester_email: profile.email,
+        requester_role: role,
+        related_table: 'startups',
+        related_id: startup.id,
+        payload: {
+          ...fields,
+          profile_id: profile.id,
+          startup_id: startup.id
+        }
+      });
+      writeStore('nest_startup_application', {
+        role,
+        email: profile.email,
+        profileId: profile.id,
+        startupId: startup.id,
+        requestId: request.id
+      });
+      showToast('Startup application sent to admin. Status is pending.');
+      setTimeout(() => {
+        window.location.href = role === 'entrepreneur' ? 'entrepreneur.html#myidea' : 'startup.html#mystartup';
+      }, 900);
+      return;
     }
-  });
-  const request = await insertRow('requests', {
-    request_type: 'startup_registration',
-    title: startup.name,
-    requester_name: profile.full_name,
-    requester_email: profile.email,
-    requester_role: role,
-    related_table: 'startups',
-    related_id: startup.id,
-    payload: {
-      ...fields,
-      profile_id: profile.id,
-      startup_id: startup.id
-    }
-  });
-  writeStore('nest_startup_application', {
-    role,
-    email: profile.email,
-    profileId: profile.id,
-    startupId: startup.id,
-    requestId: request.id
-  });
-  showToast('Startup application sent to admin. Status is pending.');
-  setTimeout(() => {
-    window.location.href = role === 'entrepreneur' ? 'entrepreneur.html#myidea' : 'startup.html#mystartup';
-  }, 900);
-  return;
-}
 
     await insertRow('requests', {
-  request_type: 'user_registration',
-  title: `${titleCase(role)} registration`,
-  requester_name: profile.full_name,
-  requester_email: profile.email,
-  requester_role: role,
-  related_table: 'profiles',
-  related_id: profile.id,
-  payload: fields
-});
-showToast('Registration saved and sent to admin for approval.');
-window.location.hash = '#login';
+      request_type: 'user_registration',
+      title: `${titleCase(role)} registration`,
+      requester_name: profile.full_name,
+      requester_email: profile.email,
+      requester_role: role,
+      related_table: 'profiles',
+      related_id: profile.id,
+      payload: fields
+    });
+    showToast('Registration saved and sent to admin for approval.');
+    window.location.hash = '#login';
   }
 
-async function refreshNotifications() {
-  if (!supabase()) return;
-  const notifications = await rows('notifications', (q) => q.eq('is_active', true).order('sort_order'));
-  localStorage.setItem(
-    'nest_notification_config',
-    JSON.stringify(notifications.map((item) => ({ text: item.text, pdfUrl: item.pdf_url })))
-  );
-  const bar = document.getElementById('notification-bar');
-  if (bar && (window.location.hash === '' || window.location.hash === '#home')) {
-    window.dispatchEvent(new Event('hashchange'));
+  async function refreshNotifications() {
+    if (!supabase()) return;
+    const notifications = await rows('notifications', (q) => q.eq('is_active', true).order('sort_order'));
+    localStorage.setItem(
+      'nest_notification_config',
+      JSON.stringify(notifications.map((item) => ({ text: item.text, pdfUrl: item.pdf_url })))
+    );
+    const bar = document.getElementById('notification-bar');
+    if (bar && (window.location.hash === '' || window.location.hash === '#home')) {
+      window.dispatchEvent(new Event('hashchange'));
+    }
   }
-}
 
-async function initLoadedContent(root, force) {
-  if (!root || !supabase()) return;
-  const key = detectPage(root);
-  if (!key) return;
-  if (!force && currentPageKey === key && root.dataset.nestSupabasePage === key) return;
-  currentPageKey = key;
-  root.dataset.nestSupabasePage = key;
-  try {
-    if (key === 'admin-dashboard') await renderAdminDashboard(root);
-    if (key === 'program-form') await initProgramForm(root);
-    if (key === 'admin-programs') await renderAdminPrograms(root);
-    if (key === 'public-programs') await renderPublicPrograms(root);
-    if (key === 'public-program-detail') await renderPublicProgramDetail(root);
-    if (key === 'admin-startups') await renderAdminStartups(root);
-    if (key === 'public-startups') await renderPublicStartups(root);
-    if (key === 'public-market') await renderPublicMarket(root);
-    if (key === 'dashboard-marketplace') await renderDashboardMarketplace(root);
-    if (key === 'dashboard-startup-status') await renderDashboardStartupStatus(root);
-    if (key === 'dashboard-profile-status') await renderDashboardProfileStatus(root);
-    if (key === 'admin-requests') await renderAdminRequests(root);
-    if (key === 'admin-newsletters') await renderAdminNewsletters(root);
-    if (key === 'public-newsletters') await renderPublicNewsletters(root);
-    if (key === 'admin-stats') await initStats(root);
-    if (key === 'home') await renderHomeStats(root);
-    if (key === 'admin-gallery') await renderAdminGallery(root);
-    if (key === 'public-gallery') await renderPublicGallery(root);
-    if (key === 'admin-hubs') await renderAdminHubs(root);
-    if (key === 'public-hubs') await renderPublicHubs(root);
-    if (key === 'admin-mous') await renderAdminMous(root);
-    if (key === 'admin-team') await renderAdminTeam(root);
-    if (key === 'public-team-leadership') await renderPublicTeam(root, 'leadership');
-    if (key === 'public-team-scientific') await renderPublicTeam(root, 'scientific');
-    if (key === 'public-team-executive') await renderPublicTeam(root, 'executive');
-    if (key === 'dashboard-programs') await renderDashboardPrograms(root);
-  } catch (error) {
-    console.error('Supabase render error:', error);
-    showToast(error.message || 'Supabase operation failed.', 'error');
+  async function initLoadedContent(root, force) {
+    if (!root || !supabase()) return;
+    const key = detectPage(root);
+    if (!key) return;
+    if (!force && currentPageKey === key && root.dataset.nestSupabasePage === key) return;
+    currentPageKey = key;
+    root.dataset.nestSupabasePage = key;
+    try {
+      if (key === 'admin-dashboard') await renderAdminDashboard(root);
+      if (key === 'program-form') await initProgramForm(root);
+      if (key === 'admin-programs') await renderAdminPrograms(root);
+      if (key === 'public-programs') await renderPublicPrograms(root);
+      if (key === 'public-program-detail') await renderPublicProgramDetail(root);
+      if (key === 'admin-startups') await renderAdminStartups(root);
+      if (key === 'public-startups') await renderPublicStartups(root);
+      if (key === 'public-market') await renderPublicMarket(root);
+      if (key === 'dashboard-marketplace') await renderDashboardMarketplace(root);
+      if (key === 'dashboard-startup-status') await renderDashboardStartupStatus(root);
+      if (key === 'dashboard-profile-status') await renderDashboardProfileStatus(root);
+      if (key === 'admin-requests') await renderAdminRequests(root);
+      if (key === 'admin-newsletters') await renderAdminNewsletters(root);
+      if (key === 'public-newsletters') await renderPublicNewsletters(root);
+      if (key === 'admin-stats') await initStats(root);
+      if (key === 'home') await renderHomeStats(root);
+      if (key === 'admin-gallery') await renderAdminGallery(root);
+      if (key === 'public-gallery') await renderPublicGallery(root);
+      if (key === 'admin-hubs') await renderAdminHubs(root);
+      if (key === 'public-hubs') await renderPublicHubs(root);
+      if (key === 'admin-mous') await renderAdminMous(root);
+      if (key === 'admin-team') await renderAdminTeam(root);
+      if (key === 'public-team-leadership') await renderPublicTeam(root, 'leadership');
+      if (key === 'public-team-scientific') await renderPublicTeam(root, 'scientific');
+      if (key === 'public-team-executive') await renderPublicTeam(root, 'executive');
+      if (key === 'dashboard-programs') await renderDashboardPrograms(root);
+    } catch (error) {
+      console.error('Supabase render error:', error);
+      showToast(error.message || 'Supabase operation failed.', 'error');
+    }
   }
-}
 
-function scheduleInit(force) {
-  clearTimeout(initTimer);
-  initTimer = setTimeout(() => initLoadedContent(mainRoot(), force), 10);
-}
+  function scheduleInit(force) {
+    clearTimeout(initTimer);
+    initTimer = setTimeout(() => initLoadedContent(mainRoot(), force), 10);
+  }
 
-async function handleAction(action, id) {
-  if (action === 'edit-program') {
-    sessionStorage.setItem('nest_edit_program_id', id);
-    window.location.hash = '#edit-program';
-    return;
+  async function handleAction(action, id) {
+    if (action === 'edit-program') {
+      sessionStorage.setItem('nest_edit_program_id', id);
+      window.location.hash = '#edit-program';
+      return;
+    }
+    if (action === 'view-program') {
+      window.location.href = 'index.html#programs';
+      return;
+    }
+    if (action === 'delete-program') {
+      await deleteRow('programs', id);
+      markContentUpdated('programs');
+    }
+    if (action === 'delete-startup') await deleteRow('startups', id);
+    if (action === 'delete-product') await deleteRow('marketplace_products', id);
+    if (action === 'approve-request') return decideRequest(id, 'approved');
+    if (action === 'reject-request') return decideRequest(id, 'rejected');
+    if (action === 'view-newsletter') {
+      const newsletter = await single('newsletters', id);
+      if (newsletter.pdf_url) window.open(newsletter.pdf_url, '_blank');
+      else showToast('No PDF has been uploaded for this newsletter.', 'error');
+      return;
+    }
+    if (action === 'delete-newsletter') await deleteRow('newsletters', id);
+    if (action === 'delete-gallery') {
+      await deleteRow('gallery_items', id);
+      markContentUpdated('gallery_items');
+    }
+    if (action === 'delete-hub') {
+      await deleteRow('hubs', id);
+      markContentUpdated('hubs');
+    }
+    if (action === 'delete-mou') {
+      await deleteRow('mous', id);
+      markContentUpdated('mous');
+    }
+    if (action === 'edit-team-member') return editTeamMember(id);
+    if (action === 'delete-team-member') await deleteRow('team_members', id);
+    showToast('Updated successfully.');
+    scheduleInit(true);
   }
-  if (action === 'view-program') {
-    window.location.href = 'index.html#programs';
-    return;
-  }
-  if (action === 'delete-program') {
-    await deleteRow('programs', id);
-    markContentUpdated('programs');
-  }
-  if (action === 'delete-startup') await deleteRow('startups', id);
-  if (action === 'delete-product') await deleteRow('marketplace_products', id);
-  if (action === 'approve-request') return decideRequest(id, 'approved');
-  if (action === 'reject-request') return decideRequest(id, 'rejected');
-  if (action === 'view-newsletter') {
-    const newsletter = await single('newsletters', id);
-    if (newsletter.pdf_url) window.open(newsletter.pdf_url, '_blank');
-    else showToast('No PDF has been uploaded for this newsletter.', 'error');
-    return;
-  }
-  if (action === 'delete-newsletter') await deleteRow('newsletters', id);
-  if (action === 'delete-gallery') {
-    await deleteRow('gallery_items', id);
-    markContentUpdated('gallery_items');
-  }
-  if (action === 'delete-hub') {
-    await deleteRow('hubs', id);
-    markContentUpdated('hubs');
-  }
-  if (action === 'delete-mou') {
-    await deleteRow('mous', id);
-    markContentUpdated('mous');
-  }
-  if (action === 'edit-team-member') return editTeamMember(id);
-  if (action === 'delete-team-member') await deleteRow('team_members', id);
-  showToast('Updated successfully.');
-  scheduleInit(true);
-}
 
-function clickHandler(event) {
-  const root = mainRoot();
-  const key = root && root.dataset.nestSupabasePage;
-  const actionButton = event.target.closest('[data-action]');
-  if (actionButton) {
+  function clickHandler(event) {
+    const root = mainRoot();
+    const key = root && root.dataset.nestSupabasePage;
+    const actionButton = event.target.closest('[data-action]');
+    if (actionButton) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      handleAction(actionButton.dataset.action, actionButton.dataset.id).catch((error) => {
+        console.error(error);
+        showToast(error.message || 'Action failed.', 'error');
+      });
+      return;
+    }
+    const programLink = event.target.closest('[data-program-id]');
+    if (programLink && programLink.dataset.programId) {
+      sessionStorage.setItem('nest_selected_program_id', programLink.dataset.programId);
+    }
+    const button = event.target.closest('button');
+    if (!button || !key) return;
+    const label = lower(text(button));
+    if (key === 'login' && label === 'login') {
+      const form = root.querySelector('#auth-form');
+      if (!form) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      demoLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
+      return;
+    }
+    const intercept =
+      (key === 'program-form' && (button.id === 'create-program-btn' || label === 'create program' || label === 'save changes')) ||
+      (key === 'newsletter-form' && (button.id === 'upload-newsletter-btn' || label === 'upload')) ||
+      (key === 'startup-application' && (button.id === 'apply-btn' || button.id === 'apply-btn-top')) ||
+      (key === 'product-form' && (button.id === 'save-product-btn-top' || button.id === 'save-product-btn-bottom')) ||
+      ((key === 'hub-form' || root.querySelector('#add-hub-form')) && (button.type === 'submit' || label.includes('add node'))) ||
+      ((key === 'mou-form' || root.querySelector('#add-mou-form')) && (button.type === 'submit' || button.id === 'submit-mou-btn' || label.includes('submit mou') || label.includes('upload')));
+    if (!intercept) return;
     event.preventDefault();
     event.stopImmediatePropagation();
-    handleAction(actionButton.dataset.action, actionButton.dataset.id).catch((error) => {
+    const map = {
+      'program-form': () => saveProgram(root),
+      'newsletter-form': () => saveNewsletter(root),
+      'startup-application': () => submitStartupApplication(root),
+      'product-form': () => submitProduct(root),
+      'hub-form': () => saveHub(root),
+      'mou-form': () => saveMou(root)
+    };
+    const handlerKey = key === 'hub-form' || root.querySelector('#add-hub-form') ? 'hub-form' : key;
+    const finalHandlerKey = handlerKey === 'mou-form' || root.querySelector('#add-mou-form') ? 'mou-form' : handlerKey;
+    map[finalHandlerKey]().catch((error) => {
       console.error(error);
-      showToast(error.message || 'Action failed.', 'error');
+      showToast(error.message || 'Save failed.', 'error');
     });
-    return;
   }
-  const programLink = event.target.closest('[data-program-id]');
-  if (programLink && programLink.dataset.programId) {
-    sessionStorage.setItem('nest_selected_program_id', programLink.dataset.programId);
-  }
-  const button = event.target.closest('button');
-  if (!button || !key) return;
-  const label = lower(text(button));
-  if (key === 'login' && label === 'login') {
-    const form = root.querySelector('#auth-form');
-    if (!form) return;
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    demoLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
-    return;
-  }
-  const intercept =
-    (key === 'program-form' && (button.id === 'create-program-btn' || label === 'create program' || label === 'save changes')) ||
-    (key === 'newsletter-form' && (button.id === 'upload-newsletter-btn' || label === 'upload')) ||
-    (key === 'startup-application' && (button.id === 'apply-btn' || button.id === 'apply-btn-top')) ||
-    (key === 'product-form' && (button.id === 'save-product-btn-top' || button.id === 'save-product-btn-bottom')) ||
-    ((key === 'hub-form' || root.querySelector('#add-hub-form')) && (button.type === 'submit' || label.includes('add node'))) ||
-    ((key === 'mou-form' || root.querySelector('#add-mou-form')) && (button.type === 'submit' || button.id === 'submit-mou-btn' || label.includes('submit mou') || label.includes('upload')));
-  if (!intercept) return;
-  event.preventDefault();
-  event.stopImmediatePropagation();
-  const map = {
-    'program-form': () => saveProgram(root),
-    'newsletter-form': () => saveNewsletter(root),
-    'startup-application': () => submitStartupApplication(root),
-    'product-form': () => submitProduct(root),
-    'hub-form': () => saveHub(root),
-    'mou-form': () => saveMou(root)
-  };
-  const handlerKey = key === 'hub-form' || root.querySelector('#add-hub-form') ? 'hub-form' : key;
-  const finalHandlerKey = handlerKey === 'mou-form' || root.querySelector('#add-mou-form') ? 'mou-form' : handlerKey;
-  map[finalHandlerKey]().catch((error) => {
-    console.error(error);
-    showToast(error.message || 'Save failed.', 'error');
-  });
-}
 
-function submitHandler(event) {
-  const form = event.target;
-  const root = mainRoot();
-  const key = root && root.dataset.nestSupabasePage;
-  if (form.id === 'auth-form') {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    demoLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
-    return;
+  function submitHandler(event) {
+    const form = event.target;
+    const root = mainRoot();
+    const key = root && root.dataset.nestSupabasePage;
+    if (form.id === 'auth-form') {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      demoLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
+      return;
+    }
+    if (form.id === 'add-hub-form') {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      saveHub(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
+      return;
+    }
+    if (form.matches('#artisan-form, #traniee-form, #entrepreneur-form')) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      submitRegistration(form).catch((error) => showToast(error.message || 'Registration failed.', 'error'));
+      return;
+    }
+    if (form.id === 'add-mou-form') {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      saveMou(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
+      return;
+    }
+    if (key === 'mou-form') {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      saveMou(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
+    }
   }
-  if (form.id === 'add-hub-form') {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    saveHub(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
-    return;
-  }
-  if (form.matches('#artisan-form, #traniee-form, #entrepreneur-form')) {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    submitRegistration(form).catch((error) => showToast(error.message || 'Registration failed.', 'error'));
-    return;
-  }
-  if (form.id === 'add-mou-form') {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    saveMou(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
-    return;
-  }
-  if (key === 'mou-form') {
-    event.preventDefault();
-    event.stopImmediatePropagation();
-    saveMou(root).catch((error) => showToast(error.message || 'Save failed.', 'error'));
-  }
-}
 
-function startRealtime() {
-  if (realtimeStarted || !supabase()) return;
-  realtimeStarted = true;
-  const channel = supabase().channel('nest-public-realtime');
-  REALTIME_TABLES.forEach((table) => {
-    channel.on('postgres_changes', { event: '*', schema: 'public', table }, () => {
-      if (table === 'notifications') refreshNotifications().catch(console.error);
-      scheduleInit(true);
+  function startRealtime() {
+    if (realtimeStarted || !supabase()) return;
+    realtimeStarted = true;
+    const channel = supabase().channel('nest-public-realtime');
+    REALTIME_TABLES.forEach((table) => {
+      channel.on('postgres_changes', { event: '*', schema: 'public', table }, () => {
+        if (table === 'notifications') refreshNotifications().catch(console.error);
+        scheduleInit(true);
+      });
     });
-  });
-  channel.subscribe((status) => {
-    if (status === 'CHANNEL_ERROR') console.warn('Supabase realtime channel could not connect.');
-  });
-}
+    channel.subscribe((status) => {
+      if (status === 'CHANNEL_ERROR') console.warn('Supabase realtime channel could not connect.');
+    });
+  }
 
-function getDashboardUrl(role) {
-  if (role === 'admin') return 'admin.html#dashboard';
-  if (role === 'entrepreneur') return 'entrepreneur.html#myidea';
-  if (role === 'artisan') return 'artisan.html#marketplace';
-  if (role === 'startup') return 'startup.html#mystartup';
-  if (role === 'trainee') return 'trainee.html#programs';
-  return 'index.html';
-}
+  function getDashboardUrl(role) {
+    if (role === 'admin') return 'admin.html#dashboard';
+    if (role === 'entrepreneur') return 'entrepreneur.html#myidea';
+    if (role === 'artisan') return 'artisan.html#marketplace';
+    if (role === 'startup') return 'startup.html#mystartup';
+    if (role === 'trainee') return 'trainee.html#programs';
+    return 'index.html';
+  }
 
-function updateNavbarAuthState() {
-  const currentUser = readStore('nest_current_user', null);
-  if (!currentUser) return;
+  function updateNavbarAuthState() {
+    const currentUser = readStore('nest_current_user', null);
+    if (!currentUser) return;
 
-  // Desktop Actions
-  const desktopActions = document.querySelector('#navbar .hidden.lg\\:flex.items-center.gap-\\[8px\\]');
-  if (desktopActions && desktopActions.querySelector('a[href*="login"]')) {
-    const dashboardUrl = getDashboardUrl(currentUser.role);
-    const name = html(currentUser.name);
-    const email = html(currentUser.email || '');
-    const initial = name ? name.charAt(0).toUpperCase() : 'U';
+    // Desktop Actions
+    const desktopActions = document.querySelector('#navbar .hidden.lg\\:flex.items-center.gap-\\[8px\\]');
+    if (desktopActions && desktopActions.querySelector('a[href*="login"]')) {
+      const dashboardUrl = getDashboardUrl(currentUser.role);
+      const name = html(currentUser.name);
+      const email = html(currentUser.email || '');
+      const initial = name ? name.charAt(0).toUpperCase() : 'U';
 
-    desktopActions.innerHTML = `
+      desktopActions.innerHTML = `
         <a href="${dashboardUrl}" style="background-color: #f8f9fa; border: 1px solid #e5e7eb;" class="flex items-center gap-[10px] px-[10px] py-[6px] rounded-full hover:shadow-md transition-all duration-200">
           <div style="background-color: #e2e8f0; color: #1e293b;" class="w-[38px] h-[38px] rounded-full flex items-center justify-center font-['Inter'] font-bold text-[16px] shrink-0">
             ${initial}
@@ -2194,17 +2194,17 @@ function updateNavbarAuthState() {
           <span class="font-['Inter'] font-semibold text-[#111827] text-[15px] pr-[4px] whitespace-nowrap">${name}</span>
         </a>
       `;
-  }
+    }
 
-  // Mobile Actions
-  const mobileActions = document.querySelector('#navbar .mt-4.pt-4.border-t.border-gray-100.flex.flex-col.gap-3');
-  if (mobileActions && mobileActions.querySelector('a[href*="login"]')) {
-    const dashboardUrl = getDashboardUrl(currentUser.role);
-    const name = html(currentUser.name);
-    const email = html(currentUser.email || '');
-    const initial = name ? name.charAt(0).toUpperCase() : 'U';
+    // Mobile Actions
+    const mobileActions = document.querySelector('#navbar .mt-4.pt-4.border-t.border-gray-100.flex.flex-col.gap-3');
+    if (mobileActions && mobileActions.querySelector('a[href*="login"]')) {
+      const dashboardUrl = getDashboardUrl(currentUser.role);
+      const name = html(currentUser.name);
+      const email = html(currentUser.email || '');
+      const initial = name ? name.charAt(0).toUpperCase() : 'U';
 
-    mobileActions.innerHTML = `
+      mobileActions.innerHTML = `
         <a href="${dashboardUrl}" style="background-color: #f8f9fa; border: 1px solid #e5e7eb;" class="flex items-center gap-[12px] px-[10px] py-[10px] rounded-[16px] hover:shadow-md transition-all">
           <div style="background-color: #e2e8f0; color: #1e293b;" class="w-[40px] h-[40px] rounded-full flex items-center justify-center font-['Inter'] font-bold text-[16px] shrink-0">
             ${initial}
@@ -2212,46 +2212,46 @@ function updateNavbarAuthState() {
           <span class="font-['Inter'] font-semibold text-[#111827] text-[15px] flex-1">${name}</span>
         </a>
       `;
+    }
   }
-}
 
-function init() {
-  if (!supabase()) {
-    console.warn('NEST Supabase client not available. Did you load @supabase/supabase-js first?');
-    return;
+  function init() {
+    if (!supabase()) {
+      console.warn('NEST Supabase client not available. Did you load @supabase/supabase-js first?');
+      return;
+    }
+    document.addEventListener('click', clickHandler, true);
+    document.addEventListener('submit', submitHandler, true);
+    window.addEventListener('storage', (event) => {
+      if (event.key === 'nest_content_updated_at') scheduleInit(true);
+      if (event.key === 'nest_current_user') updateNavbarAuthState();
+    });
+    window.addEventListener('focus', () => scheduleInit(false));
+
+    // Observe body for navbar injections
+    const bodyObserver = new MutationObserver(() => updateNavbarAuthState());
+    bodyObserver.observe(document.body, { childList: true, subtree: true });
+    updateNavbarAuthState();
+
+    const root = mainRoot();
+    if (root) {
+      const observer = new MutationObserver(() => scheduleInit(true));
+      observer.observe(root, { childList: true });
+      scheduleInit(true);
+    }
+    refreshNotifications().catch(console.error);
+    startRealtime();
   }
-  document.addEventListener('click', clickHandler, true);
-  document.addEventListener('submit', submitHandler, true);
-  window.addEventListener('storage', (event) => {
-    if (event.key === 'nest_content_updated_at') scheduleInit(true);
-    if (event.key === 'nest_current_user') updateNavbarAuthState();
-  });
-  window.addEventListener('focus', () => scheduleInit(false));
 
-  // Observe body for navbar injections
-  const bodyObserver = new MutationObserver(() => updateNavbarAuthState());
-  bodyObserver.observe(document.body, { childList: true, subtree: true });
-  updateNavbarAuthState();
+  window.NESTSupabaseApp = {
+    refresh: () => scheduleInit(true),
+    approveRequest: (id) => decideRequest(id, 'approved'),
+    rejectRequest: (id) => decideRequest(id, 'rejected')
+  };
 
-  const root = mainRoot();
-  if (root) {
-    const observer = new MutationObserver(() => scheduleInit(true));
-    observer.observe(root, { childList: true });
-    scheduleInit(true);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
   }
-  refreshNotifications().catch(console.error);
-  startRealtime();
-}
-
-window.NESTSupabaseApp = {
-  refresh: () => scheduleInit(true),
-  approveRequest: (id) => decideRequest(id, 'approved'),
-  rejectRequest: (id) => decideRequest(id, 'rejected')
-};
-
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', init);
-} else {
-  init();
-}
-}) ();
+})();

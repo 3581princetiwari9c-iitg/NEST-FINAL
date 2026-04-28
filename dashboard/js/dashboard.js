@@ -93,7 +93,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const path = routes[hash] || routes['#dashboard'];
 
-        fetch(path, { cache: 'no-store' })
+        if (mainContent && path !== window.location.pathname) {
+            mainContent.innerHTML = '<div class="flex items-center justify-center min-h-[400px]"><div class="w-8 h-8 border-4 border-[#2d5a3d] border-t-transparent rounded-full animate-spin"></div></div>';
+        }
+
+        fetch(path)
             .then(res => {
                 if (!res.ok) throw new Error('Page not found');
                 return res.text();

@@ -604,7 +604,7 @@ on conflict do nothing;
 insert into public.gallery_items (title, caption, image_url, sort_order)
 values
   ('Workshop Moment 1', 'Two-day workshop moment', '/assets/programpic/2dayworkshop/20260110_042621649_iOS%201.jpg.jpeg', 1),
-  ('Workshop Moment 2', 'Volunteer moment', '/assets/programpic/2dayworkshop/Volunteers%20Pics/MKS_0320.JPG.jpeg', 2),
+  ('Workshop Moment 2', 'Volunteer moment', '/assets/programpic/2dayworkshop/Volunteers%20Pics/MKS_0320.JPG.webp', 2),
   ('Event Moment', 'NEST event moment', '/assets/programpic/event1/WhatsApp%20Image%202025-11-13%20at%205.35.00%20PM.jpeg', 3)
 on conflict do nothing;
 
