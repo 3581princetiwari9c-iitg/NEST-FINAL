@@ -910,8 +910,8 @@
         ];
     const pending = isPendingStatus(row.status);
     return `
-      <div id="request-detail-modal" class="fixed inset-0 z-[9998] bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-[24px] shadow-2xl w-full max-w-[1120px] max-h-[92vh] overflow-y-auto">
+      <div id="request-detail-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4" style="position: fixed; inset: 0; z-index: 2147483647; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(4px);">
+        <div class="bg-white rounded-[24px] shadow-2xl w-full max-w-[1120px] max-h-[92vh] overflow-y-auto" style="position: relative; z-index: 1; width: min(1120px, calc(100vw - 32px)); max-height: 92vh; overflow-y: auto;">
           <div class="sticky top-0 bg-white border-b border-gray-100 px-6 md:px-8 py-5 flex items-start justify-between gap-4 z-10">
             <div>
               <p class="font-['Inter'] font-bold text-[#887103] text-[12px] uppercase tracking-[0.18em]">${html(titleCase(row.request_type))}</p>
@@ -962,6 +962,10 @@
   function closeRequestDetailModal() {
     const modal = document.getElementById('request-detail-modal');
     if (modal) modal.remove();
+    if (document.body.dataset.requestModalOpen === 'true') {
+      document.body.style.overflow = '';
+      delete document.body.dataset.requestModalOpen;
+    }
   }
 
   async function showRequestDetail(id) {
@@ -976,6 +980,8 @@
     }
     closeRequestDetailModal();
     document.body.insertAdjacentHTML('beforeend', requestDetailModal(request, related));
+    document.body.style.overflow = 'hidden';
+    document.body.dataset.requestModalOpen = 'true';
   }
 
   function adminRequestRow(row, compact) {
