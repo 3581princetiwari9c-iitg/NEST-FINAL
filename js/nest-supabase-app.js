@@ -392,12 +392,13 @@
     });
   }
 
-  function collectLabeledFields(scope) {
+  function collectLabeledFields(scope, options) {
+    const includeHidden = options && options.includeHidden;
     const fields = {};
     Array.from(scope.querySelectorAll('label')).forEach((label) => {
       const wrapper = label.closest('div') || label.parentElement;
       const control = wrapper && wrapper.querySelector('input:not([type="file"]), textarea, select');
-      if (!control || control.type === 'password' || control.closest('.hidden')) return;
+      if (!control || control.type === 'password' || (!includeHidden && control.closest('.hidden'))) return;
       const key = toKey(text(label));
       fields[key] = control.tagName === 'SELECT' ? selectedText(control) : clean(control.value);
     });
@@ -408,6 +409,71 @@
     return Array.from(root.querySelectorAll('input:not([type="file"]), select, textarea')).filter(
       (control) => control.type !== 'password'
     );
+  }
+
+  function formControls(form) {
+    return Array.from(form.querySelectorAll('input, select, textarea')).filter((control) => {
+      const type = lower(control.type);
+      return !control.disabled && !['button', 'submit', 'reset', 'hidden', 'file'].includes(type);
+    });
+  }
+
+  function isVisibleControl(control) {
+    if (control.closest('.hidden, [hidden]')) return false;
+    const style = window.getComputedStyle(control);
+    if (style.display === 'none' || style.visibility === 'hidden') return false;
+    const rect = control.getBoundingClientRect();
+    return rect.width > 0 || rect.height > 0;
+  }
+
+  function cssEscape(value) {
+    if (window.CSS && typeof window.CSS.escape === 'function') return window.CSS.escape(value);
+    return clean(value).replace(/"/g, '\\"');
+  }
+
+  function controlLabel(control) {
+    const explicit = control.id ? document.querySelector(`label[for="${cssEscape(control.id)}"]`) : null;
+    if (explicit) return text(explicit);
+    const wrapper = control.closest('div');
+    const label = wrapper && wrapper.querySelector('label');
+    return text(label) || clean(control.placeholder || control.getAttribute('aria-label'));
+  }
+
+  function isOptionalControl(control) {
+    const label = `${controlLabel(control)} ${control.placeholder || ''}`;
+    return lower(label).includes('optional');
+  }
+
+  function markInvalidControl(control) {
+    control.classList.add('ring-2', 'ring-[#b04a4a]', 'border-[#b04a4a]');
+    setTimeout(() => control.classList.remove('ring-2', 'ring-[#b04a4a]', 'border-[#b04a4a]'), 2500);
+    if (typeof control.focus === 'function') control.focus();
+  }
+
+  function controlIsEmpty(control) {
+    if (control.tagName === 'SELECT') {
+      const selected = selectedText(control);
+      return !clean(control.value) || !selected || lower(selected).startsWith('select ');
+    }
+    if (control.type === 'checkbox' || control.type === 'radio') return !control.checked;
+    return !clean(control.value);
+  }
+
+  function validateRegistrationForm(form, options) {
+    const visibleOnly = options && options.visibleOnly;
+    const candidates = formControls(form).filter((control) => !isOptionalControl(control) && (!visibleOnly || isVisibleControl(control)));
+    const missing = candidates.find(controlIsEmpty);
+    if (missing) {
+      markInvalidControl(missing);
+      throw new Error('Please fill all required registration fields before continuing.');
+    }
+    const passwords = candidates.filter((control) => control.type === 'password');
+    const confirm = passwords.find((control) => /confirm/i.test(`${control.id || ''} ${control.name || ''} ${control.placeholder || ''} ${controlLabel(control)}`));
+    const password = passwords.find((control) => control !== confirm);
+    if (password && confirm && clean(password.value) !== clean(confirm.value)) {
+      markInvalidControl(confirm);
+      throw new Error('Password and confirm password must match.');
+    }
   }
 
   function deriveProgramStatus(startDate, endDate) {
@@ -571,6 +637,60 @@
     `;
   }
 
+  function dashboardProgramStatusText(row) {
+    const status = normalizeProgramStatus(row);
+    if (status === 'completed') return 'Event completed';
+    if (status === 'ongoing') return 'Program is currently under progress';
+    return `Program starts on ${formatDate(row.start_date)}`;
+  }
+
+  function dashboardProgramCard(row, activeStatus) {
+    const status = normalizeProgramStatus(row);
+    const hidden = status === activeStatus ? '' : ' hidden';
+    const instructor = row.instructor || row.speaker || row.coordinator || 'NEST Team';
+    const statusIcon =
+      status === 'completed'
+        ? `<svg class="w-4 h-4 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>`
+        : `<span class="w-2 h-2 rounded-full bg-[#2d5a3d]${status === 'ongoing' ? ' animate-pulse' : ''}"></span>`;
+    return `
+      <a href="index.html#event-detail" data-program-id="${html(row.id)}" class="program-card ${html(status)}${hidden} flex flex-col md:flex-row h-auto md:h-[342px] w-full max-w-[1073px] mx-auto overflow-hidden relative rounded-[24px] bg-white shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#f3f4f6] transition-all duration-300 hover:shadow-[0px_12px_40px_rgba(0,0,0,0.08)] hover:-translate-y-1 cursor-pointer block">
+        <div class="w-full md:w-[319px] shrink-0 h-[250px] md:h-full relative overflow-hidden bg-gray-100 rounded-t-[24px] md:rounded-tr-none md:rounded-l-[24px]">
+          <img class="event-image absolute inset-0 w-full h-full object-cover" src="${html(row.image_url || FALLBACK_IMAGE)}" alt="${html(row.title)}">
+        </div>
+        <div class="flex-1 flex flex-col justify-center p-[20px] md:p-[24px] gap-[16px] md:gap-[20px] bg-white text-left">
+          <div class="bg-[#ffdcc5] inline-flex items-center justify-center px-[12px] py-[4px] rounded-[23px] w-max mt-[5px]">
+            <span class="event-category font-['Inter'] font-medium text-[#653d1e] text-[15px] md:text-[16px]">${html(row.category || 'NEST Program')}</span>
+          </div>
+          <div class="flex flex-col gap-[10px] md:gap-[12px] w-full">
+            <h3 class="event-title font-['Inter'] font-bold text-[#1b3a28] text-[20px] md:text-[22px] leading-snug">${html(row.title)}</h3>
+            <div class="flex flex-wrap gap-x-[16px] md:gap-x-[24px] gap-y-[8px] items-center w-full">
+              <div class="flex items-center gap-[6px]">
+                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                <span class="event-date font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">${html(formatDateRange(row))}</span>
+              </div>
+              <div class="flex items-center gap-[6px]">
+                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                <span class="event-location font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">${html(row.location || 'Venue pending')}</span>
+              </div>
+              <div class="flex items-center gap-[6px]">
+                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg>
+                <span class="event-instructor font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">${html(instructor)}</span>
+              </div>
+            </div>
+          </div>
+          <p class="event-description font-['Inter'] font-normal text-[#464e42] text-[15px] md:text-[16px] line-clamp-3 md:line-clamp-none leading-relaxed text-left">
+            ${html(row.description || row.tagline || 'Program details will be updated soon.')}
+          </p>
+          <div class="mt-auto pt-[4px]">
+            <span class="font-['Inter'] font-semibold text-[#2d5a3d] text-[14px] flex items-center gap-2">
+              ${statusIcon}
+              ${html(dashboardProgramStatusText(row))}
+            </span>
+          </div>
+        </div>
+      </a>`;
+  }
+
   function startupCard(row) {
     return `
       <div class="bg-white border border-[#f3f4f6] flex flex-col gap-[28px] items-center justify-between p-[24px] rounded-[24px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] w-full sm:w-[calc(50%-18px)] lg:w-[calc(33.333%-24px)] max-w-[390px] hover:shadow-md transition-shadow">
@@ -639,13 +759,233 @@
     return `<tr><td colspan="${cols}" class="px-[24px] py-[40px] text-center font-['Inter'] text-[#677461] text-[14px]">${html(message)}</td></tr>`;
   }
 
+  function isPendingStatus(status) {
+    return lower(status || 'pending') === 'pending';
+  }
+
+  function payloadObject(value) {
+    if (!value) return {};
+    if (typeof value === 'object') return value;
+    if (typeof value === 'string') {
+      try {
+        const parsed = JSON.parse(value);
+        return parsed && typeof parsed === 'object' ? parsed : {};
+      } catch (error) {
+        return {};
+      }
+    }
+    return {};
+  }
+
+  function requestSources(row, related) {
+    return [related || {}, payloadObject(related && related.metadata), payloadObject(row && row.payload)];
+  }
+
+  function requestValue(sources, keys, fallback) {
+    const normalizedKeys = keys.map(toKey);
+    for (const source of sources) {
+      const data = payloadObject(source);
+      for (const key of keys) {
+        if (clean(data[key])) return clean(data[key]);
+      }
+      const normalized = {};
+      Object.keys(data).forEach((key) => {
+        normalized[toKey(key)] = data[key];
+      });
+      for (const key of normalizedKeys) {
+        if (clean(normalized[key])) return clean(normalized[key]);
+      }
+    }
+    return fallback || '';
+  }
+
+  function formatBudgetText(value) {
+    const raw = clean(value);
+    if (!raw) return 'Not provided';
+    if (/[a-zA-Z]/.test(raw) || raw.includes('Rs') || raw.includes('INR')) return raw;
+    const number = Number(raw.replace(/[^0-9.]/g, ''));
+    if (Number.isNaN(number) || !number) return raw;
+    return `Rs. ${number.toLocaleString('en-IN')}`;
+  }
+
+  function requestDetailItem(label, value) {
+    return `
+      <div class="flex flex-col gap-[4px]">
+        <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-widest">${html(label)}</span>
+        <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[17px] leading-snug">${html(value || 'Not provided')}</span>
+      </div>`;
+  }
+
+  function requestDocumentsHtml(sources) {
+    const docs = [];
+    sources.forEach((source) => {
+      const data = payloadObject(source);
+      Object.keys(data).forEach((key) => {
+        const value = clean(data[key]);
+        if (!value || /password|profile_id|startup_id|product_id/i.test(key)) return;
+        if (/(document|file|pdf|deck|certificate|proposal|image|mou)/i.test(key)) {
+          docs.push({
+            title: titleCase(key),
+            value
+          });
+        }
+      });
+    });
+    if (!docs.length) {
+      return `<div class="rounded-[12px] border border-dashed border-gray-200 bg-[#f9fafb] px-4 py-5 font-['Inter'] text-[#677461] text-[14px]">No uploaded document was found for this request.</div>`;
+    }
+    return docs
+      .slice(0, 6)
+      .map(
+        (doc, index) => `
+        <div class="flex items-center justify-between p-4 bg-[#f3f4f6]/50 rounded-[12px] border border-gray-100">
+          <div class="flex items-center gap-3 min-w-0">
+            <div class="w-10 h-10 bg-red-50 rounded-[8px] flex items-center justify-center border border-red-100 shrink-0">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                <polyline points="14 2 14 8 20 8"></polyline>
+              </svg>
+            </div>
+            <div class="flex flex-col min-w-0">
+              <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[14px] truncate">${html(doc.title)}</span>
+              <span class="font-['Inter'] text-[#677461] text-[11px] truncate">Document ${index + 1}</span>
+            </div>
+          </div>
+          ${
+            /^https?:\/\//i.test(doc.value)
+              ? `<a href="${html(doc.value)}" target="_blank" class="font-['Inter'] font-bold text-[#2d5a3d] text-[12px]">Open</a>`
+              : ''
+          }
+        </div>`
+      )
+      .join('');
+  }
+
+  function requestPayloadHtml(payload) {
+    const skip = /password|profile_id|startup_id|product_id|submitted_as/i;
+    const entries = Object.entries(payloadObject(payload)).filter(([key, value]) => clean(value) && !skip.test(key));
+    if (!entries.length) return '';
+    return `
+      <div class="rounded-[16px] border border-gray-100 bg-[#f9fafb] p-5">
+        <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em] mb-4">Registration Data</h4>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          ${entries
+            .map(
+              ([key, value]) => `
+              <div>
+                <span class="font-['Inter'] font-semibold text-[#677461] text-[11px] uppercase tracking-widest">${html(titleCase(key))}</span>
+                <p class="font-['Inter'] text-[#1b3a28] text-[14px] leading-relaxed mt-1 break-words">${html(value)}</p>
+              </div>`
+            )
+            .join('')}
+        </div>
+      </div>`;
+  }
+
+  function requestDetailModal(row, related) {
+    const sources = requestSources(row, related);
+    const role = requestValue(sources, ['submitted_as', 'requester_role'], row.requester_role || row.request_type);
+    const requestType = lower(row.request_type);
+    const isProduct = requestType.includes('product') || requestType.includes('marketplace');
+    const isEntrepreneur = lower(role).includes('entrepreneur') || lower(requestValue(sources, ['category'], '')).includes('idea');
+    const title = related && (related.name || related.title) ? related.name || related.title : row.title;
+    const overviewTitle = isProduct ? 'Product Description' : isEntrepreneur ? 'Idea Concept' : 'Startup Overview';
+    const overview = requestValue(
+      sources,
+      ['overview', 'startup_overview', 'brief_idea_description', 'product_description', 'description'],
+      'No overview was entered.'
+    );
+    const details = isProduct
+      ? [
+          ['Category', requestValue(sources, ['category'], '')],
+          ['Price', formatMoney(requestValue(sources, ['price'], ''))],
+          ['Stock', requestValue(sources, ['stock'], '')],
+          ['Seller', requestValue(sources, ['seller_name', 'shop_name'], row.requester_name)]
+        ]
+      : [
+          ['Founder / Applicant', requestValue(sources, ['founder_name', 'founder_owner_name', 'full_name'], row.requester_name)],
+          ['Location', requestValue(sources, ['state', 'state_region', 'location'], '')],
+          ['Team Size', requestValue(sources, ['team_size'], '')],
+          ['Funding / Budget', formatBudgetText(requestValue(sources, ['funding_raised', 'funding_raised_inr', 'budget'], ''))]
+        ];
+    const pending = isPendingStatus(row.status);
+    return `
+      <div id="request-detail-modal" class="fixed inset-0 z-[9998] bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-[24px] shadow-2xl w-full max-w-[1120px] max-h-[92vh] overflow-y-auto">
+          <div class="sticky top-0 bg-white border-b border-gray-100 px-6 md:px-8 py-5 flex items-start justify-between gap-4 z-10">
+            <div>
+              <p class="font-['Inter'] font-bold text-[#887103] text-[12px] uppercase tracking-[0.18em]">${html(titleCase(row.request_type))}</p>
+              <h2 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[34px] leading-tight mt-1">${html(title)}</h2>
+              <p class="font-['Inter'] text-[#677461] text-[14px] mt-1">${html(row.requester_name || 'Requester')} &bull; ${html(titleCase(role))}</p>
+            </div>
+            <button data-action="close-request-modal" class="w-10 h-10 rounded-full bg-[#f0f2f0] text-[#1b3a28] hover:bg-[#e5e7ea] flex items-center justify-center shrink-0" aria-label="Close request detail">x</button>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 p-6 md:p-8">
+            <div class="flex flex-col gap-6">
+              <div class="bg-white rounded-[16px] border border-gray-100 p-6">
+                <h3 class="font-['Manrope'] font-bold text-[#1b3a28] text-[20px] uppercase tracking-tight">${html(overviewTitle)}</h3>
+                <p class="font-['Inter'] text-[#464E42] text-[15px] leading-relaxed mt-3">${html(overview)}</p>
+              </div>
+              <div class="bg-[#f9f8f4] rounded-[16px] p-6 border border-gray-100">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                  ${details.map(([label, value]) => requestDetailItem(label, value)).join('')}
+                </div>
+              </div>
+              ${requestPayloadHtml(row.payload)}
+            </div>
+            <aside class="flex flex-col gap-5">
+              <div class="bg-white rounded-[16px] border border-gray-100 p-5">
+                <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em] mb-4">Contact</h4>
+                ${requestDetailItem('Email', requestValue(sources, ['email', 'email_address'], row.requester_email))}
+                <div class="mt-4">${requestDetailItem('Phone', requestValue(sources, ['phone', 'phone_number'], ''))}</div>
+                <div class="mt-4 flex items-center gap-3 flex-wrap">${statusBadge(row.status || 'pending')}</div>
+              </div>
+              <div class="bg-white rounded-[16px] border border-gray-100 p-5">
+                <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em] mb-4">Documents & Assets</h4>
+                <div class="flex flex-col gap-3">${requestDocumentsHtml(sources)}</div>
+              </div>
+              <div class="flex gap-3">
+                ${
+                  pending
+                    ? `<button data-action="reject-request" data-id="${row.id}" class="flex-1 px-5 py-3 rounded-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold hover:bg-[#8e3b3b]">Reject</button>
+                       <button data-action="approve-request" data-id="${row.id}" class="flex-1 px-5 py-3 rounded-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold hover:bg-[#142c1e]">Approve</button>`
+                    : `<div class="w-full rounded-[10px] border border-gray-100 bg-[#f9fafb] px-5 py-3 text-center font-['Inter'] font-bold text-[#677461]">Request already ${html(row.status || 'reviewed')}</div>`
+                }
+              </div>
+            </aside>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  function closeRequestDetailModal() {
+    const modal = document.getElementById('request-detail-modal');
+    if (modal) modal.remove();
+  }
+
+  async function showRequestDetail(id) {
+    const request = await single('requests', id);
+    let related = null;
+    if (request.related_table && request.related_id) {
+      try {
+        related = await single(request.related_table, request.related_id);
+      } catch (error) {
+        console.warn('Could not load related request item:', error);
+      }
+    }
+    closeRequestDetailModal();
+    document.body.insertAdjacentHTML('beforeend', requestDetailModal(request, related));
+  }
+
   function adminRequestRow(row, compact) {
     const actionClass = compact
       ? "px-[16px] py-[8px] font-['Inter'] text-[13px] rounded-[6px]"
       : "px-[20px] py-[10px] font-['Manrope'] text-[14px] rounded-[10px]";
     const date = row.submitted_at || row.created_at;
+    const pending = isPendingStatus(row.status);
     return `
-      <tr class="hover:bg-gray-50 transition-all group">
+      <tr data-action="view-request" data-id="${row.id}" class="hover:bg-gray-50 transition-all group cursor-pointer">
         <td class="px-[24px] py-[20px]${compact ? ' min-w-[270px]' : ''}">
           <span class="block font-['Manrope'] font-bold text-[#1b3a28] text-[16px] whitespace-normal break-words">${html(row.title)}</span>
         </td>
@@ -658,8 +998,12 @@
         ${compact ? '' : `<td class="px-[24px] py-[20px]"><span class="font-['Inter'] ${statusColor(row.status)} font-bold text-[14px] capitalize">${html(row.status)}</span></td>`}
         <td class="px-[24px] py-[20px] text-right">
           <div class="flex items-center justify-end gap-[12px]">
-            <button data-action="reject-request" data-id="${row.id}" class="${actionClass} bg-[#b04a4a] text-white font-bold hover:bg-[#8e3b3b] shadow-sm transition-all">Reject</button>
-            <button data-action="approve-request" data-id="${row.id}" class="${actionClass} bg-[#1b3a28] text-white font-bold hover:bg-[#142c1e] shadow-sm transition-all">Approve</button>
+            ${
+              pending
+                ? `<button data-action="reject-request" data-id="${row.id}" class="${actionClass} bg-[#b04a4a] text-white font-bold hover:bg-[#8e3b3b] shadow-sm transition-all">Reject</button>
+                   <button data-action="approve-request" data-id="${row.id}" class="${actionClass} bg-[#1b3a28] text-white font-bold hover:bg-[#142c1e] shadow-sm transition-all">Approve</button>`
+                : `<span class="inline-flex items-center px-4 py-2 rounded-full bg-[#f0f2f0] text-[#677461] font-['Inter'] font-bold text-[12px] uppercase tracking-wider">Reviewed</span>`
+            }
           </div>
         </td>
       </tr>`;
@@ -974,11 +1318,56 @@
       ...row,
       status: normalizeProgramStatus(row)
     }));
-    if (programs.length === 0) {
-      container.innerHTML = '<div class="text-center p-8 text-gray-500">No programs available.</div>';
-      return;
-    }
-    container.innerHTML = programs.map(row => programCard(row, true)).join('');
+    const counts = {
+      upcoming: programs.filter((row) => row.status === 'upcoming').length,
+      ongoing: programs.filter((row) => row.status === 'ongoing').length,
+      completed: programs.filter((row) => row.status === 'completed').length
+    };
+    Object.keys(counts).forEach((status) => {
+      const count = root.querySelector(`#tab-${status} .js-tab-count`);
+      if (count) count.textContent = String(counts[status]);
+    });
+    const activeStatus = counts.upcoming ? 'upcoming' : counts.ongoing ? 'ongoing' : counts.completed ? 'completed' : 'upcoming';
+    const ordered = ['upcoming', 'ongoing', 'completed'].flatMap((status) => sortProgramsForStatus(programs.filter((row) => row.status === status), status));
+    container.innerHTML = ordered.length
+      ? ordered.map((row) => dashboardProgramCard(row, activeStatus)).join('')
+      : `<div class="w-full max-w-[1073px] mx-auto bg-white rounded-[18px] border border-gray-100 p-8 text-center font-['Inter'] text-[#677461]">No published programs are available yet.</div>`;
+
+    window.filterPrograms = function filterPrograms(status) {
+      const cards = root.querySelectorAll('.program-card');
+      const buttons = root.querySelectorAll('[id^="tab-"]');
+      buttons.forEach((btn) => {
+        const active = btn.id === `tab-${status}`;
+        const indicator = btn.querySelector('.js-tab-indicator');
+        const tabText = btn.querySelector('.js-tab-text');
+        const icon = btn.querySelector('.js-tab-icon');
+        const count = btn.querySelector('.js-tab-count');
+        if (indicator) {
+          indicator.classList.toggle('bg-transparent', !active);
+          indicator.classList.toggle('bg-[#2d5a3d]', active);
+        }
+        if (tabText) {
+          tabText.classList.toggle('font-semibold', active);
+          tabText.classList.toggle('text-[#2d5a3d]', active);
+          tabText.classList.toggle('font-normal', !active);
+          tabText.classList.toggle('text-[#677461]', !active);
+        }
+        if (icon) {
+          icon.classList.toggle('text-[#2d5a3d]', active);
+          icon.classList.toggle('text-[#677461]', !active);
+        }
+        if (count) {
+          count.classList.toggle('text-[#2d5a3d]', active);
+          count.classList.toggle('bg-[#f1ffee]', active);
+          count.classList.toggle('text-[#677461]', !active);
+          count.classList.toggle('bg-[#f0f2f0]', !active);
+        }
+      });
+      cards.forEach((card) => {
+        card.classList.toggle('hidden', !card.classList.contains(status));
+      });
+    };
+    window.filterPrograms(activeStatus);
   }
 
   async function getStoredStartup() {
@@ -1000,13 +1389,59 @@
 
   async function renderDashboardStartupStatus(root) {
     const startup = await getStoredStartup();
+    const user = readStore('nest_current_user', {});
+    const isIdeaPage = lower(window.location.hash).includes('myidea') || lower(user.role).includes('entrepreneur') || lower(text(root)).includes('my idea overview');
     if (!startup) {
       root.innerHTML = `
         <div class="flex flex-col gap-[24px] items-start w-full max-w-[1000px]">
-          <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px]">My Startup Request</h1>
+          <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px]">${isIdeaPage ? 'My Idea Overview' : 'My Startup Request'}</h1>
           <div class="w-full bg-white rounded-[16px] border border-gray-100 shadow-sm p-8">
             <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[22px]">No application found</h2>
-            <p class="font-['Inter'] text-[#677461] mt-2">Submit an entrepreneur/startup registration request first. It will appear here as pending, approved, or rejected.</p>
+            <p class="font-['Inter'] text-[#677461] mt-2">Submit an ${isIdeaPage ? 'entrepreneur idea' : 'startup'} registration request first. It will appear here as pending, approved, or rejected.</p>
+          </div>
+        </div>`;
+      return;
+    }
+    const sources = [startup, payloadObject(startup.metadata)];
+    if (isIdeaPage) {
+      root.innerHTML = `
+        <div class="flex flex-col gap-[24px] items-start w-full max-w-[1000px]">
+          <div class="flex items-center justify-between w-full gap-4 flex-wrap">
+            <div class="flex items-center gap-4 flex-wrap">
+              <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">My Idea Overview</h1>
+              ${statusBadge(startup.status)}
+            </div>
+            <button class="bg-[#2D5A3D] text-white px-6 py-2.5 rounded-[10px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#1b3a28] transition-all flex items-center gap-2">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              Edit Idea
+            </button>
+          </div>
+          <div class="w-full bg-white rounded-[16px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 flex flex-col gap-8">
+            <div class="flex flex-col gap-4">
+              <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[20px] uppercase tracking-tight">Idea Concept</h2>
+              <p class="font-['Inter'] text-[#464E42] text-[15px] leading-relaxed">
+                ${html(requestValue(sources, ['overview', 'brief_idea_description', 'startup_overview'], 'No idea concept was provided.'))}
+              </p>
+            </div>
+            <div class="bg-[#f9f8f4] rounded-[16px] p-[24px] border border-gray-100">
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                <div class="flex flex-col gap-[4px]">
+                  <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-widest">Proposed Location</span>
+                  <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">${html(requestValue(sources, ['state', 'state_region', 'location'], 'Not provided'))}</span>
+                </div>
+                <div class="flex flex-col gap-[4px]">
+                  <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-widest">Estimated Budget</span>
+                  <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">${html(formatBudgetText(requestValue(sources, ['funding_raised', 'funding_raised_inr', 'budget'], '')))}</span>
+                </div>
+              </div>
+            </div>
+            <div class="flex flex-col gap-[16px]">
+              <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em]">Attached Documents</h4>
+              <div class="grid grid-cols-1 md:grid-cols-2 gap-4">${requestDocumentsHtml(sources)}</div>
+            </div>
           </div>
         </div>`;
       return;
@@ -1350,6 +1785,7 @@
     }
     await updateRow('requests', id, { status });
     showToast(`Request ${status}.`);
+    closeRequestDetailModal();
     scheduleInit(true);
   }
 
@@ -1871,7 +2307,8 @@
   }
 
   async function submitRegistration(form) {
-    const fields = collectLabeledFields(form);
+    validateRegistrationForm(form);
+    const fields = collectLabeledFields(form, { includeHidden: true });
     const id = form.id || '';
     const formText = lower(text(form.closest('section') || form));
     const role = formText.includes('artisan registration')
@@ -2019,6 +2456,11 @@
   }
 
   async function handleAction(action, id) {
+    if (action === 'close-request-modal') {
+      closeRequestDetailModal();
+      return;
+    }
+    if (action === 'view-request') return showRequestDetail(id);
     if (action === 'edit-program') {
       sessionStorage.setItem('nest_edit_program_id', id);
       window.location.hash = '#edit-program';
@@ -2081,6 +2523,17 @@
     const button = event.target.closest('button');
     if (!button || !key) return;
     const label = lower(text(button));
+    if (key === 'registration-form' && button.id === 'next-btn') {
+      try {
+        const form = root.querySelector('form');
+        if (form) validateRegistrationForm(form, { visibleOnly: true });
+      } catch (error) {
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        showToast(error.message || 'Please fill all required fields.', 'error');
+        return;
+      }
+    }
     if (key === 'login' && label === 'login') {
       const form = root.querySelector('#auth-form');
       if (!form) return;
