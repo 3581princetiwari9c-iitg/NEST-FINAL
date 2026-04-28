@@ -832,13 +832,31 @@
       });
     });
     if (!docs.length) {
-      return `<div class="rounded-[12px] border border-dashed border-gray-200 bg-[#f9fafb] px-4 py-5 font-['Inter'] text-[#677461] text-[14px]">No uploaded document was found for this request.</div>`;
+      return `
+        <div class="flex items-center gap-3 p-4 bg-[#f3f4f6]/50 rounded-[12px]">
+          <div class="w-10 h-10 bg-red-50 rounded-[8px] flex items-center justify-center border border-red-100 shrink-0">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+              <polyline points="14 2 14 8 20 8"></polyline>
+            </svg>
+          </div>
+          <div class="flex flex-col">
+            <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[14px]">No document uploaded</span>
+            <span class="font-['Inter'] text-[#677461] text-[11px]">Document not provided</span>
+          </div>
+        </div>`;
     }
     return docs
       .slice(0, 6)
       .map(
-        (doc, index) => `
-        <div class="flex items-center justify-between p-4 bg-[#f3f4f6]/50 rounded-[12px] border border-gray-100">
+        (doc, index) => {
+          const fileLabel = /^https?:\/\//i.test(doc.value)
+            ? decodeURIComponent(doc.value.split('/').pop() || doc.title).replace(/^\d+-/, '')
+            : doc.value.match(/\.(pdf|docx?|png|jpe?g|webp)$/i)
+              ? doc.value
+              : doc.title;
+          return `
+        <div class="flex items-center justify-between p-4 bg-[#f3f4f6]/50 rounded-[12px] hover:bg-gray-100 transition-all">
           <div class="flex items-center gap-3 min-w-0">
             <div class="w-10 h-10 bg-red-50 rounded-[8px] flex items-center justify-center border border-red-100 shrink-0">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
@@ -847,7 +865,7 @@
               </svg>
             </div>
             <div class="flex flex-col min-w-0">
-              <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[14px] truncate">${html(doc.title)}</span>
+              <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[14px] truncate">${html(fileLabel)}</span>
               <span class="font-['Inter'] text-[#677461] text-[11px] truncate">Document ${index + 1}</span>
             </div>
           </div>
@@ -856,7 +874,8 @@
               ? `<a href="${html(doc.value)}" target="_blank" class="font-['Inter'] font-bold text-[#2d5a3d] text-[12px]">Open</a>`
               : ''
           }
-        </div>`
+        </div>`;
+        }
       )
       .join('');
   }
@@ -889,12 +908,14 @@
     const isProduct = requestType.includes('product') || requestType.includes('marketplace');
     const isEntrepreneur = lower(role).includes('entrepreneur') || lower(requestValue(sources, ['category'], '')).includes('idea');
     const title = related && (related.name || related.title) ? related.name || related.title : row.title;
-    const overviewTitle = isProduct ? 'Product Description' : isEntrepreneur ? 'Idea Concept' : 'Startup Overview';
+    const overviewTitle = isProduct ? 'Product Overview' : isEntrepreneur ? 'Idea Overview' : 'Startup Overview';
     const overview = requestValue(
       sources,
       ['overview', 'startup_overview', 'brief_idea_description', 'product_description', 'description'],
       'No overview was entered.'
     );
+    const applicant = requestValue(sources, ['founder_name', 'founder_owner_name', 'full_name', 'seller_name', 'shop_name'], row.requester_name);
+    const kindLabel = isProduct ? 'Product Listing' : isEntrepreneur ? 'Entrepreneur Idea' : 'Startup';
     const details = isProduct
       ? [
           ['Category', requestValue(sources, ['category'], '')],
@@ -910,50 +931,58 @@
         ];
     const pending = isPendingStatus(row.status);
     return `
-      <div id="request-detail-modal" class="fixed inset-0 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4" style="position: fixed; inset: 0; z-index: 2147483647; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(4px);">
-        <div class="bg-white rounded-[24px] shadow-2xl w-full max-w-[1120px] max-h-[92vh] overflow-y-auto" style="position: relative; z-index: 1; width: min(1120px, calc(100vw - 32px)); max-height: 92vh; overflow-y: auto;">
-          <div class="sticky top-0 bg-white border-b border-gray-100 px-6 md:px-8 py-5 flex items-start justify-between gap-4 z-10">
-            <div>
-              <p class="font-['Inter'] font-bold text-[#887103] text-[12px] uppercase tracking-[0.18em]">${html(titleCase(row.request_type))}</p>
-              <h2 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[34px] leading-tight mt-1">${html(title)}</h2>
-              <p class="font-['Inter'] text-[#677461] text-[14px] mt-1">${html(row.requester_name || 'Requester')} &bull; ${html(titleCase(role))}</p>
+      <div id="request-detail-modal" class="fixed inset-0 items-start justify-center p-4 overflow-y-auto bg-black/40 backdrop-blur-sm py-[60px]" style="position: fixed; inset: 0; z-index: 2147483647; display: flex; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(4px);">
+        <div class="fixed inset-0 z-0" data-action="close-request-modal"></div>
+        <div class="relative z-10 bg-white rounded-[32px] shadow-[0px_20px_60px_rgba(0,0,0,0.1)] p-[32px] md:p-[40px] w-full max-w-[1140px]" style="position: relative; z-index: 1; width: min(1140px, calc(100vw - 32px));">
+          <button data-action="close-request-modal" class="absolute top-8 right-8 text-gray-400 hover:text-red-600 transition-all" aria-label="Close request detail">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <div class="flex flex-col gap-[32px]">
+            <div class="flex flex-col gap-[8px] pr-12">
+              <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[28px] leading-tight max-w-[80%] uppercase tracking-tight">${html(title).toUpperCase()}</h2>
+              <p class="font-['Inter'] text-[#677461] text-[16px]">${html(applicant)} &bull; ${html(kindLabel)}</p>
             </div>
-            <button data-action="close-request-modal" class="w-10 h-10 rounded-full bg-[#f0f2f0] text-[#1b3a28] hover:bg-[#e5e7ea] flex items-center justify-center shrink-0" aria-label="Close request detail">x</button>
-          </div>
-
-          <div class="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 p-6 md:p-8">
-            <div class="flex flex-col gap-6">
-              <div class="bg-white rounded-[16px] border border-gray-100 p-6">
-                <h3 class="font-['Manrope'] font-bold text-[#1b3a28] text-[20px] uppercase tracking-tight">${html(overviewTitle)}</h3>
-                <p class="font-['Inter'] text-[#464E42] text-[15px] leading-relaxed mt-3">${html(overview)}</p>
-              </div>
-              <div class="bg-[#f9f8f4] rounded-[16px] p-6 border border-gray-100">
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
-                  ${details.map(([label, value]) => requestDetailItem(label, value)).join('')}
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-[40px]">
+              <div class="lg:col-span-2 flex flex-col gap-[32px]">
+                <div class="flex flex-col gap-[16px]">
+                  <h4 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">${html(overviewTitle)}</h4>
+                  <p class="font-['Inter'] text-[#464E42] text-[15px] leading-relaxed">${html(overview)}</p>
+                </div>
+                <div class="bg-[#f9f8f4] rounded-[20px] p-[28px] md:p-[32px] flex flex-col gap-[24px]">
+                  <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em]">Details</h4>
+                  <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
+                    ${details.map(([label, value]) => requestDetailItem(label, value)).join('')}
+                  </div>
+                </div>
+                <div class="flex items-center gap-4 mt-4 flex-wrap">
+                  ${
+                    pending
+                      ? `<button data-action="reject-request" data-id="${row.id}" class="bg-[#b04a4a] text-white px-10 py-4 rounded-[16px] font-['Manrope'] font-bold text-[16px] shadow-lg hover:bg-[#8e3b3b] transform hover:-translate-y-1 transition-all">Reject Request</button>
+                         <button data-action="approve-request" data-id="${row.id}" class="bg-[#1b3a28] text-white px-10 py-4 rounded-[16px] font-['Manrope'] font-bold text-[16px] shadow-lg hover:bg-[#142c1e] transform hover:-translate-y-1 transition-all">Approve Request</button>`
+                      : `<div class="rounded-[16px] bg-[#f0f2f0] px-8 py-4 font-['Manrope'] font-bold text-[#677461] text-[16px]">Request already ${html(row.status || 'reviewed')}</div>`
+                  }
                 </div>
               </div>
-              ${requestPayloadHtml(row.payload)}
+              <div class="flex flex-col gap-[32px]">
+                <div class="flex flex-col gap-[16px]">
+                  <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em]">Documents</h4>
+                  <div class="flex flex-col gap-3">${requestDocumentsHtml(sources)}</div>
+                </div>
+                <div class="bg-[#f1fff6] rounded-[20px] p-[24px] flex flex-col gap-[24px]" style="background: #f1fff6;">
+                  <div class="flex flex-col gap-[8px]">
+                    <span class="font-['Inter'] text-[#677461] text-[14px]">Official Email</span>
+                    <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px] break-words">${html(requestValue(sources, ['email', 'email_address'], row.requester_email) || 'Not provided')}</span>
+                  </div>
+                  <div class="flex flex-col gap-[8px]">
+                    <span class="font-['Inter'] text-[#677461] text-[14px]">Phone Number</span>
+                    <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">${html(requestValue(sources, ['phone', 'phone_number'], '') || 'Not provided')}</span>
+                  </div>
+                </div>
+              </div>
             </div>
-            <aside class="flex flex-col gap-5">
-              <div class="bg-white rounded-[16px] border border-gray-100 p-5">
-                <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em] mb-4">Contact</h4>
-                ${requestDetailItem('Email', requestValue(sources, ['email', 'email_address'], row.requester_email))}
-                <div class="mt-4">${requestDetailItem('Phone', requestValue(sources, ['phone', 'phone_number'], ''))}</div>
-                <div class="mt-4 flex items-center gap-3 flex-wrap">${statusBadge(row.status || 'pending')}</div>
-              </div>
-              <div class="bg-white rounded-[16px] border border-gray-100 p-5">
-                <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em] mb-4">Documents & Assets</h4>
-                <div class="flex flex-col gap-3">${requestDocumentsHtml(sources)}</div>
-              </div>
-              <div class="flex gap-3">
-                ${
-                  pending
-                    ? `<button data-action="reject-request" data-id="${row.id}" class="flex-1 px-5 py-3 rounded-[10px] bg-[#b04a4a] text-white font-['Manrope'] font-bold hover:bg-[#8e3b3b]">Reject</button>
-                       <button data-action="approve-request" data-id="${row.id}" class="flex-1 px-5 py-3 rounded-[10px] bg-[#1b3a28] text-white font-['Manrope'] font-bold hover:bg-[#142c1e]">Approve</button>`
-                    : `<div class="w-full rounded-[10px] border border-gray-100 bg-[#f9fafb] px-5 py-3 text-center font-['Inter'] font-bold text-[#677461]">Request already ${html(row.status || 'reviewed')}</div>`
-                }
-              </div>
-            </aside>
           </div>
         </div>
       </div>`;
