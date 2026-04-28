@@ -31,6 +31,7 @@
       password: 'Test@123',
       role: 'artisan',
       name: 'Demo Artisan',
+      phone: '+919876543201',
       redirect: 'artisan.html#marketplace'
     },
     'startup@nest.test': {
@@ -43,13 +44,17 @@
       password: 'Test@123',
       role: 'trainee',
       name: 'Demo Trainee',
+      phone: '+919876543202',
       redirect: 'trainee.html#programs'
     }
   };
+  const PHONE_OTP_ROLES = new Set([]);
+  const EMAIL_OTP_ROLES = new Set(['startup', 'entrepreneur', 'artisan', 'trainee', 'admin']);
 
   let currentPageKey = '';
   let initTimer = null;
   let realtimeStarted = false;
+  let loginOtpState = null;
   let teamState = {
     team: 'leadership',
     category: 'grassroots',
@@ -194,8 +199,8 @@
     const user = {
       role,
       name: fields.full_name || fields.founder_owner_name || fields.startup_name || fields.email_address || `${titleCase(role)} User`,
-      email: fields.email_address || '',
-      phone: fields.phone_number || ''
+      email: lower(fields.email_address || ''),
+      phone: normalizePhone(fields.phone_number || fields.mobile_number || fields.contact_number || fields.phone || '')
     };
     writeStore('nest_current_user', user);
     return user;
@@ -930,6 +935,12 @@
           ['Funding / Budget', formatBudgetText(requestValue(sources, ['funding_raised', 'funding_raised_inr', 'budget'], ''))]
         ];
     const pending = isPendingStatus(row.status);
+    const documentsBlock = isProduct
+      ? ''
+      : `<div class="flex flex-col gap-[16px]">
+          <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em]">Documents</h4>
+          <div class="flex flex-col gap-3">${requestDocumentsHtml(sources)}</div>
+        </div>`;
     return `
       <div id="request-detail-modal" class="fixed inset-0 items-start justify-center p-4 overflow-y-auto bg-black/40 backdrop-blur-sm py-[60px]" style="position: fixed; inset: 0; z-index: 2147483647; display: flex; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(4px);">
         <div class="fixed inset-0 z-0" data-action="close-request-modal"></div>
@@ -967,10 +978,7 @@
                 </div>
               </div>
               <div class="flex flex-col gap-[32px]">
-                <div class="flex flex-col gap-[16px]">
-                  <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em]">Documents</h4>
-                  <div class="flex flex-col gap-3">${requestDocumentsHtml(sources)}</div>
-                </div>
+                ${documentsBlock}
                 <div class="bg-[#f1fff6] rounded-[20px] p-[24px] flex flex-col gap-[24px]" style="background: #f1fff6;">
                   <div class="flex flex-col gap-[8px]">
                     <span class="font-['Inter'] text-[#677461] text-[14px]">Official Email</span>
@@ -1009,6 +1017,79 @@
     }
     closeRequestDetailModal();
     document.body.insertAdjacentHTML('beforeend', requestDetailModal(request, related));
+    document.body.style.overflow = 'hidden';
+    document.body.dataset.requestModalOpen = 'true';
+  }
+
+  function startupDetailModal(row) {
+    const sources = [row, payloadObject(row.metadata)];
+    const title = row.name || 'Startup';
+    const founder = requestValue(sources, ['founder_name', 'founder_owner_name', 'full_name'], row.founder_name || 'Founder not provided');
+    const overview = requestValue(sources, ['overview', 'startup_overview', 'brief_idea_description', 'description'], 'No overview was entered.');
+    const details = [
+      ['Founded Date', requestValue(sources, ['founded_date', 'established_year', 'year'], row.established_year || '')],
+      ['Registration Type', requestValue(sources, ['registration_type', 'company_type', 'startup_type'], row.category || 'Startup')],
+      ['Team size', requestValue(sources, ['team_size'], row.team_size || '')],
+      ['Funding', formatBudgetText(requestValue(sources, ['funding_raised', 'funding_raised_inr', 'budget'], row.funding_raised || ''))]
+    ];
+    return `
+      <div id="request-detail-modal" class="fixed inset-0 items-start justify-center p-4 overflow-y-auto bg-black/40 backdrop-blur-sm py-[60px]" style="position: fixed; inset: 0; z-index: 2147483647; display: flex; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(4px);">
+        <div class="fixed inset-0 z-0" data-action="close-request-modal"></div>
+        <div class="relative z-10 bg-white rounded-[32px] shadow-[0px_20px_60px_rgba(0,0,0,0.1)] p-[32px] md:p-[40px] w-full max-w-[1140px]" style="position: relative; z-index: 1; width: min(1140px, calc(100vw - 32px));">
+          <button data-action="close-request-modal" class="absolute top-8 right-8 text-gray-400 hover:text-red-600 transition-all" aria-label="Close startup detail">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="18" y1="6" x2="6" y2="18"></line>
+              <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+          </button>
+          <div class="flex flex-col gap-[32px]">
+            <div class="flex flex-col gap-[8px] pr-12">
+              <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[28px] leading-tight max-w-[80%] uppercase tracking-tight">${html(title).toUpperCase()}</h2>
+              <p class="font-['Inter'] text-[#677461] text-[16px]">${html(founder)} &bull; ${html(row.category || 'Startup')}</p>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-[40px]">
+              <div class="lg:col-span-2 flex flex-col gap-[32px]">
+                <div class="flex flex-col gap-[16px]">
+                  <h4 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">Overview</h4>
+                  <p class="font-['Inter'] text-[#464E42] text-[15px] leading-relaxed">${html(overview)}</p>
+                </div>
+                <div class="bg-[#f9f8f4] rounded-[20px] p-[28px] md:p-[32px] flex flex-col gap-[24px]">
+                  <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em]">Establishment & Roots</h4>
+                  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-[24px]">
+                    ${details.map(([label, value]) => requestDetailItem(label, value)).join('')}
+                  </div>
+                </div>
+              </div>
+              <div class="flex flex-col gap-[32px]">
+                <div class="flex flex-col gap-[16px]">
+                  <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em]">Documents & Assets</h4>
+                  <div class="flex flex-col gap-3">${requestDocumentsHtml(sources)}</div>
+                </div>
+                <div class="bg-[#f1fff6] rounded-[20px] p-[24px] flex flex-col gap-[20px]" style="background: #f1fff6;">
+                  <div class="flex flex-col gap-[4px]">
+                    <span class="font-['Inter'] text-[#677461] text-[12px]">Official Email</span>
+                    <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px] break-words">${html(requestValue(sources, ['email', 'email_address'], row.email || '') || 'Not provided')}</span>
+                  </div>
+                  <div class="flex flex-col gap-[4px]">
+                    <span class="font-['Inter'] text-[#677461] text-[12px]">Phone Number</span>
+                    <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px]">${html(requestValue(sources, ['phone', 'phone_number'], row.phone || '') || 'Not provided')}</span>
+                  </div>
+                  <div class="flex flex-col gap-[4px]">
+                    <span class="font-['Inter'] text-[#677461] text-[12px]">Headquarters</span>
+                    <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px]">${html(requestValue(sources, ['headquarters', 'state', 'state_region', 'location'], row.state || '') || 'Not provided')}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>`;
+  }
+
+  async function showStartupDetail(id) {
+    const startup = await single('startups', id);
+    closeRequestDetailModal();
+    document.body.insertAdjacentHTML('beforeend', startupDetailModal(startup));
     document.body.style.overflow = 'hidden';
     document.body.dataset.requestModalOpen = 'true';
   }
@@ -1422,10 +1503,86 @@
     return null;
   }
 
+  function isStartupStatusDashboardRoute(root) {
+    const hash = lower(window.location.hash || '');
+    if (hash) return hash.includes('myidea') || hash.includes('mystartup');
+    const heading = lower(text(root && root.querySelector('h1')));
+    return heading.includes('my idea overview') || heading.includes('startup management') || heading.includes('my startup request');
+  }
+
+  function startupVentureBadge(status) {
+    const value = lower(status || 'pending');
+    const config = {
+      approved: ['bg-green-50', 'text-green-700', 'border-green-100', 'Approved Venture'],
+      rejected: ['bg-red-50', 'text-[#b04a4a]', 'border-red-100', 'Rejected Venture'],
+      pending: ['bg-orange-50', 'text-[#EA580C]', 'border-orange-100', 'Pending Review']
+    }[value] || ['bg-gray-50', 'text-[#677461]', 'border-gray-100', titleCase(value)];
+    return `<span class="px-3 py-1 ${config[0]} ${config[1]} text-[11px] font-bold uppercase rounded-full border ${config[2]}">${html(config[3])}</span>`;
+  }
+
+  function formatTeamSizeText(value) {
+    const raw = clean(value);
+    if (!raw) return 'Pending';
+    if (/member|pending|not provided/i.test(raw)) return raw;
+    return /^\d+$/.test(raw) ? `${raw} Members` : raw;
+  }
+
+  function startupDashboardDocumentsHtml(sources) {
+    const docs = [];
+    const seen = new Set();
+    sources.forEach((source) => {
+      const data = payloadObject(source);
+      Object.keys(data).forEach((key) => {
+        const value = clean(data[key]);
+        if (!value || /password|profile_id|startup_id|product_id/i.test(key)) return;
+        if (!/(document|file|pdf|deck|certificate|proposal|mou)/i.test(key)) return;
+        const fileLabel = /^https?:\/\//i.test(value)
+          ? decodeURIComponent(value.split('/').pop() || titleCase(key)).replace(/^\d+-/, '')
+          : value.match(/\.(pdf|docx?|png|jpe?g|webp)$/i)
+            ? value
+            : titleCase(key);
+        const signature = `${fileLabel}|${value}`;
+        if (seen.has(signature)) return;
+        seen.add(signature);
+        docs.push({ label: fileLabel, url: /^https?:\/\//i.test(value) ? value : '' });
+      });
+    });
+    if (!docs.length) {
+      return `
+        <div class="p-4 bg-gray-50 rounded-[8px] border border-dashed border-gray-200">
+          <span class="font-['Manrope'] text-[14px] text-[#677461]">No registration document was uploaded.</span>
+        </div>`;
+    }
+    return docs
+      .slice(0, 4)
+      .map(
+        (doc, index) => {
+          const colorClass = index % 2 === 0 ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600';
+          const tag = doc.url ? 'a' : 'div';
+          const href = doc.url ? ` href="${html(doc.url)}" target="_blank" rel="noopener noreferrer"` : '';
+          return `
+            <${tag}${href} class="flex items-center justify-between p-3 bg-gray-50 rounded-[8px] border border-gray-200 hover:bg-white hover:border-[#2D5A3D] transition-all group">
+              <div class="flex items-center gap-3 min-w-0">
+                <div class="w-8 h-8 ${colorClass} rounded flex items-center justify-center shrink-0">
+                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
+                </div>
+                <span class="font-['Manrope'] text-[14px] text-[#464E42] truncate">${html(doc.label)}</span>
+              </div>
+              ${doc.url ? `<svg class="text-gray-400 group-hover:text-[#2D5A3D] shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>` : ''}
+            </${tag}>`;
+        }
+      )
+      .join('');
+  }
+
   async function renderDashboardStartupStatus(root) {
+    if (!isStartupStatusDashboardRoute(root)) return;
     const startup = await getStoredStartup();
+    if (!isStartupStatusDashboardRoute(root)) return;
     const user = readStore('nest_current_user', {});
-    const isIdeaPage = lower(window.location.hash).includes('myidea') || lower(user.role).includes('entrepreneur') || lower(text(root)).includes('my idea overview');
+    const currentHash = lower(window.location.hash || '');
+    const currentHeading = lower(text(root.querySelector('h1')));
+    const isIdeaPage = currentHash.includes('myidea') || currentHeading.includes('my idea overview') || (!currentHash && lower(user.role).includes('entrepreneur'));
     if (!startup) {
       root.innerHTML = `
         <div class="flex flex-col gap-[24px] items-start w-full max-w-[1000px]">
@@ -1478,42 +1635,118 @@
               <div class="grid grid-cols-1 md:grid-cols-2 gap-4">${requestDocumentsHtml(sources)}</div>
             </div>
           </div>
-        </div>`;
+      </div>`;
       return;
     }
+    const teamSize = formatTeamSizeText(requestValue(sources, ['team_size', 'team_member_size', 'team_members'], startup.team_size || ''));
+    const funding = formatBudgetText(requestValue(sources, ['funding_raised', 'funding_raised_inr', 'budget'], startup.funding_raised || ''));
+    const region = requestValue(sources, ['region_of_operation', 'state', 'state_region', 'location'], startup.state || 'Not provided');
+    const registeredSince = requestValue(sources, ['registered_since', 'founded_date', 'established_year'], startup.established_year || '') || formatDate(startup.created_at);
+    const gst = requestValue(sources, ['gst_number', 'gstin', 'gst', 'registration_number', 'company_registration_number'], 'Not provided');
+    const mission = requestValue(sources, ['mission_overview', 'overview', 'startup_overview', 'brief_idea_description', 'description'], 'No mission overview was provided.');
+    const incubationStatus = lower(startup.status) === 'approved' ? 'Active in NEST Cluster' : statusMessage(startup.status, 'Startup application');
     root.innerHTML = `
-      <div class="flex flex-col gap-[24px] items-start w-full max-w-[1000px]">
-        <div class="flex items-center justify-between w-full gap-4 flex-wrap">
-          <div class="flex items-center gap-4 flex-wrap">
-            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">${html(startup.name)}</h1>
-            ${statusBadge(startup.status)}
+      <div class="flex flex-col gap-[24px] items-start w-full pb-10">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 w-full mb-[8px]">
+          <div class="flex flex-col items-start shrink-0">
+            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">Startup Management</h1>
+            <p class="font-['Manrope'] text-[#677461] text-[14px]">Operational details for your registered venture</p>
+          </div>
+          <div class="flex gap-3">
+            <button onclick="toggleEditMetrics(true)" id="edit-metrics-btn" class="flex items-center gap-2 bg-white text-[#2D5A3D] border-2 border-[#2D5A3D] px-8 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#f1ffee] transition-all">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
+              </svg>
+              Update Metrics
+            </button>
+            <button onclick="saveMetrics()" id="save-metrics-btn" class="hidden flex items-center gap-2 bg-[#2D5A3D] text-white px-8 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#1b3a28] transition-all">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
+              </svg>
+              Save Metrics
+            </button>
           </div>
         </div>
-        <div class="w-full bg-white rounded-[16px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 flex flex-col gap-8">
-          <div class="rounded-[14px] border border-gray-100 bg-[#f9fafb] p-5">
-            <p class="font-['Inter'] text-[#464E42] text-[15px] leading-relaxed">${html(statusMessage(startup.status, 'Your startup application'))}</p>
+
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-[24px] w-full mt-2">
+          <div class="lg:col-span-1 space-y-[24px]">
+            <div class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 space-y-6">
+              <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28] border-b pb-4">Operational Metrics</h3>
+              <div class="space-y-4">
+                <div class="space-y-2">
+                  <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Team Member Size</label>
+                  <input type="text" id="team-size" value="${html(teamSize)}" disabled class="metric-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
+                  <p class="text-[11px] text-[#677461]">Excluding founders</p>
+                </div>
+                <div class="space-y-2">
+                  <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Funding Raised (INR)</label>
+                  <input type="text" id="funding-raised" value="${html(funding)}" disabled class="metric-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
+                  <p class="text-[11px] text-[#677461]">Total external capital</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 space-y-6">
+              <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28] border-b pb-4">Registration Documents</h3>
+              <div class="space-y-3">${startupDashboardDocumentsHtml(sources)}</div>
+            </div>
           </div>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-[24px]">
-            <div>
-              <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-widest">Founder</span>
-              <p class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px] mt-1">${html(startup.founder_name || 'Not provided')}</p>
+
+          <div class="lg:col-span-2 space-y-[24px]">
+            <div class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden">
+              <div class="px-8 py-5 border-b border-[#f1f2f4] bg-[#fdfdfd] flex items-center justify-between gap-4">
+                <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28]">Startup Identity</h3>
+                ${startupVentureBadge(startup.status)}
+              </div>
+              <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="space-y-1">
+                  <p class="text-[12px] font-bold text-[#677461] uppercase tracking-wider">Startup Name</p>
+                  <p class="font-['Manrope'] text-[16px] text-[#1b3a28] font-bold">${html(startup.name || 'Not provided')}</p>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[12px] font-bold text-[#677461] uppercase tracking-wider">Vertical / Industry</p>
+                  <p class="font-['Manrope'] text-[16px] text-[#1b3a28] font-bold">${html(startup.category || 'Not provided')}</p>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[12px] font-bold text-[#677461] uppercase tracking-wider">GST Number</p>
+                  <p class="font-['Manrope'] text-[16px] text-[#1b3a28] font-bold">${html(gst)}</p>
+                </div>
+                <div class="space-y-1">
+                  <p class="text-[12px] font-bold text-[#677461] uppercase tracking-wider">Region of Operation</p>
+                  <p class="font-['Manrope'] text-[16px] text-[#1b3a28] font-bold">${html(region)}</p>
+                </div>
+              </div>
             </div>
-            <div>
-              <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-widest">Vertical</span>
-              <p class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px] mt-1">${html(startup.category || 'Not provided')}</p>
+
+            <div class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 space-y-6">
+              <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28] border-b pb-4">Mission Overview</h3>
+              <div class="space-y-4">
+                <div class="p-5 bg-gray-50 rounded-[12px] border border-gray-100">
+                  <p class="font-['Manrope'] text-[#464E42] text-[15px] leading-relaxed italic">"${html(mission)}"</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-[#f1ffee] text-[#2D5A3D] rounded-full flex items-center justify-center shrink-0">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                    </div>
+                    <div>
+                      <p class="text-[13px] font-bold text-[#1b3a28]">Incubation Status</p>
+                      <p class="text-[13px] text-[#677461]">${html(incubationStatus)}</p>
+                    </div>
+                  </div>
+                  <div class="flex items-start gap-3">
+                    <div class="w-8 h-8 bg-[#f1ffee] text-[#2D5A3D] rounded-full flex items-center justify-center shrink-0">
+                      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                    </div>
+                    <div>
+                      <p class="text-[13px] font-bold text-[#1b3a28]">Registered Since</p>
+                      <p class="text-[13px] text-[#677461]">${html(registeredSince)}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
-            <div>
-              <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-widest">State / Region</span>
-              <p class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px] mt-1">${html(startup.state || 'Not provided')}</p>
-            </div>
-            <div>
-              <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-widest">Funding / Budget</span>
-              <p class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px] mt-1">${html(startup.funding_raised || 'Not provided')}</p>
-            </div>
-          </div>
-          <div>
-            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[20px] uppercase tracking-tight">Overview</h2>
-            <p class="font-['Inter'] text-[#464E42] text-[15px] leading-relaxed mt-3">${html(startup.overview || 'No overview was provided.')}</p>
           </div>
         </div>
       </div>`;
@@ -1521,6 +1754,8 @@
 
   async function renderDashboardProfileStatus(root) {
     const startup = await getStoredStartup();
+    const hash = lower(window.location.hash || '');
+    if (hash && !hash.includes('profile')) return;
     if (!startup) return;
     const overview = root.querySelector('.w-full.bg-white');
     if (!overview || overview.querySelector('[data-nest-status-card]')) return;
@@ -1544,12 +1779,13 @@
         .map(
           (row) => `
         <tr class="hover:bg-gray-50 transition-all group">
-          <td class="px-[24px] py-[20px]"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">${html(row.name)}</span></td>
-          <td class="px-[24px] py-[20px]"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.category || 'Startup')}</span></td>
-          <td class="px-[24px] py-[20px]"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.established_year || 'NA')}</span></td>
-          <td class="px-[24px] py-[20px]"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.state || 'NA')}</span></td>
+          <td data-action="view-startup" data-id="${row.id}" class="px-[24px] py-[20px] cursor-pointer"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">${html(row.name)}</span></td>
+          <td data-action="view-startup" data-id="${row.id}" class="px-[24px] py-[20px] cursor-pointer"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.category || 'Startup')}</span></td>
+          <td data-action="view-startup" data-id="${row.id}" class="px-[24px] py-[20px] cursor-pointer"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.established_year || 'NA')}</span></td>
+          <td data-action="view-startup" data-id="${row.id}" class="px-[24px] py-[20px] cursor-pointer"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.state || 'NA')}</span></td>
           <td class="px-[24px] py-[20px] text-right">
             <div class="flex items-center justify-end gap-[16px]">
+              <button data-action="view-startup" data-id="${row.id}" class="text-[#677461] hover:text-[#1b3a28] transition-all">View</button>
               <a href="${html(row.website_url || '#')}" target="_blank" class="text-[#677461] hover:text-[#1b3a28] transition-all">Visit</a>
               <button data-action="delete-startup" data-id="${row.id}" class="text-[#677461] hover:text-red-600 transition-all">Delete</button>
             </div>
@@ -1574,12 +1810,14 @@
   async function submitStartupApplication(root) {
     const fields = collectLabeledFields(root);
     const currentUser = rememberCurrentUser('startup', fields);
+    const contactEmail = lower(fields.email_address || '');
+    const contactPhone = normalizePhone(fields.phone_number || '');
     const website = fields.website_link ? `https://${fields.website_link.replace(/^https?:\/\//i, '')}` : '';
     const startup = await insertRow('startups', {
       name: fields.startup_name || 'Untitled Startup',
       founder_name: fields.founder_owner_name || fields.founder_name || currentUser.name,
-      email: fields.email_address || '',
-      phone: fields.phone_number || '',
+      email: contactEmail,
+      phone: contactPhone,
       website_url: website,
       category: fields.industry_type || '',
       state: fields.state_region || '',
@@ -1587,7 +1825,7 @@
       funding_raised: fields.funding_raised_inr || '',
       overview: fields.startup_overview || '',
       status: 'pending',
-      metadata: fields
+      metadata: { ...fields, phone_number: contactPhone }
     });
     const request = await insertRow('requests', {
       request_type: 'startup_registration',
@@ -1675,20 +1913,37 @@
     });
   }
 
-  async function demoLogin(form) {
-    const email = lower(form.querySelector('input[type="email"]') && form.querySelector('input[type="email"]').value);
-    const passwordInput = form.querySelector('#state-login input[type="password"]') || form.querySelector('input[type="password"]');
-    const password = passwordInput ? passwordInput.value : '';
-    const account = DEMO_USERS[email];
-    if (!account || account.password !== password) {
-      showToast('Invalid testing credential. Use one of the demo emails and passwords shown on this page.', 'error');
-      return;
-    }
+  function normalizePhone(value) {
+    const raw = clean(value);
+    if (!raw) return '';
+    const compact = raw.replace(/[^\d+]/g, '');
+    if (compact.startsWith('+')) return compact;
+    const digits = compact.replace(/\D/g, '');
+    if (digits.length === 10) return `+91${digits}`;
+    if (digits.length === 12 && digits.startsWith('91')) return `+${digits}`;
+    return digits ? `+${digits}` : '';
+  }
+
+  function loginRoleUsesPhone(role) {
+    return PHONE_OTP_ROLES.has(lower(role));
+  }
+
+  function demoAccountForLogin(form) {
+    const email = lower(form.querySelector('#login-email') && form.querySelector('#login-email').value);
+    const phone = normalizePhone(form.querySelector('#login-phone') && form.querySelector('#login-phone').value);
+    if (email && DEMO_USERS[email]) return { email, account: DEMO_USERS[email] };
+    return Object.entries(DEMO_USERS).reduce((match, [demoEmail, account]) => {
+      if (match) return match;
+      return account.phone && normalizePhone(account.phone) === phone ? { email: demoEmail, account } : null;
+    }, null);
+  }
+
+  async function finishDemoLogin(email, account) {
     const user = {
       email,
       role: account.role,
       name: account.name,
-      phone: '',
+      phone: account.phone || '',
       loggedInAt: new Date().toISOString(),
       isDemo: true
     };
@@ -1704,6 +1959,169 @@
     setTimeout(() => {
       window.location.href = account.redirect;
     }, 400);
+  }
+
+  async function demoLogin(form) {
+    const selectedRole = lower(form.querySelector('#login-role') && form.querySelector('#login-role').value);
+    const passwordInput = form.querySelector('#login-password') || form.querySelector('#state-login input[type="password"]') || form.querySelector('input[type="password"]');
+    const password = passwordInput ? passwordInput.value : '';
+    const match = demoAccountForLogin(form);
+    if (!match || match.account.password !== password) {
+      showToast('Invalid testing credential. Use one of the demo emails/phones and passwords shown on this page.', 'error');
+      return;
+    }
+    if (selectedRole && selectedRole !== match.account.role) {
+      showToast(`Selected role must be ${titleCase(match.account.role)} for this testing credential.`, 'error');
+      return;
+    }
+    await finishDemoLogin(match.email, match.account);
+  }
+
+  function readLoginOtpCode(root) {
+    const direct = root.querySelector('#login-otp-code');
+    if (direct && clean(direct.value)) return clean(direct.value);
+    return Array.from(root.querySelectorAll('#login-otp-boxes input')).map((input) => clean(input.value)).join('');
+  }
+
+  async function profileForLogin(role, contact, channel) {
+    const targetRole = lower(role);
+    if (channel === 'email') {
+      const matches = await rows('profiles', (q) => q.ilike('email', lower(contact)).eq('role', targetRole).order('created_at', { ascending: false }).limit(1));
+      return matches[0] || null;
+    }
+    const normalized = normalizePhone(contact);
+    const direct = await rows('profiles', (q) => q.eq('phone', normalized).eq('role', targetRole).order('created_at', { ascending: false }).limit(1));
+    if (direct[0]) return direct[0];
+    const matches = await rows('profiles', (q) => q.eq('role', targetRole).order('created_at', { ascending: false }).limit(50));
+    return matches.find((profile) => normalizePhone(profile.phone) === normalized) || null;
+  }
+
+  function setLoginOtpStep(root, visible, channel, contact) {
+    const login = root.querySelector('#state-login');
+    const otp = root.querySelector('#state-login-otp');
+    const title = root.querySelector('#login-title');
+    const subtitle = root.querySelector('#login-subtitle');
+    if (!login || !otp) return;
+    login.classList.toggle('hidden', visible);
+    otp.classList.toggle('hidden', !visible);
+    if (title) title.textContent = visible ? 'Verify OTP' : 'Login';
+    if (subtitle) {
+      subtitle.textContent = visible
+        ? `Enter the 6 digit code sent to your ${channel === 'phone' ? 'phone number' : 'email address'} ${contact}.`
+        : 'Select your role and receive a secure OTP.';
+    }
+    if (visible) {
+      const first = otp.querySelector('input');
+      if (first) first.focus();
+    }
+  }
+
+  function installLoginOtpUi(root) {
+    const roleSelect = root.querySelector('#login-role');
+    const emailWrap = root.querySelector('#login-email-wrap');
+    const phoneWrap = root.querySelector('#login-phone-wrap');
+    const submitButton = root.querySelector('#send-otp-btn');
+    if (!roleSelect || !emailWrap || !phoneWrap) return;
+    const sync = () => {
+      const role = lower(roleSelect.value);
+      const usePhone = loginRoleUsesPhone(role);
+      const usesOtp = EMAIL_OTP_ROLES.has(role) || PHONE_OTP_ROLES.has(role);
+      emailWrap.classList.toggle('hidden', usePhone);
+      phoneWrap.classList.toggle('hidden', !usePhone);
+      const email = root.querySelector('#login-email');
+      const phone = root.querySelector('#login-phone');
+      if (email) email.required = !usePhone;
+      if (phone) phone.required = usePhone;
+      if (submitButton) submitButton.textContent = usesOtp ? 'Send OTP' : 'Login';
+    };
+    roleSelect.addEventListener('change', sync);
+    sync();
+
+    const otpInputs = root.querySelectorAll('#login-otp-boxes input');
+    otpInputs.forEach((input, index) => {
+      input.addEventListener('input', (event) => {
+        event.target.value = event.target.value.replace(/\D/g, '').slice(0, 1);
+        if (event.target.value && index < otpInputs.length - 1) otpInputs[index + 1].focus();
+      });
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Backspace' && !event.target.value && index > 0) otpInputs[index - 1].focus();
+      });
+      input.addEventListener('paste', (event) => {
+        const pasted = (event.clipboardData || window.clipboardData).getData('text').replace(/\D/g, '').slice(0, 6);
+        if (!pasted) return;
+        event.preventDefault();
+        otpInputs.forEach((box, boxIndex) => {
+          box.value = pasted[boxIndex] || '';
+        });
+        const next = otpInputs[Math.min(pasted.length, otpInputs.length) - 1];
+        if (next) next.focus();
+      });
+    });
+  }
+
+  async function startRoleOtpLogin(form) {
+    const root = mainRoot();
+    const role = lower(form.querySelector('#login-role') && form.querySelector('#login-role').value);
+    const password = clean(form.querySelector('#login-password') && form.querySelector('#login-password').value);
+    const demoMatch = password ? demoAccountForLogin(form) : null;
+    if (demoMatch && demoMatch.account.password === password) {
+      if (role && role !== demoMatch.account.role) {
+        throw new Error(`Selected role must be ${titleCase(demoMatch.account.role)} for this testing credential.`);
+      }
+      await finishDemoLogin(demoMatch.email, demoMatch.account);
+      return;
+    }
+    if (!EMAIL_OTP_ROLES.has(role) && !PHONE_OTP_ROLES.has(role)) {
+      await demoLogin(form);
+      return;
+    }
+
+    const channel = loginRoleUsesPhone(role) ? 'phone' : 'email';
+    const contact = channel === 'phone'
+      ? normalizePhone(form.querySelector('#login-phone') && form.querySelector('#login-phone').value)
+      : lower(form.querySelector('#login-email') && form.querySelector('#login-email').value);
+    if (!contact) throw new Error(channel === 'phone' ? 'Please enter a phone number.' : 'Please enter an email address.');
+    if (channel === 'phone' && !/^\+\d{10,15}$/.test(contact)) throw new Error('Please enter phone number with country code, for example +919876543210.');
+
+    const profile = await profileForLogin(role, contact, channel);
+    if (!profile) throw new Error(`No ${titleCase(role)} account was found for this ${channel === 'phone' ? 'phone number' : 'email address'}.`);
+
+    const payload = channel === 'phone'
+      ? { phone: contact, options: { shouldCreateUser: true, data: { role } } }
+      : { email: contact, options: { shouldCreateUser: true, data: { role } } };
+    const { error } = await supabase().auth.signInWithOtp(payload);
+    if (error) throw error;
+
+    loginOtpState = { role, channel, contact, profileId: profile.id };
+    setLoginOtpStep(root, true, channel, contact);
+    showToast(`OTP sent to ${contact}.`);
+  }
+
+  async function verifyRoleOtp(root) {
+    if (!loginOtpState) throw new Error('Please request an OTP first.');
+    const token = readLoginOtpCode(root);
+    if (!/^\d{6}$/.test(token)) throw new Error('Please enter the 6 digit OTP.');
+    const payload = loginOtpState.channel === 'phone'
+      ? { phone: loginOtpState.contact, token, type: 'sms' }
+      : { email: loginOtpState.contact, token, type: 'email' };
+    const { error } = await supabase().auth.verifyOtp(payload);
+    if (error) throw error;
+
+    const profile = await profileForLogin(loginOtpState.role, loginOtpState.contact, loginOtpState.channel);
+    if (!profile) throw new Error('Your OTP was verified, but no profile record was found.');
+    const user = {
+      email: profile.email || '',
+      role: profile.role,
+      name: profile.full_name || profile.organization || titleCase(profile.role),
+      phone: profile.phone || '',
+      loggedInAt: new Date().toISOString(),
+      auth: 'otp'
+    };
+    writeStore('nest_current_user', user);
+    showToast(`Logged in as ${titleCase(profile.role)}.`);
+    setTimeout(() => {
+      window.location.href = getDashboardUrl(profile.role);
+    }, 300);
   }
 
   async function renderPublicMarket(root) {
@@ -2356,14 +2774,16 @@
             ? 'entrepreneur'
             : 'startup';
     const currentUser = rememberCurrentUser(role, fields);
+    const contactEmail = lower(fields.email_address || '');
+    const contactPhone = normalizePhone(fields.phone_number || fields.mobile_number || fields.contact_number || '');
     const profile = await insertRow('profiles', {
       full_name: currentUser.name,
-      email: fields.email_address || '',
-      phone: fields.phone_number || '',
+      email: contactEmail,
+      phone: contactPhone,
       role,
       organization: fields.startup_name || fields.shop_name_optional || '',
       status: 'pending',
-      metadata: fields
+      metadata: { ...fields, phone_number: contactPhone }
     });
 
     if (role === 'entrepreneur' || role === 'startup') {
@@ -2375,8 +2795,8 @@
       const startup = await insertRow('startups', {
         name: startupName,
         founder_name: fields.founder_owner_name || fields.full_name || currentUser.name,
-        email: fields.email_address || '',
-        phone: fields.phone_number || '',
+        email: contactEmail,
+        phone: contactPhone,
         website_url: fields.website_link ? `https://${fields.website_link.replace(/^https?:\/\//i, '')}` : '',
         category: fields.industry_type || fields.vertical || (role === 'entrepreneur' ? 'Entrepreneur Idea' : 'Startup'),
         state: fields.state_region || fields.location || '',
@@ -2386,6 +2806,7 @@
         status: 'pending',
         metadata: {
           ...fields,
+          phone_number: contactPhone,
           submitted_as: role,
           profile_id: profile.id
         }
@@ -2479,6 +2900,7 @@
       if (key === 'public-team-scientific') await renderPublicTeam(root, 'scientific');
       if (key === 'public-team-executive') await renderPublicTeam(root, 'executive');
       if (key === 'dashboard-programs') await renderDashboardPrograms(root);
+      if (key === 'login') installLoginOtpUi(root);
     } catch (error) {
       console.error('Supabase render error:', error);
       showToast(error.message || 'Supabase operation failed.', 'error');
@@ -2495,7 +2917,14 @@
       closeRequestDetailModal();
       return;
     }
+    if (action === 'verify-login-otp') return verifyRoleOtp(mainRoot());
+    if (action === 'back-to-login') {
+      loginOtpState = null;
+      setLoginOtpStep(mainRoot(), false);
+      return;
+    }
     if (action === 'view-request') return showRequestDetail(id);
+    if (action === 'view-startup') return showStartupDetail(id);
     if (action === 'edit-program') {
       sessionStorage.setItem('nest_edit_program_id', id);
       window.location.hash = '#edit-program';
@@ -2574,7 +3003,15 @@
       if (!form) return;
       event.preventDefault();
       event.stopImmediatePropagation();
-      demoLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
+      startRoleOtpLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
+      return;
+    }
+    if (key === 'login' && (button.id === 'send-otp-btn' || label.includes('send otp'))) {
+      const form = root.querySelector('#auth-form');
+      if (!form) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      startRoleOtpLogin(form).catch((error) => showToast(error.message || 'OTP could not be sent.', 'error'));
       return;
     }
     const intercept =
@@ -2610,7 +3047,7 @@
     if (form.id === 'auth-form') {
       event.preventDefault();
       event.stopImmediatePropagation();
-      demoLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
+      startRoleOtpLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
       return;
     }
     if (form.id === 'add-hub-form') {
@@ -2723,7 +3160,7 @@
 
     const root = mainRoot();
     if (root) {
-      const observer = new MutationObserver(() => scheduleInit(true));
+      const observer = new MutationObserver(() => scheduleInit(false));
       observer.observe(root, { childList: true });
       scheduleInit(true);
     }

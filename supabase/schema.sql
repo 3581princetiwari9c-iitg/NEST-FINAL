@@ -540,13 +540,13 @@ where email in (
 );
 
 insert into public.profiles
-  (full_name, email, role, organization, status, metadata)
+  (full_name, email, phone, role, organization, status, metadata)
 values
-  ('Demo Admin', 'admin@nest.test', 'admin', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
-  ('Demo Entrepreneur', 'entrepreneur@nest.test', 'entrepreneur', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
-  ('Demo Artisan', 'artisan@nest.test', 'artisan', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
-  ('Demo Startup Founder', 'startup@nest.test', 'startup', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
-  ('Demo Trainee', 'trainee@nest.test', 'trainee', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb);
+  ('Demo Admin', 'admin@nest.test', null, 'admin', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
+  ('Demo Entrepreneur', 'entrepreneur@nest.test', null, 'entrepreneur', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
+  ('Demo Artisan', 'artisan@nest.test', '+919876543201', 'artisan', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
+  ('Demo Startup Founder', 'startup@nest.test', null, 'startup', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
+  ('Demo Trainee', 'trainee@nest.test', '+919876543202', 'trainee', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb);
 
 insert into public.site_stats (id, label, value, scope, sort_order)
 values
