@@ -3,6 +3,7 @@
   const FALLBACK_AVATAR = '/assets/logo/depositphotos_239470246-stock-illustration-user-sign-icon-person-symbol.jpg';
   const REALTIME_TABLES = [
     'programs',
+    'program_registrations',
     'startups',
     'marketplace_products',
     'requests',
@@ -50,11 +51,15 @@
   };
   const PHONE_OTP_ROLES = new Set([]);
   const EMAIL_OTP_ROLES = new Set(['startup', 'entrepreneur', 'artisan', 'trainee', 'admin']);
+  const OTP_COOLDOWN_MS = 60 * 1000;
+  const AUTH_REQUEST_TIMEOUT_MS = 30000;
+  const USER_SCOPED_STORE_KEYS = ['nest_startup_application', 'nest_user_registration_application', 'nest_marketplace_products', 'nest_demo_session'];
 
   let currentPageKey = '';
   let initTimer = null;
   let realtimeStarted = false;
   let loginOtpState = null;
+  let registrationOtpState = null;
   let teamState = {
     team: 'leadership',
     category: 'grassroots',
@@ -195,6 +200,27 @@
     localStorage.setItem(key, JSON.stringify(value));
   }
 
+  function removeStore(key) {
+    localStorage.removeItem(key);
+  }
+
+  function userSignature(user) {
+    return `${lower(user && user.role)}|${lower(user && user.email)}`;
+  }
+
+  function clearUserScopedStores() {
+    USER_SCOPED_STORE_KEYS.forEach(removeStore);
+  }
+
+  function persistCurrentUser(user) {
+    const previous = readStore('nest_current_user', null);
+    if (previous && userSignature(previous) && userSignature(previous) !== userSignature(user)) {
+      clearUserScopedStores();
+    }
+    writeStore('nest_current_user', user);
+    return user;
+  }
+
   function rememberCurrentUser(role, fields) {
     const user = {
       role,
@@ -202,8 +228,7 @@
       email: lower(fields.email_address || ''),
       phone: normalizePhone(fields.phone_number || fields.mobile_number || fields.contact_number || fields.phone || '')
     };
-    writeStore('nest_current_user', user);
-    return user;
+    return persistCurrentUser(user);
   }
 
   function statusBadge(status) {
@@ -644,6 +669,10 @@
 
   function dashboardProgramStatusText(row) {
     const status = normalizeProgramStatus(row);
+    if (row.dashboard_registration_status) {
+      const registeredAt = row.dashboard_registered_at ? ` on ${formatDate(row.dashboard_registered_at)}` : '';
+      return `${titleCase(row.dashboard_registration_status)}${registeredAt}`;
+    }
     if (status === 'completed') return 'Event completed';
     if (status === 'ongoing') return 'Program is currently under progress';
     return `Program starts on ${formatDate(row.start_date)}`;
@@ -694,6 +723,282 @@
           </div>
         </div>
       </a>`;
+  }
+
+  function missingProgramRegistrationTable(error) {
+    const message = lower(error && (error.message || error.details || error.hint || error.code));
+    return message.includes('program_registrations') || message.includes('schema cache') || message.includes('relation') || message.includes('pgrst');
+  }
+
+  async function currentUserProgramRegistrations(user) {
+    if (!user || !user.email) return [];
+    try {
+      return await rows('program_registrations', (q) =>
+        q
+          .ilike('user_email', user.email)
+          .eq('user_role', lower(user.role))
+          .order('registered_at', { ascending: false })
+      );
+    } catch (error) {
+      if (missingProgramRegistrationTable(error)) {
+        console.warn('program_registrations table is not available yet. Run the latest supabase/schema.sql to enable program registrations.');
+        return [];
+      }
+      throw error;
+    }
+  }
+
+  async function currentUserProfile(user) {
+    if (!user || !user.email || !user.role) return null;
+    const matches = await rows('profiles', (q) =>
+      q
+        .ilike('email', lower(user.email))
+        .eq('role', lower(user.role))
+        .order('created_at', { ascending: false })
+        .limit(1)
+    );
+    return matches[0] || null;
+  }
+
+  function setProfileControl(root, labels, value, fallback) {
+    const wanted = new Set(labels.map(toKey));
+    const label = Array.from(root.querySelectorAll('label')).find((item) => wanted.has(toKey(text(item))));
+    const wrapper = label && (label.closest('div') || label.parentElement);
+    const control = wrapper && wrapper.querySelector('input:not([type="password"]), textarea, select');
+    if (!control) return;
+    const finalValue = clean(value) || fallback || '';
+    if (control.tagName === 'SELECT') setSelect(control, finalValue);
+    else control.value = finalValue;
+  }
+
+  function avatarUrl(name) {
+    const label = encodeURIComponent(clean(name) || 'NEST User');
+    return `https://ui-avatars.com/api/?name=${label}&background=2D5A3D&color=fff&size=512`;
+  }
+
+  function profileDetailKey(key) {
+    const normalized = toKey(key);
+    const aliases = {
+      full_name: 'identity_name',
+      founder_owner_name: 'identity_name',
+      requester_name: 'identity_name',
+      name: 'startup_name',
+      startup_name: 'startup_name',
+      idea_name: 'startup_name',
+      business_name: 'startup_name',
+      email: 'email',
+      email_address: 'email',
+      phone: 'phone',
+      phone_number: 'phone',
+      mobile_number: 'phone',
+      contact_number: 'phone',
+      user_role: 'role',
+      role: 'role',
+      status: 'status',
+      organization: 'organization',
+      state: 'state_region',
+      state_region: 'state_region',
+      location: 'state_region',
+      complete_full_address: 'address',
+      workshop_residence_address: 'address',
+      address: 'address',
+      industry_type: 'industry_type',
+      category: 'industry_type',
+      shop_name_optional: 'shop_name',
+      shop_name: 'shop_name',
+      gst_number_optional: 'gst_number',
+      gst_number: 'gst_number',
+      website_link_optional: 'website_link',
+      website_link: 'website_link',
+      website_url: 'website_link',
+      funding_raised_inr: 'funding_raised',
+      funding_raised: 'funding_raised',
+      estimated_budget: 'budget',
+      budget: 'budget',
+      brief_idea_description: 'idea_description',
+      startup_overview: 'startup_overview',
+      overview: 'startup_overview'
+    };
+    return aliases[normalized] || normalized;
+  }
+
+  function profileDetailLabel(key) {
+    const labels = {
+      state_region: 'State / Region',
+      address: 'Address',
+      industry_type: 'Industry / Type',
+      shop_name: 'Shop Name',
+      gst_number: 'GST Number',
+      website_link: 'Website Link',
+      funding_raised: 'Funding Raised',
+      idea_description: 'Idea Description',
+      startup_overview: 'Startup Overview',
+      team_size: 'Team Size',
+      date_of_birth: 'Date of Birth'
+    };
+    return labels[key] || titleCase(key);
+  }
+
+  function profileDetailRows(sources) {
+    const skip = /(^id$|_id$|created_at|updated_at|metadata|password|confirm|otp|token|profile_id|startup_id|request_id|product_id|submitted_as|auth)/i;
+    const skipKeys = new Set(['identity_name', 'startup_name', 'email', 'phone', 'role', 'status', 'organization']);
+    const seen = new Set();
+    const seenValues = new Set();
+    const rowsList = [];
+    sources.forEach((source) => {
+      const data = payloadObject(source);
+      Object.keys(data).forEach((key) => {
+        if (data[key] && typeof data[key] === 'object') return;
+        const normalized = profileDetailKey(key);
+        const value = clean(data[key]);
+        const valueKey = lower(value).replace(/\s+/g, ' ');
+        if (!value || skip.test(normalized) || skipKeys.has(normalized) || seen.has(normalized) || seenValues.has(valueKey)) return;
+        seen.add(normalized);
+        seenValues.add(valueKey);
+        rowsList.push([profileDetailLabel(normalized), value]);
+      });
+    });
+    return rowsList;
+  }
+
+  function renderProfileDetailsCard(root, sources) {
+    const rowsList = profileDetailRows(sources).slice(0, 12);
+    const old = root.querySelector('[data-nest-profile-details]');
+    if (old) old.remove();
+    if (!rowsList.length) return;
+    const overview = root.querySelector('#user-avatar') && root.querySelector('#user-avatar').closest('.w-full.bg-white');
+    if (!overview) return;
+    overview.insertAdjacentHTML(
+      'afterend',
+      `<div data-nest-profile-details class="w-full bg-white rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 p-8">
+        <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28] mb-5">Registration Details</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
+          ${rowsList
+            .map(
+              ([label, value]) => `
+                <div class="rounded-[10px] bg-[#f9fafb] border border-gray-100 p-4">
+                  <span class="block font-['Manrope'] font-bold text-[11px] text-[#677461] uppercase tracking-wider mb-1">${html(label)}</span>
+                  <span class="block font-['Inter'] font-semibold text-[#1b3a28] text-[14px] break-words">${html(value)}</span>
+                </div>`
+            )
+            .join('')}
+        </div>
+      </div>`
+    );
+  }
+
+  async function renderDashboardUserProfile(root) {
+    const user = readStore('nest_current_user', {});
+    const profile = await currentUserProfile(user);
+    const startup = lower(user.role) === 'startup' || lower(user.role) === 'entrepreneur' ? await getStoredStartup() : null;
+    const sources = [startup || {}, payloadObject(startup && startup.metadata), profile || {}, payloadObject(profile && profile.metadata), user || {}];
+    const role = lower((profile && profile.role) || user.role || document.body.dataset.dashboardRole || 'user');
+    const displayName =
+      role === 'startup'
+        ? requestValue(sources, ['startup_name', 'name'], (profile && profile.full_name) || user.name || 'Startup')
+        : requestValue(sources, ['full_name', 'founder_owner_name', 'requester_name'], (profile && profile.full_name) || user.name || `${titleCase(role)} User`);
+    const email = requestValue(sources, ['email', 'email_address'], (profile && profile.email) || user.email || '');
+    const phone = requestValue(sources, ['phone', 'phone_number', 'mobile_number', 'contact_number'], (profile && profile.phone) || user.phone || '');
+    const startupName = requestValue(sources, ['startup_name', 'name', 'idea_name', 'business_name'], startup && startup.name);
+    const status = requestValue(sources, ['status'], (profile && profile.status) || (startup && startup.status) || user.status || '');
+
+    const profileTitle = root.querySelector('#user-avatar') && root.querySelector('#user-avatar').closest('.w-full.bg-white')?.querySelector('h2');
+    if (profileTitle) profileTitle.textContent = displayName;
+    const roleBadge = root.querySelector('#user-avatar') && root.querySelector('#user-avatar').closest('.w-full.bg-white')?.querySelector('span');
+    if (roleBadge) roleBadge.textContent = status ? `${titleCase(role)} - ${titleCase(status)}` : titleCase(role);
+    const avatar = root.querySelector('#user-avatar');
+    if (avatar) {
+      avatar.src = avatarUrl(displayName);
+      avatar.alt = `${displayName} Profile`;
+    }
+
+    setProfileControl(root, ['Full Name'], displayName, `${titleCase(role)} User`);
+    setProfileControl(root, ['Startup Name'], startupName || displayName, 'Not provided');
+    setProfileControl(root, ['Email Address'], email, '');
+    setProfileControl(root, ['Phone Number'], phone, 'Not provided');
+    setProfileControl(root, ['Specialization'], requestValue(sources, ['specialization', 'craft_specialization', 'shop_name_optional', 'shop_name', 'industry_type', 'category'], ''), 'Not provided');
+    setProfileControl(root, ['Workshop / Residence Address', 'Complete Full Address'], requestValue(sources, ['complete_full_address', 'address', 'workshop_residence_address'], ''), 'Not provided');
+    setProfileControl(root, ['Designation'], requestValue(sources, ['designation', 'organization'], role === 'admin' ? 'Admin' : titleCase(role)), titleCase(role));
+
+    renderProfileDetailsCard(root, sources);
+
+    if (profile && user.email) {
+      persistCurrentUser({
+        ...user,
+        name: displayName,
+        email,
+        phone,
+        role,
+        profileId: profile.id,
+        status: profile.status
+      });
+      updateNavbarAuthState();
+    }
+  }
+
+  async function registerForProgram(programId) {
+    const user = readStore('nest_current_user', {});
+    if (!user.email || !user.role) {
+      showToast('Please login or register before joining a program.', 'error');
+      setTimeout(() => {
+        window.location.href = 'index.html#login';
+      }, 700);
+      return;
+    }
+
+    const program = await single('programs', programId);
+    if (!program || program.published === false) throw new Error('This program is not available for registration.');
+
+    const registrations = await currentUserProgramRegistrations(user);
+    if (registrations.some((item) => item.program_id === programId)) {
+      showToast('You are already registered for this program.');
+      return;
+    }
+
+    const profile = await currentUserProfile(user);
+    try {
+      await insertRow('program_registrations', {
+        program_id: programId,
+        profile_id: profile && profile.id,
+        user_email: lower(user.email),
+        user_role: lower(user.role),
+        status: 'registered',
+        metadata: {
+          program_title: program.title || '',
+          user_name: user.name || (profile && profile.full_name) || ''
+        }
+      });
+    } catch (error) {
+      if (missingProgramRegistrationTable(error)) {
+        throw new Error('Run the updated supabase/schema.sql once to enable program registrations.');
+      }
+      if (String(error.code || '').includes('23505')) {
+        showToast('You are already registered for this program.');
+        return;
+      }
+      throw error;
+    }
+
+    const registerButton = document.querySelector(`[data-action="register-program"][data-id="${programId}"]`);
+    if (registerButton) registerButton.textContent = 'Registered';
+    markContentUpdated('program_registrations');
+    showToast('Program registered. It will appear in your dashboard.');
+  }
+
+  function setDashboardProgramCounts(root, counts) {
+    ['upcoming', 'ongoing', 'completed'].forEach((status) => {
+      const count = root.querySelector(`#tab-${status} .js-tab-count`);
+      if (count) count.textContent = String(counts[status] || 0);
+    });
+  }
+
+  function dashboardProgramsEmptyHtml(message, actionText) {
+    return `
+      <div class="w-full max-w-[1073px] mx-auto bg-white rounded-[18px] border border-gray-100 p-8 text-center font-['Inter'] text-[#677461]">
+        <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[22px] mb-2">No registered programs yet</h2>
+        <p>${html(message)}</p>
+        <a href="index.html#programs" class="inline-flex items-center justify-center mt-5 px-6 py-3 rounded-[10px] bg-[#2d5a3d] text-white font-['Manrope'] font-bold text-[14px] hover:bg-[#1b3a28] transition-all">${html(actionText || 'Browse Programs')}</a>
+      </div>`;
   }
 
   function startupCard(row) {
@@ -1145,6 +1450,7 @@
     if (heading.includes('team management')) return 'admin-team';
     if (root.querySelector('#event-title') && root.querySelector('#event-main-image')) return 'public-program-detail';
     if (root.querySelector('#program-list')) return 'dashboard-programs';
+    if (root.querySelector('#user-avatar') && heading.includes('profile')) return 'dashboard-user-profile';
     if (heading.includes('marketplace management')) return 'dashboard-marketplace';
     if (heading.includes('my idea overview') || heading.includes('startup management')) return 'dashboard-startup-status';
     if (heading.includes('entrepreneur profile')) return 'dashboard-profile-status';
@@ -1425,29 +1731,58 @@
         else showToast('No brochure has been uploaded for this program yet.', 'error');
       };
     }
+
+    const registerButton = Array.from(root.querySelectorAll('button')).find((button) => lower(text(button)).includes('register now'));
+    if (registerButton) {
+      const user = readStore('nest_current_user', {});
+      const isRegistered = user.email
+        ? (await currentUserProgramRegistrations(user)).some((item) => item.program_id === program.id)
+        : false;
+      registerButton.dataset.action = 'register-program';
+      registerButton.dataset.id = program.id;
+      registerButton.textContent = isRegistered ? 'Registered' : 'Register Now';
+    }
   }
 
   async function renderDashboardPrograms(root) {
     const container = root.querySelector('#program-list');
     if (!container) return;
-    const programs = (await rows('programs', (q) => q.eq('published', true).order('created_at', { ascending: false }))).map((row) => ({
+    const user = readStore('nest_current_user', {});
+    const emptyCounts = { upcoming: 0, ongoing: 0, completed: 0 };
+    if (!user.email) {
+      setDashboardProgramCounts(root, emptyCounts);
+      container.innerHTML = dashboardProgramsEmptyHtml('Log in or register first to see programs linked to your account.', 'Go to Login');
+      const link = container.querySelector('a');
+      if (link) link.href = 'index.html#login';
+      return;
+    }
+
+    const registrations = await currentUserProgramRegistrations(user);
+    const programIds = [...new Set(registrations.map((item) => item.program_id).filter(Boolean))];
+    if (!programIds.length) {
+      setDashboardProgramCounts(root, emptyCounts);
+      container.innerHTML = dashboardProgramsEmptyHtml('Your dashboard will show only the programs you register for. Public programs stay available on the website.', 'Browse Programs');
+      return;
+    }
+
+    const registrationByProgram = new Map(registrations.map((item) => [item.program_id, item]));
+    const programs = (await rows('programs', (q) => q.in('id', programIds).eq('published', true).order('created_at', { ascending: false }))).map((row) => ({
       ...row,
-      status: normalizeProgramStatus(row)
+      status: normalizeProgramStatus(row),
+      dashboard_registration_status: registrationByProgram.get(row.id) && registrationByProgram.get(row.id).status,
+      dashboard_registered_at: registrationByProgram.get(row.id) && registrationByProgram.get(row.id).registered_at
     }));
     const counts = {
       upcoming: programs.filter((row) => row.status === 'upcoming').length,
       ongoing: programs.filter((row) => row.status === 'ongoing').length,
       completed: programs.filter((row) => row.status === 'completed').length
     };
-    Object.keys(counts).forEach((status) => {
-      const count = root.querySelector(`#tab-${status} .js-tab-count`);
-      if (count) count.textContent = String(counts[status]);
-    });
+    setDashboardProgramCounts(root, counts);
     const activeStatus = counts.upcoming ? 'upcoming' : counts.ongoing ? 'ongoing' : counts.completed ? 'completed' : 'upcoming';
     const ordered = ['upcoming', 'ongoing', 'completed'].flatMap((status) => sortProgramsForStatus(programs.filter((row) => row.status === status), status));
     container.innerHTML = ordered.length
       ? ordered.map((row) => dashboardProgramCard(row, activeStatus)).join('')
-      : `<div class="w-full max-w-[1073px] mx-auto bg-white rounded-[18px] border border-gray-100 p-8 text-center font-['Inter'] text-[#677461]">No published programs are available yet.</div>`;
+      : dashboardProgramsEmptyHtml('Your dashboard will show only the programs you register for. Public programs stay available on the website.', 'Browse Programs');
 
     window.filterPrograms = function filterPrograms(status) {
       const cards = root.querySelectorAll('.program-card');
@@ -1487,15 +1822,20 @@
   }
 
   async function getStoredStartup() {
+    const user = readStore('nest_current_user', {});
     const app = readStore('nest_startup_application', null);
     if (app && app.startupId) {
-      try {
-        return await single('startups', app.startupId);
-      } catch (error) {
-        console.warn('Could not load stored startup application:', error);
+      const sameUser = (!app.email || lower(app.email) === lower(user.email)) && (!app.role || lower(app.role) === lower(user.role));
+      if (!sameUser) {
+        removeStore('nest_startup_application');
+      } else {
+        try {
+          return await single('startups', app.startupId);
+        } catch (error) {
+          console.warn('Could not load stored startup application:', error);
+        }
       }
     }
-    const user = readStore('nest_current_user', {});
     if (user.email) {
       const matches = await rows('startups', (q) => q.eq('email', user.email).order('created_at', { ascending: false }).limit(1));
       if (matches[0]) return matches[0];
@@ -1928,6 +2268,63 @@
     return PHONE_OTP_ROLES.has(lower(role));
   }
 
+  function isDemoEmail(email) {
+    return lower(email).endsWith('@nest.test');
+  }
+
+  function registrationRole(form) {
+    const id = form.id || '';
+    const formText = lower(text(form.closest('section') || form));
+    return formText.includes('artisan registration')
+      ? 'artisan'
+      : formText.includes('trainee registration') || id.includes('traniee')
+        ? 'trainee'
+        : formText.includes('startup registration')
+          ? 'startup'
+          : formText.includes('entrepreneur registration') || id.includes('entrepreneur')
+            ? 'entrepreneur'
+            : 'startup';
+  }
+
+  function otpCooldownKey(scope, contact) {
+    return `nest_${scope}_otp_cooldown_${lower(contact)}`;
+  }
+
+  function otpCooldownSeconds(scope, contact) {
+    const until = Number(localStorage.getItem(otpCooldownKey(scope, contact)) || 0);
+    return Math.max(0, Math.ceil((until - Date.now()) / 1000));
+  }
+
+  function markOtpCooldown(scope, contact) {
+    localStorage.setItem(otpCooldownKey(scope, contact), String(Date.now() + OTP_COOLDOWN_MS));
+  }
+
+  function assertOtpCooldown(scope, contact) {
+    const seconds = otpCooldownSeconds(scope, contact);
+    if (seconds > 0) throw new Error(`Please wait ${seconds} seconds before requesting another OTP for this email.`);
+  }
+
+  function otpRequestError(error, scope, contact) {
+    const message = error && error.message ? error.message : 'OTP could not be sent.';
+    if (/rate limit|too many/i.test(message)) {
+      markOtpCooldown(scope, contact);
+      return new Error('Request rate limit exceeded. Please wait 60 seconds, then request a new OTP once.');
+    }
+    if (/database error saving new user/i.test(message)) {
+      return new Error('Supabase Auth is still blocked by the old user-created database trigger. Run the updated supabase/schema.sql once, then try OTP again.');
+    }
+    return error;
+  }
+
+  function withAuthTimeout(promise, message) {
+    return Promise.race([
+      promise,
+      new Promise((_, reject) => {
+        setTimeout(() => reject(new Error(message)), AUTH_REQUEST_TIMEOUT_MS);
+      })
+    ]);
+  }
+
   function demoAccountForLogin(form) {
     const email = lower(form.querySelector('#login-email') && form.querySelector('#login-email').value);
     const phone = normalizePhone(form.querySelector('#login-phone') && form.querySelector('#login-phone').value);
@@ -1947,7 +2344,7 @@
       loggedInAt: new Date().toISOString(),
       isDemo: true
     };
-    writeStore('nest_current_user', user);
+    persistCurrentUser(user);
     writeStore('nest_demo_session', user);
     try {
       await ensureDemoProfile(user);
@@ -2081,7 +2478,11 @@
       ? normalizePhone(form.querySelector('#login-phone') && form.querySelector('#login-phone').value)
       : lower(form.querySelector('#login-email') && form.querySelector('#login-email').value);
     if (!contact) throw new Error(channel === 'phone' ? 'Please enter a phone number.' : 'Please enter an email address.');
+    if (channel === 'email' && isDemoEmail(contact)) {
+      throw new Error('Demo @nest.test emails cannot receive OTP. Enter the testing password for demo login, or use a real registered email address.');
+    }
     if (channel === 'phone' && !/^\+\d{10,15}$/.test(contact)) throw new Error('Please enter phone number with country code, for example +919876543210.');
+    assertOtpCooldown('login', contact);
 
     const profile = await profileForLogin(role, contact, channel);
     if (!profile) throw new Error(`No ${titleCase(role)} account was found for this ${channel === 'phone' ? 'phone number' : 'email address'}.`);
@@ -2089,9 +2490,13 @@
     const payload = channel === 'phone'
       ? { phone: contact, options: { shouldCreateUser: true, data: { role } } }
       : { email: contact, options: { shouldCreateUser: true, data: { role } } };
-    const { error } = await supabase().auth.signInWithOtp(payload);
-    if (error) throw error;
+    const { error } = await withAuthTimeout(
+      supabase().auth.signInWithOtp(payload),
+      'Supabase did not respond while sending OTP. Check your internet connection and Supabase Auth email/SMPP settings, then try again.'
+    );
+    if (error) throw otpRequestError(error, 'login', contact);
 
+    markOtpCooldown('login', contact);
     loginOtpState = { role, channel, contact, profileId: profile.id };
     setLoginOtpStep(root, true, channel, contact);
     showToast(`OTP sent to ${contact}.`);
@@ -2104,7 +2509,10 @@
     const payload = loginOtpState.channel === 'phone'
       ? { phone: loginOtpState.contact, token, type: 'sms' }
       : { email: loginOtpState.contact, token, type: 'email' };
-    const { error } = await supabase().auth.verifyOtp(payload);
+    const { error } = await withAuthTimeout(
+      supabase().auth.verifyOtp(payload),
+      'Supabase did not respond while verifying OTP. Please try again.'
+    );
     if (error) throw error;
 
     const profile = await profileForLogin(loginOtpState.role, loginOtpState.contact, loginOtpState.channel);
@@ -2117,11 +2525,64 @@
       loggedInAt: new Date().toISOString(),
       auth: 'otp'
     };
-    writeStore('nest_current_user', user);
+    persistCurrentUser(user);
     showToast(`Logged in as ${titleCase(profile.role)}.`);
     setTimeout(() => {
       window.location.href = getDashboardUrl(profile.role);
     }, 300);
+  }
+
+  function readRegistrationOtpCode(form) {
+    return Array.from(form.querySelectorAll('[id$="-otp-inputs"] input')).map((input) => clean(input.value)).join('');
+  }
+
+  async function startRegistrationOtp(form) {
+    const fields = collectLabeledFields(form, { includeHidden: true });
+    const email = lower(fields.email_address || '');
+    const role = registrationRole(form);
+    if (!email) throw new Error('Please enter an email address before requesting OTP.');
+    if (isDemoEmail(email)) throw new Error('Demo @nest.test emails cannot receive OTP. Use a real email address for registration OTP.');
+    assertOtpCooldown('registration', email);
+    const { error } = await withAuthTimeout(
+      supabase().auth.signInWithOtp({
+        email,
+        options: {
+          shouldCreateUser: true,
+          data: {
+            role,
+            registration_flow: true
+          }
+        }
+      }),
+      'Supabase did not respond while sending registration OTP. Check your SMTP/Auth settings, then try again.'
+    );
+    if (error) throw otpRequestError(error, 'registration', email);
+    markOtpCooldown('registration', email);
+    registrationOtpState = {
+      email,
+      role,
+      formId: form.id || '',
+      verified: false
+    };
+    showToast(`Registration OTP sent to ${email}.`);
+  }
+
+  async function verifyRegistrationOtp(form) {
+    const fields = collectLabeledFields(form, { includeHidden: true });
+    const email = lower(fields.email_address || '');
+    const role = registrationRole(form);
+    if (!registrationOtpState || registrationOtpState.email !== email || registrationOtpState.role !== role) {
+      throw new Error('Please request a registration OTP for this email before submitting.');
+    }
+    if (registrationOtpState.verified) return;
+    const token = readRegistrationOtpCode(form);
+    if (!/^\d{6}$/.test(token)) throw new Error('Please enter the 6 digit OTP sent to your email.');
+    const { error } = await withAuthTimeout(
+      supabase().auth.verifyOtp({ email, token, type: 'email' }),
+      'Supabase did not respond while verifying registration OTP. Please try again.'
+    );
+    if (error) throw error;
+    registrationOtpState.verified = true;
   }
 
   async function renderPublicMarket(root) {
@@ -2762,17 +3223,7 @@
   async function submitRegistration(form) {
     validateRegistrationForm(form);
     const fields = collectLabeledFields(form, { includeHidden: true });
-    const id = form.id || '';
-    const formText = lower(text(form.closest('section') || form));
-    const role = formText.includes('artisan registration')
-      ? 'artisan'
-      : formText.includes('trainee registration') || id.includes('traniee')
-        ? 'trainee'
-        : formText.includes('startup registration')
-          ? 'startup'
-          : formText.includes('entrepreneur registration') || id.includes('entrepreneur')
-            ? 'entrepreneur'
-            : 'startup';
+    const role = registrationRole(form);
     const currentUser = rememberCurrentUser(role, fields);
     const contactEmail = lower(fields.email_address || '');
     const contactPhone = normalizePhone(fields.phone_number || fields.mobile_number || fields.contact_number || '');
@@ -2785,6 +3236,7 @@
       status: 'pending',
       metadata: { ...fields, phone_number: contactPhone }
     });
+    persistCurrentUser({ ...currentUser, profileId: profile.id, status: profile.status });
 
     if (role === 'entrepreneur' || role === 'startup') {
       const startupName =
@@ -2832,6 +3284,7 @@
         startupId: startup.id,
         requestId: request.id
       });
+      persistCurrentUser({ ...currentUser, profileId: profile.id, startupId: startup.id, status: profile.status });
       showToast('Startup application sent to admin. Status is pending.');
       setTimeout(() => {
         window.location.href = role === 'entrepreneur' ? 'entrepreneur.html#myidea' : 'startup.html#mystartup';
@@ -2839,7 +3292,7 @@
       return;
     }
 
-    await insertRow('requests', {
+    const request = await insertRow('requests', {
       request_type: 'user_registration',
       title: `${titleCase(role)} registration`,
       requester_name: profile.full_name,
@@ -2849,8 +3302,16 @@
       related_id: profile.id,
       payload: fields
     });
+    writeStore('nest_user_registration_application', {
+      role,
+      email: profile.email,
+      profileId: profile.id,
+      requestId: request.id
+    });
     showToast('Registration saved and sent to admin for approval.');
-    window.location.hash = '#login';
+    setTimeout(() => {
+      window.location.href = getDashboardUrl(role);
+    }, 900);
   }
 
   async function refreshNotifications() {
@@ -2884,6 +3345,10 @@
       if (key === 'public-market') await renderPublicMarket(root);
       if (key === 'dashboard-marketplace') await renderDashboardMarketplace(root);
       if (key === 'dashboard-startup-status') await renderDashboardStartupStatus(root);
+      if (key === 'dashboard-user-profile') {
+        await renderDashboardUserProfile(root);
+        await renderDashboardProfileStatus(root);
+      }
       if (key === 'dashboard-profile-status') await renderDashboardProfileStatus(root);
       if (key === 'admin-requests') await renderAdminRequests(root);
       if (key === 'admin-newsletters') await renderAdminNewsletters(root);
@@ -2918,6 +3383,7 @@
       return;
     }
     if (action === 'verify-login-otp') return verifyRoleOtp(mainRoot());
+    if (action === 'register-program') return registerForProgram(id);
     if (action === 'back-to-login') {
       loginOtpState = null;
       setLoginOtpStep(mainRoot(), false);
@@ -2969,7 +3435,8 @@
 
   function clickHandler(event) {
     const root = mainRoot();
-    const key = root && root.dataset.nestSupabasePage;
+    const key = root && (root.dataset.nestSupabasePage || detectPage(root));
+    if (root && key && root.dataset.nestSupabasePage !== key) root.dataset.nestSupabasePage = key;
     const actionButton = event.target.closest('[data-action]');
     if (actionButton) {
       event.preventDefault();
@@ -2985,11 +3452,15 @@
       sessionStorage.setItem('nest_selected_program_id', programLink.dataset.programId);
     }
     const button = event.target.closest('button');
-    if (!button || !key) return;
+    if (!button) return;
+    const buttonForm = button.closest('form');
+    const isRegistrationButton = buttonForm && buttonForm.matches('#artisan-form, #traniee-form, #entrepreneur-form');
+    const isLoginButton = buttonForm && buttonForm.id === 'auth-form';
+    if (!key && !isRegistrationButton && !isLoginButton) return;
     const label = lower(text(button));
-    if (key === 'registration-form' && button.id === 'next-btn') {
+    if ((key === 'registration-form' || isRegistrationButton) && button.id === 'next-btn') {
       try {
-        const form = root.querySelector('form');
+        const form = buttonForm || root.querySelector('form');
         if (form) validateRegistrationForm(form, { visibleOnly: true });
       } catch (error) {
         event.preventDefault();
@@ -2997,21 +3468,70 @@
         showToast(error.message || 'Please fill all required fields.', 'error');
         return;
       }
+      if (label.includes('get otp') && button.dataset.registrationOtpReady !== 'true') {
+        const form = buttonForm || root.querySelector('form');
+        if (!form) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+        button.disabled = true;
+        button.dataset.previousLabel = text(button);
+        button.textContent = 'Sending OTP...';
+        startRegistrationOtp(form)
+          .then(() => {
+            button.dataset.registrationOtpReady = 'true';
+            button.disabled = false;
+            button.textContent = button.dataset.previousLabel || 'Get OTP';
+            delete button.dataset.previousLabel;
+            button.click();
+            setTimeout(() => {
+              delete button.dataset.registrationOtpReady;
+            }, 0);
+          })
+          .catch((error) => {
+            button.disabled = false;
+            button.textContent = button.dataset.previousLabel || 'Get OTP';
+            delete button.dataset.previousLabel;
+            showToast(error.message || 'OTP could not be sent.', 'error');
+          });
+        return;
+      }
     }
-    if (key === 'login' && label === 'login') {
-      const form = root.querySelector('#auth-form');
+    if ((key === 'registration-form' || isRegistrationButton) && button.id === 'resend-otp-btn') {
+      const form = buttonForm || root.querySelector('form');
       if (!form) return;
       event.preventDefault();
       event.stopImmediatePropagation();
-      startRoleOtpLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
+      startRegistrationOtp(form)
+        .then(() => {
+          if (typeof window.startResendTimer === 'function') window.startResendTimer();
+        })
+        .catch((error) => showToast(error.message || 'OTP could not be resent.', 'error'));
       return;
     }
-    if (key === 'login' && (button.id === 'send-otp-btn' || label.includes('send otp'))) {
-      const form = root.querySelector('#auth-form');
+    if ((key === 'login' || isLoginButton) && label === 'login') {
+      const form = buttonForm || root.querySelector('#auth-form');
       if (!form) return;
       event.preventDefault();
       event.stopImmediatePropagation();
-      startRoleOtpLogin(form).catch((error) => showToast(error.message || 'OTP could not be sent.', 'error'));
+      button.disabled = true;
+      startRoleOtpLogin(form)
+        .catch((error) => showToast(error.message || 'Login failed.', 'error'))
+        .finally(() => {
+          button.disabled = false;
+        });
+      return;
+    }
+    if ((key === 'login' || isLoginButton) && (button.id === 'send-otp-btn' || label.includes('send otp'))) {
+      const form = buttonForm || root.querySelector('#auth-form');
+      if (!form) return;
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      button.disabled = true;
+      startRoleOtpLogin(form)
+        .catch((error) => showToast(error.message || 'OTP could not be sent.', 'error'))
+        .finally(() => {
+          button.disabled = false;
+        });
       return;
     }
     const intercept =
@@ -3059,7 +3579,9 @@
     if (form.matches('#artisan-form, #traniee-form, #entrepreneur-form')) {
       event.preventDefault();
       event.stopImmediatePropagation();
-      submitRegistration(form).catch((error) => showToast(error.message || 'Registration failed.', 'error'));
+      verifyRegistrationOtp(form)
+        .then(() => submitRegistration(form))
+        .catch((error) => showToast(error.message || 'Registration failed.', 'error'));
       return;
     }
     if (form.id === 'add-mou-form') {

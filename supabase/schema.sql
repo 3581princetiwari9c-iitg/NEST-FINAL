@@ -16,6 +16,14 @@ begin
 end;
 $$;
 
+-- Older setup attempts may have left an auth.users trigger that inserts into
+-- public.profiles with the wrong columns. That breaks Supabase email OTP for
+-- new users with "Database error saving new user". The browser app creates and
+-- manages profile/request rows itself after OTP verification, so this trigger
+-- must be removed.
+drop trigger if exists on_auth_user_created on auth.users;
+drop function if exists public.handle_new_user();
+
 create table if not exists public.profiles (
   id uuid primary key default gen_random_uuid(),
   auth_user_id uuid,
@@ -54,6 +62,19 @@ create table if not exists public.programs (
   published boolean not null default true,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
+);
+
+create table if not exists public.program_registrations (
+  id uuid primary key default gen_random_uuid(),
+  program_id uuid references public.programs(id) on delete cascade,
+  profile_id uuid references public.profiles(id) on delete set null,
+  user_email text not null,
+  user_role text not null check (user_role in ('startup', 'trainee', 'entrepreneur', 'artisan', 'admin')),
+  status text not null default 'registered' check (status in ('registered', 'pending', 'completed', 'cancelled')),
+  metadata jsonb not null default '{}'::jsonb,
+  registered_at timestamptz not null default now(),
+  updated_at timestamptz not null default now(),
+  unique(program_id, user_email, user_role)
 );
 
 create table if not exists public.startups (
@@ -210,6 +231,7 @@ alter table public.profiles
 
 alter table public.profiles alter column id set default gen_random_uuid();
 alter table public.programs alter column id set default gen_random_uuid();
+alter table public.program_registrations alter column id set default gen_random_uuid();
 alter table public.startups alter column id set default gen_random_uuid();
 alter table public.marketplace_products alter column id set default gen_random_uuid();
 alter table public.requests alter column id set default gen_random_uuid();
@@ -253,6 +275,15 @@ alter table public.programs add column if not exists completion_details jsonb de
 alter table public.programs add column if not exists published boolean default true;
 alter table public.programs add column if not exists created_at timestamptz default now();
 alter table public.programs add column if not exists updated_at timestamptz default now();
+
+alter table public.program_registrations add column if not exists program_id uuid;
+alter table public.program_registrations add column if not exists profile_id uuid;
+alter table public.program_registrations add column if not exists user_email text;
+alter table public.program_registrations add column if not exists user_role text;
+alter table public.program_registrations add column if not exists status text default 'registered';
+alter table public.program_registrations add column if not exists metadata jsonb default '{}'::jsonb;
+alter table public.program_registrations add column if not exists registered_at timestamptz default now();
+alter table public.program_registrations add column if not exists updated_at timestamptz default now();
 
 alter table public.startups add column if not exists name text;
 alter table public.startups add column if not exists founder_name text;
@@ -364,6 +395,8 @@ where title is null;
 
 create index if not exists idx_programs_status_date on public.programs(status, start_date);
 create index if not exists idx_programs_published on public.programs(published) where published = true;
+create index if not exists idx_program_registrations_user on public.program_registrations(user_email, user_role, registered_at desc);
+create index if not exists idx_program_registrations_program on public.program_registrations(program_id);
 create index if not exists idx_startups_status on public.startups(status);
 create index if not exists idx_products_status on public.marketplace_products(status);
 create index if not exists idx_requests_status_type on public.requests(status, request_type);
@@ -378,6 +411,10 @@ for each row execute function public.set_updated_at();
 
 drop trigger if exists programs_set_updated_at on public.programs;
 create trigger programs_set_updated_at before update on public.programs
+for each row execute function public.set_updated_at();
+
+drop trigger if exists program_registrations_set_updated_at on public.program_registrations;
+create trigger program_registrations_set_updated_at before update on public.program_registrations
 for each row execute function public.set_updated_at();
 
 drop trigger if exists startups_set_updated_at on public.startups;
@@ -418,6 +455,7 @@ for each row execute function public.set_updated_at();
 
 alter table public.profiles enable row level security;
 alter table public.programs enable row level security;
+alter table public.program_registrations enable row level security;
 alter table public.startups enable row level security;
 alter table public.marketplace_products enable row level security;
 alter table public.requests enable row level security;
@@ -436,6 +474,7 @@ begin
   foreach tbl in array array[
     'profiles',
     'programs',
+    'program_registrations',
     'startups',
     'marketplace_products',
     'requests',
