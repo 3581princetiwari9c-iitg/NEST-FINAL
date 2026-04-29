@@ -51,8 +51,12 @@
   };
   const PHONE_OTP_ROLES = new Set([]);
   const EMAIL_OTP_ROLES = new Set(['startup', 'entrepreneur', 'artisan', 'trainee', 'admin']);
+  const SINGLE_EMAIL_ROLES = new Set(['startup', 'entrepreneur', 'artisan', 'trainee']);
   const OTP_COOLDOWN_MS = 60 * 1000;
   const AUTH_REQUEST_TIMEOUT_MS = 30000;
+  const PROFILE_PHOTO_MAX_SOURCE_BYTES = 15 * 1024 * 1024;
+  const PROFILE_PHOTO_TARGET_BYTES = 450 * 1024;
+  const PROFILE_PHOTO_MAX_DIMENSION = 640;
   const USER_SCOPED_STORE_KEYS = ['nest_startup_application', 'nest_user_registration_application', 'nest_marketplace_products', 'nest_demo_session'];
 
   let currentPageKey = '';
@@ -467,6 +471,129 @@
     return fields;
   }
 
+  function installDocumentUploadInputs(root) {
+    root.querySelectorAll('.document-card').forEach((card, index) => {
+      if (card.querySelector('input[type="file"][data-nest-document-input]')) return;
+      const title = text(card.querySelector('.font-bold')) || `Document ${index + 1}`;
+      const button = card.querySelector('.select-file-btn');
+      if (!button) return;
+      const input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'application/pdf,.pdf';
+      input.className = 'hidden';
+      input.dataset.nestDocumentInput = 'true';
+      input.dataset.documentTitle = title;
+      input.multiple = true;
+      button.type = 'button';
+      button.removeAttribute('onclick');
+      button.insertAdjacentElement('afterend', input);
+    });
+  }
+
+  function selectedDocumentFiles(form) {
+    return Array.from(form.querySelectorAll('input[type="file"][data-nest-document-input]')).flatMap((input) =>
+      Array.from(input.files || []).map((file, index) => ({
+        file,
+        title: input.dataset.documentTitle || `Document ${index + 1}`
+      }))
+    );
+  }
+
+  async function uploadRegistrationDocuments(form, role) {
+    const docs = [];
+    const selectedFiles = selectedDocumentFiles(form);
+    for (const item of selectedFiles) {
+      const file = item.file;
+      if (!file) continue;
+      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
+        throw new Error(`${item.title} must be a PDF file.`);
+      }
+      if (file.size > 25 * 1024 * 1024) {
+        throw new Error(`${item.title} must be less than 25 MB.`);
+      }
+      const url = await upload(file, `registration-documents/${role}`);
+      docs.push({
+        title: item.title,
+        name: file.name,
+        url,
+        size: file.size,
+        type: file.type || 'application/pdf'
+      });
+    }
+    return docs;
+  }
+
+  function documentFileLabel(value, title, name) {
+    const raw = clean(value);
+    if (clean(name)) return clean(name);
+    if (/^https?:\/\//i.test(raw)) return decodeURIComponent(raw.split('/').pop() || title || 'Document').replace(/^\d+-/, '');
+    if (raw.match(/\.(pdf|docx?|png|jpe?g|webp)$/i)) return raw;
+    return title || 'Document';
+  }
+
+  function documentPreviewUrl(value) {
+    const raw = clean(value);
+    return /^(https?:|blob:|data:|\/|assets\/|uploads\/|pages\/)/i.test(raw) ? raw : '';
+  }
+
+  function collectDocumentItems(sources) {
+    const docs = [];
+    const seen = new Set();
+    const skipKey = /password|profile_id|startup_id|product_id/i;
+    const docKey = /(document|file|pdf|deck|certificate|proposal|image|mou)/i;
+    const addDoc = (doc, fallbackTitle) => {
+      if (!doc) return;
+      if (Array.isArray(doc)) {
+        doc.forEach((item, index) => addDoc(item, fallbackTitle || `Document ${index + 1}`));
+        return;
+      }
+      if (typeof doc === 'object') {
+        const value = clean(doc.url || doc.value || doc.href || doc.publicUrl || doc.public_url || doc.path || doc.file_url || doc.download_url);
+        if (value) {
+          const title = clean(doc.title || doc.label || doc.document_title || fallbackTitle || doc.name || doc.file_name || 'Document');
+          const name = clean(doc.name || doc.file_name || doc.original_name || '');
+          const signature = `${value}|${title}|${name}`;
+          if (seen.has(signature)) return;
+          seen.add(signature);
+          docs.push({
+            title,
+            value,
+            name,
+            label: documentFileLabel(value, title, name)
+          });
+          return;
+        }
+        Object.keys(doc).forEach((key) => {
+          if (skipKey.test(key)) return;
+          const value = doc[key];
+          if (docKey.test(key) || Array.isArray(value) || (value && typeof value === 'object')) addDoc(value, titleCase(key));
+        });
+        return;
+      }
+      const value = clean(doc);
+      if (!value) return;
+      const title = clean(fallbackTitle) || 'Document';
+      const signature = `${value}|${title}`;
+      if (seen.has(signature)) return;
+      seen.add(signature);
+      docs.push({
+        title,
+        value,
+        name: '',
+        label: documentFileLabel(value, title, '')
+      });
+    };
+    (sources || []).forEach((source) => {
+      const data = payloadObject(source);
+      Object.keys(data).forEach((key) => {
+        const rawValue = data[key];
+        if (!rawValue || skipKey.test(key)) return;
+        if (docKey.test(key)) addDoc(rawValue, titleCase(key));
+      });
+    });
+    return docs;
+  }
+
   function controls(root) {
     return Array.from(root.querySelectorAll('input:not([type="file"]), select, textarea')).filter(
       (control) => control.type !== 'password'
@@ -815,6 +942,108 @@
     return `https://ui-avatars.com/api/?name=${label}&background=2D5A3D&color=fff&size=512`;
   }
 
+  function profileAvatarUrl(sources, name) {
+    return requestValue(sources, ['avatar_url', 'avatarUrl', 'profile_photo_url', 'profile_image_url', 'photo_url', 'image_url'], '') || avatarUrl(name);
+  }
+
+  function ensureProfilePhotoInput(root) {
+    const avatar = root.querySelector('#user-avatar');
+    const avatarWrap = avatar && avatar.closest('.relative');
+    const button =
+      (avatarWrap && avatarWrap.querySelector('button')) ||
+      root.querySelector('button[onclick*="simulateAvatarChange"]');
+    if (button) {
+      button.id = 'profile-avatar-btn';
+      button.type = 'button';
+      button.removeAttribute('onclick');
+      button.title = 'Upload profile photo';
+      button.setAttribute('aria-label', 'Upload profile photo');
+    }
+    let input = root.querySelector('[data-nest-profile-photo-input]');
+    if (!input) {
+      input = document.createElement('input');
+      input.type = 'file';
+      input.accept = 'image/png,image/jpeg,image/webp';
+      input.className = 'hidden';
+      input.dataset.nestProfilePhotoInput = 'true';
+      root.appendChild(input);
+    }
+    return input;
+  }
+
+  function loadImageForCompression(file) {
+    return new Promise((resolve, reject) => {
+      const image = new Image();
+      const url = URL.createObjectURL(file);
+      image.onload = () => {
+        URL.revokeObjectURL(url);
+        resolve(image);
+      };
+      image.onerror = () => {
+        URL.revokeObjectURL(url);
+        reject(new Error('The selected image could not be read.'));
+      };
+      image.src = url;
+    });
+  }
+
+  function canvasToBlob(canvas, type, quality) {
+    return new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (blob) => {
+          if (blob) resolve(blob);
+          else reject(new Error('This browser could not compress the selected image.'));
+        },
+        type,
+        quality
+      );
+    });
+  }
+
+  async function compressProfilePhoto(file) {
+    const image = await loadImageForCompression(file);
+    const naturalWidth = image.naturalWidth || image.width;
+    const naturalHeight = image.naturalHeight || image.height;
+    const scale = Math.min(1, PROFILE_PHOTO_MAX_DIMENSION / Math.max(naturalWidth, naturalHeight));
+    const width = Math.max(1, Math.round(naturalWidth * scale));
+    const height = Math.max(1, Math.round(naturalHeight * scale));
+    const canvas = document.createElement('canvas');
+    canvas.width = width;
+    canvas.height = height;
+    const context = canvas.getContext('2d');
+    context.imageSmoothingEnabled = true;
+    context.imageSmoothingQuality = 'high';
+    context.drawImage(image, 0, 0, width, height);
+
+    let blob = null;
+    let outputType = 'image/webp';
+    for (let quality = 0.82; quality >= 0.5; quality -= 0.08) {
+      try {
+        blob = await canvasToBlob(canvas, outputType, quality);
+      } catch (error) {
+        blob = null;
+      }
+      if (blob && blob.type && blob.type !== outputType) blob = null;
+      if (blob && blob.size <= PROFILE_PHOTO_TARGET_BYTES) break;
+    }
+
+    if (!blob) {
+      outputType = 'image/jpeg';
+      const jpegContext = canvas.getContext('2d');
+      jpegContext.globalCompositeOperation = 'destination-over';
+      jpegContext.fillStyle = '#ffffff';
+      jpegContext.fillRect(0, 0, width, height);
+      blob = await canvasToBlob(canvas, outputType, 0.78);
+    }
+
+    const extension = blob.type === 'image/webp' ? 'webp' : 'jpg';
+    const baseName = (clean(file.name).replace(/\.[^.]+$/, '') || 'profile-photo').slice(0, 80);
+    return new File([blob], `${baseName}.${extension}`, {
+      type: blob.type || outputType,
+      lastModified: Date.now()
+    });
+  }
+
   function profileDetailKey(key) {
     const normalized = toKey(key);
     const aliases = {
@@ -879,7 +1108,7 @@
   }
 
   function profileDetailRows(sources) {
-    const skip = /(^id$|_id$|created_at|updated_at|metadata|password|confirm|otp|token|profile_id|startup_id|request_id|product_id|submitted_as|auth)/i;
+    const skip = /(^id$|_id$|created_at|updated_at|metadata|password|confirm|otp|token|profile_id|startup_id|request_id|product_id|submitted_as|auth|avatar|profile_photo|profile_image|photo_url)/i;
     const skipKeys = new Set(['identity_name', 'startup_name', 'email', 'phone', 'role', 'status', 'organization']);
     const seen = new Set();
     const seenValues = new Set();
@@ -926,6 +1155,14 @@
     );
   }
 
+  function mergedProfileMetadata(profile, fields, phone) {
+    return {
+      ...payloadObject(profile && profile.metadata),
+      ...fields,
+      phone_number: phone
+    };
+  }
+
   async function renderDashboardUserProfile(root) {
     const user = readStore('nest_current_user', {});
     const profile = await currentUserProfile(user);
@@ -947,9 +1184,10 @@
     if (roleBadge) roleBadge.textContent = status ? `${titleCase(role)} - ${titleCase(status)}` : titleCase(role);
     const avatar = root.querySelector('#user-avatar');
     if (avatar) {
-      avatar.src = (profile && profile.image_url) || user.image_url || avatarUrl(displayName);
+      avatar.src = profileAvatarUrl(sources, displayName);
       avatar.alt = `${displayName} Profile`;
     }
+    ensureProfilePhotoInput(root);
 
     setProfileControl(root, ['Full Name'], displayName, `${titleCase(role)} User`);
     setProfileControl(root, ['Startup Name'], startupName || displayName, 'Not provided');
@@ -959,7 +1197,10 @@
     setProfileControl(root, ['Workshop / Residence Address', 'Complete Full Address'], requestValue(sources, ['complete_full_address', 'address', 'workshop_residence_address'], ''), 'Not provided');
     setProfileControl(root, ['Designation'], requestValue(sources, ['designation', 'organization'], role === 'admin' ? 'Admin' : titleCase(role)), titleCase(role));
 
-    renderProfileDetailsCard(root, sources);
+    const detailCard = root.querySelector('[data-nest-profile-details]');
+    if (detailCard) detailCard.remove();
+    const otpModal = root.querySelector('#otp-modal');
+    if (otpModal) otpModal.remove();
 
     if (profile && user.email) {
       persistCurrentUser({
@@ -972,6 +1213,117 @@
         status: profile.status
       });
       updateNavbarAuthState();
+    }
+  }
+
+  async function saveDashboardUserProfile(root) {
+    const user = readStore('nest_current_user', {});
+    const profile = await currentUserProfile(user);
+    if (!profile) throw new Error('No profile record was found for this account.');
+
+    const fields = collectLabeledFields(root, { includeHidden: true });
+    const role = lower(profile.role || user.role || document.body.dataset.dashboardRole || '');
+    const startup = role === 'startup' || role === 'entrepreneur' ? await getStoredStartup() : null;
+    const profileMetadata = payloadObject(profile.metadata);
+    const startupMetadata = payloadObject(startup && startup.metadata);
+    const sources = [fields, startup || {}, startupMetadata, profile, profileMetadata, user || {}];
+    const email = lower(fields.email_address || profile.email || user.email || '');
+    const phone = normalizePhone(fields.phone_number || profile.phone || user.phone || '');
+    const displayName =
+      role === 'startup'
+        ? requestValue(sources, ['startup_name', 'name'], profile.full_name || user.name || 'Startup')
+        : requestValue(sources, ['full_name', 'founder_owner_name', 'requester_name'], profile.full_name || user.name || `${titleCase(role)} User`);
+    const startupName = requestValue(sources, ['startup_name', 'name', 'idea_name', 'business_name'], startup && startup.name);
+
+    const profilePatch = {
+      full_name: displayName,
+      email,
+      phone,
+      organization: fields.designation || profile.organization || null,
+      metadata: mergedProfileMetadata(profile, fields, phone)
+    };
+    await updateRow('profiles', profile.id, profilePatch);
+
+    if (startup && (role === 'startup' || role === 'entrepreneur')) {
+      await updateRow('startups', startup.id, {
+        name: startupName || startup.name || displayName,
+        email,
+        phone,
+        category: fields.specialization || fields.industry_type || startup.category || null,
+        overview: fields.startup_overview || fields.brief_idea_description || startup.overview || null,
+        metadata: {
+          ...startupMetadata,
+          ...fields,
+          phone_number: phone
+        }
+      });
+      const storedApp = readStore('nest_startup_application', null);
+      if (storedApp && storedApp.startupId === startup.id) {
+        writeStore('nest_startup_application', {
+          ...storedApp,
+          email,
+          role,
+          startupId: startup.id
+        });
+      }
+    }
+
+    persistCurrentUser({
+      ...user,
+      name: displayName,
+      email,
+      phone,
+      role,
+      profileId: profile.id,
+      startupId: startup && startup.id,
+      status: profile.status
+    });
+    updateNavbarAuthState();
+    if (typeof window.toggleEditMode === 'function') window.toggleEditMode(false);
+    await renderDashboardUserProfile(root);
+    markContentUpdated('profiles');
+    if (startup) markContentUpdated('startups');
+    showToast('Profile details saved.');
+  }
+
+  async function uploadDashboardProfilePhoto(root, file) {
+    if (!file) return;
+    if (!/^image\/(png|jpeg|webp)$/i.test(file.type)) {
+      throw new Error('Please choose a PNG, JPG, or WebP image.');
+    }
+    if (file.size > PROFILE_PHOTO_MAX_SOURCE_BYTES) {
+      throw new Error('Please choose an image smaller than 15 MB. It will be compressed automatically.');
+    }
+
+    const user = readStore('nest_current_user', {});
+    const profile = await currentUserProfile(user);
+    if (!profile) throw new Error('No profile record was found for this account.');
+
+    const button = root.querySelector('#profile-avatar-btn');
+    if (button) button.disabled = true;
+    try {
+      const compressedFile = await compressProfilePhoto(file);
+      const photoUrl = await upload(compressedFile, 'profile-photos');
+      const metadata = {
+        ...payloadObject(profile.metadata),
+        avatar_url: photoUrl,
+        avatar_original_size: file.size,
+        avatar_compressed_size: compressedFile.size
+      };
+      await updateRow('profiles', profile.id, { metadata });
+      const avatar = root.querySelector('#user-avatar');
+      if (avatar) avatar.src = photoUrl;
+      persistCurrentUser({
+        ...user,
+        avatarUrl: photoUrl,
+        profileId: profile.id,
+        status: profile.status
+      });
+      markContentUpdated('profiles');
+      updateNavbarAuthState();
+      showToast('Profile photo updated.');
+    } finally {
+      if (button) button.disabled = false;
     }
   }
 
@@ -1168,20 +1520,7 @@
   }
 
   function requestDocumentsHtml(sources) {
-    const docs = [];
-    sources.forEach((source) => {
-      const data = payloadObject(source);
-      Object.keys(data).forEach((key) => {
-        const value = clean(data[key]);
-        if (!value || /password|profile_id|startup_id|product_id/i.test(key)) return;
-        if (/(document|file|pdf|deck|certificate|proposal|image|mou)/i.test(key)) {
-          docs.push({
-            title: titleCase(key),
-            value
-          });
-        }
-      });
-    });
+    const docs = collectDocumentItems(sources);
     if (!docs.length) {
       return `
         <div class="flex items-center gap-3 p-4 bg-[#f3f4f6]/50 rounded-[12px]">
@@ -1198,14 +1537,9 @@
         </div>`;
     }
     return docs
-      .slice(0, 6)
       .map(
         (doc, index) => {
-          const fileLabel = /^https?:\/\//i.test(doc.value)
-            ? decodeURIComponent(doc.value.split('/').pop() || doc.title).replace(/^\d+-/, '')
-            : doc.value.match(/\.(pdf|docx?|png|jpe?g|webp)$/i)
-              ? doc.value
-              : doc.title;
+          const fileLabel = doc.label || doc.title;
           return `
         <div class="flex items-center justify-between p-4 bg-[#f3f4f6]/50 rounded-[12px] hover:bg-gray-100 transition-all">
           <div class="flex items-center gap-3 min-w-0">
@@ -1220,8 +1554,9 @@
               <span class="font-['Inter'] text-[#677461] text-[11px] truncate">Document ${index + 1}</span>
             </div>
           </div>
-          ${/^https?:\/\//i.test(doc.value)
-              ? `<a href="${html(doc.value)}" target="_blank" class="font-['Inter'] font-bold text-[#2d5a3d] text-[12px]">Open</a>`
+          ${
+            documentPreviewUrl(doc.value)
+              ? `<a href="${html(documentPreviewUrl(doc.value))}" target="_blank" rel="noopener noreferrer" class="font-['Inter'] font-bold text-[#2d5a3d] text-[12px]">Preview</a>`
               : ''
             }
         </div>`;
@@ -1906,25 +2241,7 @@
   }
 
   function startupDashboardDocumentsHtml(sources) {
-    const docs = [];
-    const seen = new Set();
-    sources.forEach((source) => {
-      const data = payloadObject(source);
-      Object.keys(data).forEach((key) => {
-        const value = clean(data[key]);
-        if (!value || /password|profile_id|startup_id|product_id/i.test(key)) return;
-        if (!/(document|file|pdf|deck|certificate|proposal|mou)/i.test(key)) return;
-        const fileLabel = /^https?:\/\//i.test(value)
-          ? decodeURIComponent(value.split('/').pop() || titleCase(key)).replace(/^\d+-/, '')
-          : value.match(/\.(pdf|docx?|png|jpe?g|webp)$/i)
-            ? value
-            : titleCase(key);
-        const signature = `${fileLabel}|${value}`;
-        if (seen.has(signature)) return;
-        seen.add(signature);
-        docs.push({ label: fileLabel, url: /^https?:\/\//i.test(value) ? value : '' });
-      });
-    });
+    const docs = collectDocumentItems(sources);
     if (!docs.length) {
       return `
         <div class="p-4 bg-gray-50 rounded-[8px] border border-dashed border-gray-200">
@@ -1932,21 +2249,21 @@
         </div>`;
     }
     return docs
-      .slice(0, 4)
       .map(
         (doc, index) => {
           const colorClass = index % 2 === 0 ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600';
-          const tag = doc.url ? 'a' : 'div';
-          const href = doc.url ? ` href="${html(doc.url)}" target="_blank" rel="noopener noreferrer"` : '';
+          const previewUrl = documentPreviewUrl(doc.value);
+          const tag = previewUrl ? 'a' : 'div';
+          const href = previewUrl ? ` href="${html(previewUrl)}" target="_blank" rel="noopener noreferrer"` : '';
           return `
             <${tag}${href} class="flex items-center justify-between p-3 bg-gray-50 rounded-[8px] border border-gray-200 hover:bg-white hover:border-[#2D5A3D] transition-all group">
               <div class="flex items-center gap-3 min-w-0">
                 <div class="w-8 h-8 ${colorClass} rounded flex items-center justify-center shrink-0">
                   <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line></svg>
                 </div>
-                <span class="font-['Manrope'] text-[14px] text-[#464E42] truncate">${html(doc.label)}</span>
+                <span class="font-['Manrope'] text-[14px] text-[#464E42] truncate">${html(doc.label || doc.title)}</span>
               </div>
-              ${doc.url ? `<svg class="text-gray-400 group-hover:text-[#2D5A3D] shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>` : ''}
+              ${previewUrl ? `<svg class="text-gray-400 group-hover:text-[#2D5A3D] shrink-0" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>` : ''}
             </${tag}>`;
         }
       )
@@ -2310,6 +2627,36 @@
     return lower(email).endsWith('@nest.test');
   }
 
+  function isSingleEmailRole(role) {
+    return SINGLE_EMAIL_ROLES.has(lower(role));
+  }
+
+  async function memberProfilesForEmail(email) {
+    const normalized = lower(email);
+    if (!normalized) return [];
+    const matches = await rows('profiles', (q) => q.ilike('email', normalized).order('created_at', { ascending: false }).limit(20));
+    return matches.filter((profile) => isSingleEmailRole(profile.role));
+  }
+
+  async function assignedMemberRoleForEmail(email) {
+    const matches = await memberProfilesForEmail(email);
+    return matches[0] || null;
+  }
+
+  async function assertEmailRoleAvailable(email, desiredRole, options) {
+    const role = lower(desiredRole);
+    if (!isSingleEmailRole(role)) return null;
+    const existing = await assignedMemberRoleForEmail(email);
+    if (!existing) return null;
+    const existingRole = lower(existing.role);
+    const allowSameRole = options && options.allowSameRole;
+    if (allowSameRole && existingRole === role) return existing;
+    if (existingRole === role) {
+      throw new Error(`This email is already registered as ${titleCase(existingRole)}. Please login instead of registering again.`);
+    }
+    throw new Error(`This email is already registered as ${titleCase(existingRole)}. One email can be used for only one role, so please login as ${titleCase(existingRole)} or use a different email.`);
+  }
+
   function registrationRole(form) {
     const id = form.id || '';
     const formText = lower(text(form.closest('section') || form));
@@ -2521,6 +2868,7 @@
     }
     if (channel === 'phone' && !/^\+\d{10,15}$/.test(contact)) throw new Error('Please enter phone number with country code, for example +919876543210.');
     assertOtpCooldown('login', contact);
+    if (channel === 'email') await assertEmailRoleAvailable(contact, role, { allowSameRole: true });
 
     const profile = await profileForLogin(role, contact, channel);
     if (!profile) throw new Error(`No ${titleCase(role)} account was found for this ${channel === 'phone' ? 'phone number' : 'email address'}.`);
@@ -2580,6 +2928,7 @@
     const role = registrationRole(form);
     if (!email) throw new Error('Please enter an email address before requesting OTP.');
     if (isDemoEmail(email)) throw new Error('Demo @nest.test emails cannot receive OTP. Use a real email address for registration OTP.');
+    await assertEmailRoleAvailable(email, role);
     assertOtpCooldown('registration', email);
     const { error } = await withAuthTimeout(
       supabase().auth.signInWithOtp({
@@ -3278,8 +3627,11 @@
     }
 
     const role = registrationRole(form);
-    const currentUser = rememberCurrentUser(role, fields);
     const contactEmail = lower(fields.email_address || '');
+    await assertEmailRoleAvailable(contactEmail, role);
+    const uploadedDocuments = await uploadRegistrationDocuments(form, role);
+    if (uploadedDocuments.length) fields.registration_documents = uploadedDocuments;
+    const currentUser = rememberCurrentUser(role, fields);
     const contactPhone = normalizePhone(fields.phone_number || fields.mobile_number || fields.contact_number || '');
     const profile = await insertRow('profiles', {
       full_name: currentUser.name,
@@ -3432,6 +3784,7 @@
       if (key === 'public-team-scientific') await renderPublicTeam(root, 'scientific');
       if (key === 'public-team-executive') await renderPublicTeam(root, 'executive');
       if (key === 'dashboard-programs') await renderDashboardPrograms(root);
+      if (key === 'registration-form') installDocumentUploadInputs(root);
       if (key === 'login') installLoginOtpUi(root);
     } catch (error) {
       console.error('Supabase render error:', error);
@@ -3525,6 +3878,36 @@
     const isLoginButton = buttonForm && buttonForm.id === 'auth-form';
     if (!key && !isRegistrationButton && !isLoginButton) return;
     const label = lower(text(button));
+    if ((key === 'registration-form' || isRegistrationButton) && button.classList.contains('select-file-btn')) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      if (root) installDocumentUploadInputs(root);
+      const card = button.closest('.document-card');
+      const input = card && card.querySelector('input[type="file"][data-nest-document-input]');
+      if (input) input.click();
+      return;
+    }
+    const avatarUploadButton = button.id === 'profile-avatar-btn' || (button.getAttribute('onclick') || '').includes('simulateAvatarChange');
+    if (key === 'dashboard-user-profile' && avatarUploadButton) {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      ensureProfilePhotoInput(root).click();
+      return;
+    }
+    if (key === 'dashboard-user-profile' && button.id === 'save-btn') {
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      const previousLabel = button.innerHTML;
+      button.disabled = true;
+      button.innerHTML = '<span class="flex items-center gap-2">Saving...</span>';
+      saveDashboardUserProfile(root)
+        .catch((error) => showToast(error.message || 'Profile could not be saved.', 'error'))
+        .finally(() => {
+          button.disabled = false;
+          button.innerHTML = previousLabel;
+        });
+      return;
+    }
     if ((key === 'registration-form' || isRegistrationButton) && button.id === 'next-btn') {
       try {
         const form = buttonForm || root.querySelector('form');
@@ -3627,6 +4010,39 @@
       console.error(error);
       showToast(error.message || 'Save failed.', 'error');
     });
+  }
+
+  function changeHandler(event) {
+    const input = event.target;
+    if (input.matches('[data-nest-document-input]')) {
+      const card = input.closest('.document-card');
+      const button = card && card.querySelector('.select-file-btn');
+      const files = Array.from(input.files || []);
+      if (button) {
+        button.textContent = files.length ? `${files.length} FILE${files.length > 1 ? 'S' : ''} SELECTED` : 'SELECT FILE';
+        button.classList.toggle('bg-[#2d5a3d]', files.length > 0);
+        button.classList.toggle('text-white', files.length > 0);
+      }
+      const previous = card && card.querySelector('[data-nest-selected-docs]');
+      if (previous) previous.remove();
+      if (card && files.length) {
+        card.insertAdjacentHTML(
+          'beforeend',
+          `<div data-nest-selected-docs class="mt-2 max-w-full text-[11px] text-[#2d5a3d] font-['Inter'] leading-snug break-words">${files
+            .map((file) => html(file.name))
+            .join('<br>')}</div>`
+        );
+      }
+      return;
+    }
+    if (!input.matches('[data-nest-profile-photo-input]')) return;
+    const root = mainRoot();
+    const file = input.files && input.files[0];
+    uploadDashboardProfilePhoto(root, file)
+      .catch((error) => showToast(error.message || 'Profile photo could not be uploaded.', 'error'))
+      .finally(() => {
+        input.value = '';
+      });
   }
 
   function submitHandler(event) {
@@ -3739,6 +4155,7 @@
       return;
     }
     document.addEventListener('click', clickHandler, true);
+    document.addEventListener('change', changeHandler, true);
     document.addEventListener('submit', submitHandler, true);
     window.addEventListener('storage', (event) => {
       if (event.key === 'nest_content_updated_at') scheduleInit(true);

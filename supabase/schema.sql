@@ -254,6 +254,37 @@ alter table public.profiles add column if not exists metadata jsonb default '{}'
 alter table public.profiles add column if not exists created_at timestamptz default now();
 alter table public.profiles add column if not exists updated_at timestamptz default now();
 
+-- One email can be used for only one member dashboard role. If old duplicate
+-- profile rows already exist, keep the newest approved/pending row and remove
+-- the older duplicates before creating the unique index.
+with ranked_member_profiles as (
+  select
+    id,
+    row_number() over (
+      partition by lower(btrim(email))
+      order by
+        case status
+          when 'approved' then 0
+          when 'pending' then 1
+          else 2
+        end,
+        created_at desc nulls last,
+        id desc
+    ) as row_rank
+  from public.profiles
+  where nullif(btrim(email), '') is not null
+    and role in ('startup', 'trainee', 'entrepreneur', 'artisan')
+)
+delete from public.profiles profile
+using ranked_member_profiles duplicate
+where profile.id = duplicate.id
+  and duplicate.row_rank > 1;
+
+create unique index if not exists profiles_one_member_role_per_email_idx
+  on public.profiles (lower(btrim(email)))
+  where nullif(btrim(email), '') is not null
+    and role in ('startup', 'trainee', 'entrepreneur', 'artisan');
+
 alter table public.programs add column if not exists title text;
 alter table public.programs add column if not exists tagline text;
 alter table public.programs add column if not exists category text;
