@@ -117,7 +117,7 @@
                             </div>
                             <div class="flex flex-col gap-1.5 md:col-span-2">
                                 <label class="font-['Inter'] font-semibold text-[#131927] text-[14px]">Estimated Budget</label>
-                                <input type="text" placeholder="Enter estimated budget" class="form-input-custom">
+                                <input type="number" placeholder="Enter estimated budget (in INR)" class="form-input-custom">
                             </div>
                         </div>
 
@@ -128,24 +128,26 @@
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
                             <!-- PDF Upload 1 -->
-                            <div class="document-card group">
+                            <div class="document-card group border-2 border-transparent transition-all">
                                 <i class="fas fa-file-pdf text-[32px] text-red-500 mb-2"></i>
                                 <span class="font-bold text-[14px]">PDF Upload 1</span>
                                 <span class="text-[11px] opacity-60">Pitch Deck / Doc (Max 10MB)</span>
-                                <label class="select-file-btn cursor-pointer inline-block text-center">
-                                    SELECT FILE
-                                    <input type="file" class="hidden" accept=".pdf">
+                                <label class="select-file-btn cursor-pointer inline-block text-center relative">
+                                    <span class="btn-text">SELECT FILE</span>
+                                    <input type="file" class="hidden registration-file-input" accept=".pdf">
                                 </label>
+                                <span class="file-name-display text-[10px] text-[#2d5a3d] mt-2 font-medium hidden"></span>
                             </div>
                             <!-- PDF Upload 2 -->
-                            <div class="document-card group">
+                            <div class="document-card group border-2 border-transparent transition-all">
                                 <i class="fas fa-file-pdf text-[32px] text-red-500 mb-2"></i>
                                 <span class="font-bold text-[14px]">PDF Upload 2</span>
                                 <span class="text-[11px] opacity-60">Supporting Doc (Max 10MB)</span>
-                                <label class="select-file-btn cursor-pointer inline-block text-center">
-                                    SELECT FILE
-                                    <input type="file" class="hidden" accept=".pdf">
+                                <label class="select-file-btn cursor-pointer inline-block text-center relative">
+                                    <span class="btn-text">SELECT FILE</span>
+                                    <input type="file" class="hidden registration-file-input" accept=".pdf">
                                 </label>
+                                <span class="file-name-display text-[10px] text-[#2d5a3d] mt-2 font-medium hidden"></span>
                             </div>
                         </div>
                     </div>
@@ -274,7 +276,6 @@
             align-items: center;
             justify-content: center;
             padding: 1.5rem;
-            border: 2px solid #e5e7eb;
             border-radius: 14px;
             background-color: white;
             transition: all 0.2s;
@@ -400,6 +401,24 @@
                 input.addEventListener('keydown', (e) => {
                     if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
                         otpInputs[index - 1].focus();
+                    }
+                });
+            });
+
+            // File Upload Feedback
+            document.querySelectorAll('.registration-file-input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    const card = e.target.closest('.document-card');
+                    const fileNameDisplay = card.querySelector('.file-name-display');
+                    const btnText = card.querySelector('.btn-text');
+                    
+                    if (file) {
+                        fileNameDisplay.textContent = file.name;
+                        fileNameDisplay.classList.remove('hidden');
+                        btnText.textContent = 'CHANGE FILE';
+                        card.classList.remove('border-transparent');
+                        card.classList.add('border-[#2d5a3d]', 'bg-[#f1ffee]/40');
                     }
                 });
             });

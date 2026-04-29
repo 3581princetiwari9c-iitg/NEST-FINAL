@@ -31,9 +31,10 @@
             <div class="w-32 h-32 rounded-full border-4 border-gray-50 overflow-hidden shadow-md">
                 <img id="user-avatar" src="https://ui-avatars.com/api/?name=Artisan+User&background=2D5A3D&color=fff&size=512" alt="Profile" class="w-full h-full object-cover">
             </div>
-            <button onclick="simulateAvatarChange()" class="absolute bottom-0 right-0 p-2.5 bg-[#2D5A3D] text-white rounded-full shadow-lg hover:scale-110 transition-all border-2 border-white">
+            <button id="avatar-change-btn" class="absolute bottom-0 right-0 p-2.5 bg-[#2D5A3D] text-white rounded-full shadow-lg hover:scale-110 transition-all border-2 border-white">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"></path><circle cx="12" cy="13" r="4"></circle></svg>
             </button>
+            <input type="file" id="avatar-input" class="hidden" accept="image/*">
         </div>
         <div class="flex flex-col items-center md:items-start gap-1">
             <h2 class="font-['Manrope'] font-bold text-[24px] text-[#1b3a28]">Artisan Name</h2>
@@ -234,7 +235,42 @@
         if (modal) modal.classList.add('hidden');
     }
 
-    function simulateAvatarChange() {
-        alert('Avatar change initiated (simulation)');
-    }
+    document.getElementById('avatar-change-btn')?.addEventListener('click', () => {
+        document.getElementById('avatar-input').click();
+    });
+
+    document.getElementById('avatar-input')?.addEventListener('change', async (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const btn = document.getElementById('avatar-change-btn');
+        const originalIcon = btn.innerHTML;
+        
+        try {
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+            btn.disabled = true;
+
+            const path = `avatars/${Date.now()}-${file.name.replace(/[^a-zA-Z0-9.]/g, '_')}`;
+            const url = await window.NESTSupabaseApp.uploadFile('uploads', path, file);
+            
+            const user = window.NESTSupabaseApp.currentUser();
+            if (user && user.profileId) {
+                await window.NESTSupabaseApp.updateRow('profiles', user.profileId, { image_url: url });
+                document.getElementById('user-avatar').src = url;
+                
+                // Update local store as well
+                user.image_url = url;
+                localStorage.setItem('nest_current_user', JSON.stringify(user));
+                window.dispatchEvent(new Event('storage'));
+            }
+            
+            btn.innerHTML = originalIcon;
+            btn.disabled = false;
+        } catch (err) {
+            console.error(err);
+            alert('Failed to upload photo: ' + err.message);
+            btn.innerHTML = originalIcon;
+            btn.disabled = false;
+        }
+    });
 </script>

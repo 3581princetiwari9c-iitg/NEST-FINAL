@@ -8,15 +8,19 @@
             <p class="font-['Manrope'] text-[#677461] text-[14px]">Operational details for your registered venture</p>
         </div>
         <div class="flex gap-3">
-            <button onclick="toggleEditMetrics(true)" id="edit-metrics-btn" class="flex items-center gap-2 bg-white text-[#2D5A3D] border-2 border-[#2D5A3D] px-8 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#f1ffee] transition-all">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <button onclick="toggleEditMetrics(true)" id="edit-metrics-btn"
+                class="flex items-center gap-2 bg-white text-[#2D5A3D] border-2 border-[#2D5A3D] px-8 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#f1ffee] transition-all">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path>
                     <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                 </svg>
                 Update Metrics
             </button>
-            <button onclick="saveMetrics()" id="save-metrics-btn" class="hidden flex items-center gap-2 bg-[#2D5A3D] text-white px-8 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#1b3a28] transition-all">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <button onclick="saveMetrics()" id="save-metrics-btn"
+                class="hidden flex items-center gap-2 bg-[#2D5A3D] text-white px-8 py-2.5 rounded-[8px] font-['Manrope'] font-bold text-[14px] shadow-sm hover:bg-[#1b3a28] transition-all">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"
+                    stroke-linecap="round" stroke-linejoin="round">
                     <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path>
                 </svg>
                 Save Metrics
@@ -26,51 +30,86 @@
 
     <!-- Main Content Grid -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-[24px] w-full mt-2">
-        
+
         <!-- Left Column: Metrics & Documents -->
         <div class="lg:col-span-1 space-y-[24px]">
             <!-- Operational Metrics Card (Editable) -->
-            <div class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 space-y-6">
+            <div
+                class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 space-y-6">
                 <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28] border-b pb-4">Operational Metrics</h3>
-                
+
                 <div class="space-y-4">
                     <div class="space-y-2">
-                        <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Team Member Size</label>
-                        <input type="text" id="team-size" value="12 Members" disabled class="metric-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
+                        <label
+                            class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Team
+                            Member Size</label>
+                        <input type="text" id="team-size" value="12 Members" disabled
+                            class="metric-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
                         <p class="text-[11px] text-[#677461]">Excluding founders</p>
                     </div>
-                    
+
                     <div class="space-y-2">
-                        <label class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Funding Raised (INR)</label>
-                        <input type="text" id="funding-raised" value="₹ 25,00,000" disabled class="metric-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
+                        <label
+                            class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Funding
+                            Raised (INR)</label>
+                        <input type="text" id="funding-raised" value="₹ 25,00,000" disabled
+                            class="metric-input w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all text-gray-500 cursor-not-allowed">
                         <p class="text-[11px] text-[#677461]">Total external capital</p>
                     </div>
                 </div>
             </div>
 
             <!-- Documents Card (Locked) -->
-            <div class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 space-y-6">
-                <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28] border-b pb-4">Registration Documents</h3>
-                
+            <div
+                class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 space-y-6">
+                <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28] border-b pb-4">Registration Documents
+                </h3>
+
                 <div class="space-y-3">
-                    <a href="#" class="flex items-center justify-between p-3 bg-gray-50 rounded-[8px] border border-gray-200 hover:bg-white hover:border-[#2D5A3D] transition-all group">
+                    <a href="#"
+                        class="flex items-center justify-between p-3 bg-gray-50 rounded-[8px] border border-gray-200 hover:bg-white hover:border-[#2D5A3D] transition-all group">
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 bg-red-50 text-red-600 rounded flex items-center justify-center">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
                             </div>
                             <span class="font-['Manrope'] text-[14px] text-[#464E42]">Startup Pitch.pdf</span>
                         </div>
-                        <svg class="text-gray-400 group-hover:text-[#2D5A3D]" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        <svg class="text-gray-400 group-hover:text-[#2D5A3D]" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
                     </a>
-                    
-                    <a href="#" class="flex items-center justify-between p-3 bg-gray-50 rounded-[8px] border border-gray-200 hover:bg-white hover:border-[#2D5A3D] transition-all group">
+
+                    <a href="#"
+                        class="flex items-center justify-between p-3 bg-gray-50 rounded-[8px] border border-gray-200 hover:bg-white hover:border-[#2D5A3D] transition-all group">
                         <div class="flex items-center gap-3">
                             <div class="w-8 h-8 bg-blue-50 text-blue-600 rounded flex items-center justify-center">
-                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                                    <polyline points="14 2 14 8 20 8"></polyline>
+                                    <line x1="16" y1="13" x2="8" y2="13"></line>
+                                    <line x1="16" y1="17" x2="8" y2="17"></line>
+                                    <polyline points="10 9 9 9 8 9"></polyline>
+                                </svg>
                             </div>
                             <span class="font-['Manrope'] text-[14px] text-[#464E42]">GST Certificate.pdf</span>
                         </div>
-                        <svg class="text-gray-400 group-hover:text-[#2D5A3D]" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                        <svg class="text-gray-400 group-hover:text-[#2D5A3D]" width="18" height="18" viewBox="0 0 24 24"
+                            fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
                     </a>
                 </div>
             </div>
@@ -79,10 +118,13 @@
         <!-- Right Column: Registration Details (Locked) -->
         <div class="lg:col-span-2 space-y-[24px]">
             <!-- Core Info Card -->
-            <div class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden">
+            <div
+                class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden">
                 <div class="px-8 py-5 border-b border-[#f1f2f4] bg-[#fdfdfd] flex items-center justify-between">
                     <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28]">Startup Identity</h3>
-                    <span class="px-3 py-1 bg-green-50 text-green-700 text-[11px] font-bold uppercase rounded-full border border-green-100">Approved Venture</span>
+                    <span
+                        class="px-3 py-1 bg-green-50 text-green-700 text-[11px] font-bold uppercase rounded-full border border-green-100">Approved
+                        Venture</span>
                 </div>
                 <div class="p-8 grid grid-cols-1 md:grid-cols-2 gap-8">
                     <div class="space-y-1">
@@ -105,18 +147,26 @@
             </div>
 
             <!-- Overview Card -->
-            <div class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 space-y-6">
+            <div
+                class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 space-y-6">
                 <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28] border-b pb-4">Mission Overview</h3>
                 <div class="space-y-4">
                     <div class="p-5 bg-gray-50 rounded-[12px] border border-gray-100">
                         <p class="font-['Manrope'] text-[#464E42] text-[15px] leading-relaxed italic">
-                            "Our venture addresses the critical gap in sustainable packaging for the Northeast region. We utilize locally sourced bamboo fiber to create biodegradable shipping containers, effectively replacing single-use plastics in the e-commerce supply chain."
+                            "Our venture addresses the critical gap in sustainable packaging for the Northeast region.
+                            We utilize locally sourced bamboo fiber to create biodegradable shipping containers,
+                            effectively replacing single-use plastics in the e-commerce supply chain."
                         </p>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                         <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 bg-[#f1ffee] text-[#2D5A3D] rounded-full flex items-center justify-center shrink-0">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
+                            <div
+                                class="w-8 h-8 bg-[#f1ffee] text-[#2D5A3D] rounded-full flex items-center justify-center shrink-0">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                                    <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                                </svg>
                             </div>
                             <div>
                                 <p class="text-[13px] font-bold text-[#1b3a28]">Incubation Status</p>
@@ -124,8 +174,13 @@
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
-                            <div class="w-8 h-8 bg-[#f1ffee] text-[#2D5A3D] rounded-full flex items-center justify-center shrink-0">
-                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>
+                            <div
+                                class="w-8 h-8 bg-[#f1ffee] text-[#2D5A3D] rounded-full flex items-center justify-center shrink-0">
+                                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                    stroke-width="2">
+                                    <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                    <circle cx="12" cy="10" r="3"></circle>
+                                </svg>
                             </div>
                             <div>
                                 <p class="text-[13px] font-bold text-[#1b3a28]">Registered Since</p>
@@ -167,12 +222,12 @@
     function saveMetrics() {
         const funding = document.getElementById('funding-raised').value;
         const team = document.getElementById('team-size').value;
-        
+
         // Simulate save
         const btn = document.getElementById('save-metrics-btn');
         btn.innerHTML = 'Updating...';
         btn.disabled = true;
-        
+
         setTimeout(() => {
             alert('Metrics updated successfully: \nFunding: ' + funding + '\nTeam: ' + team);
             btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path></svg> Save Metrics';

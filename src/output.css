@@ -462,6 +462,9 @@
   .m-0 {
     margin: calc(var(--spacing) * 0);
   }
+  .mx-1 {
+    margin-inline: calc(var(--spacing) * 1);
+  }
   .mx-4 {
     margin-inline: calc(var(--spacing) * 4);
   }
@@ -810,6 +813,9 @@
   .h-screen {
     height: 100vh;
   }
+  .max-h-\[80px\] {
+    max-height: 80px;
+  }
   .max-h-\[85vh\] {
     max-height: 85vh;
   }
@@ -833,6 +839,9 @@
   }
   .min-h-\[93px\] {
     min-height: 93px;
+  }
+  .min-h-\[120px\] {
+    min-height: 120px;
   }
   .min-h-\[190px\] {
     min-height: 190px;
@@ -914,6 +923,9 @@
   }
   .w-32 {
     width: calc(var(--spacing) * 32);
+  }
+  .w-\[1\.5px\] {
+    width: 1.5px;
   }
   .w-\[1px\] {
     width: 1px;
@@ -2104,6 +2116,9 @@
   .bg-\[\#204496\] {
     background-color: #204496;
   }
+  .bg-\[\#335340\] {
+    background-color: #335340;
+  }
   .bg-\[\#677461\] {
     background-color: #677461;
   }
@@ -2239,6 +2254,9 @@
   .bg-\[\#f1ffee\]\/30 {
     background-color: color-mix(in oklab, #f1ffee 30%, transparent);
   }
+  .bg-\[\#f1ffee\]\/40 {
+    background-color: color-mix(in oklab, #f1ffee 40%, transparent);
+  }
   .bg-\[\#f1fff6\] {
     background-color: #f1fff6;
   }
@@ -2352,6 +2370,9 @@
     @supports (color: color-mix(in lab, red, red)) {
       background-color: color-mix(in oklab, var(--color-gray-100) 50%, transparent);
     }
+  }
+  .bg-gray-200 {
+    background-color: var(--color-gray-200);
   }
   .bg-gray-400 {
     background-color: var(--color-gray-400);
@@ -3528,6 +3549,10 @@
     --tw-shadow: 0px 4px 16px var(--tw-shadow-color, rgba(0,0,0,0.06));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
+  .shadow-\[0px_4px_20px_rgba\(0\,0\,0\,0\.03\)\] {
+    --tw-shadow: 0px 4px 20px var(--tw-shadow-color, rgba(0,0,0,0.03));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+  }
   .shadow-\[0px_4px_24px_rgba\(0\,0\,0\,0\.03\)\] {
     --tw-shadow: 0px 4px 24px var(--tw-shadow-color, rgba(0,0,0,0.03));
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
@@ -4151,6 +4176,13 @@
     &:hover {
       @media (hover: hover) {
         background-color: #142c1e;
+      }
+    }
+  }
+  .hover\:bg-\[\#213a2b\] {
+    &:hover {
+      @media (hover: hover) {
+        background-color: #213a2b;
       }
     }
   }

@@ -98,6 +98,10 @@
     return clean(value).toLowerCase();
   }
 
+  function isDashboardPage() {
+    return !!document.body.dataset.dashboardRole;
+  }
+
   function toKey(value) {
     return lower(value)
       .replace(/\([^)]*\)/g, '')
@@ -185,6 +189,30 @@
     const amount = Number(value);
     if (Number.isNaN(amount)) return html(value);
     return `Rs. ${amount.toLocaleString('en-IN')}`;
+  }
+
+  function formatFundingCompact(value) {
+    if (!value) return 'NA';
+    const num = Number(value.toString().replace(/[^0-9.]/g, ''));
+    if (isNaN(num) || num === 0) return html(value);
+
+    if (num >= 10000000) { // 1 Crore
+      return (num / 10000000).toFixed(1).replace(/\.0$/, '') + ' Cr';
+    } else if (num >= 100000) { // 1 Lakh
+      return (num / 100000).toFixed(1).replace(/\.0$/, '') + ' lac';
+    }
+    return num.toLocaleString('en-IN');
+  }
+
+  async function uploadFile(bucket, path, file) {
+    const targetBucket = bucket === 'uploads' ? 'nest-assets' : bucket;
+    const { data, error } = await supabase().storage.from(targetBucket).upload(path, file, {
+      cacheControl: '3600',
+      upsert: true
+    });
+    if (error) throw error;
+    const { data: { publicUrl } } = supabase().storage.from(targetBucket).getPublicUrl(path);
+    return publicUrl;
   }
 
   function readStore(key, fallback) {
@@ -427,10 +455,14 @@
     const fields = {};
     Array.from(scope.querySelectorAll('label')).forEach((label) => {
       const wrapper = label.closest('div') || label.parentElement;
-      const control = wrapper && wrapper.querySelector('input:not([type="file"]), textarea, select');
+      const control = wrapper && wrapper.querySelector('input, textarea, select');
       if (!control || control.type === 'password' || (!includeHidden && control.closest('.hidden'))) return;
       const key = toKey(text(label));
-      fields[key] = control.tagName === 'SELECT' ? selectedText(control) : clean(control.value);
+      if (control.type === 'file') {
+        fields[key] = control.files[0] || null;
+      } else {
+        fields[key] = control.tagName === 'SELECT' ? selectedText(control) : clean(control.value);
+      }
     });
     return fields;
   }
@@ -881,14 +913,14 @@
         <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28] mb-5">Registration Details</h3>
         <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-5">
           ${rowsList
-            .map(
-              ([label, value]) => `
+        .map(
+          ([label, value]) => `
                 <div class="rounded-[10px] bg-[#f9fafb] border border-gray-100 p-4">
                   <span class="block font-['Manrope'] font-bold text-[11px] text-[#677461] uppercase tracking-wider mb-1">${html(label)}</span>
                   <span class="block font-['Inter'] font-semibold text-[#1b3a28] text-[14px] break-words">${html(value)}</span>
                 </div>`
-            )
-            .join('')}
+        )
+        .join('')}
         </div>
       </div>`
     );
@@ -915,7 +947,7 @@
     if (roleBadge) roleBadge.textContent = status ? `${titleCase(role)} - ${titleCase(status)}` : titleCase(role);
     const avatar = root.querySelector('#user-avatar');
     if (avatar) {
-      avatar.src = avatarUrl(displayName);
+      avatar.src = (profile && profile.image_url) || user.image_url || avatarUrl(displayName);
       avatar.alt = `${displayName} Profile`;
     }
 
@@ -1010,34 +1042,36 @@
 
   function startupCard(row) {
     return `
-      <div class="bg-white border border-[#f3f4f6] flex flex-col gap-[28px] items-center justify-between p-[24px] rounded-[24px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] w-full sm:w-[calc(50%-18px)] lg:w-[calc(33.333%-24px)] max-w-[390px] hover:shadow-md transition-shadow">
-        <div class="flex flex-col gap-[14px] items-center w-full">
-          <h3 class="font-['Inter'] font-semibold leading-tight text-[#1b3a28] text-[22px] text-center">${html(row.name)}</h3>
-          <div class="bg-[#f1ffee] flex items-center justify-center px-[12px] py-[6px] rounded-[23px]">
-            <span class="font-['Inter'] font-medium text-[#1b3a28] text-[16px] text-center whitespace-nowrap">${html(row.category || 'Startup')}</span>
+      <div class="bg-white border border-[#f3f4f6] flex flex-col gap-[28px] items-center justify-between p-[24px] rounded-[32px] shadow-[0px_4px_20px_rgba(0,0,0,0.03)] w-full sm:w-[calc(50%-18px)] lg:w-[calc(33.333%-24px)] max-w-[390px] hover:shadow-xl transition-all duration-300">
+        <div class="flex flex-col gap-[12px] items-center w-full">
+          <h3 class="font-['Inter'] font-bold leading-tight text-[#1b3a28] text-[24px] text-center">${html(row.name)}</h3>
+          <div class="bg-[#f1ffee] flex items-center justify-center px-[16px] py-[6px] rounded-[23px]">
+            <span class="font-['Inter'] font-medium text-[#2d5a3d] text-[15px] text-center whitespace-nowrap">${html(row.category || 'Startup')}</span>
           </div>
         </div>
-        <div class="flex-1 flex items-center justify-center overflow-hidden w-full min-h-[93px]">
-          <img src="${html(row.logo_url || FALLBACK_IMAGE)}" alt="${html(row.name)} logo" class="max-h-[93px] w-auto max-w-[211px] object-contain pointer-events-none">
+        <div class="flex-1 flex items-center justify-center overflow-hidden w-full min-h-[120px] bg-[#f1ffee]/30 rounded-[12px] p-6">
+          <img src="${html(row.logo_url || FALLBACK_IMAGE)}" alt="${html(row.name)} logo" class="max-h-[80px] w-auto max-w-full object-contain pointer-events-none">
         </div>
-        <div class="flex items-center justify-between w-full max-w-[320px]">
-          <div class="flex flex-col gap-[7px] items-center justify-center flex-1">
-            <span class="font-['Inter'] font-normal text-[#677461] text-[14px] leading-none">Established</span>
-            <span class="font-['Inter'] font-medium text-[#1b3a28] text-[20px] leading-none">${html(row.established_year || 'NA')}</span>
+        <div class="flex items-center justify-between w-full max-w-[320px] px-2">
+          <div class="flex flex-col gap-[6px] items-center justify-center flex-1">
+            <span class="font-['Inter'] font-semibold text-[#677461] text-[13px] opacity-80">Established</span>
+            <span class="font-['Inter'] font-bold text-[#1b3a28] text-[20px] leading-none">${html(row.established_year || 'NA')}</span>
           </div>
-          <div class="bg-[#d9d9d9] h-[37px] rounded-[3px] w-[2px]"></div>
-          <div class="flex flex-col gap-[7px] items-center justify-center flex-1">
-            <span class="font-['Inter'] font-normal text-[#677461] text-[14px] leading-none text-center">Funding Raised</span>
-            <span class="font-['Inter'] font-medium text-[#1b3a28] text-[20px] leading-none">${html(row.funding_raised || 'NA')}</span>
+          <div class="bg-gray-200 h-[32px] w-[1.5px] mx-1"></div>
+          <div class="flex flex-col gap-[6px] items-center justify-center flex-1">
+            <span class="font-['Inter'] font-semibold text-[#677461] text-[13px] opacity-80 text-center">Funding Raised</span>
+            <span class="font-['Inter'] font-bold text-[#1b3a28] text-[20px] leading-none">${html(formatFundingCompact(row.funding_raised))}</span>
           </div>
-          <div class="bg-[#d9d9d9] h-[37px] rounded-[3px] w-[2px]"></div>
-          <div class="flex flex-col gap-[7px] items-center justify-center flex-1">
-            <span class="font-['Inter'] font-normal text-[#677461] text-[14px] leading-none">State</span>
-            <span class="font-['Inter'] font-medium text-[#1b3a28] text-[20px] leading-none truncate max-w-[90px]">${html(row.state || 'NA')}</span>
+          <div class="bg-gray-200 h-[32px] w-[1.5px] mx-1"></div>
+          <div class="flex flex-col gap-[6px] items-center justify-center flex-1">
+            <span class="font-['Inter'] font-semibold text-[#677461] text-[13px] opacity-80">State</span>
+            <span class="font-['Inter'] font-bold text-[#1b3a28] text-[20px] leading-none truncate max-w-[90px]">${html(row.state || 'NA')}</span>
           </div>
         </div>
-        <a href="${html(row.website_url || '#')}" target="_blank" class="bg-[#2d5a3d] border border-[#e5e5e5] flex items-center justify-center px-[26px] py-[14px] rounded-[9px] w-full hover:bg-[#1b3a28] transition-colors mt-2">
-          <span class="font-['Inter'] font-medium text-[18px] text-white whitespace-nowrap">Visit Website -></span>
+        <a href="${html(row.website_url || '#')}" target="_blank" class="bg-[#335340] flex items-center justify-center px-[26px] py-[16px] rounded-[12px] w-full hover:bg-[#213a2b] transition-all mt-2 shadow-sm group">
+          <span class="font-['Inter'] font-bold text-[18px] text-white whitespace-nowrap flex items-center gap-2">
+            Visit Website <span class="group-hover:translate-x-1 transition-transform">→</span>
+          </span>
         </a>
       </div>
     `;
@@ -1186,11 +1220,10 @@
               <span class="font-['Inter'] text-[#677461] text-[11px] truncate">Document ${index + 1}</span>
             </div>
           </div>
-          ${
-            /^https?:\/\//i.test(doc.value)
+          ${/^https?:\/\//i.test(doc.value)
               ? `<a href="${html(doc.value)}" target="_blank" class="font-['Inter'] font-bold text-[#2d5a3d] text-[12px]">Open</a>`
               : ''
-          }
+            }
         </div>`;
         }
       )
@@ -1206,14 +1239,14 @@
         <h4 class="font-['Inter'] font-bold text-[#677461] text-[12px] uppercase tracking-[0.1em] mb-4">Registration Data</h4>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           ${entries
-            .map(
-              ([key, value]) => `
+        .map(
+          ([key, value]) => `
               <div>
                 <span class="font-['Inter'] font-semibold text-[#677461] text-[11px] uppercase tracking-widest">${html(titleCase(key))}</span>
                 <p class="font-['Inter'] text-[#1b3a28] text-[14px] leading-relaxed mt-1 break-words">${html(value)}</p>
               </div>`
-            )
-            .join('')}
+        )
+        .join('')}
         </div>
       </div>`;
   }
@@ -1235,17 +1268,17 @@
     const kindLabel = isProduct ? 'Product Listing' : isEntrepreneur ? 'Entrepreneur Idea' : 'Startup';
     const details = isProduct
       ? [
-          ['Category', requestValue(sources, ['category'], '')],
-          ['Price', formatMoney(requestValue(sources, ['price'], ''))],
-          ['Stock', requestValue(sources, ['stock'], '')],
-          ['Seller', requestValue(sources, ['seller_name', 'shop_name'], row.requester_name)]
-        ]
+        ['Category', requestValue(sources, ['category'], '')],
+        ['Price', formatMoney(requestValue(sources, ['price'], ''))],
+        ['Stock', requestValue(sources, ['stock'], '')],
+        ['Seller', requestValue(sources, ['seller_name', 'shop_name'], row.requester_name)]
+      ]
       : [
-          ['Founder / Applicant', requestValue(sources, ['founder_name', 'founder_owner_name', 'full_name'], row.requester_name)],
-          ['Location', requestValue(sources, ['state', 'state_region', 'location'], '')],
-          ['Team Size', requestValue(sources, ['team_size'], '')],
-          ['Funding / Budget', formatBudgetText(requestValue(sources, ['funding_raised', 'funding_raised_inr', 'budget'], ''))]
-        ];
+        ['Founder / Applicant', requestValue(sources, ['founder_name', 'founder_owner_name', 'full_name'], row.requester_name)],
+        ['Location', requestValue(sources, ['state', 'state_region', 'location'], '')],
+        ['Team Size', requestValue(sources, ['team_size'], '')],
+        ['Funding / Budget', formatBudgetText(requestValue(sources, ['funding_raised', 'funding_raised_inr', 'budget'], ''))]
+      ];
     const pending = isPendingStatus(row.status);
     const documentsBlock = isProduct
       ? ''
@@ -1281,12 +1314,11 @@
                   </div>
                 </div>
                 <div class="flex items-center gap-4 mt-4 flex-wrap">
-                  ${
-                    pending
-                      ? `<button data-action="reject-request" data-id="${row.id}" class="bg-[#b04a4a] text-white px-10 py-4 rounded-[16px] font-['Manrope'] font-bold text-[16px] shadow-lg hover:bg-[#8e3b3b] transform hover:-translate-y-1 transition-all">Reject Request</button>
+                  ${pending
+        ? `<button data-action="reject-request" data-id="${row.id}" class="bg-[#b04a4a] text-white px-10 py-4 rounded-[16px] font-['Manrope'] font-bold text-[16px] shadow-lg hover:bg-[#8e3b3b] transform hover:-translate-y-1 transition-all">Reject Request</button>
                          <button data-action="approve-request" data-id="${row.id}" class="bg-[#1b3a28] text-white px-10 py-4 rounded-[16px] font-['Manrope'] font-bold text-[16px] shadow-lg hover:bg-[#142c1e] transform hover:-translate-y-1 transition-all">Approve Request</button>`
-                      : `<div class="rounded-[16px] bg-[#f0f2f0] px-8 py-4 font-['Manrope'] font-bold text-[#677461] text-[16px]">Request already ${html(row.status || 'reviewed')}</div>`
-                  }
+        : `<div class="rounded-[16px] bg-[#f0f2f0] px-8 py-4 font-['Manrope'] font-bold text-[#677461] text-[16px]">Request already ${html(row.status || 'reviewed')}</div>`
+      }
                 </div>
               </div>
               <div class="flex flex-col gap-[32px]">
@@ -1347,7 +1379,7 @@
     return `
       <div id="request-detail-modal" class="fixed inset-0 items-start justify-center p-4 overflow-y-auto bg-black/40 backdrop-blur-sm py-[60px]" style="position: fixed; inset: 0; z-index: 2147483647; display: flex; background: rgba(0, 0, 0, 0.45); backdrop-filter: blur(4px);">
         <div class="fixed inset-0 z-0" data-action="close-request-modal"></div>
-        <div class="relative z-10 bg-white rounded-[32px] shadow-[0px_20px_60px_rgba(0,0,0,0.1)] p-[32px] md:p-[40px] w-full max-w-[1140px]" style="position: relative; z-index: 1; width: min(1140px, calc(100vw - 32px));">
+        <div class="relative z-10 bg-white rounded-[32px] shadow-[0px 20px 60px rgba(0,0,0,0.1)] p-[32px] md:p-[40px] w-full max-w-[1140px]" style="position: relative; z-index: 1; width: min(1140px, calc(100vw - 32px));">
           <button data-action="close-request-modal" class="absolute top-8 right-8 text-gray-400 hover:text-red-600 transition-all" aria-label="Close startup detail">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
               <line x1="18" y1="6" x2="6" y2="18"></line>
@@ -1426,12 +1458,11 @@
         ${compact ? '' : `<td class="px-[24px] py-[20px]"><span class="font-['Inter'] ${statusColor(row.status)} font-bold text-[14px] capitalize">${html(row.status)}</span></td>`}
         <td class="px-[24px] py-[20px] text-right">
           <div class="flex items-center justify-end gap-[12px]">
-            ${
-              pending
-                ? `<button data-action="reject-request" data-id="${row.id}" class="${actionClass} bg-[#b04a4a] text-white font-bold hover:bg-[#8e3b3b] shadow-sm transition-all">Reject</button>
+            ${pending
+        ? `<button data-action="reject-request" data-id="${row.id}" class="${actionClass} bg-[#b04a4a] text-white font-bold hover:bg-[#8e3b3b] shadow-sm transition-all">Reject</button>
                    <button data-action="approve-request" data-id="${row.id}" class="${actionClass} bg-[#1b3a28] text-white font-bold hover:bg-[#142c1e] shadow-sm transition-all">Approve</button>`
-                : `<span class="inline-flex items-center px-4 py-2 rounded-full bg-[#f0f2f0] text-[#677461] font-['Inter'] font-bold text-[12px] uppercase tracking-wider">Reviewed</span>`
-            }
+        : `<span class="inline-flex items-center px-4 py-2 rounded-full bg-[#f0f2f0] text-[#677461] font-['Inter'] font-bold text-[12px] uppercase tracking-wider">Reviewed</span>`
+      }
           </div>
         </td>
       </tr>`;
@@ -2169,7 +2200,7 @@
       category: fields.industry_type || '',
       state: fields.state_region || '',
       team_size: fields.team_size || '',
-      funding_raised: fields.funding_raised_inr || '',
+      funding_raised: fields.funding_raised || fields.funding_raised_inr || '',
       overview: fields.startup_overview || '',
       status: 'pending',
       metadata: { ...fields, phone_number: contactPhone }
@@ -2771,7 +2802,7 @@
       ? newsletters
         .map(
           (row) => `
-        <a href="${html(row.pdf_url || '#')}" target="_blank" class="bg-white flex flex-col items-start justify-between rounded-[20px] shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-gray-100 hover:border-[#d2dfce] hover:shadow-lg transition-all w-full min-h-[190px] shrink-0 group p-[24px]">
+        <a href="${html(row.pdf_url || '#')}" target="_blank" class="bg-white flex flex-col items-start justify-between rounded-[20px] shadow-[0px 4px 16px rgba(0,0,0,0.04)] border border-gray-100 hover:border-[#d2dfce] hover:shadow-lg transition-all w-full min-h-[190px] shrink-0 group p-[24px]">
           <!-- Header and Content -->
           <div class="flex flex-col gap-[16px] items-start w-full">
             <div class="flex items-center justify-between w-full">
@@ -2954,7 +2985,7 @@
       container.innerHTML = list
         .map(
           (hub) =>
-            `<span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)]"> ${html(hub.name)}</span> `
+            `<span class="bg-[#fff3db] text-[#7d6433] font-['Inter'] font-semibold text-[11px] px-[12px] py-[4px] rounded-[12px] shadow-[0px 1px 2px 0px rgba(0,0,0,0.05)]"> ${html(hub.name)}</span> `
         )
         .join('');
     });
@@ -2976,7 +3007,7 @@
       grid.innerHTML = mous
         .map(
           (mou) => `
-    <a href = "${html(mou.document_url || '#')}" target = "_blank" class="bg-white flex flex-col gap-[14px] p-[24px] md:p-[32px] rounded-[14px] shadow-[0px_4px_16px_rgba(0,0,0,0.04)] border border-gray-100 min-h-[263px] items-start justify-center hover:-translate-y-1 transition-all">
+    <a href = "${html(mou.document_url || '#')}" target = "_blank" class="bg-white flex flex-col gap-[14px] p-[24px] md:p-[32px] rounded-[14px] shadow-[0px 4px 16px rgba(0,0,0,0.04)] border border-gray-100 min-h-[263px] items-start justify-center hover:-translate-y-1 transition-all">
           <h3 class="font-['Inter'] font-semibold text-black text-[20px] leading-tight">${html(mou.partner_name)}</h3>
           <div class="bg-[#2d5a3d] px-[16px] py-[6px] rounded-[50px] shadow-sm">
             <span class="font-['Inter'] font-medium text-white text-[12px] uppercase tracking-wider">${html(mou.association_type || 'MOU')}</span>
@@ -3230,6 +3261,22 @@
   async function submitRegistration(form) {
     validateRegistrationForm(form);
     const fields = collectLabeledFields(form, { includeHidden: true });
+
+    // Process File Uploads
+    for (const key in fields) {
+      if (fields[key] instanceof File) {
+        try {
+          const file = fields[key];
+          const ext = file.name.split('.').pop();
+          const path = `registration/${Date.now()}-${Math.random().toString(36).substring(7)}.${ext}`;
+          fields[key] = await uploadFile('uploads', path, file);
+        } catch (err) {
+          console.error(`Failed to upload ${key}:`, err);
+          fields[key] = null;
+        }
+      }
+    }
+
     const role = registrationRole(form);
     const currentUser = rememberCurrentUser(role, fields);
     const contactEmail = lower(fields.email_address || '');
@@ -3251,17 +3298,18 @@
         fields.organization ||
         (fields.brief_idea_description ? `${currentUser.name} 's Startup Idea` : '') ||
         `${currentUser.name}'s Startup`;
-      const startup = await insertRow('startups', {
+      const startupPayload = {
         name: startupName,
         founder_name: fields.founder_owner_name || fields.full_name || currentUser.name,
         email: contactEmail,
-        phone: contactPhone,
-        website_url: fields.website_link ? `https://${fields.website_link.replace(/^https?:\/\//i, '')}` : '',
+        phone: contactPhone || null,
         category: fields.industry_type || fields.vertical || (role === 'entrepreneur' ? 'Entrepreneur Idea' : 'Startup'),
-        state: fields.state_region || fields.location || '',
-        team_size: fields.team_size || '',
-        funding_raised: fields.funding_raised_inr || fields.budget || '',
-        overview: fields.startup_overview || fields.brief_idea_description || '',
+        website_url: (fields.website_link || '').trim() ? `https://${fields.website_link.replace(/^https?:\/\//i, '')}` : null,
+        state: (fields.state_region || fields.location || '').trim() ? (fields.state_region || fields.location) : null,
+        team_size: (fields.team_size || '').trim() ? fields.team_size : null,
+        funding_raised: (fields.funding_raised || fields.funding_raised_inr || fields.budget || fields.estimated_budget || '').toString().trim() ? (fields.funding_raised || fields.funding_raised_inr || fields.budget || fields.estimated_budget) : null,
+        overview: (fields.startup_overview || fields.brief_idea_description || '').trim() ? (fields.startup_overview || fields.brief_idea_description) : null,
+        established_year: (fields.established_year || fields.founded_date || fields.year || '').toString().trim() ? (fields.established_year || fields.founded_date || fields.year) : null,
         status: 'pending',
         metadata: {
           ...fields,
@@ -3269,7 +3317,9 @@
           submitted_as: role,
           profile_id: profile.id
         }
-      });
+      };
+
+      const startup = await insertRow('startups', startupPayload);
       const request = await insertRow('requests', {
         request_type: 'startup_registration',
         title: startup.name,
@@ -3648,19 +3698,20 @@
     const currentUser = readStore('nest_current_user', null);
     if (!currentUser) return;
 
+    const name = html(currentUser.name);
+    const initial = name ? name.charAt(0).toUpperCase() : 'U';
+    const dashboardUrl = getDashboardUrl(currentUser.role);
+
+    const avatarHtml = currentUser.image_url
+      ? `<img src="${html(currentUser.image_url)}" class="w-[38px] h-[38px] rounded-full object-cover shrink-0 shadow-sm border border-gray-100">`
+      : `<div style="background-color: #e2e8f0; color: #1e293b;" class="w-[38px] h-[38px] rounded-full flex items-center justify-center font-['Inter'] font-bold text-[16px] shrink-0">${initial}</div>`;
+
     // Desktop Actions
     const desktopActions = document.querySelector('#navbar .hidden.lg\\:flex.items-center.gap-\\[8px\\]');
     if (desktopActions && desktopActions.querySelector('a[href*="login"]')) {
-      const dashboardUrl = getDashboardUrl(currentUser.role);
-      const name = html(currentUser.name);
-      const email = html(currentUser.email || '');
-      const initial = name ? name.charAt(0).toUpperCase() : 'U';
-
       desktopActions.innerHTML = `
         <a href="${dashboardUrl}" style="background-color: #f8f9fa; border: 1px solid #e5e7eb;" class="flex items-center gap-[10px] px-[10px] py-[6px] rounded-full hover:shadow-md transition-all duration-200">
-          <div style="background-color: #e2e8f0; color: #1e293b;" class="w-[38px] h-[38px] rounded-full flex items-center justify-center font-['Inter'] font-bold text-[16px] shrink-0">
-            ${initial}
-          </div>
+          ${avatarHtml}
           <span class="font-['Inter'] font-semibold text-[#111827] text-[15px] pr-[4px] whitespace-nowrap">${name}</span>
         </a>
       `;
@@ -3669,16 +3720,13 @@
     // Mobile Actions
     const mobileActions = document.querySelector('#navbar .mt-4.pt-4.border-t.border-gray-100.flex.flex-col.gap-3');
     if (mobileActions && mobileActions.querySelector('a[href*="login"]')) {
-      const dashboardUrl = getDashboardUrl(currentUser.role);
-      const name = html(currentUser.name);
-      const email = html(currentUser.email || '');
-      const initial = name ? name.charAt(0).toUpperCase() : 'U';
+      const mobileAvatarHtml = currentUser.image_url
+        ? `<img src="${html(currentUser.image_url)}" class="w-[40px] h-[40px] rounded-full object-cover shrink-0 shadow-sm border border-gray-100">`
+        : `<div style="background-color: #e2e8f0; color: #1e293b;" class="w-[40px] h-[40px] rounded-full flex items-center justify-center font-['Inter'] font-bold text-[16px] shrink-0">${initial}</div>`;
 
       mobileActions.innerHTML = `
         <a href="${dashboardUrl}" style="background-color: #f8f9fa; border: 1px solid #e5e7eb;" class="flex items-center gap-[12px] px-[10px] py-[10px] rounded-[16px] hover:shadow-md transition-all">
-          <div style="background-color: #e2e8f0; color: #1e293b;" class="w-[40px] h-[40px] rounded-full flex items-center justify-center font-['Inter'] font-bold text-[16px] shrink-0">
-            ${initial}
-          </div>
+          ${mobileAvatarHtml}
           <span class="font-['Inter'] font-semibold text-[#111827] text-[15px] flex-1">${name}</span>
         </a>
       `;
@@ -3694,7 +3742,13 @@
     document.addEventListener('submit', submitHandler, true);
     window.addEventListener('storage', (event) => {
       if (event.key === 'nest_content_updated_at') scheduleInit(true);
-      if (event.key === 'nest_current_user') updateNavbarAuthState();
+      if (event.key === 'nest_current_user') {
+        updateNavbarAuthState();
+        // Redirect if user logged out from another tab and we are on a dashboard
+        if (!event.newValue && isDashboardPage()) {
+          window.location.href = 'index.html';
+        }
+      }
     });
     window.addEventListener('focus', () => scheduleInit(false));
 
@@ -3716,7 +3770,10 @@
   window.NESTSupabaseApp = {
     refresh: () => scheduleInit(true),
     approveRequest: (id) => decideRequest(id, 'approved'),
-    rejectRequest: (id) => decideRequest(id, 'rejected')
+    rejectRequest: (id) => decideRequest(id, 'rejected'),
+    uploadFile: (bucket, path, file) => uploadFile(bucket, path, file),
+    updateRow: (table, id, payload) => updateRow(table, id, payload),
+    currentUser: () => readStore('nest_current_user')
   };
 
   if (document.readyState === 'loading') {

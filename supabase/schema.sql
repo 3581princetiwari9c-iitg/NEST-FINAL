@@ -248,6 +248,7 @@ alter table public.profiles add column if not exists email text;
 alter table public.profiles add column if not exists phone text;
 alter table public.profiles add column if not exists role text;
 alter table public.profiles add column if not exists organization text;
+alter table public.profiles add column if not exists image_url text;
 alter table public.profiles add column if not exists status text default 'pending';
 alter table public.profiles add column if not exists metadata jsonb default '{}'::jsonb;
 alter table public.profiles add column if not exists created_at timestamptz default now();

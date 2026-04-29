@@ -98,21 +98,55 @@
                             <textarea placeholder="Briefly describe your vision, product, and the problem you are solving..." rows="3" class="form-textarea-custom"></textarea>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-4">
-                            <div class="flex flex-col gap-1.5">
+                             <div class="flex flex-col gap-1.5">
                                 <label class="font-['Inter'] font-semibold text-[#131927] text-[14px]">Industry/Type</label>
-                                <select class="form-select-custom"><option>Select Industry</option></select>
+                                <div class="relative">
+                                    <select class="form-select-custom w-full">
+                                        <option value="">Select Vertical</option>
+                                        <option value="Grassroots Technologies">Grassroots Technologies</option>
+                                        <option value="Heritage Crafts">Heritage Crafts</option>
+                                        <option value="Bamboo Technologies">Bamboo Technologies</option>
+                                        <option value="Sustainable Tech">Sustainable Tech</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-[#1b3a28]">
+                                        <svg class="h-4 w-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </div>
+                             <div class="flex flex-col gap-1.5">
+                                <label class="font-['Inter'] font-semibold text-[#131927] text-[14px]">State/Region</label>
+                                <div class="relative">
+                                    <select class="form-select-custom w-full">
+                                        <option value="">Select NE State</option>
+                                        <option value="Assam">Assam</option>
+                                        <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                                        <option value="Manipur">Manipur</option>
+                                        <option value="Meghalaya">Meghalaya</option>
+                                        <option value="Mizoram">Mizoram</option>
+                                        <option value="Nagaland">Nagaland</option>
+                                        <option value="Sikkim">Sikkim</option>
+                                        <option value="Tripura">Tripura</option>
+                                    </select>
+                                    <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-[#1b3a28]">
+                                        <svg class="h-4 w-4 opacity-50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
                             </div>
                             <div class="flex flex-col gap-1.5">
-                                <label class="font-['Inter'] font-semibold text-[#131927] text-[14px]">State/Region</label>
-                                <select class="form-select-custom"><option>Select NE State</option></select>
+                                <label class="font-['Inter'] font-semibold text-[#131927] text-[14px]">Established Year</label>
+                                <input type="number" placeholder="e.g. 2022" class="form-input-custom">
                             </div>
                             <div class="flex flex-col gap-1.5">
                                 <label class="font-['Inter'] font-semibold text-[#131927] text-[14px]">Team Size</label>
-                                <input type="text" placeholder="Total employees/founders" class="form-input-custom">
+                                <input type="number" placeholder="Total employees/founders" class="form-input-custom">
                             </div>
                             <div class="flex flex-col gap-1.5">
                                 <label class="font-['Inter'] font-semibold text-[#131927] text-[14px]">Funding Raised (INR)</label>
-                                <input type="text" placeholder="Amount in Lakhs or Cr" class="form-input-custom">
+                                <input type="number" placeholder="Enter amount in INR" class="form-input-custom">
                             </div>
                         </div>
                     </div>
@@ -135,34 +169,37 @@
                         
                         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             <!-- Pitch Deck -->
-                            <div class="document-card group">
+                            <div class="document-card group border-2 border-transparent transition-all">
                                 <i class="fas fa-file-pdf text-[32px] text-red-500 mb-2"></i>
                                 <span class="font-bold text-[14px]">Pitch Deck</span>
                                 <span class="text-[11px] opacity-60">PDF only (Max 10MB)</span>
-                                <label class="select-file-btn cursor-pointer inline-block text-center">
-                                    SELECT FILE
-                                    <input type="file" class="hidden" accept=".pdf">
+                                <label class="select-file-btn cursor-pointer inline-block text-center relative">
+                                    <span class="btn-text">SELECT FILE</span>
+                                    <input type="file" class="hidden registration-file-input" accept=".pdf">
                                 </label>
+                                <span class="file-name-display text-[10px] text-[#2d5a3d] mt-2 font-medium hidden"></span>
                             </div>
                             <!-- Business Plan -->
-                            <div class="document-card group">
+                            <div class="document-card group border-2 border-transparent transition-all">
                                 <i class="fas fa-file-pdf text-[32px] text-red-500 mb-2"></i>
                                 <span class="font-bold text-[14px]">Business Plan</span>
                                 <span class="text-[11px] opacity-60">PDF only (Max 20MB)</span>
-                                <label class="select-file-btn cursor-pointer inline-block text-center">
-                                    SELECT FILE
-                                    <input type="file" class="hidden" accept=".pdf">
+                                <label class="select-file-btn cursor-pointer inline-block text-center relative">
+                                    <span class="btn-text">SELECT FILE</span>
+                                    <input type="file" class="hidden registration-file-input" accept=".pdf">
                                 </label>
+                                <span class="file-name-display text-[10px] text-[#2d5a3d] mt-2 font-medium hidden"></span>
                             </div>
                             <!-- Additional Docs -->
-                            <div class="document-card group border-dashed">
+                            <div class="document-card group border-dashed border-2 border-transparent transition-all">
                                 <i class="fas fa-plus-circle text-[32px] text-gray-300 mb-2"></i>
                                 <span class="font-bold text-[14px]">Additional Docs</span>
                                 <span class="text-[11px] opacity-60">Optional (Max 5MB)</span>
-                                <label class="select-file-btn cursor-pointer inline-block text-center">
-                                    SELECT FILE
-                                    <input type="file" class="hidden">
+                                <label class="select-file-btn cursor-pointer inline-block text-center relative">
+                                    <span class="btn-text">SELECT FILE</span>
+                                    <input type="file" class="hidden registration-file-input">
                                 </label>
+                                <span class="file-name-display text-[10px] text-[#2d5a3d] mt-2 font-medium hidden"></span>
                             </div>
                         </div>
                     </div>
@@ -291,11 +328,12 @@
             align-items: center;
             justify-content: center;
             padding: 1.5rem;
-            border: 2px solid #e5e7eb;
             border-radius: 14px;
             background-color: white;
             transition: all 0.2s;
             text-align: center;
+            position: relative;
+            border: 2px solid transparent;
         }
         .document-card:hover {
             background-color: #f9fafb;
@@ -422,6 +460,24 @@
                 input.addEventListener('keydown', (e) => {
                     if (e.key === 'Backspace' && e.target.value.length === 0 && index > 0) {
                         otpInputs[index - 1].focus();
+                    }
+                });
+            });
+
+            // File Upload Feedback
+            document.querySelectorAll('.registration-file-input').forEach(input => {
+                input.addEventListener('change', (e) => {
+                    const file = e.target.files[0];
+                    const card = e.target.closest('.document-card');
+                    const fileNameDisplay = card.querySelector('.file-name-display');
+                    const btnText = card.querySelector('.btn-text');
+                    
+                    if (file) {
+                        fileNameDisplay.textContent = file.name;
+                        fileNameDisplay.classList.remove('hidden');
+                        btnText.textContent = 'CHANGE FILE';
+                        card.classList.remove('border-transparent');
+                        card.classList.add('border-[#2d5a3d]', 'bg-[#f1ffee]/40');
                     }
                 });
             });
