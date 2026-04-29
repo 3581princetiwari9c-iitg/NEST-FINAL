@@ -544,8 +544,8 @@
   function collectDocumentItems(sources) {
     const docs = [];
     const seen = new Set();
-    const skipKey = /password|profile_id|startup_id|product_id/i;
-    const docKey = /(document|file|pdf|deck|certificate|proposal|image|mou)/i;
+    const skipKey = /password|profile_id|startup_id|product_id|image_url|logo_url|avatar|photo/i;
+    const docKey = /(document|file|pdf|deck|certificate|proposal|mou)/i;
     const addDoc = (doc, fallbackTitle) => {
       if (!doc) return;
       if (Array.isArray(doc)) {
@@ -555,6 +555,7 @@
       if (typeof doc === 'object') {
         const value = clean(doc.url || doc.value || doc.href || doc.publicUrl || doc.public_url || doc.path || doc.file_url || doc.download_url);
         if (value) {
+          if (/\.(png|jpe?g|gif|webp|svg)(?:[?#].*)?$/i.test(value)) return;
           const title = clean(doc.title || doc.label || doc.document_title || fallbackTitle || doc.name || doc.file_name || 'Document');
           const name = clean(doc.name || doc.file_name || doc.original_name || '');
           const signature = `${value}|${title}|${name}`;
@@ -577,6 +578,7 @@
       }
       const value = clean(doc);
       if (!value) return;
+      if (/\.(png|jpe?g|gif|webp|svg)(?:[?#].*)?$/i.test(value)) return;
       const title = clean(fallbackTitle) || 'Document';
       const signature = `${value}|${title}`;
       if (seen.has(signature)) return;
@@ -2339,6 +2341,60 @@
     return null;
   }
 
+  async function startupRequestRows(startup, user) {
+    const requests = [];
+    const seen = new Set();
+    const addRequests = (items) => {
+      (items || []).forEach((item) => {
+        if (!item || seen.has(item.id)) return;
+        seen.add(item.id);
+        requests.push(item);
+      });
+    };
+
+    const app = readStore('nest_startup_application', null);
+    if (app && app.requestId) {
+      try {
+        const request = await single('requests', app.requestId);
+        addRequests([request]);
+      } catch (error) {
+        console.warn('Could not load stored startup request:', error);
+      }
+    }
+
+    if (startup && startup.id) {
+      try {
+        addRequests(await rows('requests', (q) => q.eq('related_id', startup.id).order('submitted_at', { ascending: false }).limit(10)));
+      } catch (error) {
+        console.warn('Could not load startup requests:', error);
+      }
+    }
+
+    const email = lower((startup && startup.email) || (user && user.email) || '');
+    if (email) {
+      try {
+        addRequests(
+          await rows('requests', (q) =>
+            q.eq('requester_email', email).eq('request_type', 'startup_registration').order('submitted_at', { ascending: false }).limit(10)
+          )
+        );
+      } catch (error) {
+        console.warn('Could not load startup requests by email:', error);
+      }
+    }
+
+    return requests;
+  }
+
+  async function startupDocumentSources(startup, user) {
+    const requests = await startupRequestRows(startup, user);
+    return [
+      startup,
+      payloadObject(startup && startup.metadata),
+      ...requests.flatMap((request) => [request, payloadObject(request.payload)])
+    ];
+  }
+
   function isStartupStatusDashboardRoute(root) {
     const hash = lower(window.location.hash || '');
     if (hash) return hash.includes('myidea') || hash.includes('mystartup');
@@ -2412,7 +2468,7 @@
         </div>`;
       return;
     }
-    const sources = [startup, payloadObject(startup.metadata)];
+    const sources = await startupDocumentSources(startup, user);
     if (isIdeaPage) {
       root.innerHTML = `
         <div class="flex flex-col gap-[24px] items-start w-full max-w-[1000px]">
@@ -3308,7 +3364,19 @@
   async function decideRequest(id, status) {
     const req = await single('requests', id);
     if (req.related_table && req.related_id) {
-      await updateRow(req.related_table, req.related_id, { status });
+      const patch = { status };
+      if (req.related_table === 'startups') {
+        try {
+          const startup = await single('startups', req.related_id);
+          patch.metadata = {
+            ...payloadObject(startup.metadata),
+            ...payloadObject(req.payload)
+          };
+        } catch (error) {
+          console.warn('Could not merge startup request payload:', error);
+        }
+      }
+      await updateRow(req.related_table, req.related_id, patch);
     }
     if (req.payload && req.payload.profile_id) {
       await updateRow('profiles', req.payload.profile_id, { status });
