@@ -475,9 +475,14 @@
   }
 
   function markInvalidControl(control) {
-    control.classList.add('ring-2', 'ring-[#b04a4a]', 'border-[#b04a4a]');
-    setTimeout(() => control.classList.remove('ring-2', 'ring-[#b04a4a]', 'border-[#b04a4a]'), 2500);
-    if (typeof control.focus === 'function') control.focus();
+    control.classList.add('!ring-2', '!ring-red-500', '!border-red-500');
+    const removeInvalid = () => {
+      control.classList.remove('!ring-2', '!ring-red-500', '!border-red-500');
+      control.removeEventListener('input', removeInvalid);
+      control.removeEventListener('change', removeInvalid);
+    };
+    control.addEventListener('input', removeInvalid);
+    control.addEventListener('change', removeInvalid);
   }
 
   function controlIsEmpty(control) {
@@ -492,10 +497,12 @@
   function validateRegistrationForm(form, options) {
     const visibleOnly = options && options.visibleOnly;
     const candidates = formControls(form).filter((control) => !isOptionalControl(control) && (!visibleOnly || isVisibleControl(control)));
-    const missing = candidates.find(controlIsEmpty);
-    if (missing) {
-      markInvalidControl(missing);
-      throw new Error('Please fill all required registration fields before continuing.');
+    const missing = candidates.filter(controlIsEmpty);
+    if (missing.length > 0) {
+      missing.forEach(markInvalidControl);
+      const err = new Error('Please fill all required registration fields before continuing.');
+      err.isSilent = true;
+      throw err;
     }
     const passwords = candidates.filter((control) => control.type === 'password');
     const confirm = passwords.find((control) => /confirm/i.test(`${control.id || ''} ${control.name || ''} ${control.placeholder || ''} ${controlLabel(control)}`));
@@ -3292,6 +3299,16 @@
       return;
     }
 
+    if (role === 'trainee' || role === 'artisan') {
+      await updateRow('profiles', profile.id, { status: 'active' });
+      persistCurrentUser({ ...currentUser, profileId: profile.id, status: 'active' });
+      showToast('Registration successful! Redirecting to dashboard...');
+      setTimeout(() => {
+        window.location.href = getDashboardUrl(role);
+      }, 900);
+      return;
+    }
+
     const request = await insertRow('requests', {
       request_type: 'user_registration',
       title: `${titleCase(role)} registration`,
@@ -3465,7 +3482,9 @@
       } catch (error) {
         event.preventDefault();
         event.stopImmediatePropagation();
-        showToast(error.message || 'Please fill all required fields.', 'error');
+        if (!error.isSilent) {
+          showToast(error.message || 'Please fill all required fields.', 'error');
+        }
         return;
       }
       if (label.includes('get otp') && button.dataset.registrationOtpReady !== 'true') {
@@ -3581,7 +3600,11 @@
       event.stopImmediatePropagation();
       verifyRegistrationOtp(form)
         .then(() => submitRegistration(form))
-        .catch((error) => showToast(error.message || 'Registration failed.', 'error'));
+        .catch((error) => {
+          if (!error.isSilent) {
+            showToast(error.message || 'Registration failed.', 'error');
+          }
+        });
       return;
     }
     if (form.id === 'add-mou-form') {

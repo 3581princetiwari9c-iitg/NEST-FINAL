@@ -60,7 +60,7 @@ function initHeroCarousel() {
   track.innerHTML = loopedSlides.map((slide, index) => {
     return `
       <div class="hero-slide relative shrink-0 rounded-[36px] sm:rounded-[40px] overflow-hidden shadow-xl flex items-center" 
-           style="width: 1180px; max-width: 80vw; height: 100%;" 
+           style="width: 86vw; height: 100%;" 
            data-index="${index}" 
            data-orig="${slide.origIndex}">
         

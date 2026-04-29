@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+html {
+  scroll-behavior: smooth;
+}
+
 .footer-tagline span {
   display: inline-block;
   transition: transform 0.4s ease;
