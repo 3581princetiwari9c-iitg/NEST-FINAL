@@ -463,7 +463,7 @@
       if (!control || control.type === 'password' || (!includeHidden && control.closest('.hidden'))) return;
       const key = toKey(text(label));
       if (control.type === 'file') {
-        fields[key] = control.files[0] || null;
+        return;
       } else {
         fields[key] = control.tagName === 'SELECT' ? selectedText(control) : clean(control.value);
       }
@@ -473,28 +473,33 @@
 
   function installDocumentUploadInputs(root) {
     root.querySelectorAll('.document-card').forEach((card, index) => {
-      if (card.querySelector('input[type="file"][data-nest-document-input]')) return;
       const title = text(card.querySelector('.font-bold')) || `Document ${index + 1}`;
       const button = card.querySelector('.select-file-btn');
-      if (!button) return;
-      const input = document.createElement('input');
+      const input = card.querySelector('input[type="file"]') || document.createElement('input');
       input.type = 'file';
       input.accept = 'application/pdf,.pdf';
-      input.className = 'hidden';
+      if (!input.classList.contains('hidden')) input.classList.add('hidden');
       input.dataset.nestDocumentInput = 'true';
       input.dataset.documentTitle = title;
       input.multiple = true;
-      button.type = 'button';
-      button.removeAttribute('onclick');
-      button.insertAdjacentElement('afterend', input);
+      if (!input.parentElement && button) button.insertAdjacentElement('afterend', input);
+      if (button && button.tagName === 'BUTTON') button.type = 'button';
+      if (button) button.removeAttribute('onclick');
     });
   }
 
   function selectedDocumentFiles(form) {
-    return Array.from(form.querySelectorAll('input[type="file"][data-nest-document-input]')).flatMap((input) =>
+    const seen = new Set();
+    const inputs = Array.from(form.querySelectorAll('.document-card input[type="file"], input[type="file"][data-nest-document-input]'))
+      .filter((input) => {
+        if (seen.has(input)) return false;
+        seen.add(input);
+        return input.dataset.nestDocumentInput === 'true' || (input.files && input.files.length);
+      });
+    return inputs.flatMap((input) =>
       Array.from(input.files || []).map((file, index) => ({
         file,
-        title: input.dataset.documentTitle || `Document ${index + 1}`
+        title: input.dataset.documentTitle || text(input.closest('.document-card') && input.closest('.document-card').querySelector('.font-bold')) || `Document ${index + 1}`
       }))
     );
   }
@@ -4264,9 +4269,15 @@
       const button = card && card.querySelector('.select-file-btn');
       const files = Array.from(input.files || []);
       if (button) {
-        button.textContent = files.length ? `${files.length} FILE${files.length > 1 ? 'S' : ''} SELECTED` : 'SELECT FILE';
+        const buttonText = button.querySelector('.btn-text') || button;
+        buttonText.textContent = files.length ? `${files.length} FILE${files.length > 1 ? 'S' : ''} SELECTED` : 'SELECT FILE';
         button.classList.toggle('bg-[#2d5a3d]', files.length > 0);
         button.classList.toggle('text-white', files.length > 0);
+      }
+      const fileNameDisplay = card && card.querySelector('.file-name-display');
+      if (fileNameDisplay) {
+        fileNameDisplay.innerHTML = files.map((file) => html(file.name)).join('<br>');
+        fileNameDisplay.classList.toggle('hidden', files.length === 0);
       }
       const previous = card && card.querySelector('[data-nest-selected-docs]');
       if (previous) previous.remove();
