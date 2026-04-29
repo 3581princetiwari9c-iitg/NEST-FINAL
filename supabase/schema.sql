@@ -32,7 +32,7 @@ create table if not exists public.profiles (
   phone text,
   role text not null check (role in ('startup', 'trainee', 'entrepreneur', 'artisan', 'admin')),
   organization text,
-  status text not null default 'pending' check (status in ('pending', 'approved', 'rejected')),
+  status text not null default 'pending' check (status in ('pending', 'approved', 'rejected', 'active')),
   metadata jsonb not null default '{}'::jsonb,
   created_at timestamptz not null default now(),
   updated_at timestamptz not null default now()
@@ -224,9 +224,14 @@ create table if not exists public.notifications (
 -- partial NEST tables.
 alter table public.profiles drop constraint if exists profiles_id_fkey;
 alter table public.profiles drop constraint if exists profiles_role_check;
+alter table public.profiles drop constraint if exists profiles_status_check;
 alter table public.profiles
   add constraint profiles_role_check
   check (role in ('startup', 'trainee', 'entrepreneur', 'artisan', 'admin'))
+  not valid;
+alter table public.profiles
+  add constraint profiles_status_check
+  check (status in ('pending', 'approved', 'rejected', 'active'))
   not valid;
 
 alter table public.profiles alter column id set default gen_random_uuid();

@@ -6,43 +6,28 @@
             <!-- Header -->
             <div class="mb-8 text-center">
                 <h2 id="login-title" class="text-[28px] font-['Manrope'] font-bold text-[#1b3a28] mb-2 tracking-tight">Login</h2>
-                <p id="login-subtitle" class="text-gray-500 text-[15px] font-['Inter']">Select your role and receive a secure OTP.</p>
+                <p id="login-subtitle" class="text-gray-500 text-[15px] font-['Inter']">Enter your email and password. Your dashboard opens automatically.</p>
             </div>
 
             <form id="auth-form" class="space-y-6" novalidate>
                 
-                <!-- STATE 1: OTP LOGIN (Default) -->
+                <!-- STATE 1: PASSWORD LOGIN (Default) -->
                 <div id="state-login" class="space-y-6">
-                    <div class="space-y-1.5 font-['Inter']">
-                        <label class="block text-sm font-semibold text-[#1b3a28]">Login As</label>
-                        <select id="login-role" class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all duration-200" required>
-                            <option value="startup">Startup - Email OTP</option>
-                            <option value="entrepreneur">Entrepreneur - Email OTP</option>
-                            <option value="artisan">Artisan - Email OTP</option>
-                            <option value="trainee">Trainee - Email OTP</option>
-                            <option value="admin">Admin - Email OTP</option>
-                        </select>
-                    </div>
                     <div id="login-email-wrap" class="space-y-1.5 font-['Inter']">
                         <label class="block text-sm font-semibold text-[#1b3a28]">Email Address</label>
-                        <input id="login-email" type="email" placeholder="name@company.com" class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all duration-200">
-                    </div>
-                    <div id="login-phone-wrap" class="hidden space-y-1.5 font-['Inter']">
-                        <label class="block text-sm font-semibold text-[#1b3a28]">Phone Number</label>
-                        <input id="login-phone" type="tel" placeholder="+91 98765 43210" class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all duration-200">
-                        <p class="text-[12px] text-[#677461]">Use country code. Indian 10 digit numbers will be converted to +91.</p>
+                        <input id="login-email" type="email" placeholder="name@company.com" class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all duration-200" required>
                     </div>
                     <div id="login-password-wrap" class="space-y-1.5 font-['Inter']">
                         <div class="flex justify-between items-center">
-                            <label class="block text-sm font-semibold text-[#1b3a28]">Testing Password</label>
+                            <label class="block text-sm font-semibold text-[#1b3a28]">Password</label>
                             <button type="button" onclick="startRecovery()" class="text-xs font-bold text-[#b04a4a] hover:underline uppercase tracking-wider">Forgot?</button>
                         </div>
-                        <input id="login-password" type="password" placeholder="Optional for local demo login" class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all duration-200">
-                        <p class="text-[12px] text-[#677461]">Leave blank for real OTP login with a real registered email. Use demo password for @nest.test testing emails.</p>
+                        <input id="login-password" type="password" placeholder="Enter your password" class="w-full px-4 py-3 bg-gray-50/50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all duration-200" required>
+                        <p class="text-[12px] text-[#677461]">Use the password you created during registration.</p>
                     </div>
                     
-                    <button id="send-otp-btn" type="submit" class="w-full bg-[#1b3a28] hover:bg-[#2d5a3d] text-white font-['Inter'] font-semibold py-4 rounded-xl shadow-[0px_10px_30px_rgba(27,58,40,0.15)] transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99] text-[16px] tracking-wide mt-4">
-                        Send OTP
+                    <button id="login-submit-btn" type="submit" class="w-full bg-[#1b3a28] hover:bg-[#2d5a3d] text-white font-['Inter'] font-semibold py-4 rounded-xl shadow-[0px_10px_30px_rgba(27,58,40,0.15)] transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99] text-[16px] tracking-wide mt-4">
+                        Login
                     </button>
                     
                     <p class="text-center text-gray-400 text-sm mt-8 font-['Inter']">
@@ -51,7 +36,7 @@
 
                     <div class="rounded-[14px] border border-[#e5e7ea] bg-[#f9fafb] p-4 font-['Inter'] text-[12px] text-[#464e42]">
                         <p class="font-bold text-[#1b3a28] mb-3">Testing credentials</p>
-                        <p class="mb-3 text-[#677461]">@nest.test emails are demo-only and cannot receive OTP.</p>
+                        <p class="mb-3 text-[#677461]">Use these demo email/password pairs to test each dashboard.</p>
                         <div class="space-y-1.5">
                             <p><span class="font-bold">Admin:</span> admin@nest.test / Admin@123</p>
                             <p><span class="font-bold">Entrepreneur:</span> entrepreneur@nest.test / Test@123</p>
@@ -60,30 +45,6 @@
                             <p><span class="font-bold">Trainee:</span> trainee@nest.test / Test@123</p>
                         </div>
                     </div>
-                </div>
-
-                <!-- STATE 1B: LOGIN OTP VERIFY -->
-                <div id="state-login-otp" class="hidden space-y-8 animate-fadeInFast">
-                    <div class="font-['Inter']">
-                        <label class="block text-sm font-bold text-[#2d5a3d] mb-4 uppercase tracking-widest text-[11px]">Enter 6 Digit OTP</label>
-                        <input id="login-otp-code" type="text" inputmode="numeric" maxlength="6" autocomplete="one-time-code" class="sr-only" aria-label="6 digit OTP">
-                        <div class="flex justify-between gap-2" id="login-otp-boxes">
-                            <input type="text" inputmode="numeric" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
-                            <input type="text" inputmode="numeric" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
-                            <input type="text" inputmode="numeric" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
-                            <input type="text" inputmode="numeric" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
-                            <input type="text" inputmode="numeric" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
-                            <input type="text" inputmode="numeric" maxlength="1" class="otp-box w-full aspect-square text-center text-xl font-bold bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-[#2d5a3d] focus:ring-2 focus:ring-[#2d5a3d]/10 outline-none transition-all">
-                        </div>
-                    </div>
-
-                    <button type="button" data-action="verify-login-otp" class="w-full bg-[#1b3a28] hover:bg-[#2d5a3d] text-white font-['Inter'] font-semibold py-4 rounded-xl shadow-[0px_10px_30px_rgba(27,58,40,0.15)] transition-all duration-300 transform hover:scale-[1.01] active:scale-[0.99] text-[16px] tracking-wide">
-                        Verify OTP &amp; Login
-                    </button>
-
-                    <button type="button" data-action="back-to-login" class="w-full text-center text-gray-400 text-sm font-bold hover:text-[#b04a4a] transition-all">
-                        <i class="fas fa-arrow-left mr-2"></i>Back to Login
-                    </button>
                 </div>
 
                 <!-- STATE 2: RECOVERY OTP (Hidden) -->

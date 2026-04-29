@@ -672,6 +672,17 @@
     }
   }
 
+  function registrationPassword(form) {
+    const passwords = Array.from(form.querySelectorAll('input[type="password"]'));
+    const confirm = passwords.find((control) => /confirm/i.test(`${control.id || ''} ${control.name || ''} ${control.placeholder || ''} ${controlLabel(control)}`));
+    const password = passwords.find((control) => control !== confirm);
+    const value = clean(password && password.value);
+    if (!value) throw new Error('Please create a password for this account.');
+    if (value.length < 8) throw new Error('Password must be at least 8 characters.');
+    if (confirm && value !== clean(confirm.value)) throw new Error('Password and confirm password must match.');
+    return value;
+  }
+
   function deriveProgramStatus(startDate, endDate) {
     if (!startDate) return 'upcoming';
     const now = new Date();
@@ -1896,6 +1907,7 @@
   }
 
   async function initProgramForm(root) {
+    installProgramFileInputs(root);
     const editId = window.location.hash === '#edit-program' ? sessionStorage.getItem('nest_edit_program_id') : '';
     if (!editId) return;
     const program = await single('programs', editId);
@@ -1925,9 +1937,111 @@
     });
   }
 
+  function programFileInputs(root) {
+    const inputs = Array.from(root.querySelectorAll('input[type="file"]'));
+    return {
+      image: root.querySelector('[data-program-file="image"]') || inputs[0] || null,
+      brochure: root.querySelector('[data-program-file="brochure"]') || inputs[1] || null
+    };
+  }
+
+  function programFileName(file) {
+    if (!file) return '';
+    const sizeMb = file.size ? ` ${(file.size / 1024 / 1024).toFixed(1).replace(/\.0$/, '')} MB` : '';
+    return `${file.name}${sizeMb ? ` - ${sizeMb}` : ''}`;
+  }
+
+  function updateProgramFileLabel(input) {
+    const zone = input && input.closest('[data-nest-program-file-zone]');
+    if (!zone) return;
+    const selected = zone.querySelector('[data-nest-program-selected]');
+    const file = input.files && input.files[0];
+    if (selected) {
+      selected.textContent = file ? programFileName(file) : 'No file selected';
+      selected.classList.toggle('text-[#2d5a3d]', Boolean(file));
+      selected.classList.toggle('text-[#677461]', !file);
+    }
+  }
+
+  function setProgramDropFile(input, file) {
+    if (!file || !window.DataTransfer) return false;
+    const transfer = new DataTransfer();
+    transfer.items.add(file);
+    input.files = transfer.files;
+    updateProgramFileLabel(input);
+    return true;
+  }
+
+  function installProgramFileInputs(root) {
+    const { image, brochure } = programFileInputs(root);
+    [
+      { input: image, type: 'image', accept: 'image/*', empty: 'No banner image selected' },
+      { input: brochure, type: 'brochure', accept: 'application/pdf,.pdf', empty: 'No brochure PDF selected' }
+    ].forEach(({ input, type, accept, empty }) => {
+      if (!input) return;
+      input.dataset.programFile = type;
+      input.dataset.nestProgramFile = 'true';
+      input.accept = accept;
+      const zone = input.closest('.border-dashed') || input.parentElement;
+      if (!zone) return;
+      zone.dataset.nestProgramFileZone = type;
+      zone.setAttribute('role', 'button');
+      zone.setAttribute('tabindex', '0');
+      if (!zone.querySelector('[data-nest-program-selected]')) {
+        input.insertAdjacentHTML(
+          'beforebegin',
+          `<span data-nest-program-selected class="font-['Inter'] text-[#677461] text-[12px] max-w-full text-center break-words">${empty}</span>`
+        );
+      }
+      if (zone.dataset.programFileReady !== 'true') {
+        zone.addEventListener('keydown', (event) => {
+          if (event.key === 'Enter' || event.key === ' ') {
+            event.preventDefault();
+            input.click();
+          }
+        });
+        zone.addEventListener('dragover', (event) => {
+          event.preventDefault();
+          zone.classList.add('border-[#2D5A3D]', 'bg-[#f1ffee]/30');
+        });
+        zone.addEventListener('dragleave', () => {
+          zone.classList.remove('border-[#2D5A3D]', 'bg-[#f1ffee]/30');
+        });
+        zone.addEventListener('drop', (event) => {
+          event.preventDefault();
+          zone.classList.remove('border-[#2D5A3D]', 'bg-[#f1ffee]/30');
+          const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+          if (file && !setProgramDropFile(input, file)) {
+            showToast('Please click the upload box and select the file.', 'error');
+          }
+        });
+        zone.dataset.programFileReady = 'true';
+      }
+      updateProgramFileLabel(input);
+    });
+  }
+
+  function validateProgramAsset(file, type) {
+    if (!file) return;
+    if (type === 'image' && !/^image\//i.test(file.type || '')) {
+      throw new Error('Please upload a JPG, PNG, or WEBP image for the program banner.');
+    }
+    if (type === 'brochure') {
+      const isPdf = /pdf/i.test(file.type || '') || /\.pdf$/i.test(file.name || '');
+      if (!isPdf) throw new Error('Please upload the brochure as a PDF file.');
+      if (file.size > 25 * 1024 * 1024) throw new Error('Program brochure PDF must be less than 25 MB.');
+    }
+  }
+
+  async function uploadProgramAsset(file, folder, type) {
+    validateProgramAsset(file, type);
+    return upload(file, folder);
+  }
+
   async function saveProgram(root) {
     const list = controls(root);
-    const files = Array.from(root.querySelectorAll('input[type="file"]'));
+    installProgramFileInputs(root);
+    const programFiles = programFileInputs(root);
     const startDate = clean(list[4] && list[4].value);
     const endDate = estimateEndDate(startDate, clean(list[5] && list[5].value));
     const eligibility = [list[11], list[12]].map((control) => clean(control && control.value)).filter(Boolean);
@@ -1957,8 +2071,12 @@
       status: deriveProgramStatus(startDate, endDate),
       published: true
     };
-    if (files[0] && files[0].files[0]) payload.image_url = await upload(files[0].files[0], 'programs');
-    if (files[1] && files[1].files[0]) payload.brochure_url = await upload(files[1].files[0], 'brochures');
+    if (programFiles.image && programFiles.image.files[0]) {
+      payload.image_url = await uploadProgramAsset(programFiles.image.files[0], 'programs', 'image');
+    }
+    if (programFiles.brochure && programFiles.brochure.files[0]) {
+      payload.brochure_url = await uploadProgramAsset(programFiles.brochure.files[0], 'brochures', 'brochure');
+    }
 
     const editId = window.location.hash === '#edit-program' ? sessionStorage.getItem('nest_edit_program_id') : '';
     if (editId) {
@@ -2778,6 +2896,23 @@
     return matches.find((profile) => normalizePhone(profile.phone) === normalized) || null;
   }
 
+  async function profileForEmailPasswordLogin(email) {
+    const matches = await rows('profiles', (q) => q.ilike('email', lower(email)).order('created_at', { ascending: false }).limit(20));
+    if (!matches.length) return null;
+    return matches.find((profile) => isSingleEmailRole(profile.role)) || matches.find((profile) => lower(profile.role) === 'admin') || matches[0];
+  }
+
+  function loginAuthError(error) {
+    const message = error && error.message ? error.message : 'Login failed.';
+    if (/invalid login credentials/i.test(message)) {
+      return new Error('Invalid email or password. Use the password created during registration.');
+    }
+    if (/email not confirmed/i.test(message)) {
+      return new Error('This email is not confirmed in Supabase Auth. Disable email confirmations in Supabase Auth settings or confirm the user email first.');
+    }
+    return error;
+  }
+
   function setLoginOtpStep(root, visible, channel, contact) {
     const login = root.querySelector('#state-login');
     const otp = root.querySelector('#state-login-otp');
@@ -2798,26 +2933,26 @@
     }
   }
 
-  function installLoginOtpUi(root) {
+  function installPasswordLoginUi(root) {
     const roleSelect = root.querySelector('#login-role');
     const emailWrap = root.querySelector('#login-email-wrap');
     const phoneWrap = root.querySelector('#login-phone-wrap');
-    const submitButton = root.querySelector('#send-otp-btn');
-    if (!roleSelect || !emailWrap || !phoneWrap) return;
-    const sync = () => {
-      const role = lower(roleSelect.value);
-      const usePhone = loginRoleUsesPhone(role);
-      const usesOtp = EMAIL_OTP_ROLES.has(role) || PHONE_OTP_ROLES.has(role);
-      emailWrap.classList.toggle('hidden', usePhone);
-      phoneWrap.classList.toggle('hidden', !usePhone);
-      const email = root.querySelector('#login-email');
-      const phone = root.querySelector('#login-phone');
-      if (email) email.required = !usePhone;
-      if (phone) phone.required = usePhone;
-      if (submitButton) submitButton.textContent = usesOtp ? 'Send OTP' : 'Login';
-    };
-    roleSelect.addEventListener('change', sync);
-    sync();
+    const otp = root.querySelector('#state-login-otp');
+    const title = root.querySelector('#login-title');
+    const subtitle = root.querySelector('#login-subtitle');
+    const submitButton = root.querySelector('#login-submit-btn') || root.querySelector('#send-otp-btn');
+    const email = root.querySelector('#login-email');
+    const password = root.querySelector('#login-password');
+    const roleWrap = roleSelect && (roleSelect.closest('[class*="space-y-1"]') || roleSelect.parentElement);
+    if (roleWrap) roleWrap.classList.add('hidden');
+    if (phoneWrap) phoneWrap.classList.add('hidden');
+    if (otp) otp.classList.add('hidden');
+    if (emailWrap) emailWrap.classList.remove('hidden');
+    if (email) email.required = true;
+    if (password) password.required = true;
+    if (submitButton) submitButton.textContent = 'Login';
+    if (title) title.textContent = 'Login';
+    if (subtitle) subtitle.textContent = 'Enter your email and password. Your dashboard opens automatically.';
 
     const otpInputs = root.querySelectorAll('#login-otp-boxes input');
     otpInputs.forEach((input, index) => {
@@ -2839,6 +2974,62 @@
         if (next) next.focus();
       });
     });
+  }
+
+  async function startPasswordLogin(form) {
+    const email = lower(form.querySelector('#login-email') && form.querySelector('#login-email').value);
+    const password = clean(form.querySelector('#login-password') && form.querySelector('#login-password').value);
+    if (!email) throw new Error('Please enter your email address.');
+    if (!password) throw new Error('Please enter your password.');
+
+    const demoMatch = demoAccountForLogin(form);
+    if (demoMatch && demoMatch.account.password === password) {
+      await finishDemoLogin(demoMatch.email, demoMatch.account);
+      return;
+    }
+    if (isDemoEmail(email)) {
+      throw new Error('Invalid demo password for this testing account.');
+    }
+
+    const { data, error } = await withAuthTimeout(
+      supabase().auth.signInWithPassword({ email, password }),
+      'Supabase did not respond while logging in. Check your internet connection, then try again.'
+    );
+    if (error) throw loginAuthError(error);
+
+    const profile = await profileForEmailPasswordLogin(email);
+    if (!profile) throw new Error('Login succeeded, but no profile was found for this email. Please complete registration first.');
+
+    const user = {
+      email: profile.email || email,
+      role: profile.role,
+      name: profile.full_name || profile.organization || titleCase(profile.role),
+      phone: profile.phone || '',
+      profileId: profile.id,
+      status: profile.status || '',
+      auth: 'password',
+      authUserId: data && data.user && data.user.id,
+      loggedInAt: new Date().toISOString()
+    };
+    persistCurrentUser(user);
+    if (profile.role === 'startup' || profile.role === 'entrepreneur') {
+      const startups = await rows('startups', (q) => q.ilike('email', lower(user.email)).order('created_at', { ascending: false }).limit(1));
+      if (startups[0]) {
+        const requests = await rows('requests', (q) => q.eq('related_id', startups[0].id).order('submitted_at', { ascending: false }).limit(1));
+        writeStore('nest_startup_application', {
+          role: profile.role,
+          email: user.email,
+          profileId: profile.id,
+          startupId: startups[0].id,
+          requestId: requests[0] && requests[0].id
+        });
+      }
+    }
+    updateNavbarAuthState();
+    showToast(`Logged in as ${titleCase(profile.role)}.`);
+    setTimeout(() => {
+      window.location.href = getDashboardUrl(profile.role);
+    }, 300);
   }
 
   async function startRoleOtpLogin(form) {
@@ -2958,9 +3149,7 @@
     const fields = collectLabeledFields(form, { includeHidden: true });
     const email = lower(fields.email_address || '');
     const role = registrationRole(form);
-    if (!registrationOtpState || registrationOtpState.email !== email || registrationOtpState.role !== role) {
-      throw new Error('Please request a registration OTP for this email before submitting.');
-    }
+    assertRegistrationOtpVerified(email, role, { allowPending: true });
     if (registrationOtpState.verified) return;
     const token = readRegistrationOtpCode(form);
     if (!/^\d{6}$/.test(token)) throw new Error('Please enter the 6 digit OTP sent to your email.');
@@ -2970,6 +3159,41 @@
     );
     if (error) throw error;
     registrationOtpState.verified = true;
+    registrationOtpState.verifiedAt = Date.now();
+  }
+
+  function assertRegistrationOtpVerified(email, role, options = {}) {
+    const normalizedEmail = lower(email || '');
+    const normalizedRole = lower(role || '');
+    const otpMatches =
+      registrationOtpState &&
+      registrationOtpState.email === normalizedEmail &&
+      registrationOtpState.role === normalizedRole;
+    if (!otpMatches) {
+      throw new Error('Please request a registration OTP for this email before submitting.');
+    }
+    if (!options.allowPending && registrationOtpState.verified !== true) {
+      throw new Error('Please verify the OTP sent to this email before creating the account.');
+    }
+  }
+
+  async function saveRegistrationAuthPassword(form, email, role) {
+    const password = registrationPassword(form);
+    const { data: userData } = await supabase().auth.getUser();
+    if (!userData || !userData.user || lower(userData.user.email) !== lower(email)) {
+      throw new Error('Please verify the registration OTP again before saving your password.');
+    }
+    const { error } = await withAuthTimeout(
+      supabase().auth.updateUser({
+        password,
+        data: {
+          role,
+          registration_flow: true
+        }
+      }),
+      'Supabase did not respond while saving your password. Please try again.'
+    );
+    if (error && !/same password/i.test(error.message || '')) throw error;
   }
 
   async function renderPublicMarket(root) {
@@ -3628,7 +3852,9 @@
 
     const role = registrationRole(form);
     const contactEmail = lower(fields.email_address || '');
+    assertRegistrationOtpVerified(contactEmail, role);
     await assertEmailRoleAvailable(contactEmail, role);
+    await saveRegistrationAuthPassword(form, contactEmail, role);
     const uploadedDocuments = await uploadRegistrationDocuments(form, role);
     if (uploadedDocuments.length) fields.registration_documents = uploadedDocuments;
     const currentUser = rememberCurrentUser(role, fields);
@@ -3694,6 +3920,7 @@
         requestId: request.id
       });
       persistCurrentUser({ ...currentUser, profileId: profile.id, startupId: startup.id, status: profile.status });
+      registrationOtpState = null;
       showToast('Startup application sent to admin. Status is pending.');
       setTimeout(() => {
         window.location.href = role === 'entrepreneur' ? 'entrepreneur.html#myidea' : 'startup.html#mystartup';
@@ -3704,6 +3931,7 @@
     if (role === 'trainee' || role === 'artisan') {
       await updateRow('profiles', profile.id, { status: 'active' });
       persistCurrentUser({ ...currentUser, profileId: profile.id, status: 'active' });
+      registrationOtpState = null;
       showToast('Registration successful! Redirecting to dashboard...');
       setTimeout(() => {
         window.location.href = getDashboardUrl(role);
@@ -3727,6 +3955,7 @@
       profileId: profile.id,
       requestId: request.id
     });
+    registrationOtpState = null;
     showToast('Registration saved and sent to admin for approval.');
     setTimeout(() => {
       window.location.href = getDashboardUrl(role);
@@ -3785,7 +4014,7 @@
       if (key === 'public-team-executive') await renderPublicTeam(root, 'executive');
       if (key === 'dashboard-programs') await renderDashboardPrograms(root);
       if (key === 'registration-form') installDocumentUploadInputs(root);
-      if (key === 'login') installLoginOtpUi(root);
+      if (key === 'login') installPasswordLoginUi(root);
     } catch (error) {
       console.error('Supabase render error:', error);
       showToast(error.message || 'Supabase operation failed.', 'error');
@@ -3870,6 +4099,18 @@
     const programLink = event.target.closest('[data-program-id]');
     if (programLink && programLink.dataset.programId) {
       sessionStorage.setItem('nest_selected_program_id', programLink.dataset.programId);
+    }
+    if (key === 'program-form') {
+      const uploadZone = event.target.closest('[data-nest-program-file-zone]');
+      if (uploadZone) {
+        const input = uploadZone.querySelector('input[type="file"][data-nest-program-file]');
+        if (input && event.target !== input) {
+          event.preventDefault();
+          event.stopImmediatePropagation();
+          input.click();
+          return;
+        }
+      }
     }
     const button = event.target.closest('button');
     if (!button) return;
@@ -3966,7 +4207,7 @@
       event.preventDefault();
       event.stopImmediatePropagation();
       button.disabled = true;
-      startRoleOtpLogin(form)
+      startPasswordLogin(form)
         .catch((error) => showToast(error.message || 'Login failed.', 'error'))
         .finally(() => {
           button.disabled = false;
@@ -3979,8 +4220,8 @@
       event.preventDefault();
       event.stopImmediatePropagation();
       button.disabled = true;
-      startRoleOtpLogin(form)
-        .catch((error) => showToast(error.message || 'OTP could not be sent.', 'error'))
+      startPasswordLogin(form)
+        .catch((error) => showToast(error.message || 'Login failed.', 'error'))
         .finally(() => {
           button.disabled = false;
         });
@@ -4014,6 +4255,10 @@
 
   function changeHandler(event) {
     const input = event.target;
+    if (input.matches('[data-nest-program-file]')) {
+      updateProgramFileLabel(input);
+      return;
+    }
     if (input.matches('[data-nest-document-input]')) {
       const card = input.closest('.document-card');
       const button = card && card.querySelector('.select-file-btn');
@@ -4052,7 +4297,7 @@
     if (form.id === 'auth-form') {
       event.preventDefault();
       event.stopImmediatePropagation();
-      startRoleOtpLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
+      startPasswordLogin(form).catch((error) => showToast(error.message || 'Login failed.', 'error'));
       return;
     }
     if (form.id === 'add-hub-form') {
