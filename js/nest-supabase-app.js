@@ -528,28 +528,6 @@
     return docs;
   }
 
-  async function uploadRegistrationDocumentFiles(files, role, titlePrefix = 'Registration Document') {
-    const docs = [];
-    for (const [index, file] of Array.from(files || []).entries()) {
-      if (!file) continue;
-      if (file.type !== 'application/pdf' && !file.name.toLowerCase().endsWith('.pdf')) {
-        throw new Error(`${file.name} must be a PDF file.`);
-      }
-      if (file.size > 25 * 1024 * 1024) {
-        throw new Error(`${file.name} must be less than 25 MB.`);
-      }
-      const url = await upload(file, `registration-documents/${role || 'startup'}`);
-      docs.push({
-        title: `${titlePrefix} ${index + 1}`,
-        name: file.name,
-        url,
-        size: file.size,
-        type: file.type || 'application/pdf'
-      });
-    }
-    return docs;
-  }
-
   function documentFileLabel(value, title, name) {
     const raw = clean(value);
     if (clean(name)) return clean(name);
@@ -2417,62 +2395,6 @@
     ];
   }
 
-  function mergeDocumentRecords(existingDocs, newDocs) {
-    const merged = [];
-    const seen = new Set();
-    [...(existingDocs || []), ...(newDocs || [])].forEach((doc) => {
-      const url = clean(doc && (doc.url || doc.value || doc.href || doc.publicUrl || doc.public_url));
-      if (!url || seen.has(url)) return;
-      seen.add(url);
-      merged.push({
-        title: clean(doc.title || doc.label || 'Registration Document'),
-        name: clean(doc.name || doc.file_name || doc.label || ''),
-        url,
-        size: doc.size || null,
-        type: doc.type || 'application/pdf'
-      });
-    });
-    return merged;
-  }
-
-  async function uploadStartupDashboardDocuments(root, input) {
-    const files = Array.from((input && input.files) || []);
-    if (!files.length) return;
-    const user = readStore('nest_current_user', {});
-    const startup = await getStoredStartup();
-    if (!startup) throw new Error('No startup application was found for this dashboard.');
-
-    const role = lower(user.role || payloadObject(startup.metadata).submitted_as || 'startup');
-    const uploadedDocs = await uploadRegistrationDocumentFiles(files, role, 'Registration Document');
-    const sources = await startupDocumentSources(startup, user);
-    const existingDocs = collectDocumentItems(sources).map((doc) => ({
-      title: doc.title,
-      name: doc.name || doc.label,
-      url: doc.value,
-      type: 'application/pdf'
-    }));
-    const registrationDocuments = mergeDocumentRecords(existingDocs, uploadedDocs);
-    const metadata = {
-      ...payloadObject(startup.metadata),
-      registration_documents: registrationDocuments
-    };
-
-    await updateRow('startups', startup.id, { metadata });
-    const requests = await startupRequestRows(startup, user);
-    await Promise.all(
-      requests.map((request) =>
-        updateRow('requests', request.id, {
-          payload: {
-            ...payloadObject(request.payload),
-            registration_documents: registrationDocuments
-          }
-        })
-      )
-    );
-    showToast(`${uploadedDocs.length} PDF${uploadedDocs.length === 1 ? '' : 's'} uploaded.`);
-    scheduleInit(true);
-  }
-
   function isStartupStatusDashboardRoute(root) {
     const hash = lower(window.location.hash || '');
     if (hash) return hash.includes('myidea') || hash.includes('mystartup');
@@ -2640,11 +2562,7 @@
             </div>
 
             <div class="bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 p-8 space-y-6">
-              <div class="flex items-center justify-between gap-3 border-b pb-4">
-                <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28]">Registration Documents</h3>
-                <button id="startup-documents-btn" type="button" class="px-3 py-2 rounded-[8px] border border-[#2D5A3D] text-[#2D5A3D] font-['Manrope'] font-bold text-[12px] hover:bg-[#f1ffee] transition-all">Upload PDFs</button>
-                <input data-startup-document-input type="file" accept="application/pdf,.pdf" multiple class="hidden">
-              </div>
+              <h3 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28] border-b pb-4">Registration Documents</h3>
               <div class="space-y-3">${startupDashboardDocumentsHtml(sources)}</div>
             </div>
           </div>
@@ -4304,13 +4222,6 @@
       });
       return;
     }
-    if (key === 'dashboard-startup-status' && button.id === 'startup-documents-btn') {
-      event.preventDefault();
-      event.stopImmediatePropagation();
-      const input = root.querySelector('input[data-startup-document-input]');
-      if (input) input.click();
-      return;
-    }
     if ((key === 'registration-form' || isRegistrationButton) && button.id === 'next-btn') {
       try {
         const form = buttonForm || root.querySelector('form');
@@ -4417,15 +4328,6 @@
 
   function changeHandler(event) {
     const input = event.target;
-    if (input.matches('[data-startup-document-input]')) {
-      const root = mainRoot();
-      uploadStartupDashboardDocuments(root, input)
-        .catch((error) => showToast(error.message || 'Documents could not be uploaded.', 'error'))
-        .finally(() => {
-          input.value = '';
-        });
-      return;
-    }
     if (input.matches('[data-nest-program-file]')) {
       updateProgramFileLabel(input);
       return;
