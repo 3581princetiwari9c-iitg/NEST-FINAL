@@ -467,10 +467,17 @@
   }
 
   function isManagementStaffProfile(profile) {
+    if (isRemovedStaffProfile(profile)) return false;
     const accessRole = staffRoleFromProfile(profile);
     if (!profile || !isStaffRole(accessRole)) return false;
     const metadata = payloadObject(profile.metadata);
     return accessRole === 'admin' || metadata.staff_account === true || metadata.management_member === true;
+  }
+
+  function isRemovedStaffProfile(profile) {
+    if (!profile) return false;
+    const metadata = payloadObject(profile.metadata);
+    return metadata.staff_removed === true || metadata.removed_by_admin === true || metadata.removed_staff_account === true;
   }
 
   function staffAllowedCreateRoles() {
@@ -3616,8 +3623,16 @@
 
   async function profileForEmailPasswordLogin(email) {
     const matches = await rows('profiles', (q) => q.ilike('email', lower(email)).order('created_at', { ascending: false }).limit(20));
-    if (!matches.length) return null;
-    return matches.find(isManagementStaffProfile) || matches.find((profile) => isSingleEmailRole(profile.role)) || matches[0];
+    const activeMatches = matches.filter((profile) => !isRemovedStaffProfile(profile));
+    if (activeMatches.length) {
+      return activeMatches.find(isManagementStaffProfile) || activeMatches.find((profile) => isSingleEmailRole(profile.role)) || activeMatches[0];
+    }
+    if (matches.length) return matches.find(isRemovedStaffProfile) || matches[0];
+    const removedProfiles = await rows('profiles', (q) => q.eq('status', 'rejected').order('updated_at', { ascending: false }).limit(300));
+    return removedProfiles.find((profile) => {
+      const metadata = payloadObject(profile.metadata);
+      return isRemovedStaffProfile(profile) && lower(metadata.original_email || metadata.removed_email || '') === lower(email);
+    }) || null;
   }
 
   async function profileForAuthUser(authUser) {
@@ -3744,14 +3759,20 @@
       throw new Error('Invalid demo password for this testing account.');
     }
 
+    const existingProfile = await profileForEmailPasswordLogin(email);
+    if (isRemovedStaffProfile(existingProfile)) {
+      throw new Error('This administrative account was removed by admin.');
+    }
+
     const { data, error } = await withAuthTimeout(
       supabase().auth.signInWithPassword({ email, password }),
       'Supabase did not respond while logging in. Check your internet connection, then try again.'
     );
     if (error) throw loginAuthError(error);
 
-    const profile = await profileForEmailPasswordLogin(email);
+    const profile = existingProfile || await profileForEmailPasswordLogin(email);
     if (!profile) throw new Error('Login succeeded, but no profile was found for this email. Please complete registration first.');
+    if (isRemovedStaffProfile(profile)) throw new Error('This administrative account was removed by admin.');
 
     const user = profileToCurrentUser(profile, data && data.user, 'password');
     persistCurrentUser(user);
@@ -3996,6 +4017,18 @@
     setCounterText(root, 'Approved Products', countText(products.filter(isApproved).length));
   }
 
+  function productSubmitter(row) {
+    const metadata = payloadObject(row && row.metadata);
+    const name = clean(row && row.seller_name)
+      || clean(metadata.seller_name)
+      || clean(metadata.requester_name)
+      || clean(metadata.full_name)
+      || 'Unknown user';
+    const role = titleCase(row && row.seller_role || metadata.seller_role || metadata.submitted_from_dashboard || metadata.requester_role || '');
+    const email = clean(metadata.seller_email || metadata.requester_email || row.email || '');
+    return { name, detail: [role, email].filter(Boolean).join(' • ') };
+  }
+
   async function renderAdminMarketplace(root) {
     const products = realRows('marketplace_products', await rows('marketplace_products', (q) => q.order('created_at', { ascending: false })));
     const deleteAllowed = canDeleteMarketplaceProducts();
@@ -4004,10 +4037,18 @@
     tbody.innerHTML = products.length
       ? products
         .map(
-          (row) => `
+          (row) => {
+            const submitter = productSubmitter(row);
+            return `
         <tr class="hover:bg-gray-50 transition-all group">
           <td class="px-[24px] py-[24px]">
             <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[17px] leading-tight break-words">${html(row.title || 'Untitled Product')}</span>
+          </td>
+          <td class="px-[24px] py-[24px]">
+            <div class="flex flex-col gap-1 min-w-[160px]">
+              <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px] leading-tight">${html(submitter.name)}</span>
+              ${submitter.detail ? `<span class="font-['Inter'] text-[#677461] text-[12px] leading-snug break-words">${html(submitter.detail)}</span>` : ''}
+            </div>
           </td>
           <td class="px-[24px] py-[24px]">
             <span class="font-['Inter'] font-medium text-[#464E42] text-[15px]">${formatMoney(row.price)}</span>
@@ -4018,10 +4059,11 @@
               ${deleteAllowed ? `<button data-action="delete-product" data-id="${row.id}" class="text-[#677461] hover:text-red-600 transition-all font-['Inter'] font-semibold text-[14px]">Delete</button>` : ''}
             </div>
           </td>
-        </tr>`
+        </tr>`;
+          }
         )
         .join('')
-      : emptyRow(3, 'No marketplace products have been submitted yet.');
+      : emptyRow(4, 'No marketplace products have been submitted yet.');
     setCounterText(root, 'Products Listed', countText(products.length));
   }
 
@@ -4082,15 +4124,101 @@
     setCounterText(root, 'Approved Requests', countText(approvedCount));
   }
 
+  function managementSearchText(input) {
+    if (!input) return '';
+    const value = clean(input.textContent || input.value || '');
+    return value === 'Search staff members...' ? '' : value;
+  }
+
+  function setManagementSearchPlaceholder(input) {
+    if (!input) return;
+    const value = managementSearchText(input);
+    if (value) {
+      input.classList.remove('text-[#9ca3af]');
+      input.classList.add('text-[#1b3a28]');
+      return;
+    }
+    input.textContent = 'Search staff members...';
+    input.classList.add('text-[#9ca3af]');
+    input.classList.remove('text-[#1b3a28]');
+  }
+
+  function staffMatchesManagementSearch(member, query) {
+    if (!query) return true;
+    const metadata = payloadObject(member.metadata);
+    const haystack = [
+      member.full_name,
+      member.email,
+      staffRoleLabel(staffRoleFromProfile(member)),
+      member.organization,
+      metadata.designation,
+      formatDate(member.created_at)
+    ].map(clean).join(' ').toLowerCase();
+    return haystack.includes(query);
+  }
+
+  function renderAdminManagementRows(root, staff) {
+    const tbody = root.querySelector('tbody');
+    if (!tbody) return;
+    const query = lower(managementSearchText(root.querySelector('[data-management-search]')));
+    const filteredStaff = staff.filter((member) => staffMatchesManagementSearch(member, query));
+    tbody.innerHTML = filteredStaff.length
+      ? filteredStaff
+        .map(
+          (member) => `
+        <tr class="hover:bg-gray-50 transition-all group">
+          <td class="px-8 py-4"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px]">${html(member.full_name || 'Unnamed member')}</span></td>
+          <td class="px-8 py-4"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(member.email || 'No email')}</span></td>
+          <td class="px-8 py-4"><span class="font-['Inter'] font-bold text-[#2d5a3d] text-[13px] capitalize">${html(staffRoleLabel(staffRoleFromProfile(member)))}</span></td>
+          <td class="px-8 py-4"><span class="font-['Inter'] text-[#677461] text-[13px]">${html(formatDate(member.created_at))}</span></td>
+          <td class="px-8 py-4 text-right">
+            <div class="flex items-center justify-end gap-4">
+              <span class="font-['Inter'] text-[#677461] text-[12px]">${html(member.organization || payloadObject(member.metadata).designation || 'Staff member')}</span>
+              ${canDeleteStaffProfile(member) ? `<button data-action="delete-staff-member" data-id="${member.id}" class="text-[#b04a4a] hover:text-red-700 font-['Inter'] font-bold text-[12px] uppercase tracking-wider">Remove</button>` : ''}
+            </div>
+          </td>
+        </tr>`
+        )
+        .join('')
+      : emptyRow(5, query ? 'No staff members match this search.' : 'No staff members have been added yet.');
+  }
+
+  function setupManagementSearchBox(root, staff) {
+    const input = root.querySelector('[data-management-search]');
+    if (!input) return;
+    if (!input.dataset.nestSearchReady) {
+      input.dataset.nestSearchReady = 'true';
+      input.setAttribute('contenteditable', 'true');
+      input.setAttribute('autocomplete', 'new-password');
+      input.setAttribute('aria-autocomplete', 'none');
+      if (/@/.test(input.textContent || '')) input.textContent = '';
+      setManagementSearchPlaceholder(input);
+
+      input.addEventListener('focus', () => {
+        if (!managementSearchText(input)) {
+          input.textContent = '';
+          input.classList.remove('text-[#9ca3af]');
+          input.classList.add('text-[#1b3a28]');
+        }
+      });
+      input.addEventListener('blur', () => setManagementSearchPlaceholder(input));
+      input.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') event.preventDefault();
+      });
+      input.addEventListener('input', () => {
+        input.dataset.nestUserTyped = 'true';
+        input.classList.remove('text-[#9ca3af]');
+        input.classList.add('text-[#1b3a28]');
+        renderAdminManagementRows(root, staff);
+      });
+    }
+    input._nestStaffRows = staff;
+  }
+
   async function renderAdminManagement(root) {
     const staff = realRows('profiles', await rows('profiles', (q) => q.order('created_at', { ascending: false })))
       .filter(isManagementStaffProfile);
-    const searchInput = root.querySelector('[data-management-search]');
-    if (searchInput && !searchInput.dataset.nestSearchReady) {
-      searchInput.value = '';
-      searchInput.setAttribute('autocomplete', 'off');
-      searchInput.dataset.nestSearchReady = 'true';
-    }
+    setupManagementSearchBox(root, staff);
     const administrators = staff.filter((member) => staffRoleFromProfile(member) === 'admin');
     const managers = staff.filter((member) => staffRoleFromProfile(member) === 'manager');
     const employees = staff.filter((member) => staffRoleFromProfile(member) === 'employee');
@@ -4108,27 +4236,7 @@
         .join('');
     }
 
-    const tbody = root.querySelector('tbody');
-    if (!tbody) return;
-    tbody.innerHTML = staff.length
-      ? staff
-        .map(
-          (member) => `
-        <tr class="hover:bg-gray-50 transition-all group">
-          <td class="px-8 py-4"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px]">${html(member.full_name || 'Unnamed member')}</span></td>
-          <td class="px-8 py-4"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(member.email || 'No email')}</span></td>
-          <td class="px-8 py-4"><span class="font-['Inter'] font-bold text-[#2d5a3d] text-[13px] capitalize">${html(staffRoleLabel(staffRoleFromProfile(member)))}</span></td>
-          <td class="px-8 py-4"><span class="font-['Inter'] text-[#677461] text-[13px]">${html(formatDate(member.created_at))}</span></td>
-          <td class="px-8 py-4 text-right">
-            <div class="flex items-center justify-end gap-4">
-              <span class="font-['Inter'] text-[#677461] text-[12px]">${html(member.organization || payloadObject(member.metadata).designation || 'Staff member')}</span>
-              ${canDeleteStaffProfile(member) ? `<button data-action="delete-staff-member" data-id="${member.id}" class="text-[#b04a4a] hover:text-red-700 font-['Inter'] font-bold text-[12px] uppercase tracking-wider">Remove</button>` : ''}
-            </div>
-          </td>
-        </tr>`
-        )
-        .join('')
-      : emptyRow(5, 'No staff members have been added yet.');
+    renderAdminManagementRows(root, staff);
   }
 
   async function restoreAuthSession(session) {
@@ -4216,7 +4324,7 @@
 
     const current = readStore('nest_current_user', null);
     const existingProfiles = await rows('profiles', (q) => q.ilike('email', email).order('created_at', { ascending: false }).limit(20));
-    if (existingProfiles.length) throw new Error('This email is already registered.');
+    if (existingProfiles.some((profile) => !isRemovedStaffProfile(profile))) throw new Error('This email is already registered.');
 
     const currentSession = await supabase().auth.getSession().catch(() => ({ data: { session: null } }));
     const session = currentSession && currentSession.data && currentSession.data.session;
@@ -4261,7 +4369,34 @@
   async function deleteStaffMember(id) {
     const profile = await single('profiles', id);
     if (!canDeleteStaffProfile(profile)) throw new Error('You do not have permission to remove this staff member.');
-    await deleteRow('profiles', id);
+    const originalEmail = lower(profile.email);
+    const current = currentStaffUser();
+    if (profile.auth_user_id && originalEmail) {
+      const { error } = await supabase().rpc('delete_staff_auth_user', {
+        target_auth_user_id: profile.auth_user_id,
+        target_email: originalEmail
+      }).catch((rpcError) => ({ error: rpcError }));
+      if (error) {
+        console.warn('Staff Auth user could not be deleted. Run the latest supabase/schema.sql to enable full staff removal.', error);
+      }
+    }
+    const metadata = payloadObject(profile.metadata);
+    const removedEmailKey = (originalEmail || profile.id).replace(/[^a-z0-9._-]/g, '_');
+    await updateRow('profiles', id, {
+      email: `removed+${Date.now()}-${removedEmailKey}@removed.nest.local`,
+      status: 'rejected',
+      metadata: {
+        ...metadata,
+        staff_removed: true,
+        removed_by_admin: true,
+        removed_staff_account: true,
+        original_email: originalEmail,
+        removed_email: originalEmail,
+        previous_role: staffRoleFromProfile(profile),
+        removed_by: current && current.email ? current.email : '',
+        removed_at: new Date().toISOString()
+      }
+    });
     showToast('Staff member removed.');
     scheduleInit(true);
   }

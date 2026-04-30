@@ -315,10 +315,81 @@ using ranked_staff_profiles duplicate
 where profile.id = duplicate.id
   and duplicate.row_rank > 1;
 
-create unique index if not exists profiles_one_staff_role_per_email_idx
+drop index if exists profiles_one_staff_role_per_email_idx;
+create unique index profiles_one_staff_role_per_email_idx
   on public.profiles (lower(btrim(email)))
   where nullif(btrim(email), '') is not null
-    and role in ('admin', 'manager', 'employee');
+    and role in ('admin', 'manager', 'employee')
+    and coalesce(metadata->>'staff_removed', 'false') <> 'true'
+    and coalesce(metadata->>'removed_by_admin', 'false') <> 'true';
+
+create or replace function public.delete_staff_auth_user(
+  target_auth_user_id uuid,
+  target_email text
+)
+returns void
+language plpgsql
+security definer
+set search_path = public, auth
+as $$
+declare
+  caller_access_role text;
+  target_access_role text;
+begin
+  select coalesce(
+    nullif(p.metadata->>'access_role', ''),
+    nullif(p.metadata->>'staff_role', ''),
+    p.role
+  )
+  into caller_access_role
+  from public.profiles p
+  where p.auth_user_id = auth.uid()
+    and p.status in ('approved', 'active')
+    and (
+      p.role in ('admin', 'manager', 'employee')
+      or lower(coalesce(p.metadata->>'staff_account', 'false')) = 'true'
+    )
+    and lower(coalesce(p.metadata->>'staff_removed', 'false')) <> 'true'
+    and lower(coalesce(p.metadata->>'removed_by_admin', 'false')) <> 'true'
+  order by p.created_at desc
+  limit 1;
+
+  if caller_access_role not in ('admin', 'manager') then
+    raise exception 'Not authorized to delete staff Auth users';
+  end if;
+
+  select coalesce(
+    nullif(p.metadata->>'access_role', ''),
+    nullif(p.metadata->>'staff_role', ''),
+    p.role
+  )
+  into target_access_role
+  from public.profiles p
+  where p.auth_user_id = target_auth_user_id
+    and lower(btrim(p.email)) = lower(btrim(target_email))
+    and (
+      p.role in ('admin', 'manager', 'employee')
+      or lower(coalesce(p.metadata->>'staff_account', 'false')) = 'true'
+    )
+  order by p.created_at desc
+  limit 1;
+
+  if target_access_role is null then
+    return;
+  end if;
+
+  if caller_access_role = 'manager' and target_access_role <> 'employee' then
+    raise exception 'Managers can delete employee Auth users only';
+  end if;
+
+  delete from auth.users
+  where id = target_auth_user_id
+    and lower(email) = lower(btrim(target_email));
+end;
+$$;
+
+revoke all on function public.delete_staff_auth_user(uuid, text) from public;
+grant execute on function public.delete_staff_auth_user(uuid, text) to authenticated;
 
 alter table public.programs add column if not exists title text;
 alter table public.programs add column if not exists tagline text;

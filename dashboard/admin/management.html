@@ -89,9 +89,11 @@
         <div class="px-8 py-5 border-b border-[#f1f2f4] bg-[#fdfdfd] flex items-center justify-between">
             <h2 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28]">Management Overview</h2>
             <div class="relative">
-                <input type="search" data-management-search name="management_staff_search" value=""
-                    autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Search staff members..."
-                    class="pl-10 pr-4 py-2 bg-gray-50 border border-gray-100 rounded-lg text-[14px] outline-none focus:border-[#2D5A3D] transition-all font-['Manrope'] w-[280px]">
+                <div data-management-search role="searchbox" aria-label="Search staff members" tabindex="0"
+                    contenteditable="true" spellcheck="false"
+                    class="pl-10 pr-4 py-2 bg-gray-50 border border-gray-100 rounded-lg text-[14px] outline-none focus:border-[#2D5A3D] transition-all font-['Manrope'] w-[280px] min-h-[40px] text-[#9ca3af]">
+                    Search staff members...
+                </div>
                 <svg class="absolute left-3 top-2.5 text-gray-400" width="18" height="18" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" stroke-width="2">
                     <circle cx="11" cy="11" r="8"></circle>
