@@ -20,7 +20,7 @@
                     </svg>
                     <div class="flex gap-[12px] items-center justify-center relative shrink-0">
                         <span class="font-['Inter'] font-semibold text-[#2d5a3d] text-[16px] js-tab-text">Upcoming</span>
-                        <span class="bg-[#f1ffee] text-[#2d5a3d] font-['Manrope'] font-medium text-[13px] px-[8px] py-[1px] rounded-full js-tab-count">1</span>
+                        <span class="bg-[#f1ffee] text-[#2d5a3d] font-['Manrope'] font-medium text-[13px] px-[8px] py-[1px] rounded-full js-tab-count">0</span>
                     </div>
                 </div>
                 <div class="absolute bottom-0 w-full h-[2.5px] bg-[#2d5a3d] js-tab-indicator"></div>
@@ -34,7 +34,7 @@
                     </svg>
                     <div class="flex gap-[12px] items-center justify-center relative shrink-0">
                         <span class="font-['Inter'] font-normal text-[#677461] text-[16px] js-tab-text">Ongoing</span>
-                        <span class="bg-[#f0f2f0] text-[#677461] font-['Manrope'] font-medium text-[13px] px-[8px] py-[1px] rounded-full js-tab-count">1</span>
+                        <span class="bg-[#f0f2f0] text-[#677461] font-['Manrope'] font-medium text-[13px] px-[8px] py-[1px] rounded-full js-tab-count">0</span>
                     </div>
                 </div>
                 <div class="absolute bottom-0 w-full h-[2.5px] bg-transparent js-tab-indicator"></div>
@@ -48,7 +48,7 @@
                     </svg>
                     <div class="flex gap-[12px] items-center justify-center relative shrink-0">
                         <span class="font-['Inter'] font-normal text-[#677461] text-[16px] js-tab-text">Completed</span>
-                        <span class="bg-[#f0f2f0] text-[#677461] font-['Manrope'] font-medium text-[13px] px-[8px] py-[1px] rounded-full js-tab-count">1</span>
+                        <span class="bg-[#f0f2f0] text-[#677461] font-['Manrope'] font-medium text-[13px] px-[8px] py-[1px] rounded-full js-tab-count">0</span>
                     </div>
                 </div>
                 <div class="absolute bottom-0 w-full h-[2.5px] bg-transparent js-tab-indicator"></div>
@@ -57,7 +57,9 @@
     </div>
 
     <!-- PROGRAM LISTINGS (ALL GREEN COLORS) -->
-    <div id="program-list" class="w-full flex flex-col gap-[24px] mt-4"></div>
+    <div id="program-list" class="w-full flex flex-col gap-[24px] mt-4">
+        <div class="w-full text-center py-16 text-[#677461] font-['Inter']">Loading your registered programs...</div>
+    </div>
 </div>
 
 <script>

@@ -38,7 +38,7 @@
             <form class="flex flex-col gap-[24px]">
                 <div class="flex flex-col gap-2">
                     <label class="font-['Inter'] font-bold text-[#464E42] text-[12px] uppercase tracking-wider">Product Name</label>
-                    <input type="text" id="prod-name" placeholder="e.g. Traditional Hand-woven Bamboo Vase"
+                    <input type="text" id="prod-name" placeholder="Product name"
                         class="w-full bg-[#f3f4f6]/50 border border-gray-100 rounded-[8px] px-[16px] py-[14px] font-['Inter'] text-[#1b3a28] placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#2D5A3D]/10 focus:border-[#2D5A3D] transition-all">
                 </div>
 
@@ -189,11 +189,6 @@
             bottomBtn.innerText = "Update Listing";
             modalTitle.innerText = "Product Updated!";
             modalDesc.innerText = "The changes to your craft have been successfully saved.";
-            
-            // Pre-fill demo data
-            document.getElementById('prod-name').value = "Hand-woven Bamboo Basket";
-            document.getElementById('prod-price').value = "1250";
-            document.getElementById('prod-stock').value = "12";
         }
 
         const triggerModal = () => {

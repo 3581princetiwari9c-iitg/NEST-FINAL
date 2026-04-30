@@ -158,6 +158,18 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const hash = window.location.hash;
     const mainContent = document.getElementById('main-content');
+    const legacyEventHashes = new Set([
+      '#eventcomplete',
+      '#eventcomplete1',
+      '#eventcomplete2',
+      '#eventcomplete3',
+      '#eventcomplete4',
+      '#eventcomplete5'
+    ]);
+    if (legacyEventHashes.has(hash)) {
+      window.location.hash = '#event-detail';
+      return;
+    }
 
     // Centralized Loader HTML with Japi Icon
     const LOADER_HTML = `

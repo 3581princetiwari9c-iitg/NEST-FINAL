@@ -15,40 +15,51 @@
     'team_members',
     'notifications'
   ];
-  const DEMO_USERS = {
-    'admin@nest.test': {
-      password: 'Admin@123',
-      role: 'admin',
-      name: 'Demo Admin',
-      redirect: 'admin.html#dashboard'
-    },
-    'entrepreneur@nest.test': {
-      password: 'Test@123',
-      role: 'entrepreneur',
-      name: 'Demo Entrepreneur',
-      redirect: 'entrepreneur.html#myidea'
-    },
-    'artisan@nest.test': {
-      password: 'Test@123',
-      role: 'artisan',
-      name: 'Demo Artisan',
-      phone: '+919876543201',
-      redirect: 'artisan.html#marketplace'
-    },
-    'startup@nest.test': {
-      password: 'Test@123',
-      role: 'startup',
-      name: 'Demo Startup Founder',
-      redirect: 'startup.html#mystartup'
-    },
-    'trainee@nest.test': {
-      password: 'Test@123',
-      role: 'trainee',
-      name: 'Demo Trainee',
-      phone: '+919876543202',
-      redirect: 'trainee.html#programs'
-    }
+  const DEMO_USERS = {};
+  const SEEDED_SAMPLE_ROWS = {
+    programs: new Set([
+      'smart agriculture and iot integration cluster formation',
+      'traditional handloom weaving and natural dyeing',
+      'bamboo structural design and composite product development'
+    ]),
+    startups: new Set([
+      'bamboo crafts nagaland',
+      'ne smart solutions',
+      'biogreen solutions',
+      'ai agritech manipur',
+      'meghalaya organic farms',
+      'mizo handloom heritage',
+      'tripura tea collective',
+      'sikkim wellness hub',
+      'naga heritage crafts',
+      'assam silk house',
+      'arunachal eco products',
+      'green pack meghalaya',
+      'ecotech innovations',
+      'greenwave solutions',
+      'bamboo craft tech',
+      'demo startup venture',
+      'demo entrepreneur venture'
+    ]),
+    marketplace_products: new Set(['matka kulfi icecream', 'bamboo stick lamp', 'ceramic vase set', 'handwoven cotton rug']),
+    hubs: new Set(['iit guwahati', 'nit silchar', 'necbdc', 'ministry of msme']),
+    mous: new Set([
+      'mnnit',
+      'indian institute of technology, guwahati',
+      'north east small finance bank',
+      'ministry of msme, govt of india'
+    ]),
+    newsletters: new Set(['asadf b', 'innovation highlights', 'startup showcase']),
+    gallery_items: new Set(['workshop moment 1', 'workshop moment 2', 'event moment']),
+    notifications: new Set(['progress report', 'incubation applications'])
   };
+  const STARTUP_CATEGORY_FILTERS = [
+    { key: 'grassroots', label: 'Grassroots Technologies', tokens: ['grassroots', 'grass root', 'heritage'] },
+    { key: 'ai-semiconductor', label: 'Semiconductor & AI', tokens: ['ai', 'semiconductor'] },
+    { key: 'bamboo', label: 'Bamboo Technologies', tokens: ['bamboo'] },
+    { key: 'biodegradable', label: 'Biodegradable Plastics', tokens: ['biodegradable', 'eco friendly', 'eco-friendly', 'plastic'] }
+  ];
+  const MEMBER_ROLES = new Set(['startup', 'trainee', 'entrepreneur', 'artisan']);
   const PHONE_OTP_ROLES = new Set([]);
   const EMAIL_OTP_ROLES = new Set(['startup', 'entrepreneur', 'artisan', 'trainee', 'admin']);
   const SINGLE_EMAIL_ROLES = new Set(['startup', 'entrepreneur', 'artisan', 'trainee']);
@@ -352,6 +363,24 @@
     const { data, error } = await supabase().from(table).insert(payload).select().single();
     if (error) throw error;
     return data;
+  }
+
+  function missingColumnError(error, column) {
+    const message = lower(error && (error.message || error.details || error.hint || error.code));
+    return message.includes(column) && (message.includes('schema cache') || message.includes('column') || message.includes('pgrst'));
+  }
+
+  async function insertStartupRow(payload) {
+    try {
+      return await insertRow('startups', payload);
+    } catch (error) {
+      if (Object.prototype.hasOwnProperty.call(payload, 'pan_number') && missingColumnError(error, 'pan_number')) {
+        const fallbackPayload = { ...payload };
+        delete fallbackPayload.pan_number;
+        return insertRow('startups', fallbackPayload);
+      }
+      throw error;
+    }
   }
 
   async function updateRow(table, id, payload) {
@@ -1094,6 +1123,10 @@
       shop_name: 'shop_name',
       gst_number_optional: 'gst_number',
       gst_number: 'gst_number',
+      pan_number_optional: 'pan_number',
+      pan_number: 'pan_number',
+      pan_no: 'pan_number',
+      pan: 'pan_number',
       website_link_optional: 'website_link',
       website_link: 'website_link',
       website_url: 'website_link',
@@ -1115,6 +1148,7 @@
       industry_type: 'Industry / Type',
       shop_name: 'Shop Name',
       gst_number: 'GST Number',
+      pan_number: 'PAN Number',
       website_link: 'Website Link',
       funding_raised: 'Funding Raised',
       idea_description: 'Idea Description',
@@ -1476,6 +1510,60 @@
     `;
   }
 
+  function startupCategoryText(row) {
+    const metadata = payloadObject(row && row.metadata);
+    return lower([row && row.category, metadata.industry_type, metadata.specialization, metadata.vertical].filter(Boolean).join(' '));
+  }
+
+  function startupMatchesCategory(row, categoryKey) {
+    if (!categoryKey || categoryKey === 'all') return true;
+    const filter = STARTUP_CATEGORY_FILTERS.find((item) => item.key === categoryKey);
+    if (!filter) return true;
+    const categoryText = startupCategoryText(row);
+    return filter.tokens.some((token) => categoryText.includes(token));
+  }
+
+  function startupCategoryCount(startups, filter) {
+    return startups.filter((row) => startupMatchesCategory(row, filter.key)).length;
+  }
+
+  function renderPublicStartupGrid(root, startups, categoryKey) {
+    const grid = root.querySelector('#public-startups-grid') || findGrid(root);
+    if (!grid) return;
+    const visibleStartups = startups.filter((row) => startupMatchesCategory(row, categoryKey));
+    const activeFilter = STARTUP_CATEGORY_FILTERS.find((item) => item.key === categoryKey);
+    const emptyMessage = activeFilter
+      ? `No approved startups in ${activeFilter.label} yet.`
+      : 'No approved startups yet.';
+    grid.innerHTML = visibleStartups.length
+      ? visibleStartups.map(startupCard).join('')
+      : `<div class="w-full text-center py-16 text-[#677461] font-['Inter']">${html(emptyMessage)}</div>`;
+  }
+
+  function renderPublicStartupCategoryCounts(root, startups, activeKey) {
+    const container = root.querySelector('[data-startup-category-summary]');
+    if (!container) return;
+    container.innerHTML = STARTUP_CATEGORY_FILTERS.map((filter) => {
+      const isActive = activeKey === filter.key;
+      return `
+        <button
+          type="button"
+          data-startup-category="${html(filter.key)}"
+          class="${isActive ? 'bg-[#f1ffee] border-2 border-[#5c8b6e]' : 'bg-white border border-[#f3f4f6] hover:border-[#5c8b6e]'} py-6 px-2 rounded-[12px] shadow-sm flex flex-col items-center justify-center gap-2 hover:shadow-md transition-all"
+        >
+          <span class="font-['Manrope',sans-serif] font-bold text-[#1b3a28] text-[36px] leading-none">${countText(startupCategoryCount(startups, filter))}</span>
+          <span class="font-['Manrope',sans-serif] ${isActive ? 'text-[#1b3a28] font-semibold' : 'text-[#677461]'} text-[16px] text-center">${html(filter.label)}</span>
+        </button>`;
+    }).join('');
+    container.onclick = (event) => {
+      const button = event.target.closest('[data-startup-category]');
+      if (!button) return;
+      root.dataset.activeStartupCategory = button.dataset.startupCategory || 'all';
+      renderPublicStartupCategoryCounts(root, startups, root.dataset.activeStartupCategory);
+      renderPublicStartupGrid(root, startups, root.dataset.activeStartupCategory);
+    };
+  }
+
   function emptyRow(cols, message) {
     return `<tr><td colspan="${cols}" class="px-[24px] py-[40px] text-center font-['Inter'] text-[#677461] text-[14px]">${html(message)}</td></tr>`;
   }
@@ -1496,6 +1584,43 @@
       }
     }
     return {};
+  }
+
+  function sampleRowName(table, row) {
+    if (!row) return '';
+    if (table === 'programs' || table === 'marketplace_products' || table === 'newsletters' || table === 'gallery_items' || table === 'notifications') {
+      return lower(row.title || row.text);
+    }
+    if (table === 'startups' || table === 'hubs') return lower(row.name);
+    if (table === 'mous') return lower(row.partner_name);
+    if (table === 'team_members') return lower(row.full_name);
+    return lower(row.title || row.name || row.email || row.requester_email);
+  }
+
+  function isSeededSampleRow(table, row) {
+    const samples = SEEDED_SAMPLE_ROWS[table];
+    return !!(samples && samples.has(sampleRowName(table, row)));
+  }
+
+  function isDemoRow(table, row) {
+    if (!row) return false;
+    const metadata = payloadObject(row.metadata);
+    const payload = payloadObject(row.payload);
+    if (metadata.demo_user || metadata.testing_credential || payload.demo_user || payload.testing_credential) return true;
+    if (isDemoEmail(row.email || row.requester_email || metadata.seller_email || payload.email || payload.requester_email)) return true;
+    return isSeededSampleRow(table, row);
+  }
+
+  function realRows(table, items) {
+    return (items || []).filter((row) => !isDemoRow(table, row));
+  }
+
+  function isApproved(row) {
+    return lower(row && row.status) === 'approved';
+  }
+
+  function isPending(row) {
+    return lower(row && row.status) === 'pending';
   }
 
   function requestSources(row, related) {
@@ -1838,6 +1963,7 @@
     if (heading.includes('add hub node')) return 'hub-form';
     if (heading.includes('mou management')) return 'admin-mous';
     if (heading.includes('add new mou')) return 'mou-form';
+    if (heading.includes('management team')) return 'admin-management';
     if (heading.includes('team management')) return 'admin-team';
     if (root.querySelector('#event-title') && root.querySelector('#event-main-image')) return 'public-program-detail';
     if (root.querySelector('#program-list')) return 'dashboard-programs';
@@ -1861,17 +1987,88 @@
     return '';
   }
 
-  async function renderAdminDashboard(root) {
-    const [programs, startups, profiles, requests] = await Promise.all([
+  async function liveMetrics() {
+    const [
+      programsRaw,
+      startupsRaw,
+      profilesRaw,
+      requestsRaw,
+      productsRaw,
+      newslettersRaw,
+      galleryRaw,
+      hubsRaw,
+      mousRaw,
+      teamRaw,
+      registrationsRaw
+    ] = await Promise.all([
       rows('programs'),
       rows('startups'),
       rows('profiles'),
-      rows('requests', (q) => q.eq('status', 'pending').order('submitted_at', { ascending: false }))
+      rows('requests'),
+      rows('marketplace_products'),
+      rows('newsletters'),
+      rows('gallery_items'),
+      rows('hubs'),
+      rows('mous'),
+      rows('team_members'),
+      rows('program_registrations')
     ]);
-    setCounterText(root, 'Total Events', String(programs.length));
-    setCounterText(root, 'Total Startups', String(startups.filter((s) => s.status === 'approved').length));
-    setCounterText(root, 'Total Users', String(profiles.length));
-    setCounterText(root, 'Pending Approvals', String(requests.length));
+    const programs = realRows('programs', programsRaw).map((row) => ({ ...row, status: normalizeProgramStatus(row) }));
+    const publishedPrograms = programs.filter((row) => row.published !== false);
+    const startups = realRows('startups', startupsRaw);
+    const profiles = realRows('profiles', profilesRaw);
+    const memberProfiles = profiles.filter((row) => MEMBER_ROLES.has(lower(row.role)));
+    const requests = realRows('requests', requestsRaw);
+    const products = realRows('marketplace_products', productsRaw);
+    const newsletters = realRows('newsletters', newslettersRaw).filter((row) => lower(row.status || 'published') === 'published');
+    const gallery = realRows('gallery_items', galleryRaw);
+    const hubs = realRows('hubs', hubsRaw).filter((row) => lower(row.status || 'active') === 'active');
+    const mous = realRows('mous', mousRaw).filter((row) => lower(row.status || 'active') === 'active');
+    const team = realRows('team_members', teamRaw).filter((row) => row.is_visible !== false);
+    const registrations = realRows('program_registrations', registrationsRaw);
+
+    return {
+      programs,
+      publishedPrograms,
+      upcomingPrograms: publishedPrograms.filter((row) => row.status === 'upcoming'),
+      ongoingPrograms: publishedPrograms.filter((row) => row.status === 'ongoing'),
+      completedPrograms: publishedPrograms.filter((row) => row.status === 'completed'),
+      startups,
+      approvedStartups: startups.filter(isApproved),
+      pendingStartups: startups.filter(isPending),
+      profiles,
+      memberProfiles,
+      admins: profiles.filter((row) => lower(row.role) === 'admin'),
+      trainees: profiles.filter((row) => lower(row.role) === 'trainee'),
+      artisans: profiles.filter((row) => lower(row.role) === 'artisan'),
+      entrepreneurs: profiles.filter((row) => lower(row.role) === 'entrepreneur'),
+      startupUsers: profiles.filter((row) => lower(row.role) === 'startup'),
+      requests,
+      pendingRequests: requests.filter(isPending),
+      approvedRequests: requests.filter(isApproved),
+      products,
+      approvedProducts: products.filter(isApproved),
+      pendingProducts: products.filter(isPending),
+      newsletters,
+      gallery,
+      hubs,
+      mous,
+      team,
+      registrations
+    };
+  }
+
+  function countText(value) {
+    return String(Number(value) || 0);
+  }
+
+  async function renderAdminDashboard(root) {
+    const metrics = await liveMetrics();
+    const requests = metrics.pendingRequests.sort((a, b) => dateValue(b.submitted_at, 0) - dateValue(a.submitted_at, 0));
+    setCounterText(root, 'Total Events', countText(metrics.publishedPrograms.length));
+    setCounterText(root, 'Total Startups', countText(metrics.startups.length));
+    setCounterText(root, 'Total Users', countText(metrics.memberProfiles.length));
+    setCounterText(root, 'Pending Approvals', countText(requests.length));
     const tbody = root.querySelector('tbody');
     if (tbody) {
       tbody.innerHTML = requests.length
@@ -1881,7 +2078,7 @@
   }
 
   async function renderAdminPrograms(root) {
-    const programs = (await rows('programs', (q) => q.order('created_at', { ascending: false }))).map((row) => ({
+    const programs = realRows('programs', await rows('programs', (q) => q.order('created_at', { ascending: false }))).map((row) => ({
       ...row,
       status: normalizeProgramStatus(row)
     }));
@@ -2111,7 +2308,7 @@
 
   async function renderPublicPrograms(root) {
     showProgramLoading(root);
-    const programs = (await rows('programs', (q) => q.eq('published', true).order('created_at', { ascending: false }))).map((row) => ({
+    const programs = realRows('programs', await rows('programs', (q) => q.eq('published', true).order('created_at', { ascending: false }))).map((row) => ({
       ...row,
       status: normalizeProgramStatus(row)
     }));
@@ -2141,12 +2338,12 @@
     if (selectedId) {
       try {
         const program = await single('programs', selectedId);
-        if (program && program.published !== false) return program;
+        if (program && program.published !== false && !isDemoRow('programs', program)) return program;
       } catch (error) {
         console.warn('Selected program could not be loaded:', error);
       }
     }
-    const latest = await rows('programs', (q) => q.eq('published', true).order('created_at', { ascending: false }).limit(1));
+    const latest = realRows('programs', await rows('programs', (q) => q.eq('published', true).order('created_at', { ascending: false }).limit(10)));
     return latest[0] || null;
   }
 
@@ -2517,6 +2714,7 @@
     const region = requestValue(sources, ['region_of_operation', 'state', 'state_region', 'location'], startup.state || 'Not provided');
     const registeredSince = requestValue(sources, ['registered_since', 'founded_date', 'established_year'], startup.established_year || '') || formatDate(startup.created_at);
     const gst = requestValue(sources, ['gst_number', 'gstin', 'gst', 'registration_number', 'company_registration_number'], 'Not provided');
+    const pan = requestValue(sources, ['pan_number', 'pan_no', 'pan', 'pan_card_number'], 'Not provided');
     const mission = requestValue(sources, ['mission_overview', 'overview', 'startup_overview', 'brief_idea_description', 'description'], 'No mission overview was provided.');
     const incubationStatus = lower(startup.status) === 'approved' ? 'Active in NEST Cluster' : statusMessage(startup.status, 'Startup application');
     root.innerHTML = `
@@ -2587,6 +2785,10 @@
                   <p class="font-['Manrope'] text-[16px] text-[#1b3a28] font-bold">${html(gst)}</p>
                 </div>
                 <div class="space-y-1">
+                  <p class="text-[12px] font-bold text-[#677461] uppercase tracking-wider">PAN Number</p>
+                  <p class="font-['Manrope'] text-[16px] text-[#1b3a28] font-bold">${html(pan)}</p>
+                </div>
+                <div class="space-y-1">
                   <p class="text-[12px] font-bold text-[#677461] uppercase tracking-wider">Region of Operation</p>
                   <p class="font-['Manrope'] text-[16px] text-[#1b3a28] font-bold">${html(region)}</p>
                 </div>
@@ -2645,7 +2847,7 @@
   }
 
   async function renderAdminStartups(root) {
-    const startups = await rows('startups', (q) => q.order('created_at', { ascending: false }));
+    const startups = realRows('startups', await rows('startups', (q) => q.order('created_at', { ascending: false })));
     const tbody = root.querySelector('tbody');
     if (!tbody) return;
     tbody.innerHTML = startups.length
@@ -2668,17 +2870,15 @@
         )
         .join('')
       : emptyRow(5, 'No startups are registered yet.');
-    setCounterText(root, 'Total Startups', String(startups.length));
-    setCounterText(root, 'Northeast Approval', String(startups.filter((s) => s.status === 'approved').length));
+    setCounterText(root, 'Total Startups', countText(startups.length));
+    setCounterText(root, 'Approved Startups', countText(startups.filter(isApproved).length));
   }
 
   async function renderPublicStartups(root) {
-    const startups = await rows('startups', (q) => q.eq('status', 'approved').order('created_at', { ascending: false }));
-    const grid = findGrid(root);
-    if (!grid) return;
-    grid.innerHTML = startups.length
-      ? startups.map(startupCard).join('')
-      : `<div class="w-full text-center py-16 text-[#677461] font-['Inter']">No approved startups yet.</div>`;
+    const startups = realRows('startups', await rows('startups', (q) => q.eq('status', 'approved').order('created_at', { ascending: false })));
+    const activeKey = root.dataset.activeStartupCategory || 'all';
+    renderPublicStartupCategoryCounts(root, startups, activeKey);
+    renderPublicStartupGrid(root, startups, activeKey);
   }
 
   async function submitStartupApplication(root) {
@@ -2687,11 +2887,12 @@
     const contactEmail = lower(fields.email_address || '');
     const contactPhone = normalizePhone(fields.phone_number || '');
     const website = fields.website_link ? `https://${fields.website_link.replace(/^https?:\/\//i, '')}` : '';
-    const startup = await insertRow('startups', {
+    const startup = await insertStartupRow({
       name: fields.startup_name || 'Untitled Startup',
       founder_name: fields.founder_owner_name || fields.founder_name || currentUser.name,
       email: contactEmail,
       phone: contactPhone,
+      pan_number: clean(fields.pan_number || fields.pan_no || fields.pan || '') || null,
       website_url: website,
       category: fields.industry_type || '',
       state: fields.state_region || '',
@@ -2803,7 +3004,7 @@
   }
 
   function isDemoEmail(email) {
-    return lower(email).endsWith('@nest.test');
+    return Object.prototype.hasOwnProperty.call(DEMO_USERS, lower(email));
   }
 
   function isSingleEmailRole(role) {
@@ -3258,8 +3459,8 @@
   }
 
   async function renderPublicMarket(root) {
-    const products = await rows('marketplace_products', (q) => q.eq('status', 'approved').order('created_at', { ascending: false }));
-    const grid = findGrid(root);
+    const products = realRows('marketplace_products', await rows('marketplace_products', (q) => q.eq('status', 'approved').order('created_at', { ascending: false })));
+    const grid = root.querySelector('#public-market-grid') || findGrid(root);
     if (!grid) return;
     grid.innerHTML = products.length
       ? products.map(productCard).join('')
@@ -3271,11 +3472,7 @@
     const storedIds = stored.map((item) => item.productId).filter(Boolean);
     const user = readStore('nest_current_user', {});
     let products = [];
-    if (storedIds.length) {
-      const { data, error } = await supabase().from('marketplace_products').select('*').in('id', storedIds).order('created_at', { ascending: false });
-      if (error) throw error;
-      products = data || [];
-    } else if (user.email) {
+    if (user.email) {
       const { data, error } = await supabase()
         .from('marketplace_products')
         .select('*')
@@ -3283,9 +3480,17 @@
         .order('created_at', { ascending: false });
       if (error) throw error;
       products = data || [];
+      if (storedIds.length) {
+        const { data: storedData, error: storedError } = await supabase().from('marketplace_products').select('*').in('id', storedIds).order('created_at', { ascending: false });
+        if (storedError) throw storedError;
+        const byId = new Map(products.map((row) => [row.id, row]));
+        (storedData || []).forEach((row) => byId.set(row.id, row));
+        products = Array.from(byId.values()).sort((a, b) => dateValue(b.created_at, 0) - dateValue(a.created_at, 0));
+      }
     } else {
       products = await rows('marketplace_products', (q) => q.order('created_at', { ascending: false }));
     }
+    products = realRows('marketplace_products', products);
     const tbody = root.querySelector('tbody');
     if (!tbody) return;
     tbody.innerHTML = products.length
@@ -3305,7 +3510,9 @@
         )
         .join('')
       : emptyRow(4, 'No marketplace requests have been submitted yet.');
-    setCounterText(root, 'Products Listed', String(products.length));
+    setCounterText(root, 'Products Listed', countText(products.length));
+    setCounterText(root, 'Pending Approval', countText(products.filter(isPending).length));
+    setCounterText(root, 'Approved Products', countText(products.filter(isApproved).length));
   }
 
   async function submitProduct(root) {
@@ -3349,7 +3556,7 @@
   }
 
   async function renderAdminRequests(root) {
-    const requests = await rows('requests', (q) => q.order('submitted_at', { ascending: false }));
+    const requests = realRows('requests', await rows('requests', (q) => q.order('submitted_at', { ascending: false })));
     const tbody = root.querySelector('tbody');
     if (!tbody) return;
     tbody.innerHTML = requests.length
@@ -3357,8 +3564,36 @@
         .map((row) => adminRequestRow(row, false))
         .join('')
       : emptyRow(5, 'No requests yet.');
-    setCounterText(root, 'Pending Approval', String(requests.filter((r) => r.status === 'pending').length));
-    setCounterText(root, 'Total Requests', String(requests.length));
+    const approvedCount = requests.filter(isApproved).length;
+    setCounterText(root, 'Pending Approval', countText(requests.filter(isPending).length));
+    setCounterText(root, 'Total Requests', countText(requests.length));
+    setCounterText(root, 'Approval Rate', requests.length ? `${Math.round((approvedCount / requests.length) * 100)}%` : '0%');
+    setCounterText(root, 'Approved Requests', countText(approvedCount));
+  }
+
+  async function renderAdminManagement(root) {
+    const profiles = realRows('profiles', await rows('profiles', (q) => q.order('created_at', { ascending: false })));
+    const admins = profiles.filter((profile) => lower(profile.role) === 'admin');
+    const members = profiles.filter((profile) => MEMBER_ROLES.has(lower(profile.role)));
+    setCounterText(root, 'Total Team', countText(profiles.length));
+    setCounterText(root, 'Administrators', countText(admins.length));
+    setCounterText(root, 'Members', countText(members.length));
+    const tbody = root.querySelector('tbody');
+    if (!tbody) return;
+    tbody.innerHTML = profiles.length
+      ? profiles
+        .map(
+          (profile) => `
+        <tr class="hover:bg-gray-50 transition-all group">
+          <td class="px-8 py-4"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px]">${html(profile.full_name || 'Unnamed user')}</span></td>
+          <td class="px-8 py-4"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(profile.email || 'No email')}</span></td>
+          <td class="px-8 py-4"><span class="font-['Inter'] font-bold text-[#2d5a3d] text-[13px] capitalize">${html(profile.role || 'member')}</span></td>
+          <td class="px-8 py-4"><span class="font-['Inter'] text-[#677461] text-[13px]">${html(formatDate(profile.created_at))}</span></td>
+          <td class="px-8 py-4 text-right"><span class="font-['Inter'] text-[#677461] text-[12px] capitalize">${html(profile.status || 'active')}</span></td>
+        </tr>`
+        )
+        .join('')
+      : emptyRow(5, 'No users have registered yet.');
   }
 
   async function decideRequest(id, status) {
@@ -3441,7 +3676,7 @@
   }
 
   async function renderPublicNewsletters(root) {
-    const newsletters = await rows('newsletters', (q) => q.eq('status', 'published').order('published_on', { ascending: false }));
+    const newsletters = realRows('newsletters', await rows('newsletters', (q) => q.eq('status', 'published').order('published_on', { ascending: false })));
     const container = findGrid(root) || root.querySelector('.grid');
     if (!container) return;
     container.innerHTML = newsletters.length
@@ -3485,41 +3720,60 @@
   }
 
   async function initStats(root) {
-    const stats = await rows('site_stats', (q) => q.eq('scope', 'home').order('sort_order'));
-    const inputs = Array.from(root.querySelectorAll('input[type="text"]')).slice(0, 4);
-    stats.slice(0, 4).forEach((stat, index) => {
-      if (inputs[index]) inputs[index].value = stat.value;
-    });
-    window.saveAllStats = async function () {
-      const defaults = [
-        ['incubated-startups', 'Incubated Startups'],
-        ['institutions', 'Institutions'],
-        ['investments', 'Investments'],
-        ['ne-beneficiaries', 'North-East Beneficiaries']
-      ];
-      const payload = defaults.map(([id, label], index) => ({
-        id,
-        label,
-        scope: 'home',
-        sort_order: index + 1,
-        value: clean(inputs[index] && inputs[index].value)
-      }));
-      const { error } = await supabase().from('site_stats').upsert(payload, { onConflict: 'id' });
-      if (error) throw error;
-      showToast('Homepage stats saved.');
+    const metrics = await liveMetrics();
+    const cards = [
+      ['Approved Startups', metrics.approvedStartups.length],
+      ['Published Programmes', metrics.publishedPrograms.length],
+      ['Upcoming Programmes', metrics.upcomingPrograms.length],
+      ['Marketplace Products', metrics.approvedProducts.length],
+      ['Pending Requests', metrics.pendingRequests.length],
+      ['Registered Members', metrics.memberProfiles.length],
+      ['Active Hubs', metrics.hubs.length],
+      ['Active MOUs', metrics.mous.length]
+    ];
+    root.innerHTML = `
+      <div class="flex flex-col gap-[24px] items-start w-full pb-10">
+        <div class="flex flex-col items-start shrink-0">
+          <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">Stats Management</h1>
+          <p class="font-['Manrope'] text-[#677461] text-[14px]">These values are calculated directly from Supabase and update automatically.</p>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-[16px] w-full">
+          ${cards
+            .map(
+              ([label, value]) => `
+            <div class="bg-white p-[20px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[10px]">
+              <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider">${html(label)}</span>
+              <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[30px]">${countText(value)}</span>
+            </div>`
+            )
+            .join('')}
+        </div>
+      </div>`;
+    window.saveAllStats = function () {
+      showToast('Stats now come from live Supabase data, so there is nothing to save.');
     };
   }
 
   async function renderHomeStats(root) {
-    const stats = await rows('site_stats', (q) => q.eq('scope', 'home').order('sort_order'));
+    const metrics = await liveMetrics();
+    const stats = [
+      { label: 'Approved Startups', value: metrics.approvedStartups.length },
+      { label: 'Programmes', value: metrics.publishedPrograms.length },
+      { label: 'Marketplace Products', value: metrics.approvedProducts.length },
+      { label: 'Hub & MOU Partners', value: metrics.hubs.length + metrics.mous.length }
+    ];
     const values = Array.from(root.querySelectorAll('.stat-number'));
-    stats.slice(0, values.length).forEach((stat, index) => {
-      values[index].textContent = stat.value;
+    values.slice(0, stats.length).forEach((valueEl, index) => {
+      const stat = stats[index];
+      valueEl.textContent = countText(stat.value);
+      valueEl.dataset.target = countText(stat.value);
+      const labelEl = Array.from(valueEl.parentElement ? valueEl.parentElement.querySelectorAll('p') : []).find((el) => !el.classList.contains('stat-number'));
+      if (labelEl) labelEl.textContent = stat.label;
     });
   }
 
   async function renderAdminGallery(root) {
-    const items = await galleryItems(root);
+    const items = realRows('gallery_items', await galleryItems(root));
     const grid = root.querySelector('#gallery-grid');
     if (!grid) return;
     grid.innerHTML = items.length
@@ -3567,7 +3821,7 @@
   }
 
   async function renderPublicGallery(root) {
-    const items = await galleryItems(root);
+    const items = realRows('gallery_items', await galleryItems(root));
     const grid = root.querySelector('#public-gallery-grid') || root.querySelector('.grid') || findGrid(root);
     if (!grid) return;
     grid.innerHTML = items.length
@@ -3586,7 +3840,7 @@
   }
 
   async function renderAdminHubs(root) {
-    const hubs = await rows('hubs', (q) => q.order('created_at', { ascending: false }));
+    const hubs = realRows('hubs', await rows('hubs', (q) => q.order('created_at', { ascending: false })));
     const tbody = root.querySelector('#hub-nodes-list');
     if (!tbody) return;
     tbody.innerHTML = hubs.length
@@ -3614,10 +3868,12 @@
   }
 
   async function renderPublicHubs(root) {
-    const [hubs, mous] = await Promise.all([
+    const [hubsRaw, mousRaw] = await Promise.all([
       rows('hubs', (q) => q.eq('status', 'active').order('category')),
       rows('mous', (q) => q.eq('status', 'active').order('created_at', { ascending: false }))
     ]);
+    const hubs = realRows('hubs', hubsRaw);
+    const mous = realRows('mous', mousRaw);
     const map = {
       'State Universities': '#hub-list-state-universities',
       'NIT Network': '#hub-list-nit-network',
@@ -3669,7 +3925,7 @@
   }
 
   async function renderAdminMous(root) {
-    const mous = await rows('mous', (q) => q.order('created_at', { ascending: false }));
+    const mous = realRows('mous', await rows('mous', (q) => q.order('created_at', { ascending: false })));
     const tbody = root.querySelector('tbody');
     if (!tbody) return;
     tbody.innerHTML = mous.length
@@ -3715,11 +3971,11 @@
   }
 
   async function renderAdminTeam(root) {
-    const list = await rows('team_members', (q) => {
+    const list = realRows('team_members', await rows('team_members', (q) => {
       let query = q.eq('team_type', teamState.team).order('sort_order').order('created_at');
       if (teamState.team === 'scientific') query = query.eq('scientific_category', teamState.category);
       return query;
-    });
+    }));
     renderTeamTabs();
     const container = root.querySelector('#members-list');
     const empty = root.querySelector('#empty-state');
@@ -3847,21 +4103,32 @@
   }
 
   async function renderPublicTeam(root, teamType) {
-    const team = await rows('team_members', (q) => q.eq('team_type', teamType).eq('is_visible', true).order('sort_order').order('created_at'));
+    const team = realRows('team_members', await rows('team_members', (q) => q.eq('team_type', teamType).eq('is_visible', true).order('sort_order').order('created_at')));
     if (teamType === 'leadership') {
       const container = root.querySelector('#leadership-container');
-      if (container) container.innerHTML = team.map(publicLeaderCard).join('');
+      if (container) {
+        container.innerHTML = team.length
+          ? team.map(publicLeaderCard).join('')
+          : `<div class="md:col-span-2 w-full text-center py-16 text-[#677461] font-['Inter']">No leadership members have been added yet.</div>`;
+      }
       return;
     }
     if (teamType === 'executive') {
       const container = root.querySelector('#executive-team-container');
-      if (container) container.innerHTML = team.map(publicTeamCard).join('');
+      if (container) {
+        container.innerHTML = team.length
+          ? team.map(publicTeamCard).join('')
+          : `<div class="w-full text-center py-16 text-[#677461] font-['Inter']">No executive team members have been added yet.</div>`;
+      }
       return;
     }
     ['grassroots', 'semiconductor', 'bamboo', 'waste'].forEach((category) => {
       const container = root.querySelector(`#container-${category}`);
       if (container) {
-        container.innerHTML = team.filter((member) => member.scientific_category === category).map(publicTeamCard).join('');
+        const categoryMembers = team.filter((member) => member.scientific_category === category);
+        container.innerHTML = categoryMembers.length
+          ? categoryMembers.map(publicTeamCard).join('')
+          : `<div class="w-full text-center py-12 text-[#677461] font-['Inter']">No members added yet.</div>`;
       }
     });
   }
@@ -3954,6 +4221,7 @@
         founder_name: fields.founder_owner_name || fields.full_name || currentUser.name,
         email: contactEmail,
         phone: contactPhone || null,
+        pan_number: clean(fields.pan_number || fields.pan_no || fields.pan || '') || null,
         category: fields.industry_type || fields.vertical || (role === 'entrepreneur' ? 'Entrepreneur Idea' : 'Startup'),
         website_url: (fields.website_link || '').trim() ? `https://${fields.website_link.replace(/^https?:\/\//i, '')}` : null,
         state: (fields.state_region || fields.location || '').trim() ? (fields.state_region || fields.location) : null,
@@ -3970,7 +4238,7 @@
         }
       };
 
-      const startup = await insertRow('startups', startupPayload);
+      const startup = await insertStartupRow(startupPayload);
       const request = await insertRow('requests', {
         request_type: 'startup_registration',
         title: startup.name,
@@ -4081,6 +4349,7 @@
       if (key === 'admin-hubs') await renderAdminHubs(root);
       if (key === 'public-hubs') await renderPublicHubs(root);
       if (key === 'admin-mous') await renderAdminMous(root);
+      if (key === 'admin-management') await renderAdminManagement(root);
       if (key === 'admin-team') await renderAdminTeam(root);
       if (key === 'public-team-leadership') await renderPublicTeam(root, 'leadership');
       if (key === 'public-team-scientific') await renderPublicTeam(root, 'scientific');

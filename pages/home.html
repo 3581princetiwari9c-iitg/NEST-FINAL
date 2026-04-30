@@ -122,12 +122,12 @@
       <!-- Stat 1 -->
       <div class="flex flex-col items-center gap-[6px]">
         <p class="stat-number font-['Inter'] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#1b3a28] to-[#4ade80] text-[44px] sm:text-[64px] leading-tight transition-all duration-300  hover:tracking-wide"
-          data-target="100">
-          100+
+          data-target="0">
+          0
         </p>
         <p
           class="font-['Inter'] text-[#6b7566] text-[18px] sm:text-[22px] transition-all duration-300 hover:text-[#1b3a28] tracking-wide">
-          Incubated Startups
+          Approved Startups
         </p>
       </div>
 
@@ -137,12 +137,12 @@
       <!-- Stat 2 -->
       <div class="flex flex-col items-center gap-[6px]">
         <p class="stat-number font-['Inter'] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#1b3a28] to-[#4ade80] text-[44px] sm:text-[64px] leading-tight transition-all duration-300  hover:tracking-wide"
-          data-target="32">
-          32+
+          data-target="0">
+          0
         </p>
         <p
           class="font-['Inter'] text-[#6b7566] text-[18px] sm:text-[22px] transition-all duration-300 hover:text-[#1b3a28] tracking-wide">
-          Institutions
+          Programmes
         </p>
       </div>
 
@@ -152,12 +152,12 @@
       <!-- Stat 3 -->
       <div class="flex flex-col items-center gap-[6px]">
         <p class="stat-number font-['Inter'] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#1b3a28] to-[#4ade80] text-[44px] sm:text-[64px] leading-tight transition-all duration-300  hover:tracking-wide"
-          data-target="43000000">
-          4.3 Cr+
+          data-target="0">
+          0
         </p>
         <p
           class="font-['Inter'] text-[#6b7566] text-[18px] sm:text-[22px] transition-all duration-300 hover:text-[#1b3a28] tracking-wide">
-          Investments
+          Marketplace Products
         </p>
       </div>
 
@@ -167,12 +167,12 @@
       <!-- Stat 4 -->
       <div class="flex flex-col items-center gap-[6px]">
         <p class="stat-number font-['Inter'] font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-[#1b3a28] to-[#4ade80] text-[44px] sm:text-[64px] leading-tight transition-all duration-300  hover:tracking-wide"
-          data-target="100">
-          100+
+          data-target="0">
+          0
         </p>
         <p
           class="font-['Inter'] text-[#6b7566] text-[18px] sm:text-[22px] transition-all duration-300 hover:text-[#1b3a28] tracking-wide">
-          North-East Beneficiaries
+          Hub & MOU Partners
         </p>
       </div>
 
@@ -188,14 +188,10 @@
           function updateCount() {
             count += speed;
             if (count < target) {
-              counter.innerText = Math.floor(count) + (target >= 100 ? '+' : '');
+              counter.innerText = Math.floor(count).toLocaleString('en-IN');
               requestAnimationFrame(updateCount);
             } else {
-              if (target === 43000000) {
-                counter.innerText = '4.3 Cr+';
-              } else {
-                counter.innerText = target + '+';
-              }
+              counter.innerText = target.toLocaleString('en-IN');
             }
           }
 
@@ -1184,10 +1180,10 @@
     <div class="mt-4 flex flex-col items-center py-4 w-full max-w-[500px]">
       <div class="flex items-center justify-center gap-1">
         <p class="visitor-counter font-['Inter'] font-normal text-[#1b3a28] text-[56px] md:text-[72px] leading-none"
-          data-target="24500">
+          data-target="0">
           0
         </p>
-        <span class="text-[#1b3a28] text-[40px] md:text-[56px] font-normal leading-none">+</span>
+        <span class="text-[#1b3a28] text-[40px] md:text-[56px] font-normal leading-none"></span>
       </div>
       <p class="font-['Manrope'] font-normal text-[#677461] text-[18px] md:text-[20px] mt-4 tracking-wider uppercase">
         Website Visitors

@@ -83,6 +83,7 @@ create table if not exists public.startups (
   founder_name text,
   email text,
   phone text,
+  pan_number text,
   website_url text,
   category text,
   established_year text,
@@ -326,6 +327,7 @@ alter table public.startups add column if not exists name text;
 alter table public.startups add column if not exists founder_name text;
 alter table public.startups add column if not exists email text;
 alter table public.startups add column if not exists phone text;
+alter table public.startups add column if not exists pan_number text;
 alter table public.startups add column if not exists website_url text;
 alter table public.startups add column if not exists category text;
 alter table public.startups add column if not exists established_year text;
@@ -567,34 +569,43 @@ where title in (
 );
 
 delete from public.startups
-where name in ('EcoTech Innovations', 'GreenWave Solutions', 'Bamboo Craft Tech');
+where name in (
+  'Bamboo Crafts Nagaland',
+  'NE Smart Solutions',
+  'BioGreen Solutions',
+  'AI AgriTech Manipur',
+  'Meghalaya Organic Farms',
+  'Mizo Handloom Heritage',
+  'Tripura Tea Collective',
+  'Sikkim Wellness Hub',
+  'Naga Heritage Crafts',
+  'Assam Silk House',
+  'Arunachal Eco Products',
+  'Green Pack Meghalaya',
+  'EcoTech Innovations',
+  'GreenWave Solutions',
+  'Bamboo Craft Tech'
+);
 
 delete from public.marketplace_products
-where title in ('Bamboo stick lamp', 'Ceramic vase set', 'Handwoven cotton rug');
+where title in ('Matka Kulfi Icecream', 'Bamboo stick lamp', 'Ceramic vase set', 'Handwoven cotton rug');
 
 delete from public.hubs
 where name in ('IIT Guwahati', 'NIT Silchar', 'NECBDC', 'Ministry of MSME');
 
 delete from public.mous
 where partner_name in (
+  'MNNIT',
   'Indian Institute of Technology, Guwahati',
   'North East Small Finance Bank',
   'Ministry of MSME, Govt of India'
 );
 
 delete from public.newsletters
-where title in ('Innovation Highlights', 'Startup Showcase');
+where title in ('asadf b', 'Innovation Highlights', 'Startup Showcase');
 
 delete from public.gallery_items
 where title in ('Workshop Moment 1', 'Workshop Moment 2', 'Event Moment');
-
-delete from public.team_members
-where full_name in (
-  'Prof. Devendra Jalihal',
-  'Prof. Vimal Katiyar',
-  'Prof. Rakhi Chaturvedi',
-  'Dr. Sakshi Nangia'
-);
 
 delete from public.notifications
 where text in (
@@ -607,97 +618,12 @@ or title in (
 );
 
 delete from public.profiles
-where email in (
-  'admin@nest.test',
-  'entrepreneur@nest.test',
-  'artisan@nest.test',
-  'startup@nest.test',
-  'trainee@nest.test'
-);
+where lower(email) like '%@nest.test'
+  or metadata->>'demo_user' = 'true'
+  or metadata->>'testing_credential' = 'true';
 
-insert into public.profiles
-  (full_name, email, phone, role, organization, status, metadata)
-values
-  ('Demo Admin', 'admin@nest.test', null, 'admin', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
-  ('Demo Entrepreneur', 'entrepreneur@nest.test', null, 'entrepreneur', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
-  ('Demo Artisan', 'artisan@nest.test', '+919876543201', 'artisan', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
-  ('Demo Startup Founder', 'startup@nest.test', null, 'startup', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb),
-  ('Demo Trainee', 'trainee@nest.test', '+919876543202', 'trainee', 'NEST Demo', 'approved', '{"demo_user": true, "testing_credential": true}'::jsonb);
-
-insert into public.site_stats (id, label, value, scope, sort_order)
-values
-  ('incubated-startups', 'Incubated Startups', '100+', 'home', 1),
-  ('institutions', 'Institutions', '32+', 'home', 2),
-  ('investments', 'Investments', '4.3 Cr+', 'home', 3),
-  ('ne-beneficiaries', 'North-East Beneficiaries', '100+', 'home', 4)
-on conflict (id) do nothing;
-
-insert into public.programs
-  (title, tagline, category, program_type, status, location, start_date, end_date, application_deadline, duration, participant_count, fee, description, image_url)
-values
-  ('Smart Agriculture and IoT Integration Cluster Formation', 'Sensors for resilient farms', 'Sustainable Tech', 'workshop', 'upcoming', 'Agri-Innovation Lab', '2026-05-15', '2026-05-25', '2026-05-01', '10 days', '15', 'Free', 'Developing smart solutions for local farmers through IoT sensors and automated irrigation systems.', 'https://images.unsplash.com/photo-1560415755-bd80d06eda60?w=800&auto=format&fit=crop&q=60'),
-  ('Traditional Handloom Weaving and Natural Dyeing', 'Heritage craft training', 'Heritage Crafts', 'long', 'ongoing', 'Main Workshop Area', '2026-01-05', '2026-04-30', '2025-12-25', '4 months', '15', 'Free', 'Mastering the art of traditional Assamese weaving and extracting organic colors from local flora.', 'https://images.unsplash.com/photo-1582236815309-fa935fa7913e?w=800&auto=format&fit=crop&q=60'),
-  ('Bamboo Structural Design and Composite Product Development', 'Bamboo product innovation', 'Bamboo Technologies', 'short', 'completed', 'NECBDC Campus', '2026-01-19', '2026-01-23', '2026-01-10', '5 days', '20', 'Free', 'A hands-on bamboo technology program covering structure, composite products, and design development.', 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop&q=60')
-on conflict do nothing;
-
-insert into public.startups
-  (name, founder_name, website_url, category, established_year, state, funding_raised, overview, logo_url, status)
-values
-  ('EcoTech Innovations', 'NEST Founder', '#', 'Grassroots Technologies', '2022', 'Meghalaya', '25 lac', 'Local technology venture connected with the NEST innovation ecosystem.', 'https://placehold.co/300x120/ffffff/ff6b00?text=EcoTech', 'approved'),
-  ('GreenWave Solutions', 'NEST Founder', '#', 'Grassroots Technologies', '2019', 'Arunachal Pradesh', '40 lac', 'Sustainable solutions venture from the North-East ecosystem.', 'https://placehold.co/300x120/ffffff/000000?text=GreenWave', 'approved'),
-  ('Bamboo Craft Tech', 'NEST Founder', '#', 'Bamboo Innovation', '2024', 'Assam', '15 lac', 'Craft-led bamboo technology venture.', 'https://placehold.co/300x120/ffffff/2d5a3d?text=Bamboo', 'approved')
-on conflict do nothing;
-
-insert into public.marketplace_products
-  (title, category, price, stock, description, image_url, status, seller_role, seller_name)
-values
-  ('Bamboo stick lamp', 'Bamboo and Cane', 1199, 12, 'Handcrafted bamboo lamp made by NEST artisans.', '/assets/marketplace/WhatsApp Image 2026-04-02 at 11.37.31.jpeg', 'approved', 'artisan', 'NEST Artisan'),
-  ('Ceramic vase set', 'Pottery and Ceramics', 799, 20, 'Ceramic vase set from marketplace artisans.', '/assets/marketplace/WhatsApp Image 2026-04-02 at 11.46.31.jpeg', 'approved', 'artisan', 'NEST Artisan'),
-  ('Handwoven cotton rug', 'Handloom and Textile', 4299, 5, 'Traditional handwoven cotton rug.', '/assets/marketplace/WhatsApp Image 2026-04-02 at 11.51.13.jpeg', 'approved', 'artisan', 'NEST Artisan')
-on conflict do nothing;
-
-insert into public.hubs (name, category, status)
-values
-  ('IIT Guwahati', 'State Universities', 'active'),
-  ('NIT Silchar', 'NIT Network', 'active'),
-  ('NECBDC', 'Industry Partner', 'active'),
-  ('Ministry of MSME', 'Government Bodies', 'active')
-on conflict do nothing;
-
-insert into public.mous (partner_name, association_type, objective, status)
-values
-  ('Indian Institute of Technology, Guwahati', 'Institution', 'Research and ecosystem coordination', 'active'),
-  ('North East Small Finance Bank', 'Body', 'Startup finance and market access', 'active'),
-  ('Ministry of MSME, Govt of India', 'Government', 'Cluster development support', 'active')
-on conflict do nothing;
-
-insert into public.newsletters (title, month, year, published_on, excerpt, image_url, status)
-values
-  ('Innovation Highlights', 'December', 2026, '2026-12-05', 'Exploring breakthroughs in incubation and technology across the NEST ecosystem.', 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=800&auto=format&fit=crop&q=80', 'published'),
-  ('Startup Showcase', 'November', 2026, '2026-11-10', 'Meet emerging tech startups from the Northeast creating sustainability solutions.', 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=800&auto=format&fit=crop&q=80', 'published')
-on conflict do nothing;
-
-insert into public.gallery_items (title, caption, image_url, sort_order)
-values
-  ('Workshop Moment 1', 'Two-day workshop moment', '/assets/programpic/2dayworkshop/20260110_042621649_iOS%201.jpg.jpeg', 1),
-  ('Workshop Moment 2', 'Volunteer moment', '/assets/programpic/2dayworkshop/Volunteers%20Pics/MKS_0320.JPG.webp', 2),
-  ('Event Moment', 'NEST event moment', '/assets/programpic/event1/WhatsApp%20Image%202025-11-13%20at%205.35.00%20PM.jpeg', 3)
-on conflict do nothing;
-
-insert into public.team_members
-  (full_name, role_title, team_type, scientific_category, image_url, sort_order)
-values
-  ('Prof. Devendra Jalihal', 'Chairman of NEST Cluster', 'leadership', null, '/assets/images/teams/devandra.png', 1),
-  ('Prof. Vimal Katiyar', 'Project Director, NEST Cluster', 'leadership', null, '/assets/images/teams/vimal.png', 2),
-  ('Prof. Rakhi Chaturvedi', 'Project Director', 'scientific', 'grassroots', '/assets/logo/depositphotos_239470246-stock-illustration-user-sign-icon-person-symbol.jpg', 1),
-  ('Dr. Sakshi Nangia', 'Manager Scientific Communications', 'executive', null, '/assets/logo/depositphotos_239470246-stock-illustration-user-sign-icon-person-symbol.jpg', 1)
-on conflict do nothing;
-
-insert into public.notifications (title, text, pdf_url, is_active, sort_order)
-values
-  ('Progress Report', 'NEST Cluster Progress Report 2025-26 is now live!', '/assets/docs/NEST_Report_2026.pdf', true, 1),
-  ('Incubation Applications', 'New Incubation Cohort Applications opening soon!', '#', true, 2)
-on conflict do nothing;
+-- No demo content is inserted here. The statements above only remove known
+-- old sample rows so public counts and dashboards stay based on real data.
 
 do $$
 declare

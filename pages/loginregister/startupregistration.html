@@ -157,9 +157,13 @@
                             <i class="fas fa-file-invoice text-[#2d5a3d] text-[20px]"></i>
                             <h2 class="font-['Inter'] font-bold text-[#1b3a28] text-[22px]">Legal & Identification</h2>
                         </div>
-                        <div class="flex flex-col gap-1.5 mb-6">
+                        <div class="flex flex-col gap-1.5 mb-4">
                             <label class="font-['Inter'] font-semibold text-[#131927] text-[14px]">GST Number</label>
                             <input type="text" placeholder="Enter 15-digit GSTIN" class="form-input-custom max-w-md">
+                        </div>
+                        <div class="flex flex-col gap-1.5 mb-6">
+                            <label class="font-['Inter'] font-semibold text-[#131927] text-[14px]">PAN Number</label>
+                            <input type="text" placeholder="Enter PAN number" maxlength="10" class="form-input-custom max-w-md uppercase">
                         </div>
                         
                         <div class="flex items-center gap-3 mb-2 pt-2 border-t border-gray-50">
@@ -179,10 +183,10 @@
                                 </label>
                                 <span class="file-name-display text-[10px] text-[#2d5a3d] mt-2 font-medium hidden"></span>
                             </div>
-                            <!-- Business Plan -->
+                            <!-- MoA -->
                             <div class="document-card group border-2 border-transparent transition-all">
                                 <i class="fas fa-file-pdf text-[32px] text-red-500 mb-2"></i>
-                                <span class="font-bold text-[14px]">Business Plan</span>
+                                <span class="font-bold text-[14px]">MoA</span>
                                 <span class="text-[11px] opacity-60">PDF only (Max 20MB)</span>
                                 <label class="select-file-btn cursor-pointer inline-block text-center relative">
                                     <span class="btn-text">SELECT FILE</span>
@@ -190,14 +194,14 @@
                                 </label>
                                 <span class="file-name-display text-[10px] text-[#2d5a3d] mt-2 font-medium hidden"></span>
                             </div>
-                            <!-- Additional Docs -->
+                            <!-- DPIIT -->
                             <div class="document-card group border-dashed border-2 border-transparent transition-all">
                                 <i class="fas fa-plus-circle text-[32px] text-gray-300 mb-2"></i>
-                                <span class="font-bold text-[14px]">Additional Docs</span>
-                                <span class="text-[11px] opacity-60">Optional (Max 5MB)</span>
+                                <span class="font-bold text-[14px]">DPIIT</span>
+                                <span class="text-[11px] opacity-60">Optional PDF (Max 5MB)</span>
                                 <label class="select-file-btn cursor-pointer inline-block text-center relative">
                                     <span class="btn-text">SELECT FILE</span>
-                                    <input type="file" class="hidden registration-file-input">
+                                    <input type="file" class="hidden registration-file-input" accept=".pdf">
                                 </label>
                                 <span class="file-name-display text-[10px] text-[#2d5a3d] mt-2 font-medium hidden"></span>
                             </div>
