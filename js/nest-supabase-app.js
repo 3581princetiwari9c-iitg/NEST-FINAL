@@ -543,7 +543,18 @@
     const sources = requestSources(row, null);
     const role = lower(requestValue(sources, ['submitted_as', 'requester_role'], row.requester_role || ''));
     const category = lower(requestValue(sources, ['category'], ''));
-    return role.includes('entrepreneur') || category.includes('idea');
+    const title = lower(row && row.title);
+    return role.includes('entrepreneur') || category.includes('idea') || title.includes('idea') || title.includes('entrepreneur');
+  }
+
+  function requestTypeLabel(row) {
+    const type = lower(row && row.request_type);
+    if (type === 'startup_registration') {
+      return isEntrepreneurApprovalRequest(row) ? 'Entrepreneur Registration' : 'Startup Registration';
+    }
+    if (type === 'product_listing') return 'Product Listing';
+    if (type === 'user_registration') return 'User Registration';
+    return titleCase(type || 'request');
   }
 
   function staffCanViewRequest(row) {
@@ -2263,7 +2274,7 @@
           <span class="block font-['Manrope'] font-bold text-[#1b3a28] text-[16px] whitespace-normal break-words">${html(row.title)}</span>
         </td>
         <td class="px-[24px] py-[20px]">
-          <span class="font-['Inter'] text-[#464E42] ${compact ? 'text-[15px]' : 'text-[13px] uppercase'}">${html(titleCase(row.request_type))}</span>
+          <span class="font-['Inter'] text-[#464E42] ${compact ? 'text-[15px]' : 'text-[13px] uppercase'}">${html(requestTypeLabel(row))}</span>
         </td>
         <td class="px-[24px] py-[20px]">
           <span class="font-['Inter'] text-[#464E42] ${compact ? 'text-[15px]' : 'text-[14px]'}">${html(formatDate(date))}</span>
@@ -4026,7 +4037,7 @@
       || 'Unknown user';
     const role = titleCase(row && row.seller_role || metadata.seller_role || metadata.submitted_from_dashboard || metadata.requester_role || '');
     const email = clean(metadata.seller_email || metadata.requester_email || row.email || '');
-    return { name, detail: [role, email].filter(Boolean).join(' • ') };
+    return { name, detail: [role, email].filter(Boolean).join(' - ') };
   }
 
   async function renderAdminMarketplace(root) {

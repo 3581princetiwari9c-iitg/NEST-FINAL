@@ -12,11 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const mainContent = document.getElementById('main-content');
+    const fetchOptions = { cache: 'no-store' };
 
     // ----------------------------
     // 1. Load Navbar
     // ----------------------------
-    fetch('/components/page-header.html')
+    fetch('/components/page-header.html', fetchOptions)
         .then((res) => {
             if (!res.ok) throw new Error('Failed to load navbar');
             return res.text();
@@ -90,6 +91,34 @@ document.addEventListener('DOMContentLoaded', () => {
         '#logout': 'index.html' // Handle logout
     };
 
+    function ensureMarketplaceSidebarLink(sidebarContainer) {
+        if (!sidebarContainer || sidebarContainer.querySelector('a[href="#marketplace"]')) return;
+        const link = document.createElement('a');
+        link.href = '#marketplace';
+        link.className = 'flex items-center gap-3 px-4 py-3 text-[#677461] hover:bg-gray-50 hover:text-[#2d5a3d] rounded-lg transition-all duration-200 group';
+        link.innerHTML = `
+            <div class="w-5 h-5 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <path d="M3 6h18"></path>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+            </div>
+            <span class="text-base font-['Inter']">Marketplace</span>`;
+        const hubMouButton = Array.from(sidebarContainer.querySelectorAll('button')).find((button) =>
+            (button.textContent || '').toLowerCase().includes('hub & mou')
+        );
+        const hubMouSection = hubMouButton && hubMouButton.closest('.relative');
+        if (hubMouSection && hubMouSection.parentNode) {
+            hubMouSection.parentNode.insertBefore(link, hubMouSection);
+            return;
+        }
+        const galleryLink = sidebarContainer.querySelector('a[href="#gallery"]');
+        if (galleryLink) galleryLink.insertAdjacentElement('afterend', link);
+        else sidebarContainer.appendChild(link);
+    }
+
     function handleNavigation() {
         const hash = window.location.hash || '#dashboard';
 
@@ -114,7 +143,7 @@ document.addEventListener('DOMContentLoaded', () => {
             mainContent.innerHTML = '<div class="flex items-center justify-center min-h-[400px]"><div class="w-8 h-8 border-4 border-[#2d5a3d] border-t-transparent rounded-full animate-spin"></div></div>';
         }
 
-        fetch(path)
+        fetch(path, fetchOptions)
             .then(res => {
                 if (!res.ok) throw new Error('Page not found');
                 return res.text();
@@ -146,7 +175,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------
     // 3. Load Sidebar
     // ----------------------------
-    fetch('/components/sidebar.html')
+    fetch('/components/sidebar.html', fetchOptions)
         .then((res) => {
             if (!res.ok) throw new Error('Failed to load sidebar');
             return res.text();
@@ -155,6 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const sidebarContainer = document.getElementById('sidebar');
             if (sidebarContainer) {
                 sidebarContainer.innerHTML = data;
+                ensureMarketplaceSidebarLink(sidebarContainer);
 
                 // Handle active states based on hash
                 const updateActiveSidebar = () => {
