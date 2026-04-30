@@ -478,6 +478,11 @@
     return currentStaffRole() === 'admin';
   }
 
+  function canDeleteMarketplaceProducts() {
+    const user = readStore('nest_current_user', {});
+    return !isStaffRole(user && user.role) || lower(user.role) === 'admin';
+  }
+
   function numericBudgetValue(value) {
     const raw = clean(value);
     if (!raw) return 0;
@@ -2249,6 +2254,7 @@
     if (heading.includes('upload newsletter')) return 'newsletter-form';
     if (heading.includes('stats management')) return 'admin-stats';
     if (heading.includes('gallery management')) return 'admin-gallery';
+    if (heading.includes('marketplace management') && root.querySelector('[data-admin-marketplace]')) return 'admin-marketplace';
     if (heading.includes('hub management')) return 'admin-hubs';
     if (heading.includes('add hub node')) return 'hub-form';
     if (heading.includes('mou management')) return 'admin-mous';
@@ -3932,6 +3938,50 @@
     setCounterText(root, 'Approved Products', countText(products.filter(isApproved).length));
   }
 
+  async function renderAdminMarketplace(root) {
+    const products = realRows('marketplace_products', await rows('marketplace_products', (q) => q.order('created_at', { ascending: false })));
+    const deleteAllowed = canDeleteMarketplaceProducts();
+    const tbody = root.querySelector('tbody');
+    if (!tbody) return;
+    tbody.innerHTML = products.length
+      ? products
+        .map((row) => {
+          const metadata = payloadObject(row.metadata);
+          const seller = row.seller_name || metadata.seller_name || metadata.shop_name || metadata.seller_email || 'Not provided';
+          return `
+        <tr class="hover:bg-gray-50 transition-all group">
+          <td class="px-[24px] py-[18px]">
+            <div class="flex items-center gap-4 min-w-[260px]">
+              <div class="w-14 h-14 rounded-[10px] bg-gray-100 overflow-hidden shrink-0 border border-gray-100">
+                ${row.image_url ? `<img src="${html(row.image_url)}" alt="${html(row.title)}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center text-[#677461] text-[10px] uppercase font-bold">No image</div>`}
+              </div>
+              <div class="flex flex-col gap-1 min-w-0">
+                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px] leading-tight break-words">${html(row.title || 'Untitled Product')}</span>
+                <span class="font-['Inter'] text-[#677461] text-[12px]">${html(row.stock || 0)} in stock</span>
+              </div>
+            </div>
+          </td>
+          <td class="px-[24px] py-[18px]"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(seller)}</span></td>
+          <td class="px-[24px] py-[18px]"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.category || 'Marketplace')}</span></td>
+          <td class="px-[24px] py-[18px]"><span class="font-['Inter'] font-semibold text-[#1b3a28] text-[14px]">${formatMoney(row.price)}</span></td>
+          <td class="px-[24px] py-[18px]"><span class="font-['Inter'] font-bold ${statusColor(row.status)} text-[14px] capitalize">${html(row.status || 'pending')}</span></td>
+          <td class="px-[24px] py-[18px] text-right">
+            <div class="flex items-center justify-end gap-[16px]">
+              ${row.image_url ? `<a href="${html(row.image_url)}" target="_blank" class="text-[#677461] hover:text-[#1b3a28] transition-all">View</a>` : ''}
+              ${deleteAllowed ? `<button data-action="delete-product" data-id="${row.id}" class="text-[#677461] hover:text-red-600 transition-all">Delete</button>` : `<span class="font-['Inter'] text-[#677461] text-[12px]">View only</span>`}
+            </div>
+          </td>
+        </tr>`;
+        })
+        .join('')
+      : emptyRow(6, 'No marketplace products have been submitted yet.');
+    setCounterText(root, 'Total Products', countText(products.length));
+    setCounterText(root, 'Website Products', countText(products.filter(isApproved).length));
+    setCounterText(root, 'Pending Listings', countText(products.filter(isPending).length));
+    const showing = Array.from(root.querySelectorAll('span')).find((el) => text(el).startsWith('Showing'));
+    if (showing) showing.textContent = `Showing ${products.length} products`;
+  }
+
   async function submitProduct(root) {
     const files = Array.from(root.querySelectorAll('input[type="file"]')).flatMap((input) => Array.from(input.files || []));
     const select = root.querySelector('select');
@@ -4981,6 +5031,7 @@
       if (key === 'admin-startups') await renderAdminStartups(root);
       if (key === 'public-startups') await renderPublicStartups(root);
       if (key === 'public-market') await renderPublicMarket(root);
+      if (key === 'admin-marketplace') await renderAdminMarketplace(root);
       if (key === 'dashboard-marketplace') await renderDashboardMarketplace(root);
       if (key === 'dashboard-startup-status') await renderDashboardStartupStatus(root);
       if (key === 'dashboard-user-profile') {
@@ -5052,7 +5103,11 @@
       markContentUpdated('programs');
     }
     if (action === 'delete-startup') await deleteRow('startups', id);
-    if (action === 'delete-product') await deleteRow('marketplace_products', id);
+    if (action === 'delete-product') {
+      if (!canDeleteMarketplaceProducts()) throw new Error('Only admin users can delete marketplace products.');
+      await deleteRow('marketplace_products', id);
+      markContentUpdated('marketplace_products');
+    }
     if (action === 'approve-request') return decideRequest(id, 'approved');
     if (action === 'reject-request') return decideRequest(id, 'rejected');
     if (action === 'view-newsletter') {

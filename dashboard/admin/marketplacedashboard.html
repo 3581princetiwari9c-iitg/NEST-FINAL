@@ -1,0 +1,82 @@
+<div data-admin-marketplace="true" class="flex flex-col gap-[24px] items-start w-full pb-10">
+    <div class="flex items-center justify-between w-full">
+        <div>
+            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">
+                Marketplace Management
+            </h1>
+            <p class="font-['Inter'] text-[#677461] text-[14px] mt-1">
+                Products submitted to the NEST marketplace.
+            </p>
+        </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-[16px] w-full max-w-[900px]">
+        <div class="bg-white p-[18px] rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[16px]">
+            <div class="w-[36px] h-[38px] bg-[#f1ffee] rounded-[6px] flex items-center justify-center text-[#2d5a3d]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4Z"></path>
+                    <path d="M3 6h18"></path>
+                    <path d="M16 10a4 4 0 0 1-8 0"></path>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-['Inter'] font-semibold text-[#677461] text-[11px] uppercase tracking-wider mb-1">
+                    Total Products
+                </h3>
+                <p class="font-['Manrope'] font-bold text-[#1b3a28] text-[24px]">0</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-[18px] rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[16px]">
+            <div class="w-[36px] h-[38px] bg-[#ecfdf5] rounded-[6px] flex items-center justify-center text-[#16a34a]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="m9 12 2 2 4-4"></path>
+                    <circle cx="12" cy="12" r="9"></circle>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-['Inter'] font-semibold text-[#677461] text-[11px] uppercase tracking-wider mb-1">
+                    Website Products
+                </h3>
+                <p class="font-['Manrope'] font-bold text-[#1b3a28] text-[24px]">0</p>
+            </div>
+        </div>
+
+        <div class="bg-white p-[18px] rounded-[10px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[16px]">
+            <div class="w-[36px] h-[38px] bg-[#fff7ed] rounded-[6px] flex items-center justify-center text-[#ea580c]">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+                </svg>
+            </div>
+            <div>
+                <h3 class="font-['Inter'] font-semibold text-[#677461] text-[11px] uppercase tracking-wider mb-1">
+                    Pending Listings
+                </h3>
+                <p class="font-['Manrope'] font-bold text-[#1b3a28] text-[24px]">0</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="w-full bg-white rounded-[12px] shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-gray-100 overflow-hidden mb-[72px]">
+        <div class="px-6 py-5 border-b border-gray-100 flex items-center justify-between">
+            <h2 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28]">Marketplace Products</h2>
+            <span class="font-['Inter'] text-[#677461] text-[13px]">Showing 0 products</span>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full border-collapse">
+                <thead>
+                    <tr class="bg-[#f9fafb] border-b border-gray-100">
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap w-[28%]">Product</th>
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Seller</th>
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Category</th>
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Price</th>
+                        <th class="px-[24px] py-[16px] text-left font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Status</th>
+                        <th class="px-[24px] py-[16px] text-right font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider whitespace-nowrap">Actions</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-50"></tbody>
+            </table>
+        </div>
+    </div>
+</div>
