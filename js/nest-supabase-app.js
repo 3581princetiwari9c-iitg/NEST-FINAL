@@ -434,14 +434,32 @@
     return STAFF_ROLES.has(lower(role));
   }
 
+  function staffRoleFromProfile(profile) {
+    if (!profile) return '';
+    const metadata = payloadObject(profile.metadata);
+    const storedRole = lower(metadata.access_role || metadata.staff_role || metadata.management_role || profile.role);
+    return isStaffRole(storedRole) ? storedRole : lower(profile.role);
+  }
+
+  function staffRoleFromUser(user) {
+    if (!user) return '';
+    const metadata = payloadObject(user.metadata);
+    const storedRole = lower(user.accessRole || user.access_role || metadata.access_role || metadata.staff_role || metadata.management_role || user.role);
+    return isStaffRole(storedRole) ? storedRole : lower(user.role);
+  }
+
+  function roleFromProfile(profile) {
+    return isManagementStaffProfile(profile) ? staffRoleFromProfile(profile) : lower(profile && profile.role);
+  }
+
   function currentStaffUser() {
     const user = readStore('nest_current_user', null);
-    return user && isStaffRole(user.role) ? user : null;
+    return user && isStaffRole(staffRoleFromUser(user)) ? user : null;
   }
 
   function currentStaffRole() {
     const user = currentStaffUser();
-    return user ? lower(user.role) : 'admin';
+    return user ? staffRoleFromUser(user) : 'admin';
   }
 
   function staffRoleLabel(role) {
@@ -449,9 +467,10 @@
   }
 
   function isManagementStaffProfile(profile) {
-    if (!profile || !isStaffRole(profile.role)) return false;
+    const accessRole = staffRoleFromProfile(profile);
+    if (!profile || !isStaffRole(accessRole)) return false;
     const metadata = payloadObject(profile.metadata);
-    return lower(profile.role) === 'admin' || metadata.staff_account === true || metadata.management_member === true;
+    return accessRole === 'admin' || metadata.staff_account === true || metadata.management_member === true;
   }
 
   function staffAllowedCreateRoles() {
@@ -471,7 +490,7 @@
     const currentRole = currentStaffRole();
     if (current && current.profileId && current.profileId === profile.id) return false;
     if (currentRole === 'admin') return true;
-    return currentRole === 'manager' && lower(profile.role) === 'employee';
+    return currentRole === 'manager' && staffRoleFromProfile(profile) === 'employee';
   }
 
   function canDeletePrograms() {
@@ -480,7 +499,8 @@
 
   function canDeleteMarketplaceProducts() {
     const user = readStore('nest_current_user', {});
-    return !isStaffRole(user && user.role) || lower(user.role) === 'admin';
+    const accessRole = staffRoleFromUser(user);
+    return !isStaffRole(accessRole) || accessRole === 'admin';
   }
 
   function productPreviewUrl(row) {
@@ -3600,6 +3620,41 @@
     return matches.find(isManagementStaffProfile) || matches.find((profile) => isSingleEmailRole(profile.role)) || matches[0];
   }
 
+  async function profileForAuthUser(authUser) {
+    if (!authUser) return null;
+    if (authUser.id) {
+      const byAuthId = await rows('profiles', (q) => q.eq('auth_user_id', authUser.id).order('created_at', { ascending: false }).limit(20));
+      if (byAuthId.length) {
+        return byAuthId.find(isManagementStaffProfile) || byAuthId.find((profile) => isSingleEmailRole(profile.role)) || byAuthId[0];
+      }
+    }
+    return authUser.email ? profileForEmailPasswordLogin(authUser.email) : null;
+  }
+
+  function profileToCurrentUser(profile, authUser, authType) {
+    const metadata = payloadObject(profile && profile.metadata);
+    const role = roleFromProfile(profile);
+    return {
+      email: profile.email || (authUser && authUser.email) || '',
+      role,
+      accessRole: role,
+      name: profile.full_name || profile.organization || titleCase(role),
+      phone: profile.phone || '',
+      image_url: profile.image_url || metadata.profile_photo_url || metadata.image_url || '',
+      profileId: profile.id,
+      status: profile.status || '',
+      metadata,
+      auth: authType || 'password',
+      authUserId: authUser && authUser.id ? authUser.id : profile.auth_user_id || '',
+      loggedInAt: new Date().toISOString()
+    };
+  }
+
+  function authUserAlreadyExists(error) {
+    const message = lower(error && (error.message || error.error_description || error.details || error.code));
+    return message.includes('already registered') || message.includes('already exists') || message.includes('user exists');
+  }
+
   function loginAuthError(error) {
     const message = error && error.message ? error.message : 'Login failed.';
     if (/invalid login credentials/i.test(message)) {
@@ -3698,24 +3753,14 @@
     const profile = await profileForEmailPasswordLogin(email);
     if (!profile) throw new Error('Login succeeded, but no profile was found for this email. Please complete registration first.');
 
-    const user = {
-      email: profile.email || email,
-      role: profile.role,
-      name: profile.full_name || profile.organization || titleCase(profile.role),
-      phone: profile.phone || '',
-      profileId: profile.id,
-      status: profile.status || '',
-      auth: 'password',
-      authUserId: data && data.user && data.user.id,
-      loggedInAt: new Date().toISOString()
-    };
+    const user = profileToCurrentUser(profile, data && data.user, 'password');
     persistCurrentUser(user);
-    if (profile.role === 'startup' || profile.role === 'entrepreneur') {
+    if (user.role === 'startup' || user.role === 'entrepreneur') {
       const startups = await rows('startups', (q) => q.ilike('email', lower(user.email)).order('created_at', { ascending: false }).limit(1));
       if (startups[0]) {
         const requests = await rows('requests', (q) => q.eq('related_id', startups[0].id).order('submitted_at', { ascending: false }).limit(1));
         writeStore('nest_startup_application', {
-          role: profile.role,
+          role: user.role,
           email: user.email,
           profileId: profile.id,
           startupId: startups[0].id,
@@ -3724,9 +3769,9 @@
       }
     }
     updateNavbarAuthState();
-    showToast(`Logged in as ${titleCase(profile.role)}.`);
+    showToast(`Logged in as ${titleCase(user.role)}.`);
     setTimeout(() => {
-      window.location.href = getDashboardUrl(profile.role);
+      window.location.href = dashboardTargetAfterLogin(user);
     }, 300);
   }
 
@@ -4040,9 +4085,15 @@
   async function renderAdminManagement(root) {
     const staff = realRows('profiles', await rows('profiles', (q) => q.order('created_at', { ascending: false })))
       .filter(isManagementStaffProfile);
-    const administrators = staff.filter((member) => lower(member.role) === 'admin');
-    const managers = staff.filter((member) => lower(member.role) === 'manager');
-    const employees = staff.filter((member) => lower(member.role) === 'employee');
+    const searchInput = root.querySelector('[data-management-search]');
+    if (searchInput && !searchInput.dataset.nestSearchReady) {
+      searchInput.value = '';
+      searchInput.setAttribute('autocomplete', 'off');
+      searchInput.dataset.nestSearchReady = 'true';
+    }
+    const administrators = staff.filter((member) => staffRoleFromProfile(member) === 'admin');
+    const managers = staff.filter((member) => staffRoleFromProfile(member) === 'manager');
+    const employees = staff.filter((member) => staffRoleFromProfile(member) === 'employee');
     setCounterText(root, 'Total Staff', countText(staff.length));
     setCounterText(root, 'Administrators', countText(administrators.length));
     setCounterText(root, 'Managers', countText(managers.length));
@@ -4066,7 +4117,7 @@
         <tr class="hover:bg-gray-50 transition-all group">
           <td class="px-8 py-4"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px]">${html(member.full_name || 'Unnamed member')}</span></td>
           <td class="px-8 py-4"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(member.email || 'No email')}</span></td>
-          <td class="px-8 py-4"><span class="font-['Inter'] font-bold text-[#2d5a3d] text-[13px] capitalize">${html(staffRoleLabel(member.role))}</span></td>
+          <td class="px-8 py-4"><span class="font-['Inter'] font-bold text-[#2d5a3d] text-[13px] capitalize">${html(staffRoleLabel(staffRoleFromProfile(member)))}</span></td>
           <td class="px-8 py-4"><span class="font-['Inter'] text-[#677461] text-[13px]">${html(formatDate(member.created_at))}</span></td>
           <td class="px-8 py-4 text-right">
             <div class="flex items-center justify-end gap-4">
@@ -4080,24 +4131,23 @@
       : emptyRow(5, 'No staff members have been added yet.');
   }
 
-  async function saveStaffMember(root) {
-    const name = clean(root.querySelector('#staff-name') && root.querySelector('#staff-name').value);
-    const email = lower(root.querySelector('#staff-email') && root.querySelector('#staff-email').value);
-    const password = clean(root.querySelector('#staff-password') && root.querySelector('#staff-password').value);
-    const role = lower(root.querySelector('#staff-role') && root.querySelector('#staff-role').value);
-    const designation = clean(root.querySelector('#staff-designation') && root.querySelector('#staff-designation').value);
-    if (!name) throw new Error('Please enter the staff member name.');
-    if (!email || !email.includes('@')) throw new Error('Please enter a valid staff email.');
-    if (password.length < 8) throw new Error('Password must be at least 8 characters.');
-    if (!canCreateStaffRole(role)) throw new Error('You do not have permission to create this staff role.');
-
-    const existing = await rows('profiles', (q) => q.ilike('email', email).limit(1));
-    if (existing.length) {
-      throw new Error('A profile already exists for this email. Use a different email or remove the old profile first.');
+  async function restoreAuthSession(session) {
+    try {
+      if (session && session.access_token && session.refresh_token) {
+        await supabase().auth.setSession({
+          access_token: session.access_token,
+          refresh_token: session.refresh_token
+        });
+      } else if (supabase().auth && supabase().auth.signOut) {
+        await supabase().auth.signOut({ scope: 'local' });
+      }
+    } catch (error) {
+      console.warn('Could not restore Supabase auth session after staff creation:', error);
     }
+  }
 
-    const currentSession = await supabase().auth.getSession();
-    const { data, error } = await withAuthTimeout(
+  async function createStaffAuthAccount(email, password, name, role) {
+    const signUpResult = await withAuthTimeout(
       supabase().auth.signUp({
         email,
         password,
@@ -4111,31 +4161,92 @@
       }),
       'Supabase did not respond while creating the staff login. Please try again.'
     );
-    if (error) throw loginAuthError(error);
 
-    const current = readStore('nest_current_user', null);
-    if (current) persistCurrentUser(current);
-    const session = currentSession && currentSession.data && currentSession.data.session;
-    if (session && session.access_token && session.refresh_token) {
-      await supabase().auth.setSession({
-        access_token: session.access_token,
-        refresh_token: session.refresh_token
-      });
+    if (signUpResult.error) {
+      if (authUserAlreadyExists(signUpResult.error)) throw new Error('This email is already registered.');
+      throw loginAuthError(signUpResult.error);
     }
 
-    await insertRow('profiles', {
-      auth_user_id: data && data.user ? data.user.id : null,
+    const user = signUpResult.data && signUpResult.data.user;
+    const identityCount = user && Array.isArray(user.identities) ? user.identities.length : 1;
+    if (identityCount === 0) throw new Error('This email is already registered.');
+    return {
+      authUserId: user && user.id ? user.id : '',
+      notice: 'Staff login created.'
+    };
+  }
+
+  async function saveStaffProfile(existingProfile, payload, selectedRole) {
+    const save = (nextPayload) => existingProfile
+      ? updateRow('profiles', existingProfile.id, nextPayload)
+      : insertRow('profiles', nextPayload);
+    try {
+      return await save(payload);
+    } catch (error) {
+      const message = lower(error && (error.message || error.details || error.hint || error.code));
+      if (message.includes('profiles_one_staff_role_per_email') || (message.includes('duplicate key') && message.includes('profiles'))) {
+        throw new Error('This email is already registered.');
+      }
+      if (selectedRole !== 'admin' && message.includes('profiles_role_check')) {
+        return save({
+          ...payload,
+          role: 'admin',
+          metadata: {
+            ...payloadObject(payload.metadata),
+            access_role: selectedRole,
+            staff_role: selectedRole,
+            role_check_fallback: true
+          }
+        });
+      }
+      throw error;
+    }
+  }
+
+  async function saveStaffMember(root) {
+    const name = clean(root.querySelector('#staff-name') && root.querySelector('#staff-name').value);
+    const email = lower(root.querySelector('#staff-email') && root.querySelector('#staff-email').value);
+    const password = clean(root.querySelector('#staff-password') && root.querySelector('#staff-password').value);
+    const role = lower(root.querySelector('#staff-role') && root.querySelector('#staff-role').value);
+    const designation = clean(root.querySelector('#staff-designation') && root.querySelector('#staff-designation').value);
+    if (!name) throw new Error('Please enter the staff member name.');
+    if (!email || !email.includes('@')) throw new Error('Please enter a valid staff email.');
+    if (password.length < 8) throw new Error('Password must be at least 8 characters.');
+    if (!canCreateStaffRole(role)) throw new Error('You do not have permission to create this staff role.');
+
+    const current = readStore('nest_current_user', null);
+    const existingProfiles = await rows('profiles', (q) => q.ilike('email', email).order('created_at', { ascending: false }).limit(20));
+    if (existingProfiles.length) throw new Error('This email is already registered.');
+
+    const currentSession = await supabase().auth.getSession().catch(() => ({ data: { session: null } }));
+    const session = currentSession && currentSession.data && currentSession.data.session;
+    let authResult = {
+      authUserId: '',
+      notice: ''
+    };
+    try {
+      authResult = await createStaffAuthAccount(email, password, name, role);
+    } finally {
+      await restoreAuthSession(session);
+      if (current) persistCurrentUser(current);
+    }
+
+    const metadata = {
+      staff_account: true,
+      designation,
+      access_role: role,
+      staff_role: role,
+      created_by: current && current.email ? current.email : ''
+    };
+    await saveStaffProfile(null, {
+      auth_user_id: authResult.authUserId || null,
       full_name: name,
       email,
       role,
       organization: designation,
       status: 'approved',
-      metadata: {
-        staff_account: true,
-        designation,
-        created_by: current && current.email ? current.email : ''
-      }
-    });
+      metadata
+    }, role);
 
     const modal = root.querySelector('#add-member-modal');
     if (modal) modal.classList.add('hidden');
@@ -4143,7 +4254,7 @@
       const input = root.querySelector(selector);
       if (input) input.value = '';
     });
-    showToast('Staff login created.');
+    showToast(authResult.notice || 'Staff login created.');
     scheduleInit(true);
   }
 
@@ -5419,6 +5530,103 @@
     return 'index.html';
   }
 
+  function dashboardRoleForUrl(urlValue) {
+    try {
+      const url = new URL(urlValue, window.location.href);
+      const page = url.pathname.split('/').pop().toLowerCase();
+      if (page === 'admin.html') return 'admin';
+      if (page === 'entrepreneur.html') return 'entrepreneur';
+      if (page === 'artisan.html') return 'artisan';
+      if (page === 'startup.html') return 'startup';
+      if (page === 'trainee.html') return 'trainee';
+    } catch (error) {
+      return '';
+    }
+    return '';
+  }
+
+  function dashboardAccessAllowed(user, requestedRole) {
+    const dashboardRole = lower(requestedRole || document.body.dataset.dashboardRole);
+    if (!dashboardRole) return true;
+    const role = staffRoleFromUser(user) || lower(user && user.role);
+    if (!role) return false;
+    if (dashboardRole === 'admin') return isStaffRole(role);
+    return role === dashboardRole;
+  }
+
+  function dashboardTargetAfterLogin(user) {
+    const storedUrl = sessionStorage.getItem('nest_after_login_url');
+    if (storedUrl) {
+      sessionStorage.removeItem('nest_after_login_url');
+      try {
+        const target = new URL(storedUrl, window.location.href);
+        const targetRole = dashboardRoleForUrl(target.href);
+        if (target.origin === window.location.origin && targetRole && dashboardAccessAllowed(user, targetRole)) {
+          return target.href;
+        }
+      } catch (error) {
+        // Ignore bad stored URLs and fall back to the user's dashboard.
+      }
+    }
+    return getDashboardUrl(staffRoleFromUser(user) || lower(user && user.role));
+  }
+
+  async function hydrateCurrentUserFromAuthSession() {
+    const existing = readStore('nest_current_user', null);
+    if (existing && (existing.role || existing.accessRole) && existing.email) return existing;
+    const { data, error } = await supabase().auth.getSession();
+    if (error || !data || !data.session || !data.session.user) return null;
+    const authUser = data.session.user;
+    const profile = await profileForAuthUser(authUser);
+    if (!profile) return null;
+    const user = profileToCurrentUser(profile, authUser, 'password');
+    persistCurrentUser(user);
+    if (!profile.auth_user_id && authUser.id) {
+      updateRow('profiles', profile.id, { auth_user_id: authUser.id }).catch((updateError) => {
+        console.warn('Could not link profile to auth user:', updateError);
+      });
+    }
+    return user;
+  }
+
+  function redirectToLogin() {
+    if (isDashboardPage()) {
+      sessionStorage.setItem('nest_after_login_url', window.location.href);
+    }
+    window.location.replace('index.html#login');
+  }
+
+  async function ensureDashboardAuth() {
+    if (!isDashboardPage()) return true;
+    let currentUser = readStore('nest_current_user', null);
+    if (!currentUser || (!currentUser.role && !currentUser.accessRole) || !currentUser.email) {
+      currentUser = await hydrateCurrentUserFromAuthSession();
+    }
+    if (!currentUser) {
+      redirectToLogin();
+      return false;
+    }
+    if (!dashboardAccessAllowed(currentUser)) {
+      window.location.replace(getDashboardUrl(staffRoleFromUser(currentUser) || lower(currentUser.role)));
+      return false;
+    }
+    updateNavbarAuthState();
+    return true;
+  }
+
+  async function logoutCurrentUser() {
+    removeStore('nest_current_user');
+    clearUserScopedStores();
+    try {
+      if (supabase() && supabase().auth && supabase().auth.signOut) {
+        await supabase().auth.signOut({ scope: 'local' });
+      }
+    } catch (error) {
+      console.warn('Supabase sign out failed:', error);
+    }
+    window.location.href = 'index.html';
+  }
+
   function updateNavbarAuthState() {
     const currentUser = readStore('nest_current_user', null);
     if (!currentUser) return;
@@ -5472,7 +5680,7 @@
         updateNavbarAuthState();
         // Redirect if user logged out from another tab and we are on a dashboard
         if (!event.newValue && isDashboardPage()) {
-          window.location.href = 'index.html';
+          redirectToLogin();
         }
       }
     });
@@ -5481,16 +5689,24 @@
     // Observe body for navbar injections
     const bodyObserver = new MutationObserver(() => updateNavbarAuthState());
     bodyObserver.observe(document.body, { childList: true, subtree: true });
-    updateNavbarAuthState();
 
     const root = mainRoot();
     if (root) {
       const observer = new MutationObserver(() => scheduleInit(false));
       observer.observe(root, { childList: true });
-      scheduleInit(true);
     }
-    refreshNotifications().catch(console.error);
-    startRealtime();
+    ensureDashboardAuth()
+      .then((allowed) => {
+        if (!allowed) return;
+        updateNavbarAuthState();
+        if (root) scheduleInit(true);
+        refreshNotifications().catch(console.error);
+        startRealtime();
+      })
+      .catch((error) => {
+        console.warn('Dashboard auth guard failed:', error);
+        if (isDashboardPage()) redirectToLogin();
+      });
   }
 
   window.NESTSupabaseApp = {
@@ -5499,6 +5715,8 @@
     rejectRequest: (id) => decideRequest(id, 'rejected'),
     uploadFile: (bucket, path, file) => uploadFile(bucket, path, file),
     updateRow: (table, id, payload) => updateRow(table, id, payload),
+    ensureDashboardAuth,
+    logout: logoutCurrentUser,
     currentUser: () => readStore('nest_current_user')
   };
 

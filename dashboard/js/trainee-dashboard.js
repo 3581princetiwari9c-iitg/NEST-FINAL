@@ -1,4 +1,16 @@
 document.addEventListener('DOMContentLoaded', () => {
+    if (document.body.dataset.dashboardRole && !localStorage.getItem('nest_current_user')) {
+        const guard = window.NESTSupabaseApp && window.NESTSupabaseApp.ensureDashboardAuth;
+        if (guard) {
+            guard().then((allowed) => {
+                if (allowed) window.location.reload();
+            });
+        } else {
+            window.location.replace('index.html#login');
+        }
+        return;
+    }
+
     const mainContent = document.getElementById('main-content');
 
     // ----------------------------
@@ -67,8 +79,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // Handle Logout specially
         if (hash === '#logout') {
             if (confirm("Do you want to logout?")) {
-                localStorage.removeItem('nest_current_user');
-                window.location.href = 'index.html';
+                if (window.NESTSupabaseApp && window.NESTSupabaseApp.logout) {
+                    window.NESTSupabaseApp.logout();
+                } else {
+                    localStorage.removeItem('nest_current_user');
+                    window.location.href = 'index.html';
+                }
             } else {
                 window.history.back();
             }

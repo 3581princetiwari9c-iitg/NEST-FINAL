@@ -89,7 +89,8 @@
         <div class="px-8 py-5 border-b border-[#f1f2f4] bg-[#fdfdfd] flex items-center justify-between">
             <h2 class="font-['Manrope'] font-bold text-[18px] text-[#1b3a28]">Management Overview</h2>
             <div class="relative">
-                <input type="text" placeholder="Search staff members..."
+                <input type="search" data-management-search name="management_staff_search" value=""
+                    autocomplete="off" autocapitalize="off" spellcheck="false" placeholder="Search staff members..."
                     class="pl-10 pr-4 py-2 bg-gray-50 border border-gray-100 rounded-lg text-[14px] outline-none focus:border-[#2D5A3D] transition-all font-['Manrope'] w-[280px]">
                 <svg class="absolute left-3 top-2.5 text-gray-400" width="18" height="18" viewBox="0 0 24 24"
                     fill="none" stroke="currentColor" stroke-width="2">
@@ -154,6 +155,7 @@
                                 class="block font-['Manrope'] font-bold text-[13px] text-[#1b3a28] uppercase tracking-wider">Email
                                 ID</label>
                             <input id="staff-email" type="email" placeholder="john@nestcluster.net"
+                                autocomplete="new-email"
                                 class="w-full px-4 py-3 bg-[#fdfdfd] border border-[#e5e7ea] rounded-[10px] outline-none focus:border-[#2D5A3D] font-['Manrope'] transition-all">
                         </div>
                         <div class="space-y-2">
