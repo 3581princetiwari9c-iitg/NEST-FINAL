@@ -143,8 +143,9 @@
                             <span class="font-['Inter'] text-[#677461] text-[12px]">Recommended: 1200×480px (JPG,
                                 PNG)</span>
                         </div>
-                        <input type="file" class="hidden">
+                        <input type="file" class="hidden file-upload-input">
                     </div>
+                    <div class="file-name-display text-[12px] text-[#2d5a3d] mt-2 font-medium hidden text-center w-full break-words"></div>
                 </div>
 
                 <!-- Upload Brochure -->
@@ -167,8 +168,9 @@
                                 drag and drop</span>
                             <span class="font-['Inter'] text-[#677461] text-[12px]">Less than 25mb (pdf)</span>
                         </div>
-                        <input type="file" class="hidden">
+                        <input type="file" class="hidden file-upload-input">
                     </div>
+                    <div class="file-name-display text-[12px] text-[#2d5a3d] mt-2 font-medium hidden text-center w-full break-words"></div>
                 </div>
             </form>
         </div>
@@ -504,5 +506,34 @@
                 window.location.hash = '#programs';
             }, 300);
         });
+    
+        // File Upload Feedback
+        document.querySelectorAll('.file-upload-input').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const files = e.target.files;
+                const container = e.target.closest('.flex-col').parentElement;
+                let fileNameDisplay = e.target.parentElement.nextElementSibling;
+                if (!fileNameDisplay || !fileNameDisplay.classList.contains('file-name-display')) {
+                    // Try finding it within parent
+                    fileNameDisplay = e.target.parentElement.parentElement.querySelector('.file-name-display');
+                }
+                const dropzone = e.target.parentElement;
+                
+                if (files && files.length > 0) {
+                    const fileNames = Array.from(files).map(f => f.name).join(', ');
+                    if (fileNameDisplay) {
+                        fileNameDisplay.textContent = fileNames;
+                        fileNameDisplay.classList.remove('hidden');
+                    }
+
+                } else {
+                    if (fileNameDisplay) {
+                        fileNameDisplay.classList.add('hidden');
+                    }
+
+                }
+            });
+        });
+
     })();
 </script>

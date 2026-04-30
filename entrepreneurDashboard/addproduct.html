@@ -131,8 +131,10 @@
                         <span class="font-['Inter'] font-semibold text-[#1b3a28] text-[14px]">Add product photography</span>
                         <span class="font-['Inter'] text-[#677461] text-[12px]">Max 5 images (JPG, PNG)</span>
                     </div>
-                    <input type="file" class="hidden" multiple>
+                    <input type="file" class="hidden file-upload-input" multiple>
                 </label>
+                <div class="file-name-display text-[12px] text-[#2d5a3d] mt-2 font-medium hidden text-center w-full break-words"></div>
+                
             </div>
         </div>
     </div>
@@ -207,5 +209,34 @@
         document.getElementById('close-modal-btn').addEventListener('click', () => {
             window.location.hash = '#marketplace';
         });
+    
+        // File Upload Feedback
+        document.querySelectorAll('.file-upload-input').forEach(input => {
+            input.addEventListener('change', (e) => {
+                const files = e.target.files;
+                const container = e.target.closest('.flex-col').parentElement;
+                let fileNameDisplay = e.target.parentElement.nextElementSibling;
+                if (!fileNameDisplay || !fileNameDisplay.classList.contains('file-name-display')) {
+                    // Try finding it within parent
+                    fileNameDisplay = e.target.parentElement.parentElement.querySelector('.file-name-display');
+                }
+                const dropzone = e.target.parentElement;
+                
+                if (files && files.length > 0) {
+                    const fileNames = Array.from(files).map(f => f.name).join(', ');
+                    if (fileNameDisplay) {
+                        fileNameDisplay.textContent = fileNames;
+                        fileNameDisplay.classList.remove('hidden');
+                    }
+
+                } else {
+                    if (fileNameDisplay) {
+                        fileNameDisplay.classList.add('hidden');
+                    }
+
+                }
+            });
+        });
+
     })();
 </script>

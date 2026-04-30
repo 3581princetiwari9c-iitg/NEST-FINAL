@@ -119,8 +119,19 @@ document.addEventListener('DOMContentLoaded', () => {
         else sidebarContainer.appendChild(link);
     }
 
+    
+    function getRouteHash() {
+        if (window.location.hash) return window.location.hash;
+        const path = window.location.pathname;
+        if (path.startsWith('/admin/')) {
+            const h = path.substring('/admin/'.length).replace(/\/+$/, '');
+            if (h) return '#' + h;
+        }
+        return '#dashboard';
+    }
+    
     function handleNavigation() {
-        const hash = window.location.hash || '#dashboard';
+        const hash = getRouteHash();
 
         // Handle Logout specially
         if (hash === '#logout') {
@@ -188,12 +199,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Handle active states based on hash
                 const updateActiveSidebar = () => {
-                    const currentHash = window.location.hash || '#dashboard';
+                    const currentHash = getRouteHash();
                     const links = sidebarContainer.querySelectorAll('a');
                     links.forEach(link => {
                         const href = link.getAttribute('href');
-                        const isDashboardDefault = (currentHash === '#dashboard' || currentHash === '') && href === '#dashboard';
-                        if (href === currentHash || isDashboardDefault) {
+                        const hrefHash = href && href.startsWith('/admin/') ? '#' + href.substring('/admin/'.length) : href;
+                        const isDashboardDefault = (currentHash === '#dashboard' || currentHash === '') && hrefHash === '#dashboard';
+                        if (hrefHash === currentHash || isDashboardDefault) {
                             link.classList.add('bg-[#f1ffee]', 'text-[#2d5a3d]', 'font-bold');
                             link.classList.remove('text-[#677461]', 'hover:bg-gray-50');
                             const svg = link.querySelector('svg');
@@ -208,14 +220,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
 
                 updateActiveSidebar();
-
-                // Initial load of content
                 handleNavigation();
 
                 window.addEventListener('hashchange', () => {
                     updateActiveSidebar();
                     handleNavigation();
                 });
+
+                window.addEventListener('popstate', () => {
+                    updateActiveSidebar();
+                    handleNavigation();
+                });
+
+                document.addEventListener('click', (e) => {
+                    const link = e.target.closest('a');
+                    if (!link) return;
+                    const href = link.getAttribute('href');
+                        const hrefHash = href && href.startsWith('/admin/') ? '#' + href.substring('/admin/'.length) : href;
+                    if (href && href.startsWith('/admin/') && !href.endsWith('.html')) {
+                        e.preventDefault();
+                        window.history.pushState(null, '', href);
+                        updateActiveSidebar();
+                        handleNavigation();
+                    }
+                });
+    
+
+                
             }
         })
         .catch((err) => console.error('Sidebar error:', err));

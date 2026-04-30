@@ -54,8 +54,19 @@ document.addEventListener('DOMContentLoaded', () => {
         '#logout': 'index.html'
     };
 
+    
+    function getRouteHash() {
+        if (window.location.hash) return window.location.hash;
+        const path = window.location.pathname;
+        if (path.startsWith('/startup/')) {
+            const h = path.substring('/startup/'.length).replace(/\/+$/, '');
+            if (h) return '#' + h;
+        }
+        return '#programs';
+    }
+    
     function handleNavigation() {
-        const hash = window.location.hash || '#programs'; // Default to programs
+        const hash = getRouteHash(); // Default to programs
 
         if (hash === '#logout') {
             if (confirm("Do you want to logout?")) {
@@ -116,12 +127,13 @@ document.addEventListener('DOMContentLoaded', () => {
                 sidebarContainer.innerHTML = data;
 
                 const updateActiveSidebar = () => {
-                    const currentHash = window.location.hash || '#programs';
+                    const currentHash = getRouteHash();
                     const links = sidebarContainer.querySelectorAll('a');
                     links.forEach(link => {
                         const href = link.getAttribute('href');
-                        const isDefault = (currentHash === '#programs' || currentHash === '') && href === '#programs';
-                        if (href === currentHash || isDefault) {
+                        const hrefHash = href && href.startsWith('/startup/') ? '#' + href.substring('/startup/'.length) : href;
+                        const isDefault = (currentHash === '#programs' || currentHash === '') && hrefHash === '#programs';
+                        if (hrefHash === currentHash || isDefault) {
                             link.classList.add('bg-[#f1ffee]', 'text-[#2d5a3d]', 'font-bold');
                             link.classList.remove('text-[#677461]', 'hover:bg-gray-50');
                             const svg = link.querySelector('svg');
@@ -142,6 +154,27 @@ document.addEventListener('DOMContentLoaded', () => {
                     updateActiveSidebar();
                     handleNavigation();
                 });
+
+                window.addEventListener('popstate', () => {
+                    updateActiveSidebar();
+                    handleNavigation();
+                });
+
+                document.addEventListener('click', (e) => {
+                    const link = e.target.closest('a');
+                    if (!link) return;
+                    const href = link.getAttribute('href');
+                        const hrefHash = href && href.startsWith('/startup/') ? '#' + href.substring('/startup/'.length) : href;
+                    if (href && href.startsWith('/startup/') && !href.endsWith('.html')) {
+                        e.preventDefault();
+                        window.history.pushState(null, '', href);
+                        updateActiveSidebar();
+                        handleNavigation();
+                    }
+                });
+    
+
+                
             }
         })
         .catch((err) => console.error('Sidebar error:', err));

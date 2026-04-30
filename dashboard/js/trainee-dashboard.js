@@ -72,8 +72,19 @@ document.addEventListener('DOMContentLoaded', () => {
         '#logout': 'index.html' // Handle logout
     };
 
+    
+    function getRouteHash() {
+        if (window.location.hash) return window.location.hash;
+        const path = window.location.pathname;
+        if (path.startsWith('/trainee/')) {
+            const h = path.substring('/trainee/'.length).replace(/\/+$/, '');
+            if (h) return '#' + h;
+        }
+        return '#dashboard';
+    }
+    
     function handleNavigation() {
-        const hash = window.location.hash || '#programs'; // Default to programs for trainees
+        const hash = getRouteHash(); // Default to programs for trainees
 
 
         // Handle Logout specially
@@ -137,12 +148,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
                 // Handle active states based on hash
                 const updateActiveSidebar = () => {
-                    const currentHash = window.location.hash || '#programs';
+                    const currentHash = getRouteHash();
                     const links = sidebarContainer.querySelectorAll('a');
                     links.forEach(link => {
                         const href = link.getAttribute('href');
-                        const isProgramsDefault = (currentHash === '#programs' || currentHash === '') && href === '#programs';
-                        if (href === currentHash || isProgramsDefault) {
+                        const hrefHash = href && href.startsWith('/trainee/') ? '#' + href.substring('/trainee/'.length) : href;
+                        const isProgramsDefault = (currentHash === '#programs' || currentHash === '') && hrefHash === '#programs';
+                        if (hrefHash === currentHash || isProgramsDefault) {
 
                             link.classList.add('bg-[#f1ffee]', 'text-[#2d5a3d]', 'font-bold');
                             link.classList.remove('text-[#677461]', 'hover:bg-gray-50');
@@ -158,14 +170,33 @@ document.addEventListener('DOMContentLoaded', () => {
                 };
 
                 updateActiveSidebar();
-
-                // Initial load of content
                 handleNavigation();
 
                 window.addEventListener('hashchange', () => {
                     updateActiveSidebar();
                     handleNavigation();
                 });
+
+                window.addEventListener('popstate', () => {
+                    updateActiveSidebar();
+                    handleNavigation();
+                });
+
+                document.addEventListener('click', (e) => {
+                    const link = e.target.closest('a');
+                    if (!link) return;
+                    const href = link.getAttribute('href');
+                        const hrefHash = href && href.startsWith('/trainee/') ? '#' + href.substring('/trainee/'.length) : href;
+                    if (href && href.startsWith('/trainee/') && !href.endsWith('.html')) {
+                        e.preventDefault();
+                        window.history.pushState(null, '', href);
+                        updateActiveSidebar();
+                        handleNavigation();
+                    }
+                });
+    
+
+                
             }
         })
         .catch((err) => console.error('Sidebar error:', err));
