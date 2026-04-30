@@ -78,13 +78,16 @@ document.addEventListener('DOMContentLoaded', () => {
         style.id = 'notif-marquee-styles';
         style.textContent = `
           @keyframes marqueeNotif {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            0% { transform: translateX(100vw); }
+            100% { transform: translateX(-100%); }
           }
           .animate-marquee-notif {
-            display: flex;
+            display: inline-flex;
+            width: max-content;
+            min-width: max-content;
             white-space: nowrap;
-            animation: marqueeNotif 20s linear infinite;
+            animation: marqueeNotif 6.5s linear infinite;
+            will-change: transform;
           }
           .animate-marquee-notif:hover {
             animation-play-state: paused;
@@ -93,10 +96,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.head.appendChild(style);
       }
 
-      // Duplicate notifications to create the infinite loop effect
-      const displayNotifications = [...notifications, ...notifications];
-
-      const notifHtml = displayNotifications.map((notif) => `
+      const notifHtml = notifications.map((notif) => `
         <div class="inline-flex items-center gap-x-8 px-8 py-1.5">
           <div class="flex items-center gap-2 whitespace-nowrap">
             <p class="font-['Inter'] text-[13px] font-medium tracking-wide text-white">

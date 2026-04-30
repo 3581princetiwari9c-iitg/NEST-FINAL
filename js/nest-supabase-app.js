@@ -5259,10 +5259,15 @@
 
   async function refreshNotifications() {
     if (!supabase()) return;
-    const notifications = await rows('notifications', (q) => q.eq('is_active', true).order('sort_order'));
+    const notifications = await rows('notifications', (q) =>
+      q
+        .eq('is_active', true)
+        .order('sort_order', { ascending: true })
+        .order('created_at', { ascending: false })
+    );
     localStorage.setItem(
       'nest_notification_config',
-      JSON.stringify(notifications.map((item) => ({ text: item.text, pdfUrl: item.pdf_url })))
+      JSON.stringify(notifications.map((item) => ({ text: item.text || item.title || '', pdfUrl: item.pdf_url || '' })))
     );
     const bar = document.getElementById('notification-bar');
     if (bar && (window.location.hash === '' || window.location.hash === '#home')) {
@@ -5861,6 +5866,7 @@
     rejectRequest: (id) => decideRequest(id, 'rejected'),
     uploadFile: (bucket, path, file) => uploadFile(bucket, path, file),
     updateRow: (table, id, payload) => updateRow(table, id, payload),
+    refreshNotifications,
     ensureDashboardAuth,
     logout: logoutCurrentUser,
     currentUser: () => readStore('nest_current_user')

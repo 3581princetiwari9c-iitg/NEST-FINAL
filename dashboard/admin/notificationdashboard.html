@@ -80,29 +80,113 @@
     const notifCount = document.getElementById('notif-count');
 
     let currentPdfData = null;
+    let currentPdfFile = null;
     let notifications = [];
 
-    // Load existing data
-    function loadNotifications() {
-      const stored = localStorage.getItem('nest_notification_config');
-      try {
-        const parsed = JSON.parse(stored);
-        if (Array.isArray(parsed)) {
-          notifications = parsed;
-        } else if (parsed && typeof parsed === 'object') {
-          notifications = [parsed];
-        } else {
-          notifications = [];
-        }
-      } catch (e) {
-        notifications = [];
-      }
-      renderList();
+    function supabaseClient() {
+      return window.NESTSupabase && window.NESTSupabase.client;
     }
 
-    function saveToStorage() {
-      localStorage.setItem('nest_notification_config', JSON.stringify(notifications));
+    function withTimeout(promise, label, timeoutMs = 15000) {
+      return Promise.race([
+        promise,
+        new Promise((_, reject) => {
+          setTimeout(() => reject(new Error(`${label} took too long. Please check your internet connection and try again.`)), timeoutMs);
+        })
+      ]);
+    }
+
+    function escapeHtml(value) {
+      return String(value || '').replace(/[&<>"']/g, (char) => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        '"': '&quot;',
+        "'": '&#039;'
+      }[char]));
+    }
+
+    function publicNotificationPayload(list) {
+      return list.map((item) => ({
+        text: item.text || item.title || '',
+        pdfUrl: item.pdf_url || item.pdfUrl || ''
+      }));
+    }
+
+    async function syncPublicNotificationBar() {
+      localStorage.setItem('nest_notification_config', JSON.stringify(publicNotificationPayload(notifications)));
+      try {
+        if (window.NESTSupabaseApp && typeof window.NESTSupabaseApp.refreshNotifications === 'function') {
+          await withTimeout(window.NESTSupabaseApp.refreshNotifications(), 'Notification refresh', 8000);
+          return;
+        }
+        if (typeof window.renderNotificationBar === 'function') window.renderNotificationBar();
+      } catch (error) {
+        console.warn('Notification bar refresh skipped:', error);
+      }
+    }
+
+    async function loadNotifications() {
+      const client = supabaseClient();
+      if (!client) {
+        notifications = [];
+        renderList();
+        return;
+      }
+      const { data, error } = await withTimeout(
+        client
+          .from('notifications')
+          .select('*')
+          .eq('is_active', true)
+          .order('sort_order', { ascending: true })
+          .order('created_at', { ascending: false }),
+        'Loading notifications'
+      );
+      if (error) {
+        console.error(error);
+        alert(error.message || 'Unable to load notifications.');
+        notifications = [];
+      } else {
+        notifications = data || [];
+      }
       renderList();
+      syncPublicNotificationBar();
+    }
+
+    async function uploadNotificationPdf() {
+      if (!currentPdfFile) return null;
+      if (window.NESTSupabase && typeof window.NESTSupabase.uploadFile === 'function') {
+        return withTimeout(window.NESTSupabase.uploadFile(currentPdfFile, 'notifications'), 'PDF upload', 25000);
+      }
+      throw new Error('Supabase file upload is not available.');
+    }
+
+    async function insertNotification(payload) {
+      const client = supabaseClient();
+      const response = await withTimeout(
+        client
+          .from('notifications')
+          .insert(payload)
+          .select()
+          .single(),
+        'Saving notification'
+      );
+      if (
+        response.error &&
+        String(response.error.message || response.error.details || '').toLowerCase().includes('title')
+      ) {
+        const fallbackPayload = { ...payload };
+        delete fallbackPayload.title;
+        return withTimeout(
+          client
+            .from('notifications')
+            .insert(fallbackPayload)
+            .select()
+            .single(),
+          'Saving notification'
+        );
+      }
+      return response;
     }
 
     function renderList() {
@@ -120,8 +204,8 @@
       notifList.innerHTML = notifications.map((notif, index) => `
         <div class="group flex items-start gap-3 p-4 bg-[#f9fafb] hover:bg-white border border-gray-100 hover:border-[#2D5A3D]/30 rounded-xl transition-all shadow-sm">
           <div class="flex-grow flex flex-col gap-1">
-            <p class="font-['Inter'] text-[#1b3a28] text-sm font-medium line-clamp-2">${notif.text}</p>
-            ${notif.pdfUrl ? `
+            <p class="font-['Inter'] text-[#1b3a28] text-sm font-medium line-clamp-2">${escapeHtml(notif.text || notif.title || '')}</p>
+            ${(notif.pdf_url || notif.pdfUrl) ? `
               <div class="flex items-center gap-1.5 text-[11px] text-[#2D5A3D] font-semibold bg-[#f0f9f1] w-fit px-2 py-0.5 rounded border border-[#dcfce7]">
                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
                 PDF Attached
@@ -137,8 +221,22 @@
 
     window.deleteNotification = function(index) {
       if (confirm('Are you sure you want to remove this announcement?')) {
-        notifications.splice(index, 1);
-        saveToStorage();
+        const item = notifications[index];
+        const client = supabaseClient();
+        if (!client || !item || !item.id) return;
+        client
+          .from('notifications')
+          .delete()
+          .eq('id', item.id)
+          .then(async ({ error }) => {
+            if (error) {
+              alert(error.message || 'Unable to delete notification.');
+              return;
+            }
+            notifications.splice(index, 1);
+            renderList();
+            syncPublicNotificationBar();
+          });
       }
     };
 
@@ -151,6 +249,7 @@
           return;
         }
         fileNameDisplay.innerText = file.name;
+        currentPdfFile = file;
         const reader = new FileReader();
         reader.onload = (event) => {
           currentPdfData = event.target.result;
@@ -160,39 +259,64 @@
       }
     });
 
-    addBtn.addEventListener('click', () => {
+    addBtn.addEventListener('click', async () => {
       const text = textInput.value.trim();
       if (!text) {
         alert('Please enter announcement text.');
         return;
       }
 
-      const newNotif = {
-        text: text,
-        pdfUrl: currentPdfData
-      };
+      const client = supabaseClient();
+      if (!client) {
+        alert('Supabase is not available. Please reload and try again.');
+        return;
+      }
 
-      notifications.unshift(newNotif); // Add to beginning
-      saveToStorage();
+      addBtn.disabled = true;
+      addBtn.innerText = 'Saving...';
 
-      // Reset form
-      textInput.value = '';
-      currentPdfData = null;
-      fileInput.value = '';
-      fileNameDisplay.innerText = 'Drop PDF or click';
-      dropzone.classList.remove('border-[#2D5A3D]', 'bg-[#f1ffee]/30');
-      
-      // Success animation
-      addBtn.innerText = "Announcement Added!";
-      addBtn.classList.remove('bg-[#2d5a3d]');
-      addBtn.classList.add('bg-green-600');
-      setTimeout(() => {
+      try {
+        const pdfUrl = await uploadNotificationPdf();
+        const { data, error } = await insertNotification({
+          title: text,
+          text,
+          pdf_url: pdfUrl,
+          is_active: true,
+          sort_order: 0
+        });
+        if (error) throw error;
+
+        notifications.unshift(data);
+        renderList();
+        syncPublicNotificationBar();
+
+        textInput.value = '';
+        currentPdfData = null;
+        currentPdfFile = null;
+        fileInput.value = '';
+        fileNameDisplay.innerText = 'Drop PDF or click';
+        dropzone.classList.remove('border-[#2D5A3D]', 'bg-[#f1ffee]/30');
+
+        addBtn.innerText = "Announcement Added!";
+        addBtn.classList.remove('bg-[#2d5a3d]');
+        addBtn.classList.add('bg-green-600');
+        setTimeout(() => {
+          addBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>Add to Live List</span>`;
+          addBtn.classList.add('bg-[#2d5a3d]');
+          addBtn.classList.remove('bg-green-600');
+          addBtn.disabled = false;
+        }, 1500);
+      } catch (error) {
+        console.error(error);
+        alert(error.message || 'Unable to save notification.');
         addBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"></line><line x1="5" y1="12" x2="19" y2="12"></line></svg><span>Add to Live List</span>`;
-        addBtn.classList.add('bg-[#2d5a3d]');
-        addBtn.classList.remove('bg-green-600');
-      }, 1500);
+        addBtn.disabled = false;
+      }
     });
 
-    loadNotifications();
+    loadNotifications().catch((error) => {
+      console.error(error);
+      alert(error.message || 'Unable to load notifications.');
+    });
   })();
 </script>
