@@ -129,6 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
       document.body.style.paddingTop = '114px';
     }
   }
+  window.renderNotificationBar = renderNotificationBar;
 
   // Handle Scroll Behavior for Fixed Header & Notification Bar
   window.addEventListener('scroll', () => {

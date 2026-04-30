@@ -181,6 +181,11 @@
       function animateStats() {
         const counters = document.querySelectorAll('.stat-number');
         counters.forEach(counter => {
+          const displayValue = counter.getAttribute('data-display-value');
+          if (displayValue && displayValue !== counter.getAttribute('data-target')) {
+            counter.innerText = displayValue;
+            return;
+          }
           const target = +counter.getAttribute('data-target');
           let count = 0;
           const speed = target / 80;

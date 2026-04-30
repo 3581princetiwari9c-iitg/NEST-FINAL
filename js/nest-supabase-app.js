@@ -59,6 +59,119 @@
     { key: 'bamboo', label: 'Bamboo Technologies', tokens: ['bamboo'] },
     { key: 'biodegradable', label: 'Biodegradable Plastics', tokens: ['biodegradable', 'eco friendly', 'eco-friendly', 'plastic'] }
   ];
+  const SITE_STAT_GROUPS = [
+    {
+      title: 'Home Page Statistics',
+      scope: 'home',
+      type: 'home',
+      items: [
+        { id: 'incubated-startups', label: 'Incubated Startups', value: '100+' },
+        { id: 'institutions', label: 'Institutions', value: '32+' },
+        { id: 'investments', label: 'Investments', value: '4.3 Cr+' },
+        { id: 'ne-beneficiaries', label: 'NE Beneficiaries', value: '100+' }
+      ]
+    },
+    {
+      title: 'Human Resource Development (HRD)',
+      scope: 'program-hrd',
+      type: 'program',
+      color: '#9a7a09',
+      publicHeading: 'human resource development impact',
+      items: [
+        { id: 'hrd-stat-1', label: 'Trainees Trained', value: '5000+' },
+        { id: 'hrd-stat-2', label: 'Training Programs', value: '50+' },
+        { id: 'hrd-stat-3', label: 'Institutions Reached', value: '32+' },
+        { id: 'hrd-stat-4', label: 'North East States', value: '8' }
+      ]
+    },
+    {
+      title: 'Technology Development (TD)',
+      scope: 'program-td',
+      type: 'program',
+      color: '#1f3b78',
+      publicHeading: 'technology development impact',
+      items: [
+        { id: 'td-stat-1', label: 'Technologies Supported', value: '40+' },
+        { id: 'td-stat-2', label: 'Prototypes Built', value: '25+' },
+        { id: 'td-stat-3', label: 'IPR Support Cases', value: '12+' },
+        { id: 'td-stat-4', label: 'Product Pilots', value: '18+' }
+      ]
+    },
+    {
+      title: 'Outreach & Networking',
+      scope: 'program-outreach',
+      type: 'program',
+      color: '#005ed8',
+      publicHeading: 'outreach & networking impact',
+      items: [
+        { id: 'outreach-stat-1', label: 'Outreach Sessions', value: '150+' },
+        { id: 'outreach-stat-2', label: 'Members Impacted', value: '5000+' },
+        { id: 'outreach-stat-3', label: 'Strategic MOUs', value: '20+' },
+        { id: 'outreach-stat-4', label: 'Networking Events', value: '50+' }
+      ]
+    },
+    {
+      title: 'Hub 1: Grassroots Technologies',
+      scope: 'vertical-grassroots',
+      type: 'vertical',
+      color: '#0d8700',
+      match: 'grassroots',
+      items: [
+        { id: 'vertical-grassroots-1', label: 'Active Projects', value: '12+' },
+        { id: 'vertical-grassroots-2', label: 'Innovation Labs', value: '4' },
+        { id: 'vertical-grassroots-3', label: 'Community Reach', value: '200+' },
+        { id: 'vertical-grassroots-4', label: 'Industry Partners', value: '3' }
+      ]
+    },
+    {
+      title: 'Hub 2: Semiconductor & AI',
+      scope: 'vertical-semiconductor',
+      type: 'vertical',
+      color: '#005ed8',
+      match: 'semiconductor',
+      items: [
+        { id: 'vertical-semiconductor-1', label: 'Active Projects', value: '12+' },
+        { id: 'vertical-semiconductor-2', label: 'Chip Design Labs', value: '4' },
+        { id: 'vertical-semiconductor-3', label: 'Researchers', value: '200+' },
+        { id: 'vertical-semiconductor-4', label: 'Industry Partners', value: '3' }
+      ]
+    },
+    {
+      title: 'Hub 3: Bamboo Innovation',
+      scope: 'vertical-bamboo',
+      type: 'vertical',
+      color: '#095900',
+      match: 'bamboo',
+      items: [
+        { id: 'vertical-bamboo-1', label: 'Active Projects', value: '12+' },
+        { id: 'vertical-bamboo-2', label: 'Skill Labs', value: '4' },
+        { id: 'vertical-bamboo-3', label: 'Artisans Reached', value: '200+' },
+        { id: 'vertical-bamboo-4', label: 'Industry Partners', value: '3' }
+      ]
+    },
+    {
+      title: 'Hub 4: Waste Management',
+      scope: 'vertical-waste',
+      type: 'vertical',
+      color: '#008577',
+      match: 'biodegradable',
+      items: [
+        { id: 'vertical-waste-1', label: 'Active Projects', value: '12+' },
+        { id: 'vertical-waste-2', label: 'Testing Labs', value: '4' },
+        { id: 'vertical-waste-3', label: 'Beneficiaries', value: '200+' },
+        { id: 'vertical-waste-4', label: 'Industry Partners', value: '3' }
+      ]
+    }
+  ];
+  const SITE_STAT_ITEMS = SITE_STAT_GROUPS.flatMap((group, groupIndex) =>
+    group.items.map((item, itemIndex) => ({
+      ...item,
+      scope: group.scope,
+      groupTitle: group.title,
+      type: group.type,
+      sortOrder: groupIndex * 10 + itemIndex
+    }))
+  );
   const MEMBER_ROLES = new Set(['startup', 'trainee', 'entrepreneur', 'artisan']);
   const PHONE_OTP_ROLES = new Set([]);
   const EMAIL_OTP_ROLES = new Set(['startup', 'entrepreneur', 'artisan', 'trainee', 'admin']);
@@ -1976,14 +2089,18 @@
     if (heading.includes('nest market')) return 'public-market';
     if (heading.includes('newsletter')) return 'public-newsletters';
     if (heading.includes('moments captured') || heading.includes('gallery')) return 'public-gallery';
+    if (root.querySelector('.stat-number')) return 'home';
     if (root.querySelector('#hub-list-state-universities')) return 'public-hubs';
+    if (heading.includes('human resource development')) return 'program-hrd-stats';
+    if (heading.includes('technology development')) return 'program-td-stats';
+    if (heading.includes('outreach and networking') || heading.includes('outreach & networking')) return 'program-outreach-stats';
+    if (heading.includes('verticals') || root.querySelector('details h2')) return 'vertical-stats';
     if (root.querySelector('#leadership-container')) return 'public-team-leadership';
     if (root.querySelector('#container-grassroots') || root.querySelector('#scientific-team-container')) return 'public-team-scientific';
     if (root.querySelector('#executive-team-container')) return 'public-team-executive';
     if (root.querySelector('#apply-btn')) return 'startup-application';
     if (root.querySelector('#prod-name')) return 'product-form';
     if (root.querySelector('#artisan-form') || root.querySelector('#traniee-form') || root.querySelector('#entrepreneur-form')) return 'registration-form';
-    if (root.querySelector('.stat-number')) return 'home';
     return '';
   }
 
@@ -3719,56 +3836,191 @@
       : `<div class="w-full text-center py-16 text-[#677461] font-['Inter']"> No newsletters have been published yet.</div> `;
   }
 
-  async function initStats(root) {
-    const metrics = await liveMetrics();
-    const cards = [
-      ['Approved Startups', metrics.approvedStartups.length],
-      ['Published Programmes', metrics.publishedPrograms.length],
-      ['Upcoming Programmes', metrics.upcomingPrograms.length],
-      ['Marketplace Products', metrics.approvedProducts.length],
-      ['Pending Requests', metrics.pendingRequests.length],
-      ['Registered Members', metrics.memberProfiles.length],
-      ['Active Hubs', metrics.hubs.length],
-      ['Active MOUs', metrics.mous.length]
-    ];
-    root.innerHTML = `
-      <div class="flex flex-col gap-[24px] items-start w-full pb-10">
-        <div class="flex flex-col items-start shrink-0">
-          <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">Stats Management</h1>
-          <p class="font-['Manrope'] text-[#677461] text-[14px]">These values are calculated directly from Supabase and update automatically.</p>
+  function defaultSiteStatMap() {
+    return new Map(SITE_STAT_ITEMS.map((item) => [item.id, { ...item, sort_order: item.sortOrder }]));
+  }
+
+  async function siteStatMap() {
+    const map = defaultSiteStatMap();
+    try {
+      const saved = await rows('site_stats', (q) => q.order('sort_order'));
+      (saved || []).forEach((row) => {
+        if (!map.has(row.id)) return;
+        const current = map.get(row.id);
+        map.set(row.id, {
+          ...current,
+          label: clean(row.label) || current.label,
+          value: clean(row.value) || current.value,
+          scope: row.scope || current.scope,
+          sort_order: Number.isFinite(row.sort_order) ? row.sort_order : current.sortOrder
+        });
+      });
+    } catch (error) {
+      console.warn('Could not load site stats:', error);
+    }
+    return map;
+  }
+
+  function statRecord(map, id) {
+    return map.get(id) || defaultSiteStatMap().get(id) || { id, label: titleCase(id), value: '0' };
+  }
+
+  function statEditorInput(item, record, labelMode) {
+    const value = record.value || item.value || '';
+    const label = record.label || item.label || '';
+    const labelInput = labelMode === 'editable'
+      ? `<input data-stat-label="${html(item.id)}" value="${html(label)}" placeholder="Label" class="w-full border border-gray-100 bg-white/80 rounded-[6px] px-3 py-2 font-['Inter'] text-[12px] text-[#677461] outline-none focus:border-[#2D5A3D] focus:ring-2 focus:ring-[#2D5A3D]/10">`
+      : `<input data-stat-label="${html(item.id)}" value="${html(label)}" type="hidden">`;
+    return `
+      <div class="flex flex-col gap-2 min-w-0">
+        <label class="font-['Inter'] font-bold text-[#677461] text-[11px] uppercase tracking-[0.08em]">${html(labelMode === 'editable' ? `Stat ${((item.sortOrder || 0) % 10) + 1} Value` : label)}</label>
+        <input data-stat-value="${html(item.id)}" value="${html(value)}" placeholder="Value" class="w-full h-[42px] border border-gray-100 bg-white rounded-[6px] px-3 font-['Inter'] text-[14px] font-semibold text-[#1b3a28] outline-none focus:border-[#2D5A3D] focus:ring-2 focus:ring-[#2D5A3D]/10">
+        ${labelInput}
+      </div>`;
+  }
+
+  function statGroupPanel(group, map) {
+    const color = group.color || '#1b3a28';
+    return `
+      <div class="bg-white rounded-[10px] border border-gray-100 shadow-[0px_1px_2px_rgba(0,0,0,0.04)] overflow-hidden">
+        <div class="flex items-center justify-between px-6 py-4 border-b border-gray-50">
+          <h3 class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px]">${html(group.title)}</h3>
+          <span class="w-2 h-2 rounded-full" style="background:${html(color)}"></span>
         </div>
-        <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-[16px] w-full">
-          ${cards
-            .map(
-              ([label, value]) => `
-            <div class="bg-white p-[20px] rounded-[12px] shadow-[0px_1px_2px_0px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col gap-[10px]">
-              <span class="font-['Inter'] font-semibold text-[#677461] text-[12px] uppercase tracking-wider">${html(label)}</span>
-              <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[30px]">${countText(value)}</span>
-            </div>`
-            )
-            .join('')}
+        <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 px-6 py-5">
+          ${group.items.map((item, index) => statEditorInput({ ...item, sortOrder: index }, statRecord(map, item.id), 'editable')).join('')}
         </div>
       </div>`;
-    window.saveAllStats = function () {
-      showToast('Stats now come from live Supabase data, so there is nothing to save.');
+  }
+
+  function verticalStatCard(group, map) {
+    const color = group.color || '#1b3a28';
+    return `
+      <div class="bg-white rounded-[10px] border border-gray-100 shadow-[0px_1px_2px_rgba(0,0,0,0.04)] p-6">
+        <h3 class="font-['Manrope'] font-bold text-[15px] mb-5" style="color:${html(color)}">${html(group.title)}</h3>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          ${group.items.map((item, index) => statEditorInput({ ...item, sortOrder: index }, statRecord(map, item.id), 'editable')).join('')}
+        </div>
+      </div>`;
+  }
+
+  async function initStats(root) {
+    const map = await siteStatMap();
+    const homeGroup = SITE_STAT_GROUPS.find((group) => group.type === 'home');
+    const programGroups = SITE_STAT_GROUPS.filter((group) => group.type === 'program');
+    const verticalGroups = SITE_STAT_GROUPS.filter((group) => group.type === 'vertical');
+    root.innerHTML = `
+      <div class="flex flex-col gap-[28px] items-start w-full pb-10">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 w-full mb-[2px]">
+          <div class="flex flex-col items-start shrink-0">
+            <h1 class="font-['Cormorant_Garamond'] font-bold text-[#1b3a28] text-[36px] leading-[normal]">Stats Management</h1>
+          </div>
+          <div class="flex flex-wrap items-center justify-start md:justify-end gap-3 w-full md:w-auto">
+            <button type="button" onclick="discardStatsChanges()" class="bg-white text-[#677461] border border-gray-100 px-6 py-3 rounded-[6px] font-['Inter'] font-bold text-[12px] whitespace-nowrap hover:text-[#1b3a28] hover:border-[#d8e2d5] transition-all">Discard Changes</button>
+            <button type="button" onclick="saveAllStats()" class="bg-[#1b3a28] text-white px-7 py-3 rounded-[6px] font-['Inter'] font-bold text-[12px] whitespace-nowrap hover:bg-[#2D5A3D] shadow-sm transition-all">Save All Stats</button>
+          </div>
+        </div>
+
+        <section class="bg-white rounded-[10px] border border-gray-100 shadow-[0px_1px_2px_rgba(0,0,0,0.04)] overflow-hidden w-full">
+          <div class="px-6 py-5 border-b border-gray-50">
+            <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[18px]">${html(homeGroup.title)}</h2>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5 px-6 py-5">
+            ${homeGroup.items.map((item) => statEditorInput(item, statRecord(map, item.id), 'fixed')).join('')}
+          </div>
+        </section>
+
+        <section class="w-full flex flex-col gap-5">
+          <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[22px]">Program Impact Metrics</h2>
+          ${programGroups.map((group) => statGroupPanel(group, map)).join('')}
+        </section>
+
+        <section class="w-full flex flex-col gap-5">
+          <h2 class="font-['Manrope'] font-bold text-[#1b3a28] text-[22px]">Innovation Verticals Hubs</h2>
+          <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 w-full">
+            ${verticalGroups.map((group) => verticalStatCard(group, map)).join('')}
+          </div>
+        </section>
+      </div>`;
+
+    window.saveAllStats = async function () {
+      const records = SITE_STAT_ITEMS.map((item) => {
+        const valueInput = root.querySelector(`[data-stat-value="${cssEscape(item.id)}"]`);
+        const labelInput = root.querySelector(`[data-stat-label="${cssEscape(item.id)}"]`);
+        return {
+          id: item.id,
+          label: clean(labelInput && labelInput.value) || item.label,
+          value: clean(valueInput && valueInput.value) || item.value,
+          scope: item.scope,
+          sort_order: item.sortOrder
+        };
+      });
+      const { error } = await supabase().from('site_stats').upsert(records, { onConflict: 'id' });
+      if (error) {
+        console.error(error);
+        showToast(error.message || 'Could not save stats.', 'error');
+        return;
+      }
+      markContentUpdated('site_stats');
+      showToast('Website stats saved.');
+      await initStats(root);
+    };
+
+    window.discardStatsChanges = function () {
+      initStats(root).catch((error) => {
+        console.error(error);
+        showToast('Could not reset stats.', 'error');
+      });
     };
   }
 
+  function statNumericTarget(value) {
+    const match = clean(value).replace(/,/g, '').match(/\d+(\.\d+)?/);
+    return match ? match[0] : '0';
+  }
+
+  function setStatDisplay(numberEl, labelEl, record) {
+    if (!numberEl) return;
+    numberEl.textContent = record.value;
+    numberEl.dataset.displayValue = record.value;
+    numberEl.dataset.target = statNumericTarget(record.value);
+    if (labelEl) labelEl.textContent = record.label;
+  }
+
   async function renderHomeStats(root) {
-    const metrics = await liveMetrics();
-    const stats = [
-      { label: 'Approved Startups', value: metrics.approvedStartups.length },
-      { label: 'Programmes', value: metrics.publishedPrograms.length },
-      { label: 'Marketplace Products', value: metrics.approvedProducts.length },
-      { label: 'Hub & MOU Partners', value: metrics.hubs.length + metrics.mous.length }
-    ];
+    const map = await siteStatMap();
+    const homeGroup = SITE_STAT_GROUPS.find((group) => group.type === 'home');
     const values = Array.from(root.querySelectorAll('.stat-number'));
-    values.slice(0, stats.length).forEach((valueEl, index) => {
-      const stat = stats[index];
-      valueEl.textContent = countText(stat.value);
-      valueEl.dataset.target = countText(stat.value);
+    values.slice(0, homeGroup.items.length).forEach((valueEl, index) => {
+      const record = statRecord(map, homeGroup.items[index].id);
       const labelEl = Array.from(valueEl.parentElement ? valueEl.parentElement.querySelectorAll('p') : []).find((el) => !el.classList.contains('stat-number'));
-      if (labelEl) labelEl.textContent = stat.label;
+      setStatDisplay(valueEl, labelEl, record);
+    });
+  }
+
+  async function renderProgramImpactStats(root, groupScope) {
+    const map = await siteStatMap();
+    const group = SITE_STAT_GROUPS.find((item) => item.scope === groupScope);
+    if (!group) return;
+    const heading = Array.from(root.querySelectorAll('h2')).find((item) => lower(text(item)).includes(group.publicHeading));
+    const grid = heading && heading.parentElement && heading.parentElement.querySelector('.grid');
+    const cards = Array.from(grid ? grid.children : []).filter((card) => card.querySelectorAll('span').length >= 2);
+    group.items.forEach((item, index) => {
+      const spans = cards[index] ? Array.from(cards[index].querySelectorAll('span')) : [];
+      setStatDisplay(spans[0], spans[1], statRecord(map, item.id));
+    });
+  }
+
+  async function renderVerticalStats(root) {
+    const map = await siteStatMap();
+    SITE_STAT_GROUPS.filter((group) => group.type === 'vertical').forEach((group) => {
+      const details = Array.from(root.querySelectorAll('details')).find((item) => lower(text(item.querySelector('h2'))).includes(group.match));
+      if (!details) return;
+      const statCards = Array.from(details.querySelectorAll('div.flex.flex-col.items-center')).filter((card) => card.querySelectorAll('span').length >= 2).slice(0, 4);
+      group.items.forEach((item, index) => {
+        const spans = statCards[index] ? Array.from(statCards[index].querySelectorAll('span')) : [];
+        setStatDisplay(spans[0], spans[1], statRecord(map, item.id));
+      });
     });
   }
 
@@ -4312,7 +4564,7 @@
     );
     const bar = document.getElementById('notification-bar');
     if (bar && (window.location.hash === '' || window.location.hash === '#home')) {
-      window.dispatchEvent(new Event('hashchange'));
+      if (typeof window.renderNotificationBar === 'function') window.renderNotificationBar();
     }
   }
 
@@ -4344,6 +4596,10 @@
       if (key === 'public-newsletters') await renderPublicNewsletters(root);
       if (key === 'admin-stats') await initStats(root);
       if (key === 'home') await renderHomeStats(root);
+      if (key === 'program-hrd-stats') await renderProgramImpactStats(root, 'program-hrd');
+      if (key === 'program-td-stats') await renderProgramImpactStats(root, 'program-td');
+      if (key === 'program-outreach-stats') await renderProgramImpactStats(root, 'program-outreach');
+      if (key === 'vertical-stats') await renderVerticalStats(root);
       if (key === 'admin-gallery') await renderAdminGallery(root);
       if (key === 'public-gallery') await renderPublicGallery(root);
       if (key === 'admin-hubs') await renderAdminHubs(root);
