@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const mainContent = document.getElementById('main-content');
-    fetch('/components/page-header.html')
+    fetch('/components/navbar.html')
         .then(res => res.text())
         .then(data => {
             const navbarContainer = document.getElementById('navbar');

@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // ----------------------------
     // 1. Load Navbar
     // ----------------------------
-    fetch('/components/page-header.html')
+    fetch('/components/navbar.html')
         .then((res) => {
             if (!res.ok) throw new Error('Failed to load navbar');
             return res.text();
