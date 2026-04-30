@@ -483,6 +483,19 @@
     return !isStaffRole(user && user.role) || lower(user.role) === 'admin';
   }
 
+  function productPreviewUrl(row) {
+    if (!row) return '';
+    let gallery = row.gallery_urls;
+    if (typeof gallery === 'string') {
+      try {
+        gallery = JSON.parse(gallery);
+      } catch (error) {
+        gallery = [];
+      }
+    }
+    return row.image_url || (Array.isArray(gallery) && gallery[0]) || '';
+  }
+
   function numericBudgetValue(value) {
     const raw = clean(value);
     if (!raw) return 0;
@@ -3945,41 +3958,26 @@
     if (!tbody) return;
     tbody.innerHTML = products.length
       ? products
-        .map((row) => {
-          const metadata = payloadObject(row.metadata);
-          const seller = row.seller_name || metadata.seller_name || metadata.shop_name || metadata.seller_email || 'Not provided';
-          return `
+        .map(
+          (row) => `
         <tr class="hover:bg-gray-50 transition-all group">
-          <td class="px-[24px] py-[18px]">
-            <div class="flex items-center gap-4 min-w-[260px]">
-              <div class="w-14 h-14 rounded-[10px] bg-gray-100 overflow-hidden shrink-0 border border-gray-100">
-                ${row.image_url ? `<img src="${html(row.image_url)}" alt="${html(row.title)}" class="w-full h-full object-cover">` : `<div class="w-full h-full flex items-center justify-center text-[#677461] text-[10px] uppercase font-bold">No image</div>`}
-              </div>
-              <div class="flex flex-col gap-1 min-w-0">
-                <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px] leading-tight break-words">${html(row.title || 'Untitled Product')}</span>
-                <span class="font-['Inter'] text-[#677461] text-[12px]">${html(row.stock || 0)} in stock</span>
-              </div>
+          <td class="px-[24px] py-[24px]">
+            <span class="font-['Manrope'] font-bold text-[#1b3a28] text-[17px] leading-tight break-words">${html(row.title || 'Untitled Product')}</span>
+          </td>
+          <td class="px-[24px] py-[24px]">
+            <span class="font-['Inter'] font-medium text-[#464E42] text-[15px]">${formatMoney(row.price)}</span>
+          </td>
+          <td class="px-[24px] py-[24px] text-right">
+            <div class="flex items-center justify-end gap-[18px]">
+              <button data-action="view-product" data-id="${row.id}" class="text-[#677461] hover:text-[#1b3a28] transition-all font-['Inter'] font-semibold text-[14px]">View</button>
+              ${deleteAllowed ? `<button data-action="delete-product" data-id="${row.id}" class="text-[#677461] hover:text-red-600 transition-all font-['Inter'] font-semibold text-[14px]">Delete</button>` : ''}
             </div>
           </td>
-          <td class="px-[24px] py-[18px]"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(seller)}</span></td>
-          <td class="px-[24px] py-[18px]"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.category || 'Marketplace')}</span></td>
-          <td class="px-[24px] py-[18px]"><span class="font-['Inter'] font-semibold text-[#1b3a28] text-[14px]">${formatMoney(row.price)}</span></td>
-          <td class="px-[24px] py-[18px]"><span class="font-['Inter'] font-bold ${statusColor(row.status)} text-[14px] capitalize">${html(row.status || 'pending')}</span></td>
-          <td class="px-[24px] py-[18px] text-right">
-            <div class="flex items-center justify-end gap-[16px]">
-              ${row.image_url ? `<a href="${html(row.image_url)}" target="_blank" class="text-[#677461] hover:text-[#1b3a28] transition-all">View</a>` : ''}
-              ${deleteAllowed ? `<button data-action="delete-product" data-id="${row.id}" class="text-[#677461] hover:text-red-600 transition-all">Delete</button>` : `<span class="font-['Inter'] text-[#677461] text-[12px]">View only</span>`}
-            </div>
-          </td>
-        </tr>`;
-        })
+        </tr>`
+        )
         .join('')
-      : emptyRow(6, 'No marketplace products have been submitted yet.');
-    setCounterText(root, 'Total Products', countText(products.length));
-    setCounterText(root, 'Website Products', countText(products.filter(isApproved).length));
-    setCounterText(root, 'Pending Listings', countText(products.filter(isPending).length));
-    const showing = Array.from(root.querySelectorAll('span')).find((el) => text(el).startsWith('Showing'));
-    if (showing) showing.textContent = `Showing ${products.length} products`;
+      : emptyRow(3, 'No marketplace products have been submitted yet.');
+    setCounterText(root, 'Products Listed', countText(products.length));
   }
 
   async function submitProduct(root) {
@@ -5103,6 +5101,13 @@
       markContentUpdated('programs');
     }
     if (action === 'delete-startup') await deleteRow('startups', id);
+    if (action === 'view-product') {
+      const product = await single('marketplace_products', id);
+      const preview = productPreviewUrl(product);
+      if (preview) window.open(preview, '_blank');
+      else showToast('No product image was uploaded for this product.', 'error');
+      return;
+    }
     if (action === 'delete-product') {
       if (!canDeleteMarketplaceProducts()) throw new Error('Only admin users can delete marketplace products.');
       await deleteRow('marketplace_products', id);
