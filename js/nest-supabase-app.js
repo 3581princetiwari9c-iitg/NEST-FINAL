@@ -3384,7 +3384,11 @@
   }
 
   async function renderPublicStartups(root) {
-    const startups = realRows('startups', await rows('startups', (q) => q.eq('status', 'approved').order('created_at', { ascending: false })));
+    let startups = realRows('startups', await rows('startups', (q) => q.eq('status', 'approved').order('created_at', { ascending: false })));
+    
+    // Filter OUT entrepreneur ideas
+    startups = startups.filter(s => s.metadata?.submitted_as !== 'entrepreneur' && !lower(s.category || '').includes('entrepreneur idea'));
+    
     const activeKey = root.dataset.activeStartupCategory || 'all';
     renderPublicStartupCategoryCounts(root, startups, activeKey);
     renderPublicStartupGrid(root, startups, activeKey);
