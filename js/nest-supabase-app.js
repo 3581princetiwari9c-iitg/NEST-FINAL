@@ -4438,7 +4438,7 @@
     await updateRow('requests', id, { status });
     showToast(`Request ${status}.`);
     closeRequestDetailModal();
-    scheduleInit(true);
+    setTimeout(() => window.location.reload(), 500);
   }
 
   async function renderAdminNewsletters(root) {
@@ -5662,8 +5662,17 @@
     realtimeStarted = true;
     const channel = supabase().channel('nest-public-realtime');
     REALTIME_TABLES.forEach((table) => {
-      channel.on('postgres_changes', { event: '*', schema: 'public', table }, () => {
+      channel.on('postgres_changes', { event: '*', schema: 'public', table }, (payload) => {
         if (table === 'notifications') refreshNotifications().catch(console.error);
+        const role = dashboardRoleForUrl(window.location.href);
+        const user = readStore('nest_current_user', null);
+        if (role && role !== 'admin' && user && payload && payload.new) {
+          const rowEmail = payload.new.email || payload.new.requester_email || payload.new.user_email;
+          if (rowEmail && lower(rowEmail) === lower(user.email)) {
+            setTimeout(() => window.location.reload(), 500);
+            return;
+          }
+        }
         scheduleInit(true);
       });
     });

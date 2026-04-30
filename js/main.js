@@ -38,7 +38,7 @@ document.addEventListener('DOMContentLoaded', () => {
           }
         });
       }
-      
+
       // Initialize notification bar as soon as navbar is ready
       if (typeof renderNotificationBar === 'function') {
         renderNotificationBar();
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (hash === '' || hash === '#home') {
       const storedData = localStorage.getItem('nest_notification_config');
       let notifications = [];
-      
+
       try {
         const parsed = JSON.parse(storedData);
         if (Array.isArray(parsed)) {
@@ -122,8 +122,8 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
       `;
-      
-      document.body.style.paddingTop = '152px'; 
+
+      document.body.style.paddingTop = '152px';
     } else {
       notificationBar.innerHTML = '';
       document.body.style.paddingTop = '114px';
@@ -154,10 +154,18 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
+  function getRouteHash() {
+    const path = window.location.pathname;
+    if (path && path !== '/' && !path.endsWith('.html')) {
+      return '#' + path.replace(/^\/+/, '').replace(/\/+$/, '');
+    }
+    return window.location.hash;
+  }
+
   function handleNavigation() {
     renderNotificationBar();
 
-    const hash = window.location.hash;
+    const hash = getRouteHash();
     const mainContent = document.getElementById('main-content');
     const legacyEventHashes = new Set([
       '#eventcomplete',
@@ -168,7 +176,8 @@ document.addEventListener('DOMContentLoaded', () => {
       '#eventcomplete5'
     ]);
     if (legacyEventHashes.has(hash)) {
-      window.location.hash = '#event-detail';
+      window.history.replaceState(null, '', '/event-detail');
+      handleNavigation();
       return;
     }
 
@@ -949,12 +958,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Listen for URL changes
   window.addEventListener('hashchange', handleNavigation);
+  window.addEventListener('popstate', handleNavigation);
+
+  document.addEventListener('click', (e) => {
+    const link = e.target.closest('a');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('/') && !href.endsWith('.html')) {
+      e.preventDefault();
+      window.history.pushState(null, '', href);
+      handleNavigation();
+    }
+  });
 
   // Check initial hash on page load
-  if (window.location.hash) {
+  const initialHash = getRouteHash();
+  if (initialHash && initialHash !== '#') {
     handleNavigation();
   } else {
-    window.location.hash = '#home';
+    window.history.replaceState(null, '', '/home');
     handleNavigation();
   }
   // ----------------------------
@@ -1006,12 +1028,12 @@ document.addEventListener('DOMContentLoaded', () => {
  * Universal Tab Switching for Program Categories
  * Attached to window to be accessible from dynamic HTML fragments
  */
-window.switchProgramTab = function(tab) {
+window.switchProgramTab = function (tab) {
   // List containers
   const upcomingList = document.getElementById('upcoming-list');
   const ongoingList = document.getElementById('ongoing-list');
   const completedList = document.getElementById('completed-list');
-  
+
   // Tab buttons
   const tabs = {
     upcoming: document.getElementById('tab-upcoming'),
