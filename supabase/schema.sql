@@ -30,7 +30,7 @@ create table if not exists public.profiles (
   full_name text not null,
   email text,
   phone text,
-  role text not null check (role in ('startup', 'trainee', 'entrepreneur', 'artisan', 'admin')),
+  role text not null check (role in ('startup', 'trainee', 'entrepreneur', 'artisan', 'admin', 'manager', 'employee')),
   organization text,
   status text not null default 'pending' check (status in ('pending', 'approved', 'rejected', 'active')),
   metadata jsonb not null default '{}'::jsonb,
@@ -228,7 +228,7 @@ alter table public.profiles drop constraint if exists profiles_role_check;
 alter table public.profiles drop constraint if exists profiles_status_check;
 alter table public.profiles
   add constraint profiles_role_check
-  check (role in ('startup', 'trainee', 'entrepreneur', 'artisan', 'admin'))
+  check (role in ('startup', 'trainee', 'entrepreneur', 'artisan', 'admin', 'manager', 'employee'))
   not valid;
 alter table public.profiles
   add constraint profiles_status_check
@@ -290,6 +290,35 @@ create unique index if not exists profiles_one_member_role_per_email_idx
   on public.profiles (lower(btrim(email)))
   where nullif(btrim(email), '') is not null
     and role in ('startup', 'trainee', 'entrepreneur', 'artisan');
+
+with ranked_staff_profiles as (
+  select
+    id,
+    row_number() over (
+      partition by lower(btrim(email))
+      order by
+        case status
+          when 'approved' then 0
+          when 'active' then 1
+          when 'pending' then 2
+          else 3
+        end,
+        created_at desc nulls last,
+        id desc
+    ) as row_rank
+  from public.profiles
+  where nullif(btrim(email), '') is not null
+    and role in ('admin', 'manager', 'employee')
+)
+delete from public.profiles profile
+using ranked_staff_profiles duplicate
+where profile.id = duplicate.id
+  and duplicate.row_rank > 1;
+
+create unique index if not exists profiles_one_staff_role_per_email_idx
+  on public.profiles (lower(btrim(email)))
+  where nullif(btrim(email), '') is not null
+    and role in ('admin', 'manager', 'employee');
 
 alter table public.programs add column if not exists title text;
 alter table public.programs add column if not exists tagline text;

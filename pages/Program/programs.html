@@ -134,42 +134,38 @@
       <!-- Secondary Filters Bar -->
       <div id="secondary-filters"
         class="hidden w-full flex flex-wrap gap-[16px] items-center justify-center relative shrink-0 mt-2">
-        <div
-          class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
-          <p class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">
-            State: All
-          </p>
-          <svg class="w-4 h-4 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </div>
-        <div
-          class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
-          <p class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">
-            Industry: Any
-          </p>
-          <svg class="w-4 h-4 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </div>
-        <div
-          class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
-          <p class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">
-            Category: All
-          </p>
-          <svg class="w-4 h-4 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </div>
-        <div
-          class="bg-white flex gap-[4px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
-          <p class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">
-            Sort: Date
-          </p>
-          <svg class="w-4 h-4 text-[#2d5a3d]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
-          </svg>
-        </div>
+        <label
+          class="bg-white flex gap-[8px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
+          <span class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">Vertical:</span>
+          <select id="program-filter-vertical"
+            class="bg-transparent border-0 outline-none cursor-pointer font-['Inter'] font-semibold text-[#2d5a3d] text-[15px] max-w-[260px]">
+            <option value="">All</option>
+            <option value="Innovation Hub on Grassroots Technologies">Innovation Hub on Grassroots Technologies</option>
+            <option value="Technology Hub for Semiconductor & Artificial Intelligence">Technology Hub for Semiconductor & Artificial Intelligence</option>
+            <option value="CoE for Bamboo Innovation & Skill Development">CoE for Bamboo Innovation & Skill Development</option>
+            <option value="Centre on Biodegradable, eco-friendly Plastics & Solid-Waste Management">Centre on Biodegradable, eco-friendly Plastics & Solid-Waste Management</option>
+          </select>
+        </label>
+        <label
+          class="bg-white flex gap-[8px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
+          <span class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">Programme Type:</span>
+          <select id="program-filter-type"
+            class="bg-transparent border-0 outline-none cursor-pointer font-['Inter'] font-semibold text-[#2d5a3d] text-[15px]">
+            <option value="">All</option>
+            <option value="STP">STP</option>
+            <option value="LTP">LTP</option>
+            <option value="Workshop">Workshop</option>
+            <option value="Technology Development">Technology Development</option>
+          </select>
+        </label>
+        <label
+          class="bg-white flex gap-[8px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
+          <span class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">Category:</span>
+          <select id="program-filter-category"
+            class="bg-transparent border-0 outline-none cursor-pointer font-['Inter'] font-semibold text-[#2d5a3d] text-[15px]">
+            <option value="">All</option>
+          </select>
+        </label>
       </div>
     </div>
 

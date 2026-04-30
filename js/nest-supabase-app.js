@@ -1,6 +1,19 @@
 (function () {
   const FALLBACK_IMAGE = 'https://placehold.co/800x480/f1ffee/2d5a3d?text=NEST';
   const FALLBACK_AVATAR = '/assets/logo/depositphotos_239470246-stock-illustration-user-sign-icon-person-symbol.jpg';
+  const PROGRAM_VERTICAL_OPTIONS = [
+    'Innovation Hub on Grassroots Technologies',
+    'Technology Hub for Semiconductor & Artificial Intelligence',
+    'CoE for Bamboo Innovation & Skill Development',
+    'Centre on Biodegradable, eco-friendly Plastics & Solid-Waste Management'
+  ];
+  const PROGRAM_TYPE_OPTIONS = ['STP', 'LTP', 'Workshop', 'Technology Development'];
+  const PROGRAM_TYPE_CATEGORIES = {
+    stp: ['Skill Development', 'Entrepreneurship', 'Symposium', 'Hackathon'],
+    ltp: ['Internship Programme', 'Certification Programme'],
+    workshop: ['Workshop'],
+    'technology-development': ['Product Development', 'IPR Support', 'Certification', 'Standardization']
+  };
   const REALTIME_TABLES = [
     'programs',
     'program_registrations',
@@ -173,8 +186,14 @@
     }))
   );
   const MEMBER_ROLES = new Set(['startup', 'trainee', 'entrepreneur', 'artisan']);
+  const STAFF_ROLES = new Set(['admin', 'manager', 'employee']);
+  const STAFF_ROLE_LABELS = {
+    admin: 'Admin',
+    manager: 'Manager',
+    employee: 'Employee'
+  };
   const PHONE_OTP_ROLES = new Set([]);
-  const EMAIL_OTP_ROLES = new Set(['startup', 'entrepreneur', 'artisan', 'trainee', 'admin']);
+  const EMAIL_OTP_ROLES = new Set(['startup', 'entrepreneur', 'artisan', 'trainee', 'admin', 'manager', 'employee']);
   const SINGLE_EMAIL_ROLES = new Set(['startup', 'entrepreneur', 'artisan', 'trainee']);
   const OTP_COOLDOWN_MS = 60 * 1000;
   const AUTH_REQUEST_TIMEOUT_MS = 30000;
@@ -407,7 +426,98 @@
   function selectedText(select) {
     if (!select) return '';
     const selected = select.selectedOptions && select.selectedOptions[0];
+    if (selected && selected.value === '') return '';
     return clean(selected ? selected.textContent : select.value);
+  }
+
+  function isStaffRole(role) {
+    return STAFF_ROLES.has(lower(role));
+  }
+
+  function currentStaffUser() {
+    const user = readStore('nest_current_user', null);
+    return user && isStaffRole(user.role) ? user : null;
+  }
+
+  function currentStaffRole() {
+    const user = currentStaffUser();
+    return user ? lower(user.role) : 'admin';
+  }
+
+  function staffRoleLabel(role) {
+    return STAFF_ROLE_LABELS[lower(role)] || titleCase(role);
+  }
+
+  function isManagementStaffProfile(profile) {
+    if (!profile || !isStaffRole(profile.role)) return false;
+    const metadata = payloadObject(profile.metadata);
+    return lower(profile.role) === 'admin' || metadata.staff_account === true || metadata.management_member === true;
+  }
+
+  function staffAllowedCreateRoles() {
+    const role = currentStaffRole();
+    if (role === 'admin') return ['employee', 'manager', 'admin'];
+    if (role === 'manager') return ['employee'];
+    return [];
+  }
+
+  function canCreateStaffRole(role) {
+    return staffAllowedCreateRoles().includes(lower(role));
+  }
+
+  function canDeleteStaffProfile(profile) {
+    if (!profile || !isManagementStaffProfile(profile)) return false;
+    const current = currentStaffUser();
+    const currentRole = currentStaffRole();
+    if (current && current.profileId && current.profileId === profile.id) return false;
+    if (currentRole === 'admin') return true;
+    return currentRole === 'manager' && lower(profile.role) === 'employee';
+  }
+
+  function canDeletePrograms() {
+    return currentStaffRole() === 'admin';
+  }
+
+  function numericBudgetValue(value) {
+    const raw = clean(value);
+    if (!raw) return 0;
+    const lowerRaw = raw.toLowerCase();
+    const number = Number(raw.replace(/[^0-9.]/g, ''));
+    if (!Number.isFinite(number)) return 0;
+    if (lowerRaw.includes('crore') || lowerRaw.includes(' cr')) return number * 10000000;
+    if (lowerRaw.includes('lakh') || lowerRaw.includes(' lac')) return number * 100000;
+    return number;
+  }
+
+  function requestBudgetNumber(row) {
+    const sources = requestSources(row, null);
+    return numericBudgetValue(requestValue(sources, ['funding_raised', 'funding_raised_inr', 'estimated_budget', 'budget'], ''));
+  }
+
+  function isEntrepreneurApprovalRequest(row) {
+    const sources = requestSources(row, null);
+    const role = lower(requestValue(sources, ['submitted_as', 'requester_role'], row.requester_role || ''));
+    const category = lower(requestValue(sources, ['category'], ''));
+    return role.includes('entrepreneur') || category.includes('idea');
+  }
+
+  function staffCanViewRequest(row) {
+    const role = currentStaffRole();
+    if (role === 'admin') return true;
+    if (!isStaffRole(role)) return false;
+    if (!isEntrepreneurApprovalRequest(row)) return true;
+    const budget = requestBudgetNumber(row);
+    if (role === 'employee') return budget < 100000;
+    if (role === 'manager') return budget < 500000;
+    return false;
+  }
+
+  function staffVisibleRequests(list) {
+    return (list || []).filter(staffCanViewRequest);
+  }
+
+  function staffCanActOnRequest(row) {
+    return isPendingStatus(row && row.status) && staffCanViewRequest(row);
   }
 
   function setSelect(select, value) {
@@ -420,6 +530,74 @@
       }
       return false;
     });
+  }
+
+  function programTypeKey(value) {
+    const raw = lower(value).replace(/&/g, 'and').replace(/[^a-z0-9]+/g, ' ').trim();
+    if (!raw) return '';
+    if (raw === 'stp' || raw.includes('short term') || raw.includes('skill training')) return 'stp';
+    if (raw === 'ltp' || raw.includes('long term') || raw.includes('internship')) return 'ltp';
+    if (raw.includes('workshop')) return 'workshop';
+    if (raw.includes('technology development') || raw.includes('product development') || raw.includes('ipr')) return 'technology-development';
+    return raw.replace(/\s+/g, '-');
+  }
+
+  function canonicalProgramType(value) {
+    const key = programTypeKey(value);
+    return PROGRAM_TYPE_OPTIONS.find((option) => programTypeKey(option) === key) || clean(value);
+  }
+
+  function programCategoriesForType(type) {
+    return PROGRAM_TYPE_CATEGORIES[programTypeKey(type)] || [];
+  }
+
+  function allProgramCategories() {
+    return [...new Set(PROGRAM_TYPE_OPTIONS.flatMap((type) => programCategoriesForType(type)))];
+  }
+
+  function canonicalProgramCategory(value, type) {
+    const raw = clean(value);
+    if (!raw) return '';
+    const options = type ? programCategoriesForType(type) : allProgramCategories();
+    return options.find((option) => lower(option) === lower(raw)) || raw;
+  }
+
+  function legacyProgramVertical(value) {
+    const raw = lower(value);
+    if (!raw) return '';
+    if (raw.includes('grassroot')) return PROGRAM_VERTICAL_OPTIONS[0];
+    if (raw.includes('semiconductor') || raw.includes('artificial intelligence') || raw === 'ai') return PROGRAM_VERTICAL_OPTIONS[1];
+    if (raw.includes('bamboo')) return PROGRAM_VERTICAL_OPTIONS[2];
+    if (raw.includes('biodegradable') || raw.includes('plastic') || raw.includes('solid-waste') || raw.includes('green')) return PROGRAM_VERTICAL_OPTIONS[3];
+    return '';
+  }
+
+  function isKnownProgramVertical(value) {
+    const wanted = lower(value);
+    return Boolean(wanted && (PROGRAM_VERTICAL_OPTIONS.some((option) => lower(option) === wanted) || legacyProgramVertical(value)));
+  }
+
+  function programVerticalValue(row) {
+    const details = payloadObject(row && row.completion_details);
+    return clean((row && row.vertical) || details.vertical || legacyProgramVertical(row && row.category));
+  }
+
+  function programCategoryValue(row) {
+    if (!row) return '';
+    if (isKnownProgramVertical(row.category)) return '';
+    return canonicalProgramCategory(row.category, row.program_type);
+  }
+
+  function optionListHtml(options, selectedValue, placeholder) {
+    const selected = lower(selectedValue);
+    const placeholderSelected = selected ? '' : ' selected';
+    return [
+      placeholder ? `<option value=""${placeholderSelected}>${html(placeholder)}</option>` : '',
+      ...options.map((option) => {
+        const active = lower(option) === selected ? ' selected' : '';
+        return `<option value="${html(option)}"${active}>${html(option)}</option>`;
+      })
+    ].join('');
   }
 
   function dataId(event) {
@@ -973,10 +1151,6 @@
           <div class="flex flex-col gap-[10px] md:gap-[12px] w-full">
             <h3 class="font-['Inter'] font-bold text-[#1b3a28] text-[20px] md:text-[22px] leading-snug">${html(row.title)}</h3>
             <div class="flex flex-wrap gap-x-[16px] md:gap-x-[24px] gap-y-[8px] items-center w-full">
-              <div class="flex items-center gap-[6px]">
-                <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
-                <span class="font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">${html(formatDateRange(row))}</span>
-              </div>
               <div class="flex items-center gap-[6px]">
                 <svg class="w-[16px] h-[16px] text-[#677461]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.243-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                 <span class="font-['Inter'] font-normal text-[#677461] text-[13px] md:text-[14px]">${html(row.location || 'Venue pending')}</span>
@@ -1870,7 +2044,8 @@
         ['Team Size', requestValue(sources, ['team_size'], '')],
         ['Funding / Budget', formatBudgetText(requestValue(sources, ['funding_raised', 'funding_raised_inr', 'budget'], ''))]
       ];
-    const pending = isPendingStatus(row.status);
+    const requestPending = isPendingStatus(row.status);
+    const pending = staffCanActOnRequest(row);
     const documentsBlock = isProduct
       ? ''
       : `<div class="flex flex-col gap-[16px]">
@@ -1908,7 +2083,9 @@
                   ${pending
         ? `<button data-action="reject-request" data-id="${row.id}" class="bg-[#b04a4a] text-white px-10 py-4 rounded-[16px] font-['Manrope'] font-bold text-[16px] shadow-lg hover:bg-[#8e3b3b] transform hover:-translate-y-1 transition-all">Reject Request</button>
                          <button data-action="approve-request" data-id="${row.id}" class="bg-[#1b3a28] text-white px-10 py-4 rounded-[16px] font-['Manrope'] font-bold text-[16px] shadow-lg hover:bg-[#142c1e] transform hover:-translate-y-1 transition-all">Approve Request</button>`
-        : `<div class="rounded-[16px] bg-[#f0f2f0] px-8 py-4 font-['Manrope'] font-bold text-[#677461] text-[16px]">Request already ${html(row.status || 'reviewed')}</div>`
+        : requestPending
+          ? `<div class="rounded-[16px] bg-[#fff7ed] px-8 py-4 font-['Manrope'] font-bold text-[#a15c00] text-[16px]">This request requires a higher approval level.</div>`
+          : `<div class="rounded-[16px] bg-[#f0f2f0] px-8 py-4 font-['Manrope'] font-bold text-[#677461] text-[16px]">Request already ${html(row.status || 'reviewed')}</div>`
       }
                 </div>
               </div>
@@ -2034,7 +2211,7 @@
       ? "px-[16px] py-[8px] font-['Inter'] text-[13px] rounded-[6px]"
       : "px-[20px] py-[10px] font-['Manrope'] text-[14px] rounded-[10px]";
     const date = row.submitted_at || row.created_at;
-    const pending = isPendingStatus(row.status);
+    const pending = staffCanActOnRequest(row);
     return `
       <tr data-action="view-request" data-id="${row.id}" class="hover:bg-gray-50 transition-all group cursor-pointer">
         <td class="px-[24px] py-[20px]${compact ? ' min-w-[270px]' : ''}">
@@ -2181,7 +2358,7 @@
 
   async function renderAdminDashboard(root) {
     const metrics = await liveMetrics();
-    const requests = metrics.pendingRequests.sort((a, b) => dateValue(b.submitted_at, 0) - dateValue(a.submitted_at, 0));
+    const requests = staffVisibleRequests(metrics.pendingRequests).sort((a, b) => dateValue(b.submitted_at, 0) - dateValue(a.submitted_at, 0));
     setCounterText(root, 'Total Events', countText(metrics.publishedPrograms.length));
     setCounterText(root, 'Total Startups', countText(metrics.startups.length));
     setCounterText(root, 'Total Users', countText(metrics.memberProfiles.length));
@@ -2199,6 +2376,7 @@
       ...row,
       status: normalizeProgramStatus(row)
     }));
+    const deleteAllowed = canDeletePrograms();
     const tbody = root.querySelector('tbody');
     if (!tbody) return;
     tbody.innerHTML = programs.length
@@ -2216,7 +2394,7 @@
             <div class="flex items-center justify-end gap-[16px]">
               <button data-action="view-program" data-id="${row.id}" class="text-[#677461] hover:text-[#1b3a28] transition-all" title="View">View</button>
               <button data-action="edit-program" data-id="${row.id}" class="text-[#677461] hover:text-blue-600 transition-all" title="Edit">Edit</button>
-              <button data-action="delete-program" data-id="${row.id}" class="text-[#677461] hover:text-red-600 transition-all" title="Delete">Delete</button>
+              ${deleteAllowed ? `<button data-action="delete-program" data-id="${row.id}" class="text-[#677461] hover:text-red-600 transition-all" title="Delete">Delete</button>` : ''}
             </div>
           </td>
         </tr>`
@@ -2227,32 +2405,74 @@
     if (counter) counter.textContent = `Showing ${programs.length} programs`;
   }
 
+  function installProgramClassificationControls(root, program) {
+    const list = controls(root);
+    const verticalSelect = list[2];
+    const typeSelect = list[3];
+    const categorySelect = list[4];
+    if (!verticalSelect || !typeSelect || !categorySelect) return;
+
+    const selectedVertical = programVerticalValue(program) || (verticalSelect.value ? selectedText(verticalSelect) : '');
+    const selectedType = canonicalProgramType((program && program.program_type) || (typeSelect.value ? selectedText(typeSelect) : ''));
+    const selectedCategory = programCategoryValue(program) || (categorySelect.value ? selectedText(categorySelect) : '');
+
+    verticalSelect.innerHTML = optionListHtml(PROGRAM_VERTICAL_OPTIONS, selectedVertical, 'Select Vertical');
+    typeSelect.innerHTML = optionListHtml(PROGRAM_TYPE_OPTIONS, selectedType, 'Select Program Type');
+    typeSelect.dataset.programTypeControl = 'true';
+    categorySelect.dataset.programCategoryControl = 'true';
+    categorySelect.dataset.selectedProgramCategory = selectedCategory;
+
+    const refreshCategories = () => {
+      const type = canonicalProgramType(typeSelect.value);
+      const categories = programCategoriesForType(type);
+      const current = categorySelect.dataset.selectedProgramCategory || categorySelect.value;
+      const selected = categories.some((option) => lower(option) === lower(current)) ? current : '';
+      categorySelect.innerHTML = optionListHtml(categories, selected, type ? 'Select Category' : 'Select Program Type First');
+      categorySelect.disabled = !categories.length;
+      categorySelect.classList.toggle('opacity-60', !categories.length);
+    };
+
+    if (typeSelect.dataset.programClassReady !== 'true') {
+      typeSelect.addEventListener('change', () => {
+        categorySelect.dataset.selectedProgramCategory = '';
+        refreshCategories();
+      });
+      categorySelect.addEventListener('change', () => {
+        categorySelect.dataset.selectedProgramCategory = categorySelect.value;
+      });
+      typeSelect.dataset.programClassReady = 'true';
+    }
+    refreshCategories();
+  }
+
   async function initProgramForm(root) {
     installProgramFileInputs(root);
     const editId = window.location.hash === '#edit-program' ? sessionStorage.getItem('nest_edit_program_id') : '';
-    if (!editId) return;
+    if (!editId) {
+      installProgramClassificationControls(root);
+      return;
+    }
     const program = await single('programs', editId);
+    installProgramClassificationControls(root, program);
     const list = controls(root);
     if (list[0]) list[0].value = program.title || '';
     if (list[1]) list[1].value = program.tagline || '';
-    setSelect(list[2], program.category);
-    setSelect(list[3], program.program_type);
-    if (list[4]) list[4].value = program.start_date || '';
-    if (list[5]) list[5].value = program.duration || '';
-    if (list[6]) list[6].value = program.location || '';
-    if (list[7]) list[7].value = program.application_deadline || '';
-    if (list[8]) list[8].value = program.description || '';
-    if (list[9]) list[9].value = program.participant_count || '';
-    if (list[10]) list[10].value = program.fee || '';
+    if (list[5]) list[5].value = program.start_date || '';
+    if (list[6]) list[6].value = program.duration || '';
+    if (list[7]) list[7].value = program.location || '';
+    if (list[8]) list[8].value = program.application_deadline || '';
+    if (list[9]) list[9].value = program.description || '';
+    if (list[10]) list[10].value = program.participant_count || '';
+    if (list[11]) list[11].value = program.fee || '';
     const eligibility = jsonList(program.eligibility);
     const selection = jsonList(program.selection_process);
     const highlights = jsonHighlights(program.highlights);
-    if (list[11]) list[11].value = eligibility[0] || '';
-    if (list[12]) list[12].value = eligibility[1] || '';
-    if (list[13]) list[13].value = selection[0] || '';
-    if (list[14]) list[14].value = selection[1] || '';
+    if (list[12]) list[12].value = eligibility[0] || '';
+    if (list[13]) list[13].value = eligibility[1] || '';
+    if (list[14]) list[14].value = selection[0] || '';
+    if (list[15]) list[15].value = selection[1] || '';
     highlights.forEach((item, index) => {
-      const offset = 15 + index * 2;
+      const offset = 16 + index * 2;
       if (list[offset]) list[offset].value = item.title || '';
       if (list[offset + 1]) list[offset + 1].value = item.body || '';
     });
@@ -2362,33 +2582,50 @@
   async function saveProgram(root) {
     const list = controls(root);
     installProgramFileInputs(root);
+    installProgramClassificationControls(root);
     const programFiles = programFileInputs(root);
-    const startDate = clean(list[4] && list[4].value);
-    const endDate = estimateEndDate(startDate, clean(list[5] && list[5].value));
-    const eligibility = [list[11], list[12]].map((control) => clean(control && control.value)).filter(Boolean);
-    const selection = [list[13], list[14]].map((control) => clean(control && control.value)).filter(Boolean);
+    const vertical = selectedText(list[2]);
+    const programType = canonicalProgramType(selectedText(list[3]));
+    const programCategory = canonicalProgramCategory(selectedText(list[4]), programType);
+    const startDate = clean(list[5] && list[5].value);
+    const endDate = estimateEndDate(startDate, clean(list[6] && list[6].value));
+    const eligibility = [list[12], list[13]].map((control) => clean(control && control.value)).filter(Boolean);
+    const selection = [list[14], list[15]].map((control) => clean(control && control.value)).filter(Boolean);
     const highlights = [];
-    for (let index = 15; index + 1 < list.length; index += 2) {
+    for (let index = 16; index + 1 < list.length; index += 2) {
       const title = clean(list[index] && list[index].value);
       const body = clean(list[index + 1] && list[index + 1].value);
       if (title || body) highlights.push({ title, body });
     }
+    const editId = window.location.hash === '#edit-program' ? sessionStorage.getItem('nest_edit_program_id') : '';
+    let existingProgram = null;
+    if (editId) {
+      try {
+        existingProgram = await single('programs', editId);
+      } catch (error) {
+        console.warn('Could not load existing program details before saving:', error);
+      }
+    }
     const payload = {
       title: clean(list[0] && list[0].value) || 'Untitled Program',
       tagline: clean(list[1] && list[1].value),
-      category: selectedText(list[2]) || 'NEST Program',
-      program_type: selectedText(list[3]) || 'Program',
+      category: programCategory || 'NEST Program',
+      program_type: programType || 'Program',
       start_date: startDate || null,
       end_date: endDate,
-      duration: clean(list[5] && list[5].value),
-      location: clean(list[6] && list[6].value),
-      application_deadline: clean(list[7] && list[7].value) || null,
-      description: clean(list[8] && list[8].value),
-      participant_count: clean(list[9] && list[9].value),
-      fee: clean(list[10] && list[10].value),
+      duration: clean(list[6] && list[6].value),
+      location: clean(list[7] && list[7].value),
+      application_deadline: clean(list[8] && list[8].value) || null,
+      description: clean(list[9] && list[9].value),
+      participant_count: clean(list[10] && list[10].value),
+      fee: clean(list[11] && list[11].value),
       eligibility,
       selection_process: selection,
       highlights,
+      completion_details: {
+        ...payloadObject(existingProgram && existingProgram.completion_details),
+        vertical
+      },
       status: deriveProgramStatus(startDate, endDate),
       published: true
     };
@@ -2399,7 +2636,6 @@
       payload.brochure_url = await uploadProgramAsset(programFiles.brochure.files[0], 'brochures', 'brochure');
     }
 
-    const editId = window.location.hash === '#edit-program' ? sessionStorage.getItem('nest_edit_program_id') : '';
     if (editId) {
       await updateRow('programs', editId, payload);
       sessionStorage.removeItem('nest_edit_program_id');
@@ -2423,31 +2659,95 @@
     });
   }
 
+  function publicProgramFilterSelect(id, label, options, selectedValue, allLabel) {
+    return `
+      <label class="bg-white flex gap-[8px] items-center justify-center px-[16px] py-[10px] relative rounded-[25px] shrink-0 border border-[#f3f4f6]">
+        <span class="font-['Inter'] font-normal text-[#2d5a3d] text-[16px] text-center">${html(label)}:</span>
+        <select id="${html(id)}" class="bg-transparent border-0 outline-none cursor-pointer font-['Inter'] font-semibold text-[#2d5a3d] text-[15px] max-w-[260px]">
+          ${optionListHtml(options, selectedValue, allLabel)}
+        </select>
+      </label>`;
+  }
+
+  function readPublicProgramFilters(root) {
+    return {
+      vertical: clean(root.querySelector('#program-filter-vertical') && root.querySelector('#program-filter-vertical').value),
+      type: clean(root.querySelector('#program-filter-type') && root.querySelector('#program-filter-type').value),
+      category: clean(root.querySelector('#program-filter-category') && root.querySelector('#program-filter-category').value)
+    };
+  }
+
+  function installPublicProgramFilters(root, onChange) {
+    const bar = root.querySelector('#secondary-filters');
+    if (!bar) return { vertical: '', type: '', category: '' };
+    const previous = readPublicProgramFilters(root);
+    const type = canonicalProgramType(previous.type);
+    const categoryOptions = type ? programCategoriesForType(type) : allProgramCategories();
+    const category = categoryOptions.some((option) => lower(option) === lower(previous.category)) ? previous.category : '';
+    bar.innerHTML = [
+      publicProgramFilterSelect('program-filter-vertical', 'Vertical', PROGRAM_VERTICAL_OPTIONS, previous.vertical, 'All'),
+      publicProgramFilterSelect('program-filter-type', 'Programme Type', PROGRAM_TYPE_OPTIONS, type, 'All'),
+      publicProgramFilterSelect('program-filter-category', 'Category', categoryOptions, category, 'All')
+    ].join('');
+
+    const typeSelect = root.querySelector('#program-filter-type');
+    const categorySelect = root.querySelector('#program-filter-category');
+    const refreshCategoryOptions = () => {
+      const selectedType = canonicalProgramType(typeSelect && typeSelect.value);
+      const options = selectedType ? programCategoriesForType(selectedType) : allProgramCategories();
+      const current = categorySelect && options.some((option) => lower(option) === lower(categorySelect.value)) ? categorySelect.value : '';
+      if (categorySelect) categorySelect.innerHTML = optionListHtml(options, current, 'All');
+    };
+    Array.from(bar.querySelectorAll('select')).forEach((select) => {
+      select.addEventListener('change', () => {
+        if (select === typeSelect) refreshCategoryOptions();
+        onChange();
+      });
+    });
+    return readPublicProgramFilters(root);
+  }
+
+  function programMatchesPublicFilters(row, filters) {
+    const type = canonicalProgramType(row && row.program_type);
+    const category = programCategoryValue(row);
+    const vertical = programVerticalValue(row);
+    if (filters.vertical && lower(vertical) !== lower(filters.vertical)) return false;
+    if (filters.type && lower(type) !== lower(canonicalProgramType(filters.type))) return false;
+    if (filters.category && lower(category) !== lower(filters.category)) return false;
+    return true;
+  }
+
   async function renderPublicPrograms(root) {
     showProgramLoading(root);
     const programs = realRows('programs', await rows('programs', (q) => q.eq('published', true).order('created_at', { ascending: false }))).map((row) => ({
       ...row,
       status: normalizeProgramStatus(row)
     }));
-    ['upcoming', 'ongoing', 'completed'].forEach((status) => {
-      const list = root.querySelector(`#${status}-list`);
-      const filtered = sortProgramsForStatus(
-        programs.filter((row) => row.status === status),
-        status
-      );
-      if (list) {
-        list.innerHTML = filtered.length
-          ? filtered.map(programCard).join('')
-          : `<div class="w-full text-center py-16 text-[#677461] font-['Inter']">No ${status} programs right now.</div>`;
+    const renderLists = () => {
+      const filters = readPublicProgramFilters(root);
+      const visiblePrograms = programs.filter((row) => programMatchesPublicFilters(row, filters));
+      ['upcoming', 'ongoing', 'completed'].forEach((status) => {
+        const list = root.querySelector(`#${status}-list`);
+        const filtered = sortProgramsForStatus(
+          visiblePrograms.filter((row) => row.status === status),
+          status
+        );
+        if (list) {
+          list.innerHTML = filtered.length
+            ? filtered.map(programCard).join('')
+            : `<div class="w-full text-center py-16 text-[#677461] font-['Inter']">No ${status} programs match this filter.</div>`;
+        }
+        const tab = root.querySelector(`#tab-${status}`);
+        const count = tab && tab.querySelector('span:last-child');
+        if (count) count.textContent = String(filtered.length);
+      });
+      if (typeof window.switchProgramTab === 'function') {
+        const defaultStatus = ['upcoming', 'ongoing', 'completed'].find((status) => visiblePrograms.some((row) => row.status === status)) || 'upcoming';
+        window.switchProgramTab(defaultStatus);
       }
-      const tab = root.querySelector(`#tab-${status}`);
-      const count = tab && tab.querySelector('span:last-child');
-      if (count) count.textContent = String(filtered.length);
-    });
-    if (typeof window.switchProgramTab === 'function') {
-      const defaultStatus = ['upcoming', 'ongoing', 'completed'].find((status) => programs.some((row) => row.status === status)) || 'upcoming';
-      window.switchProgramTab(defaultStatus);
-    }
+    };
+    installPublicProgramFilters(root, renderLists);
+    renderLists();
   }
 
   async function getSelectedProgram() {
@@ -3278,7 +3578,7 @@
   async function profileForEmailPasswordLogin(email) {
     const matches = await rows('profiles', (q) => q.ilike('email', lower(email)).order('created_at', { ascending: false }).limit(20));
     if (!matches.length) return null;
-    return matches.find((profile) => isSingleEmailRole(profile.role)) || matches.find((profile) => lower(profile.role) === 'admin') || matches[0];
+    return matches.find(isManagementStaffProfile) || matches.find((profile) => isSingleEmailRole(profile.role)) || matches[0];
   }
 
   function loginAuthError(error) {
@@ -3673,7 +3973,8 @@
   }
 
   async function renderAdminRequests(root) {
-    const requests = realRows('requests', await rows('requests', (q) => q.order('submitted_at', { ascending: false })));
+    const allRequests = realRows('requests', await rows('requests', (q) => q.order('submitted_at', { ascending: false })));
+    const requests = staffVisibleRequests(allRequests);
     const tbody = root.querySelector('tbody');
     if (!tbody) return;
     tbody.innerHTML = requests.length
@@ -3689,32 +3990,128 @@
   }
 
   async function renderAdminManagement(root) {
-    const profiles = realRows('profiles', await rows('profiles', (q) => q.order('created_at', { ascending: false })));
-    const admins = profiles.filter((profile) => lower(profile.role) === 'admin');
-    const members = profiles.filter((profile) => MEMBER_ROLES.has(lower(profile.role)));
-    setCounterText(root, 'Total Team', countText(profiles.length));
-    setCounterText(root, 'Administrators', countText(admins.length));
-    setCounterText(root, 'Members', countText(members.length));
+    const staff = realRows('profiles', await rows('profiles', (q) => q.order('created_at', { ascending: false })))
+      .filter(isManagementStaffProfile);
+    const administrators = staff.filter((member) => lower(member.role) === 'admin');
+    const managers = staff.filter((member) => lower(member.role) === 'manager');
+    const employees = staff.filter((member) => lower(member.role) === 'employee');
+    setCounterText(root, 'Total Staff', countText(staff.length));
+    setCounterText(root, 'Administrators', countText(administrators.length));
+    setCounterText(root, 'Managers', countText(managers.length));
+    setCounterText(root, 'Employees', countText(employees.length));
+
+    const addButton = root.querySelector('#add-staff-member-button');
+    if (addButton) addButton.classList.toggle('hidden', staffAllowedCreateRoles().length === 0);
+    const roleSelect = root.querySelector('#staff-role');
+    if (roleSelect) {
+      roleSelect.innerHTML = staffAllowedCreateRoles()
+        .map((role) => `<option value="${role}">${html(staffRoleLabel(role))}</option>`)
+        .join('');
+    }
+
     const tbody = root.querySelector('tbody');
     if (!tbody) return;
-    tbody.innerHTML = profiles.length
-      ? profiles
+    tbody.innerHTML = staff.length
+      ? staff
         .map(
-          (profile) => `
+          (member) => `
         <tr class="hover:bg-gray-50 transition-all group">
-          <td class="px-8 py-4"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px]">${html(profile.full_name || 'Unnamed user')}</span></td>
-          <td class="px-8 py-4"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(profile.email || 'No email')}</span></td>
-          <td class="px-8 py-4"><span class="font-['Inter'] font-bold text-[#2d5a3d] text-[13px] capitalize">${html(profile.role || 'member')}</span></td>
-          <td class="px-8 py-4"><span class="font-['Inter'] text-[#677461] text-[13px]">${html(formatDate(profile.created_at))}</span></td>
-          <td class="px-8 py-4 text-right"><span class="font-['Inter'] text-[#677461] text-[12px] capitalize">${html(profile.status || 'active')}</span></td>
+          <td class="px-8 py-4"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[15px]">${html(member.full_name || 'Unnamed member')}</span></td>
+          <td class="px-8 py-4"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(member.email || 'No email')}</span></td>
+          <td class="px-8 py-4"><span class="font-['Inter'] font-bold text-[#2d5a3d] text-[13px] capitalize">${html(staffRoleLabel(member.role))}</span></td>
+          <td class="px-8 py-4"><span class="font-['Inter'] text-[#677461] text-[13px]">${html(formatDate(member.created_at))}</span></td>
+          <td class="px-8 py-4 text-right">
+            <div class="flex items-center justify-end gap-4">
+              <span class="font-['Inter'] text-[#677461] text-[12px]">${html(member.organization || payloadObject(member.metadata).designation || 'Staff member')}</span>
+              ${canDeleteStaffProfile(member) ? `<button data-action="delete-staff-member" data-id="${member.id}" class="text-[#b04a4a] hover:text-red-700 font-['Inter'] font-bold text-[12px] uppercase tracking-wider">Remove</button>` : ''}
+            </div>
+          </td>
         </tr>`
         )
         .join('')
-      : emptyRow(5, 'No users have registered yet.');
+      : emptyRow(5, 'No staff members have been added yet.');
+  }
+
+  async function saveStaffMember(root) {
+    const name = clean(root.querySelector('#staff-name') && root.querySelector('#staff-name').value);
+    const email = lower(root.querySelector('#staff-email') && root.querySelector('#staff-email').value);
+    const password = clean(root.querySelector('#staff-password') && root.querySelector('#staff-password').value);
+    const role = lower(root.querySelector('#staff-role') && root.querySelector('#staff-role').value);
+    const designation = clean(root.querySelector('#staff-designation') && root.querySelector('#staff-designation').value);
+    if (!name) throw new Error('Please enter the staff member name.');
+    if (!email || !email.includes('@')) throw new Error('Please enter a valid staff email.');
+    if (password.length < 8) throw new Error('Password must be at least 8 characters.');
+    if (!canCreateStaffRole(role)) throw new Error('You do not have permission to create this staff role.');
+
+    const existing = await rows('profiles', (q) => q.ilike('email', email).limit(1));
+    if (existing.length) {
+      throw new Error('A profile already exists for this email. Use a different email or remove the old profile first.');
+    }
+
+    const currentSession = await supabase().auth.getSession();
+    const { data, error } = await withAuthTimeout(
+      supabase().auth.signUp({
+        email,
+        password,
+        options: {
+          data: {
+            full_name: name,
+            role,
+            staff_account: true
+          }
+        }
+      }),
+      'Supabase did not respond while creating the staff login. Please try again.'
+    );
+    if (error) throw loginAuthError(error);
+
+    const current = readStore('nest_current_user', null);
+    if (current) persistCurrentUser(current);
+    const session = currentSession && currentSession.data && currentSession.data.session;
+    if (session && session.access_token && session.refresh_token) {
+      await supabase().auth.setSession({
+        access_token: session.access_token,
+        refresh_token: session.refresh_token
+      });
+    }
+
+    await insertRow('profiles', {
+      auth_user_id: data && data.user ? data.user.id : null,
+      full_name: name,
+      email,
+      role,
+      organization: designation,
+      status: 'approved',
+      metadata: {
+        staff_account: true,
+        designation,
+        created_by: current && current.email ? current.email : ''
+      }
+    });
+
+    const modal = root.querySelector('#add-member-modal');
+    if (modal) modal.classList.add('hidden');
+    ['#staff-name', '#staff-email', '#staff-password', '#staff-designation'].forEach((selector) => {
+      const input = root.querySelector(selector);
+      if (input) input.value = '';
+    });
+    showToast('Staff login created.');
+    scheduleInit(true);
+  }
+
+  async function deleteStaffMember(id) {
+    const profile = await single('profiles', id);
+    if (!canDeleteStaffProfile(profile)) throw new Error('You do not have permission to remove this staff member.');
+    await deleteRow('profiles', id);
+    showToast('Staff member removed.');
+    scheduleInit(true);
   }
 
   async function decideRequest(id, status) {
     const req = await single('requests', id);
+    if (!staffCanActOnRequest(req)) {
+      throw new Error('This request is outside your approval limit.');
+    }
     if (req.related_table && req.related_id) {
       const patch = { status };
       if (req.related_table === 'startups') {
@@ -4638,6 +5035,8 @@
     }
     if (action === 'view-request') return showRequestDetail(id);
     if (action === 'view-startup') return showStartupDetail(id);
+    if (action === 'save-staff-member') return saveStaffMember(mainRoot());
+    if (action === 'delete-staff-member') return deleteStaffMember(id);
     if (action === 'edit-program') {
       sessionStorage.setItem('nest_edit_program_id', id);
       window.location.hash = '#edit-program';
@@ -4648,6 +5047,7 @@
       return;
     }
     if (action === 'delete-program') {
+      if (!canDeletePrograms()) throw new Error('Only admin users can delete programs.');
       await deleteRow('programs', id);
       markContentUpdated('programs');
     }
@@ -4951,7 +5351,7 @@
   }
 
   function getDashboardUrl(role) {
-    if (role === 'admin') return 'admin.html#dashboard';
+    if (isStaffRole(role)) return 'admin.html#dashboard';
     if (role === 'entrepreneur') return 'entrepreneur.html#myidea';
     if (role === 'artisan') return 'artisan.html#marketplace';
     if (role === 'startup') return 'startup.html#mystartup';
