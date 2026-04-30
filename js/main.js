@@ -307,8 +307,18 @@ document.addEventListener('DOMContentLoaded', () => {
           mainContent.innerHTML =
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
-    } else if (hash === '#programs') {
+    } else if (hash.startsWith('#programs')) {
       mainContent.innerHTML = LOADER_HTML;
+
+      const [baseHash, queryStr] = hash.split('?');
+      if (queryStr && window.NESTSupabaseApp) {
+        const params = new URLSearchParams(queryStr);
+        window.pendingProgramFilters = {
+          type: params.get('type') || '',
+          category: params.get('category') || '',
+          vertical: params.get('vertical') || ''
+        };
+      }
 
       fetch(`/pages/Program/programs.html`)
         .then((res) => {
@@ -623,7 +633,7 @@ document.addEventListener('DOMContentLoaded', () => {
           mainContent.innerHTML =
             '<div class="text-center py-20 text-red-500 font-[\'Inter\']">Error loading content.</div>';
         });
-    } else if (hash === '#verticals') {
+    } else if (hash.startsWith('#verticals')) {
       mainContent.innerHTML =
         '<div class="flex justify-center items-center py-32"><div class="animate-spin rounded-full h-12 w-12 border-b-2 border-[#2d5a3d]"></div></div>';
 
@@ -635,6 +645,22 @@ document.addEventListener('DOMContentLoaded', () => {
         .then((data) => {
           mainContent.innerHTML = data;
           window.scrollTo({ top: 0, behavior: 'smooth' });
+
+          // Logic to open specific vertical accordion
+          if (hash.includes('-')) {
+            const targetId = 'vertical-' + hash.split('-')[1];
+            const details = document.getElementById(targetId);
+            if (details) {
+              // Close all other details first if they are open
+              document.querySelectorAll('details').forEach(d => d.removeAttribute('open'));
+              details.setAttribute('open', '');
+              
+              // Small delay to ensure render then scroll
+              setTimeout(() => {
+                details.scrollIntoView({ behavior: 'smooth', block: 'center' });
+              }, 100);
+            }
+          }
 
           const menu = document.getElementById('mobile-menu');
           if (menu && !menu.classList.contains('hidden')) {

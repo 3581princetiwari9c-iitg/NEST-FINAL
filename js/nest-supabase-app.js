@@ -2738,10 +2738,23 @@
   function installPublicProgramFilters(root, onChange) {
     const bar = root.querySelector('#secondary-filters');
     if (!bar) return { vertical: '', type: '', category: '' };
-    const previous = readPublicProgramFilters(root);
+    
+    let previous = readPublicProgramFilters(root);
+    
+    // Apply pending filters from deep link if they exist
+    if (window.pendingProgramFilters) {
+      previous = { ...previous, ...window.pendingProgramFilters };
+      // Also show the filters bar if we are applying filters
+      if (previous.type || previous.category || previous.vertical) {
+        bar.classList.remove('hidden');
+      }
+      delete window.pendingProgramFilters;
+    }
+
     const type = canonicalProgramType(previous.type);
     const categoryOptions = type ? programCategoriesForType(type) : allProgramCategories();
     const category = categoryOptions.some((option) => lower(option) === lower(previous.category)) ? previous.category : '';
+    
     bar.innerHTML = [
       publicProgramFilterSelect('program-filter-vertical', 'Vertical', PROGRAM_VERTICAL_OPTIONS, previous.vertical, 'All'),
       publicProgramFilterSelect('program-filter-type', 'Programme Type', PROGRAM_TYPE_OPTIONS, type, 'All'),
