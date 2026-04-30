@@ -2300,6 +2300,7 @@
     if (heading.includes('create new program') || heading.includes('edit program')) return 'program-form';
     if (heading.includes('manage program')) return 'admin-programs';
     if (heading.includes('manage startups')) return 'admin-startups';
+    if (heading.includes('manage entrepreneur ideas')) return 'admin-entrepreneur-ideas';
     if (heading === 'requests' || (heading.includes('requests') && root.querySelector('table'))) return 'admin-requests';
     if (heading.includes('newsletters upload')) return 'admin-newsletters';
     if (heading.includes('upload newsletter')) return 'newsletter-form';
@@ -3321,7 +3322,10 @@
   }
 
   async function renderAdminStartups(root) {
-    const startups = realRows('startups', await rows('startups', (q) => q.order('created_at', { ascending: false })));
+    let startups = realRows('startups', await rows('startups', (q) => q.order('created_at', { ascending: false })));
+    // Filter OUT entrepreneur ideas
+    startups = startups.filter(s => s.metadata?.submitted_as !== 'entrepreneur' && !lower(s.category || '').includes('entrepreneur idea'));
+    
     const tbody = root.querySelector('tbody');
     if (!tbody) return;
     tbody.innerHTML = startups.length
@@ -3346,6 +3350,37 @@
       : emptyRow(5, 'No startups are registered yet.');
     setCounterText(root, 'Total Startups', countText(startups.length));
     setCounterText(root, 'Approved Startups', countText(startups.filter(isApproved).length));
+  }
+
+  async function renderAdminEntrepreneurIdeas(root) {
+    let ideas = realRows('startups', await rows('startups', (q) => q.order('created_at', { ascending: false })));
+    // Filter FOR entrepreneur ideas
+    ideas = ideas.filter(s => s.metadata?.submitted_as === 'entrepreneur' || lower(s.category || '').includes('entrepreneur idea'));
+    
+    const tbody = root.querySelector('tbody');
+    if (!tbody) return;
+    tbody.innerHTML = ideas.length
+      ? ideas
+        .map(
+          (row) => `
+        <tr class="hover:bg-gray-50 transition-all group">
+          <td data-action="view-startup" data-id="${row.id}" class="px-[24px] py-[20px] cursor-pointer"><span class="font-['Manrope'] font-bold text-[#1b3a28] text-[16px]">${html(row.name)}</span></td>
+          <td data-action="view-startup" data-id="${row.id}" class="px-[24px] py-[20px] cursor-pointer"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.category || 'Idea')}</span></td>
+          <td data-action="view-startup" data-id="${row.id}" class="px-[24px] py-[20px] cursor-pointer"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.established_year || 'NA')}</span></td>
+          <td data-action="view-startup" data-id="${row.id}" class="px-[24px] py-[20px] cursor-pointer"><span class="font-['Inter'] text-[#464E42] text-[14px]">${html(row.state || 'NA')}</span></td>
+          <td class="px-[24px] py-[20px] text-right">
+            <div class="flex items-center justify-end gap-[16px]">
+              <button data-action="view-startup" data-id="${row.id}" class="text-[#677461] hover:text-[#1b3a28] transition-all">View</button>
+              <a href="${html(row.website_url || '#')}" target="_blank" class="text-[#677461] hover:text-[#1b3a28] transition-all">Visit</a>
+              <button data-action="delete-startup" data-id="${row.id}" class="text-[#677461] hover:text-red-600 transition-all">Delete</button>
+            </div>
+          </td>
+        </tr>`
+        )
+        .join('')
+      : emptyRow(5, 'No entrepreneur ideas are registered yet.');
+    setCounterText(root, 'Total Ideas', countText(ideas.length));
+    setCounterText(root, 'Approved Ideas', countText(ideas.filter(isApproved).length));
   }
 
   async function renderPublicStartups(root) {
@@ -5289,6 +5324,8 @@
       if (key === 'public-programs') await renderPublicPrograms(root);
       if (key === 'public-program-detail') await renderPublicProgramDetail(root);
       if (key === 'admin-startups') await renderAdminStartups(root);
+      if (key === 'admin-entrepreneur-ideas') await renderAdminEntrepreneurIdeas(root);
+      if (key === 'admin-requests') await renderAdminRequests(root);
       if (key === 'public-startups') await renderPublicStartups(root);
       if (key === 'public-market') await renderPublicMarket(root);
       if (key === 'admin-marketplace') await renderAdminMarketplace(root);

@@ -82,6 +82,7 @@ document.addEventListener('DOMContentLoaded', () => {
         '#management': '/dashboard/admin/management.html',
         '#gallery': '/dashboard/admin/gallerydashboard.html',
         '#marketplace': '/dashboard/admin/marketplacedashboard.html',
+        '#entrepreneur-idea': '/dashboard/admin/entrepreneuridea.html',
         '#hubmou': '/dashboard/admin/hubmou.html',
         '#add-mou': '/dashboard/admin/addmou.html',
         '#add-hub': '/dashboard/admin/addhub.html',
